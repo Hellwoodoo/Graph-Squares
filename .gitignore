@@ -1,1 +1,11 @@
-.gitignore
+*
+
+!.gitignore
+!Optimization of Graph Squares/Notebooks/AnalysisGraphSquares.ipynb
+!Optimization of Graph Squares/Notebooks/ComplementGraphSquares.ipynb
+!Optimization of Graph Squares/Notebooks/DualGraphSquares.ipynb
+!Optimization of Graph Squares/Notebooks/IsomorphismGraphSquares.ipynb
+!Optimization of Graph Squares/Notebooks/OptimizationGraphSquares.ipynb
+
+!Integer Programming of Graph Squares/references.bib
+!Integer Programming of Graph Squares/Integer Programming of Graph Squares.tex

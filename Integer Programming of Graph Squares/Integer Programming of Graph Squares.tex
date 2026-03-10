@@ -81,6 +81,113 @@ Then the adjacency matrix of the graph square $G$ is given by
     A_G = \mathbf{1}_{> 0}\!\big((A_H)^2 - D_H + A_H\big).
 \end{equation}
 
+\subsection{Integer Program} \label{subsec::IP}
+
+Reformulate \eqref{eq::fund_adj_eq_undirected} as an integer program by considering the linear system of 
+$n^2$ equations to be solved by equating entries of each matrix. \\
+Let 
+$\displaystyle 
+D_H =
+\begin{bmatrix}
+\deg_H(1) & 0      & \cdots & 0 & 0      \\
+0         & \ddots & \vdots & \ddots & \vdots \\
+\vdots    & \cdots & \deg_H(i) & \cdots & 0      \\
+0         & \ddots & \vdots & \ddots & \vdots \\
+0         & \cdots & 0      & \cdots & \deg_H(n)
+\end{bmatrix}, 
+$ 
+$\displaystyle A_H =
+\begin{bmatrix}
+x_{11} & \cdots & x_{1j} & \cdots & x_{1n} \\
+\vdots  & \ddots  & \vdots & \ddots & \vdots  \\
+x_{i1} & \cdots & x_{ij} & \cdots & x_{in} \\
+\vdots  & \ddots  & \vdots & \ddots & \vdots  \\
+x_{n1} & \cdots & x_{nj} & \cdots & x_{nn}
+\end{bmatrix}
+$ such that 
+\[
+(A_H)^2 = \begin{bmatrix}
+\displaystyle \sum_{k=1}^n x_{1k}x_{k1} & \cdots & \displaystyle \sum_{k=1}^n x_{1k}x_{kj} & \cdots & \displaystyle \sum_{k=1}^n x_{1k}x_{kn} \\
+\vdots  & \ddots  & \vdots & \ddots & \vdots  \\
+\displaystyle \sum_{k=1}^n x_{ik}x_{k1} & \cdots & \displaystyle \sum_{k=1}^n x_{ik}x_{kj} & \cdots & \displaystyle \sum_{k=1}^n x_{ik}x_{kn} \\
+\vdots  & \ddots  & \vdots & \ddots & \vdots  \\
+\displaystyle \sum_{k=1}^n x_{nk}x_{k1} & \cdots & \displaystyle \sum_{k=1}^n x_{nk}x_{kj} & \cdots & \displaystyle \sum_{k=1}^n x_{nk}x_{kn}
+\end{bmatrix}.
+\]
+
+Then with known constants $g_{ij}$ from $A_G$, \eqref{eq::fund_adj_eq_undirected} is equivalent to 
+\begin{equation}  \label{eq::fund_programming_equation}
+\begin{bmatrix}
+g_{11} \\
+\vdots \\
+g_{1j} \\
+\vdots \\
+g_{1n} \\
+\vdots \\
+g_{ij} \\
+\vdots \\
+g_{nn}
+\end{bmatrix}
+=
+\begin{bmatrix} \displaystyle
+\mathbf{1}_{\geq 1}\!\big(\sum_{k=1}^n x_{1k}x_{k1} - (D_H)_{11} + x_{11} \big) \\
+\vdots \\ \displaystyle
+\mathbf{1}_{\geq 1}\!\big(\sum_{k=1}^n x_{1k}x_{kj} - (D_H)_{1j} + x_{1j} \big) \\
+\vdots \\ \displaystyle
+\mathbf{1}_{\geq 1}\!\big(\sum_{k=1}^n x_{1k}x_{kn} - (D_H)_{1n} + x_{1n} \big)\\
+\vdots \\ \displaystyle
+\mathbf{1}_{\geq 1}\!\big(\sum_{k=1}^n x_{ik}x_{kj} - (D_H)_{ij} + x_{ij} \big)\\
+\vdots \\ \displaystyle
+\mathbf{1}_{\geq 1}\!\big(\sum_{k=1}^n x_{nk}x_{kn} - (D_H)_{nn} + x_{nn} \big)
+\end{bmatrix}.
+\end{equation}
+Let $g_{ij} \in \{0, 1\}$ be known constant of $A_G$ and let $M \in \mathbb{Z}_{> 0}$ be an arbitrary large constant such that 
+\[
+g_{ij} = 1 \iff z_{ij} \geq 1 \;\text{and}\; g_{ij} = 0 \iff z_{ij} = 0.
+\]
+Let $D_H$ be represented as $\displaystyle (D_H)_{ii} = \sum_{k} x_{ik}$ and $(D_H)_{ij} = 0$ for $i \neq j$. Let 
+$x_{ij} \in \{0, 1\}$ be the decision variables of $A_H$, let $y_{ikj} \in \{0, 1\}$ be the decision variable for $x_{ik}x_{kj}$ in 
+$(A_H)^2_{ij}$ and let $z_{ij} \in \mathbb{Z}_{\geq 0}$ represent the argument inside the indicator function. 
+\begin{alignat}{3}
+\text{Variables: } & \nonumber \\ 
+& x_{ij} \in \{0,1\}, 
+&& \forall i,j \in \{1, \dots, n\}, \label{eq::IP_x_variable} \\ 
+& y_{ikj} \in \{0,1\}, 
+&& \forall i,k,j \in \{1, \dots, n\}, \label{eq::IP_y_variable} \\
+& z_{ij} \in \mathbb{Z}_{\geq 0}, 
+&& \forall i,j \in \{1, \dots, n\}. \label{eq::IP_z_variable} \\
+\text{Constraints: } & \nonumber \\
+\text{(1) Indicator argument: } 
+& z_{ii} = \sum_{k = 1}^{n}y_{iki} - \sum_{k = 1}^{n} x_{ik} + x_{ii}, 
+&& \forall i \in \{1, \dots, n\} , \label{eq::IP_fund_matrix} \\
+& z_{ij} = \sum_{k = 1}^{n}y_{ikj} + x_{ij}, 
+&& \forall i \neq j \in \{1, \dots, n\} , \label{eq::IP_indicator_arg} \\
+\text{(2) Indicator function: } 
+& z_{ij} \leq M g_{ij}, 
+&& \forall i, j \in \{1, \dots, n\}, \label{eq::IP_indicator_upper} \\
+& z_{ij} \geq g_{ij}, 
+&& \forall i, j \in \{1, \dots, n\}, \label{eq::IP_indicator_lower}\\
+\text{(3) Product: } 
+& y_{ikj} \leq x_{ik}, 
+&& \forall i, k, j \in \{1, \dots, n\}, \label{eq::IP_product_upper_first} \\
+& y_{ikj} \leq x_{kj}, 
+&& \forall i, k, j \in \{1, \dots, n\}, \label{eq::IP_product_upper_second} \\
+& y_{ikj} \geq x_{ik} + x_{kj} - 1, 
+&& \forall i, k, j \in \{1, \dots, n\} \label{eq::IP_product_lower}.
+\end{alignat} \label{eq::integer_program}
+
+In addition, there are further constraints imposed by symmetry and diagonality which the adjacency matrix $x$ must satisfy. 
+Importantly, we do not add constraints upon the auxiliary $z$ despite it also being a necessary condition as it redundant and 
+introduces artificial degeneracy in the linear program. 
+\begin{alignat}{3} 
+\text{(4) Symmetry: } 
+& x_{ij} = x_{ji}, 
+&&\qquad \forall i,j \in \{1, \dots, n\}, \label{eq::IP_symmetry_x} \\
+\text{(5) Diagonal: } 
+& x_{ii} = 0, 
+&&\qquad \forall i \in \{1, \dots, n\}.  \label{eq::IP_diagonal_x} 
+\end{alignat}
+
 \section{Integer Program}
 
 Given that an edge exists in the graph if 
