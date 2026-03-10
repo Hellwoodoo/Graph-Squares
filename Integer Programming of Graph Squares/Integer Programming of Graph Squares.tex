@@ -190,22 +190,19 @@ introduces artificial degeneracy in the linear program.
 
 \section{Integer Program}
 
-Given that an edge exists in the graph if 
-
 \begin{proposition}
+    Let $a,b,c \in V$ and let $ab \in E_G, bc, ca \notin E_G$. Then 
+    \begin{enumerate}
+        \item $(A_H)_{ab} = 1$, or
+        \item $(A_H)_{ab} = 0$, with $d \in V$ such that $(A_H)_{ad} = (A_H)_{db} = 1$, or 
+    \end{enumerate}
     Let $a,b,c \in V$ and let $ab, bc \in E_G, ca \notin E_G$. Then 
     \begin{enumerate}
-        \item $(A_H)_{ab} = 1$, $(A_H)_{bc} = 0$ with $d \in V$ such that , or
-         $(A_H)_{ab} = 0$, $(A_H)_{bc} = 1$, or 
-        \item $(A_H)_{ab} = (A_H)_{bc} = 0$. 
+        \item $(A_H)_{ab} = 1$, $(A_H)_{bc} = 0$ with $d \in V$ such that $(A_H)_{bd} = (A_H)_{dc} = 1$, or
+        \item $(A_H)_{ab} = 0$, $(A_H)_{bc} = 1$ with $d \in V$ such that $(A_H)_{ad} = (A_H)_{db} = 1$, or 
+        \item $(A_H)_{ab} = (A_H)_{bc} = 0$ with $d, e \in V$ such that $(A_H)_{ad} = (A_H)_{db} = 1$ and
+         $(A_H)_{be} = (A_H)_{ec} = 1$. 
     \end{enumerate}
-\end{proposition}
-
-\begin{proof}
-    If $(A_H)_{ab} = 1$, $(A_H)_{bc} = 1$, then edge $ca$ must exist in the square. 
-\end{proof}
-
-\begin{proposition}
     Let $a,b,c \in V$ and let $ab, bc, ca \in E_G$. Then 
     \begin{enumerate}
         \item $(A_H)_{ab} = (A_H)_{bc} = (A_H)_{ca} = 1$, or
