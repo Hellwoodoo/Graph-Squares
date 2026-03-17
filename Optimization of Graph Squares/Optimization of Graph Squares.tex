@@ -50,13 +50,14 @@ the square, and show that the problem can be completely categorized as an intege
 We then examine the 
 
 \section{Background} \label{sec::background}
-Let $H = (V, E_H)$ be the undirected \emph{graph root} with $|V|=n$ vertices, and let $G = (V, E_G)$ be the undirected 
-\emph{graph square}. The \emph{square} of the root graph $H$ is denoted as $H^2 = (V, E_{H^2})$ with edge set 
+Let $H = (V, E_H)$ be an undirected \emph{graph root} with $|V| = n$ vertices, and let $G = (V, E_G)$ be an undirected 
+\emph{graph square} defined on the same vertex set. The \emph{square} of the root graph $H$ is denoted by 
+$H^2 = (V, E_{H^2})$ with edge set
 \begin{equation} \label{eq::fund_def_square}
 E_{H^2} = \{uv \mid 1 \leq d_H(u,v) \leq 2\},
 \end{equation}
-where $d_H(u,v)$ is the \emph{distance metric} on graph $H$ denoting the number of edges in the shortest path from vertex 
-$u$ to $v$. That is, edge $ij \in E_{H^2}$ exists if and only if $i \neq j$ and there is a path in $H$ of length $1$ or $2$ from $i$ to $j$. 
+where $d_H(u,v)$ is the \emph{distance metric} on $H$, i.e., the number of edges in a shortest path between vertices $u$ and $v$. 
+That is, an edge $ij \in E_{H^2}$ exists if and only if $i \neq j$ and there is a path in $H$ of length one or two from $i$ to $j$.
 
 Let $\mathbbm{1}_{\geq 1} : \mathbb{R}^{n \times n} \to \{0,1\}^{n \times n}$ denote the entrywise \emph{indicator function}, defined by
 \[
@@ -66,27 +67,41 @@ Let $\mathbbm{1}_{\geq 1} : \mathbb{R}^{n \times n} \to \{0,1\}^{n \times n}$ de
 0 & \text{if } M_{ij} = 0.
 \end{cases}
 \]
-\begin{proposition}
-$G=H^2$ such the adjacency matrix of the graph square 
+
+We define the adjacency matrix of $G$ as
 \begin{equation} \label{eq::fund_adj_eq_undirected}
-    G:  A_{G} = \mathbbm{1}_{\geq 1}\!\big((A_H)^2 - D_H + A_H\big).
+A_G = \mathbbm{1}_{\geq 1}\!\big((A_H)^2 - D_H + A_H\big),
 \end{equation}
-is equivalent to \eqref{eq::fund_def_square}
-\begin{equation} \label{eq::fund_edge_set_undirected}
-    H^2: ij \in E_{H^2} \iff 1 \leq d_H(i,j) \leq 2. 
+where $A_H$ is the adjacency matrix of $H$ and $D_H$ is its degree matrix.
+
+\begin{proposition}
+The graph $G$ defined by \eqref{eq::fund_adj_eq_undirected} is equivalent to the graph square $H^2$
+ defined in \eqref{eq::fund_def_square},
+\begin{equation} \label{eq::fund_def_square_expanded}
+ ij \in E_{H^2} \iff 1 \leq d_H(i,j) \leq 2. 
 \end{equation}
 \end{proposition}
 \begin{proof} 
-We first show that any feasible root $H$ that satisfies \eqref{eq::fund_edge_set_undirected}
-must must also satisfy $\eqref{eq::fund_adj_eq_undirected}$.  
+We first show that any feasible root $H$ that satisfies \eqref{eq::fund_adj_eq_undirected} must also 
+satisfy \eqref{eq::fund_def_square_expanded}. 
+
+Let $ij \in E_G$ such that $\big((A_H)^2 - D_H + A_H\big)_{ij} \geq 1$. If $(A_H)_{ij} = 1$, then there is a 
+path of length one from $i$ to $j$, so $d_H(i,j) = 1$. Otherwise, $(A_H)^2_{ij} \geq 1$, which implies there exists a 
+vertex $k$ such that $ik, kj \in E_H$. Hence there is a path of length two from $i$ to $j$, and so $d_H(i,j) \leq 2$.
+
+
+We next show that any feasible root $H$ that satisfies \eqref{eq::fund_def_square_expanded} must also 
+satisfy $\eqref{eq::fund_adj_eq_undirected}$.  
 
 Let $ij \in E_{H^2}$ such that there is a path in $H$ of length one or two from $i$ to $j$. 
-If there is a path of length one in $H$, then $(A_H)_{ij}=1$. Furthermore, since the degree matrix
-is diagonal $(D_H)_{ij}=0$, and as $(A_H)^2_{ij} \geq 0$ as a square, $\big((A_H)^2 - D_H + A_H\big)_{ij} \geq 1$
+\begin{itemize}
+  \item If there is a shortest path of length one in $H$, then $(A_H)_{ij}=1$. Furthermore, since the degree matrix
+is diagonal $(D_H)_{ij}=0$, and as $(A_H)^2_{ij} \geq 0$, $\big((A_H)^2 - D_H + A_H\big)_{ij} \geq 1$
 such that $A_G = 1$. 
+  \item If there is a shortest path of length two in $H$, then $(A_H)_{ij} \geq 1$. Furthermore, since there is no path 
+of length one, $(A_H)_{ij}=1$ such that $\big((A_H)^2 - D_H + A_H\big)_{ij} \geq 1$ and $A_G = 1$. 
+\end{itemize}
 
-We next show that any feasible root $H$ that satisfies \eqref{eq::fund_adj_eq_undirected}
-must must also satisfy $\eqref{eq::fund_edge_set_undirected}$.  
   
 \end{proof}
 
