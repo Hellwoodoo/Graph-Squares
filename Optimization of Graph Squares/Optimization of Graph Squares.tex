@@ -47,7 +47,7 @@ a root and on the complexity of reconstructing $H$ from $G$. In contrast rather 
 directly, we analyze the relationship between the adjacency matrix $A_H$ of the root and the adjacency matrix $A_G$ of 
 the square, and show that the problem can be completely categorized as an integer program. 
 
-We then examine the 
+We then examine the relaxed linear program which can be evaluated in polynomial time using interior point method. 
 
 \section{Background} \label{sec::background}
 Let $H = (V, E_H)$ be an undirected \emph{graph root} with $|V| = n$ vertices, and let $G = (V, E_G)$ be an undirected 
@@ -58,7 +58,7 @@ E_{H^2} = \{uv \mid 1 \leq d_H(u,v) \leq 2\},
 \end{equation}
 where $d_H(u,v)$ is the \emph{distance metric} on $H$, i.e., the number of edges in a shortest path between vertices $u$ and $v$. 
 That is, an edge $ij \in E_{H^2}$ exists if and only if $i \neq j$ and there is a path in $H$ of length one or two from $i$ to $j$.
-
+\noindent
 Let $\mathbbm{1}_{\geq 1} : \mathbb{R}^{n \times n} \to \{0,1\}^{n \times n}$ denote the entrywise \emph{indicator function}, defined by
 \[
 \mathbbm{1}_{\geq 1}(M)_{ij} =
@@ -67,42 +67,49 @@ Let $\mathbbm{1}_{\geq 1} : \mathbb{R}^{n \times n} \to \{0,1\}^{n \times n}$ de
 0 & \text{if } M_{ij} = 0.
 \end{cases}
 \]
-
+\noindent
 We define the adjacency matrix of $G$ as
 \begin{equation} \label{eq::fund_adj_eq_undirected}
 A_G = \mathbbm{1}_{\geq 1}\!\big((A_H)^2 - D_H + A_H\big),
 \end{equation}
 where $A_H$ is the adjacency matrix of $H$ and $D_H$ is its degree matrix.
-
 \begin{proposition}
 The graph $G$ defined by \eqref{eq::fund_adj_eq_undirected} is equivalent to the graph square $H^2$
- defined in \eqref{eq::fund_def_square},
+ defined in \eqref{eq::fund_def_square} 
 \begin{equation} \label{eq::fund_def_square_expanded}
  ij \in E_{H^2} \iff 1 \leq d_H(i,j) \leq 2. 
 \end{equation}
 \end{proposition}
 \begin{proof} 
-We first show that any feasible root $H$ that satisfies \eqref{eq::fund_adj_eq_undirected} must also 
-satisfy \eqref{eq::fund_def_square_expanded}. 
+\noindent
+($\Rightarrow$) Suppose $ij \in E_G$ such that $ \big((A_H)^2 - D_H + A_H\big)_{ij} \geq 1$.
+Since $D_H$ is diagonal, $(D_H)_{ij} = 0$ for $i \neq j$, and hence
+\[
+(A_H)^2_{ij} + (A_H)_{ij} \geq 1.
+\]
+If $(A_H)_{ij} = 1$, then $i$ and $j$ are adjacent in $H$, so $d_H(i,j) = 1$.  
+Otherwise, $(A_H)^2_{ij} \geq 1$, which implies there exists a vertex $k$ such that 
+$ik, kj \in E_H$. Hence there is a path of length two from $i$ to $j$, and thus $d_H(i,j) = 2$.  
 
-Let $ij \in E_G$ such that $\big((A_H)^2 - D_H + A_H\big)_{ij} \geq 1$. If $(A_H)_{ij} = 1$, then there is a 
-path of length one from $i$ to $j$, so $d_H(i,j) = 1$. Otherwise, $(A_H)^2_{ij} \geq 1$, which implies there exists a 
-vertex $k$ such that $ik, kj \in E_H$. Hence there is a path of length two from $i$ to $j$, and so $d_H(i,j) \leq 2$.
-
-
-We next show that any feasible root $H$ that satisfies \eqref{eq::fund_def_square_expanded} must also 
-satisfy $\eqref{eq::fund_adj_eq_undirected}$.  
-
-Let $ij \in E_{H^2}$ such that there is a path in $H$ of length one or two from $i$ to $j$. 
+Therefore, $1 \le d_H(i,j) \le 2$, and so $ij \in E_{H^2}$.
+\medskip
+\noindent
+($\Leftarrow$) Suppose $ij \in E_{H^2}$. Then $1 \le d_H(i,j) \le 2$.
 \begin{itemize}
-  \item If there is a shortest path of length one in $H$, then $(A_H)_{ij}=1$. Furthermore, since the degree matrix
-is diagonal $(D_H)_{ij}=0$, and as $(A_H)^2_{ij} \geq 0$, $\big((A_H)^2 - D_H + A_H\big)_{ij} \geq 1$
-such that $A_G = 1$. 
-  \item If there is a shortest path of length two in $H$, then $(A_H)_{ij} \geq 1$. Furthermore, since there is no path 
-of length one, $(A_H)_{ij}=1$ such that $\big((A_H)^2 - D_H + A_H\big)_{ij} \geq 1$ and $A_G = 1$. 
-\end{itemize}
+  \item If $d_H(i,j) = 1$, then $(A_H)_{ij} = 1$. Since $(A_H)^2_{ij} \geq 0$ and $(D_H)_{ij} = 0$ for $i \neq j$, we have
+  \[
+  \big((A_H)^2 - D_H + A_H\big)_{ij} \geq 1.
+  \]
 
-  
+  \item If $d_H(i,j) = 2$, then there exists a vertex $k$ such that $ik, kj \in E_H$. Hence $(A_H)^2_{ij} \geq 1$, and since $(A_H)_{ij} = 0$ and $(D_H)_{ij} = 0$, we again obtain
+  \[
+  \big((A_H)^2 - D_H + A_H\big)_{ij} \geq 1.
+  \]
+\end{itemize}
+In both cases, $(A_G)_{ij} = 1$, and hence $ij \in E_G$.
+\medskip
+\noindent
+Therefore, $E_G = E_{H^2}$, and so $G = H^2$.  
 \end{proof}
 
 % Equivalently, we can represent $A_{H^2}$ where edge $ij \in E_G$ exists if and only if $i \neq j$ and 
@@ -115,20 +122,20 @@ of length one, $(A_H)_{ij}=1$ such that $\big((A_H)^2 - D_H + A_H\big)_{ij} \geq
 % \end{cases}
 % \]
 
-We can convert the edge set $E_{H^2}$ into the \emph{adjacency matrix} of $H^2$ by setting
-\begin{equation} \label{eq::H_squared_adjacency}
-(A_{H^2})_{ij} =
-\begin{cases}
-1 ,& \text{if } e_{ij} \in E_{H^2}, \\
-0 ,& \text{otherwise}.
-\end{cases}
-\end{equation}
+% We can convert the edge set $E_{H^2}$ into the \emph{adjacency matrix} of $H^2$ by setting
+% \begin{equation} \label{eq::H_squared_adjacency}
+% (A_{H^2})_{ij} =
+% \begin{cases}
+% 1 ,& \text{if } e_{ij} \in E_{H^2}, \\
+% 0 ,& \text{otherwise}.
+% \end{cases}
+% \end{equation}
 
-This definition follows strictly from $(A_H^2)_{ij}$ giving the number of paths of length two between 
-vertices $i, j$ and with the \emph{degree matrix} $(D_H)_{ii} = \deg_H(i)$ such that 
-\[
-A_{G = H^2} = \frac{(A_H)^2 - D_H}{\# \; \text{paths between} \; i, j} + A_H. 
-\]
+% This definition follows strictly from $(A_H^2)_{ij}$ giving the number of paths of length two between 
+% vertices $i, j$ and with the \emph{degree matrix} $(D_H)_{ii} = \deg_H(i)$ such that 
+% \[
+% A_{G = H^2} = \frac{(A_H)^2 - D_H}{\# \; \text{paths between} \; i, j} + A_H. 
+% \]
 
 \subsection{Integer Program} \label{subsec::IP}
 Let $x_{ij} \in \{0, 1\}$ be the decision variables of $A_H$, let $y_{ikj} \in \{0, 1\}$ be the decision variable for 
