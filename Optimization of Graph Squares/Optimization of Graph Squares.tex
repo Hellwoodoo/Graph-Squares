@@ -120,12 +120,14 @@ In either case, $(A_H)^2_{ij} + (A_H)_{ij} \geq 1$, so $(A_G)_{ij} = 1$, and hen
 
 For $i = j$, since all graphs are simple, have $(E_{\cdot})_{ii} = 0$, $(A_{\cdot})_{ii} = 0$ and hence
 \[
-\big((A_H)^2 - D_H + A_H\big)_{ij} = (A_H)^2_{ij} - (D_H)_{ij}.
+\big((A_H)^2 - D_H + A_H\big)_{ii} = (A_H)^2_{ii} - (D_H)_{ii}.
 \]
-
-($\Rightarrow$) 
-Since $ii \notin E_G$,  $(A_H)^2_{ij} - (D_H)_{ij} = 0$. 
-
+$(A_H)^2_{ii} - (D_H)_{ii} = 0$ is always true since the degree matrix of $H$ always has diagonal 
+values $\displaystyle (D_H)_{ii} = \sum_k x_{ik}$ and each edge from vertex $i$ to its neighbour in $H$ 
+will always create a loop to itself in the square such that $\displaystyle (A_H)^2_{ii} = 
+\sum_{k = 1} x_{ik}x_{ki} = \sum_{k = 1} x_{ik}^2$ by the symmetry of adjacency matrix $A_H$. Since $x_{ik} \in \{0, 1\}$,
+the square of the boolean is identical to the boolean $x_ik$ such that $\displaystyle (A_H)^2_{ii} = \sum_k x_{ik} = (D_H)_{ii}$
+and $(A_G)_{ii} = \mathbbm{1}_{\geq 1}\!\big((A_H)^2 - D_H + A_H\big)$ as required. 
 
 Combining both gives that $E_G = E_{H^2}$, and so $G = H^2$.  
 
@@ -146,7 +148,7 @@ as a purely quadratic form, thereby limiting the direct applicability of existin
 \begin{proof}
   Since the graph root has girth of length $5$ there are no cycles of length $3$ or $4$ in $H$. 
   Thus for every pair of vertices $i \neq j \in V$ there is either no cycle that connects $i,j$ or there
-  is a cycle of at least of length $5$ between them. In all cases $(D_H)_{ij} = 0$. 
+  is a cycle of at least length $5$ between them. In all cases $(D_H)_{ij} = 0$. 
   If there is no cycle, then there is at most one path between $i,j$
   \begin{enumerate}
     \item If the path is of length $1$, then $(A_H)_{ij} = 1, (A_H)^2_{ij} = 0 \implies (A_G)_{ij} = 0 - 0 + 1 = 1$.
