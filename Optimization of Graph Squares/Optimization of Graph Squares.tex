@@ -94,7 +94,7 @@ Define the adjacency matrix of $G$ using the adjacency and degree matrices of $H
 \begin{equation} \label{eq::fund_adj_eq_undirected}
 A_G = \mathbbm{1}_{\geq 1}\!\big((A_H)^2 - D_H + A_H\big).
 \end{equation}
-\begin{lemma} \label{lemma:G_equal_to_H^2}
+\begin{lemma} \label{lemma::G_equal_to_H^2}
 The graph $G$ defined by \eqref{eq::fund_adj_eq_undirected} is equivalent to the graph square $H^2$
  defined in \eqref{eq::fund_def_square} 
 \begin{equation} \label{eq::fund_def_square_expanded}
@@ -150,13 +150,13 @@ as a purely quadratic form, thereby limiting the direct applicability of existin
   Thus for every pair of vertices $i \neq j \in V$ there is either no cycle that connects $i,j$ or there
   is a cycle of at least length $5$ between them. In all cases $(D_H)_{ij} = 0$. 
   If there is no cycle, then there is at most one path between $i,j$
-  \begin{enumerate}
+  \begin{enumerate}[label=\roman*)]
     \item If the path is of length $1$, then $(A_H)_{ij} = 1, (A_H)^2_{ij} = 0 \implies (A_G)_{ij} = 0 - 0 + 1 = 1$.
     \item If the path is of length $2$, then $(A_H)_{ij} = 0, (A_H)^2_{ij} = 1 \implies (A_G)_{ij} = 1 - 0 - 0 = 1$.
     \item If the path is of length $\geq 3$ or a path does not exist, then $(A_H)_{ij} = 0, (A_H)^2_{ij} = 0 \implies (A_G)_{ij} = 0$.
   \end{enumerate}
   If there is a cycle of length $\geq 5$ between $i,j$ such that there are two paths between $i,j$
-  \begin{enumerate}
+  \begin{enumerate}[label=\roman*)]
     \item If one path is of length $1$, then the other is of length $\geq 4$ and hence $(A_H)_{ij} = 1, (A_H)^2_{ij} = 0 \implies (A_G)_{ij} = 0 - 0 + 1 = 1$.
     \item If one path is of length $2$, then the other is of length $\geq 3$ and hence $(A_H)_{ij} = 0, (A_H)^2_{ij} = 1 \implies (A_G)_{ij} = 1 - 0 - 0 = 1$.
     \item If the paths are both of length $\geq 3$,  then $(A_H)_{ij} = 0, (A_H)^2_{ij} = 0 \implies (A_G)_{ij} = 0$. 
@@ -256,7 +256,7 @@ and the resulting integer program is given by
 && \forall i,j \in \{1, \dots, n\}. \label{eq::IP_z_variable} \\
 \text{Constraints: } & \nonumber \\
 \text{(1) Indicator argument: } 
-& z_{ii} = \sum_{k = 1}^{n}y_{iki} - \sum_{k = 1}^{n} x_{ik} + x_{ii}, 
+& z_{ii} = \sum_{k = 1}^{n}y_{iki} - \sum_{k = 1}^{n} x_{ik}, 
 && \forall i \in \{1, \dots, n\} , \label{eq::IP_fund_matrix} \\
 & z_{ij} = \sum_{k = 1}^{n}y_{ikj} + x_{ij}, 
 && \forall i \neq j \in \{1, \dots, n\} , \label{eq::IP_indicator_arg} \\
@@ -296,24 +296,63 @@ Let $G$ be a graph and consider the integer program whose variables $x_{ij} \in 
 $H$ with adjacency matrix $A_H = (x_{ij})$. Then $G$ has a square root $H$ if and only if the integer 
 program has a feasible solution $x$ such that the corresponding graph $H$ satisfies $H^2 = G$.
 \end{proposition}
-($\Rightarrow$) Suppose $G$ has a square root $H$ and let $A_H$ be the adjacency matrix of $H$ where $x_{ij} = (A_H)_{ij}$.
+($\Rightarrow$) Suppose $G$ has a square root $H$ and let $A_H$ be the adjacency matrix of $H$.  $x_{ij} = (A_H)_{ij}$.
 % We show that $x$ satisfies all the constraints of the integer program.
-
-
-($\Leftarrow$) Suppose the integer program has a feasible solution $x$, and let $x_{ij}$ define a graph $H$ by 
-\[
-ij \in E(H) \iff x_{ij} = 1. 
-\]
-% We show that $H^2 = G$.
-As $x_{ij}$ satisfies the constraints of the integer program, 
-\begin{enumerate}
-  \item Equation~\eqref{eq::IP_x_variable} and Equation~\eqref{eq::IP_x_upper_bound} gives $0 \leq x_{ij} \leq 1$ for all $i,j$
-  \item Equation~\eqref{eq::IP_fund_matrix} and the combination of  
+Construct the variables $x_{ij}, y_{ikj}, z_{ij}$ and the constant $g_{ij}$ as such 
+\begin{enumerate}[label=\roman*)]
+  \item Let $x_{ij} = 1$ if $ij \in E_H$ and $=0$ otherwise. 
+  \item Let $y_{ikj} = x_{ij}x_{kj}$ for all $i,k,j$. 
+  \item Let $\displaystyle z_{ij} = \sum_{k = 1}^{n} y_{ikj} + x_{ij} $ for all $i,j$. 
+  \item Let $\displaystyle z_{ii} = \sum_{k  = 1}^{n} y_{iki} - \sum_{k = 1}^{n} x_{ik} =  \sum_{k = 1}^{n} x_{ik}^2 -  - \sum_{k = 1}^{n} x_{ik} = 0 $
+   by symmetry and since $x_{ij} \in \{0 , 1\}$. 
+  \item Let $g_{ij} = 1$ if $ij \in E_G$ and $=0$ otherwise. 
 \end{enumerate}
-such that $x_{ij}$ is a valid adjacency matrix of a graph.
-Using Lemma~\eqref{lemma:G_equal_to_H^2} 
+Verifying constraints of the integer program for the variables 
+\begin{enumerate}[label=\roman*)]
+  \item As $x_{ij} \in \{0, 1 \} \implies y_{ikj}  \in \{0, 1 \} $, Equations~\eqref{eq::LP_x_variable}-\eqref{eq::LP_z_variable}
+  and Equations~\eqref{eq::IP_x_upper_bound}-\eqref{eq::IP_y_upper_bound} are satisfied.  
+  \item As $H$ is a simple directed graph, its adjacency matrix is hallow and symmetric such that Equations~\eqref{eq::IP_symmetry_x}
+  -\eqref{eq::IP_diagonal_x} are satisfied.  
+  \item As $y_{ikj} = x_{ij}x_{kj}$ and all variables are binary, Equations~\eqref{eq::IP_product_upper_first}-
+  \eqref{eq::IP_product_lower} are satisfied. 
+  \item Equation~\eqref{eq::IP_indicator_arg} by definition is satisfied. 
+  \item As $\displaystyle z_{ii} = \sum_{k = 1}^{n} x_{ik}x_{ki} - \sum_{k = 1}^{n} x_{ik}$
+\end{enumerate}
 
-
+($\Leftarrow$) Suppose the integer program on graph $G$ has a feasible solution $x$, and let $x_{ij}$ define a graph $H$ by 
+\[
+ij \in E_H \iff x_{ij} = 1. 
+\]
+% We show that $H^2 = G$. 
+As $x_{ij}$ satisfies the constraints of the integer program, 
+\begin{enumerate}[label=\roman*)]
+  \item Equation~\eqref{eq::IP_x_variable} and Equation~\eqref{eq::IP_x_upper_bound} gives $x_{ij} \in \{0 , 1\}$ for all $i,j$,
+  \item Equation~\eqref{eq::IP_symmetry_x} and Equation~\eqref{eq::IP_diagonal_x} give $x_{ij} = x_{ji}$ and $x_{ii} = 0$,
+\end{enumerate}
+such that $x_{ij}$ defines a hollow, symmetric matrix with all elements being either $0$ or $1$ which is a valid adjacency matrix of a graph. 
+Examining the auxiliary variables $y_{ikj}$ and $z_{ij}$, 
+\begin{enumerate}[label=\roman*)]
+  \item Equations~\eqref{eq::IP_product_upper_first}-\eqref{eq::IP_product_lower} give the strict equality $y_{ikj} = x_{ik}x_{kj}$ for all $i,j,k$,
+  \item Equation~\eqref{eq::IP_indicator_arg} gives $\displaystyle z_{ij} = \sum_{k = 1}^{n}y_{ikj} + x_{ij} = \sum_{k = 1}^{n}x_{ik}x_{kj} + x_{ij}$ for all $i \neq j$,
+  \item Equation~\eqref{eq::IP_fund_matrix} gives $\displaystyle z_{ii} = \sum_{k = 1}^{n}y_{iki} + \sum_{n}^{k = 1}x_{ik} = \sum_{k = 1}^{n} x_{ik}x_{ki} - \sum_{n}^{k = 1}x_{ik} = 0$ for all $i$ since
+  \[
+   \sum_{k = 1}^{n} x_{ik}x_{ki} = \sum_{k = 1}^{n} x_{ik}^2 = \sum_{k = 1}^{n} x_{ik},
+  \]
+  by symmetry and since $x_{ij} \in \{0 , 1\}$. 
+\end{enumerate} 
+The indicator constraints Equations~\eqref{eq::IP_indicator_upper}-\eqref{eq::IP_indicator_lower} thus give for $i \neq j$
+\[
+g_{ij} = 1 \iff \sum_{k=1}^{n} x_{ik}x_{kj} + x_{ij} \geq 1 \; \text{and} \; g_{ij} = 0 \iff \sum_{k=1}^{n} x_{ik}x_{kj} + x_{ij} = 0. 
+\]
+Since $x_{ij} \in \{0,1\}$, this is equivalent to 
+\[
+g_{ij} = 1 \iff \Big(x_{ij} = 1 \Big) \lor \Big(\exists k \;\text{such that}\; x_{ik}= 1 \land x_{kj}=1\Big) \; \text{and} \; g_{ij} = 0 \iff x_{ij} = 0. 
+\]
+By definition of $H$ this means that $g_{ij} = 1 \iff \Big( ij \in E_H \Big) \lor \Big( \exists k \;\text{such that}\; ik,kj \in E_H\Big)$ which is equivalent to 
+\[
+g_{ij} = 1 \iff 1 \leq d_H(i,j) \leq 2. 
+\]
+Now apply Lemma~\ref{lemma::G_equal_to_H^2} gives $ij \in E_G \iff ij \in E_H^2$ such that $G=H^2$. 
 
 \subsection{Linear Program} \label{subsec::LP}
 
@@ -710,6 +749,10 @@ just pendant vertices.
   Singular triangular decomposition completely categorizes all dismantlable roots in the polynomial time linear program. 
 \end{theorem}
 
+
+\newpage 
+
+\printbibliography
 
 \appendix
 
@@ -1309,6 +1352,5 @@ triangular decomposition and using rounding for fractional solutions.}
 
 \newpage
 
-\printbibliography
 
 \end{document}
