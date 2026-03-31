@@ -301,22 +301,25 @@ program has a feasible solution $x$ such that the corresponding graph $H$ satisf
 Construct the variables $x_{ij}, y_{ikj}, z_{ij}$ and the constant $g_{ij}$ as such 
 \begin{enumerate}[label=\roman*)]
   \item Let $x_{ij} = 1$ if $ij \in E_H$ and $=0$ otherwise. 
-  \item Let $y_{ikj} = x_{ij}x_{kj}$ for all $i,k,j$. 
+  \item Let $y_{ikj} = x_{ik}x_{kj}$ for all $i,k,j$. 
   \item Let $\displaystyle z_{ij} = \sum_{k = 1}^{n} y_{ikj} + x_{ij} $ for all $i,j$. 
-  \item Let $\displaystyle z_{ii} = \sum_{k  = 1}^{n} y_{iki} - \sum_{k = 1}^{n} x_{ik} =  \sum_{k = 1}^{n} x_{ik}^2 -  - \sum_{k = 1}^{n} x_{ik} = 0 $
-   by symmetry and since $x_{ij} \in \{0 , 1\}$. 
+  \item Let $\displaystyle z_{ii} = \sum_{k  = 1}^{n} y_{iki} - \sum_{k = 1}^{n} x_{ik} =  \sum_{k = 1}^{n} x_{ik}^2 -  \sum_{k = 1}^{n} x_{ik} = 0 $
+  since $x_{ij} \in \{0 , 1\} \implies x_{ik}^2 = x_{ik}$. 
   \item Let $g_{ij} = 1$ if $ij \in E_G$ and $=0$ otherwise. 
 \end{enumerate}
 Verifying constraints of the integer program for the variables 
 \begin{enumerate}[label=\roman*)]
-  \item As $x_{ij} \in \{0, 1 \} \implies y_{ikj}  \in \{0, 1 \} $, Equations~\eqref{eq::LP_x_variable}-\eqref{eq::LP_z_variable}
+  \item As $x_{ij} \in \{0, 1 \} \implies y_{ikj}  \in \{0, 1 \} $, Equations~\eqref{eq::IP_x_variable}-\eqref{eq::IP_z_variable}
   and Equations~\eqref{eq::IP_x_upper_bound}-\eqref{eq::IP_y_upper_bound} are satisfied.  
   \item As $H$ is a simple directed graph, its adjacency matrix is hallow and symmetric such that Equations~\eqref{eq::IP_symmetry_x}
   -\eqref{eq::IP_diagonal_x} are satisfied.  
-  \item As $y_{ikj} = x_{ij}x_{kj}$ and all variables are binary, Equations~\eqref{eq::IP_product_upper_first}-
+  \item As $y_{ikj} = x_{ik}x_{kj}$ and all variables are binary, Equations~\eqref{eq::IP_product_upper_first}-
   \eqref{eq::IP_product_lower} are satisfied. 
   \item Equation~\eqref{eq::IP_indicator_arg} by definition is satisfied. 
-  \item As $\displaystyle z_{ii} = \sum_{k = 1}^{n} x_{ik}x_{ki} - \sum_{k = 1}^{n} x_{ik}$
+  \item As $\displaystyle z_{ii} = \sum_{k = 1}^{n} x_{ik}x_{ki} - \sum_{k = 1}^{n} x_{ik}$, Equation~\eqref{eq::IP_fund_matrix} is satisfied. 
+  \item As $\displaystyle z_{ij} = \sum_{k = 1}^{n} x_{ik}x_{kj} + x_{ij} $ count the number of walks of length at most $2$ between 
+  
+  $g_{ij} = 1 \implies z_{ij} \geq 1 $ and $g_{ij} = 0 \implies z_{ij} = 0$
 \end{enumerate}
 
 ($\Leftarrow$) Suppose the integer program on graph $G$ has a feasible solution $x$, and let $x_{ij}$ define a graph $H$ by 
@@ -375,7 +378,11 @@ Figure~\ref{fig:linear_program_diagram} can be generated.
 
 However, the direct linear relaxation needs additional constraints after the linear relaxation. Consider 
 $\displaystyle z_{ii} = \sum_{k = 1}^{n} y_{iki} - \sum_{k = 1}^{n} x_{ik} + x_{ii}$ which can be simplified to 
-$\displaystyle z_{ii} = \sum_{k = 1}^{n} x_{ik}x{ki} - \sum_{k = 1}^{n} x_{ik}$. 
+$\displaystyle z_{ii} = \sum_{k = 1}^{n} x_{ik}^2 - \sum_{k = 1}^{n} x_{ik}$ and is equal to $0$ when $x$ is binary. 
+
+In the linear
+relaxation this no longer holds for fractional values of $x_{ik}$ (IS THIS REALLY TRUE? NOT ADDING CONSTRAINT STILL GIVES 
+ALL VALID SOLUTIONS?)
 \begin{proposition}
 
 \end{proposition}
