@@ -296,6 +296,7 @@ Let $G$ be a graph and consider the integer program whose variables $x_{ij} \in 
 $H$ with adjacency matrix $A_H = (x_{ij})$. Then $G$ has a square root $H$ if and only if the integer 
 program has a feasible solution $x$ such that the corresponding graph $H$ satisfies $H^2 = G$.
 \end{proposition}
+\begin{proof}
 ($\Rightarrow$) Suppose $G$ has a square root $H$ and let $A_H$ be the adjacency matrix of $H$.  $x_{ij} = (A_H)_{ij}$.
 % We show that $x$ satisfies all the constraints of the integer program.
 Construct the variables $x_{ij}, y_{ikj}, z_{ij}$ and the constant $g_{ij}$ as such 
@@ -317,10 +318,11 @@ Verifying constraints of the integer program for the variables
   \eqref{eq::IP_product_lower} are satisfied. 
   \item Equation~\eqref{eq::IP_indicator_arg} by definition is satisfied. 
   \item As $\displaystyle z_{ii} = \sum_{k = 1}^{n} x_{ik}x_{ki} - \sum_{k = 1}^{n} x_{ik}$, Equation~\eqref{eq::IP_fund_matrix} is satisfied. 
-  \item As $\displaystyle z_{ij} = \sum_{k = 1}^{n} x_{ik}x_{kj} + x_{ij} $ count the number of walks of length at most $2$ between 
-  
-  $g_{ij} = 1 \implies z_{ij} \geq 1 $ and $g_{ij} = 0 \implies z_{ij} = 0$
+  \item As $\displaystyle z_{ij} \geq 1 \iff x_{ij} = 1 \; \text{or} \; \exists k \text{ such that } x_{ik}=x_{kj}= 1$ and as $H^2 = G$,
+  have $g_{ij} = 1 \iff 1 \leq d_H(i,j) \leq 2$. Thus $g_{ij} = 1 \iff z_{ij}geq 1$ so the indicator 
+  constraints Equations~\eqref{eq::IP_indicator_upper}-\eqref{eq::IP_indicator_lower} hold. 
 \end{enumerate}
+All constraints of the integer program are satisfied by the constructed variables. Hence, the integer program is feasible.
 
 ($\Leftarrow$) Suppose the integer program on graph $G$ has a feasible solution $x$, and let $x_{ij}$ define a graph $H$ by 
 \[
@@ -356,6 +358,7 @@ By definition of $H$ this means that $g_{ij} = 1 \iff \Big( ij \in E_H \Big) \lo
 g_{ij} = 1 \iff 1 \leq d_H(i,j) \leq 2. 
 \]
 Now apply Lemma~\ref{lemma::G_equal_to_H^2} gives $ij \in E_G \iff ij \in E_H^2$ such that $G=H^2$. 
+\end{proof}
 
 \subsection{Linear Program} \label{subsec::LP}
 
@@ -376,16 +379,18 @@ The results from the linear programming can give \emph{integer solutions} and \e
 and \emph{fractional solutions} and \emph{infeasible solutions} when the root does not exist such that the results in 
 Figure~\ref{fig:linear_program_diagram} can be generated. 
 
-However, the direct linear relaxation needs additional constraints after the linear relaxation. Consider 
-$\displaystyle z_{ii} = \sum_{k = 1}^{n} y_{iki} - \sum_{k = 1}^{n} x_{ik} + x_{ii}$ which can be simplified to 
+The linear relaxation potentially breaks equations in the integer program which are critical to the definition. 
+
+Consider Equations~\eqref{eq::IP_product_upper_first}-\eqref{eq::IP_product_lower} which gives $y_{ikj} = x_{ik}x_{kj}$. When $x$ is binary, this construction of $y$
+leads to $y$ being binary as well.  
+
+Consider Equation~\eqref{eq::IP_fund_matrix}, where $\displaystyle z_{ii} = \sum_{k = 1}^{n} y_{iki} - \sum_{k = 1}^{n} x_{ik} + x_{ii}$ can be simplified to 
 $\displaystyle z_{ii} = \sum_{k = 1}^{n} x_{ik}^2 - \sum_{k = 1}^{n} x_{ik}$ and is equal to $0$ when $x$ is binary. 
+In the linear relaxation this strict inequality no longer holds for fractional values of $x_{ik}$. However when $x_{ik}$ is fractional
+$x_{ik}^2 \leq x_{ik}$ such that $\displaystyle z_{ii} = \sum_{k = 1}^{n} x_{ik}^2 - x_{ik} \leq 0$. As $z \in \mathbb{Z}_{\geq 0}$, this gives 
+that $z_{ii} = 0$ as required - no additional modifications are required.
 
-In the linear
-relaxation this no longer holds for fractional values of $x_{ik}$ (IS THIS REALLY TRUE? NOT ADDING CONSTRAINT STILL GIVES 
-ALL VALID SOLUTIONS?)
-\begin{proposition}
-
-\end{proposition}
+Consider Equation~\eqref{eq::IP_indicator_arg}, where $\displaystyle z_{ij} = $ 
 
 \section{Linear Program} \label{sec::LP}
 \subsection{Max Objective Function} \label{subsubsec::max_obj}
