@@ -377,7 +377,7 @@ are replaced with
 
 The results from the linear programming can give \emph{integer solutions} and \emph{fractional solutions} when the root exists 
 and \emph{fractional solutions} and \emph{infeasible solutions} when the root does not exist such that the results in 
-Figure~\ref{fig:linear_program_diagram} can be generated. 
+Figure~\ref{fig::linear_program_diagram} can be generated. 
 
 The linear relaxation potentially breaks equations in the integer program which are critical to the definition. 
 
@@ -386,11 +386,14 @@ leads to $y$ being binary as well.
 
 Consider Equation~\eqref{eq::IP_fund_matrix}, where $\displaystyle z_{ii} = \sum_{k = 1}^{n} y_{iki} - \sum_{k = 1}^{n} x_{ik} + x_{ii}$ can be simplified to 
 $\displaystyle z_{ii} = \sum_{k = 1}^{n} x_{ik}^2 - \sum_{k = 1}^{n} x_{ik}$ and is equal to $0$ when $x$ is binary. 
-In the linear relaxation this strict inequality no longer holds for fractional values of $x_{ik}$. However when $x_{ik}$ is fractional
+In the linear relaxation this strict inequality no longer holds for fractional values of $x_{ik}$. However, when $x_{ik}$ is fractional
 $x_{ik}^2 \leq x_{ik}$ such that $\displaystyle z_{ii} = \sum_{k = 1}^{n} x_{ik}^2 - x_{ik} \leq 0$. As $z \in \mathbb{Z}_{\geq 0}$, this gives 
 that $z_{ii} = 0$ as required - no additional modifications are required.
 
-Consider Equation~\eqref{eq::IP_indicator_arg}, where $\displaystyle z_{ij} = $ 
+Consider Equation~\eqref{eq::IP_indicator_arg}, where $\displaystyle z_{ij} = \sum_{k = 1}^{n} x_{ik}x_{kj} + x_{ij}$. When $z_{ij} = 0$, 
+the equation follows the standard definition of graph squares such that $x_{ij} = 0 $ and for all intermediary $k$s 
+at least one of $x_{ik},x_{kj}$ must be equal to $0$. However, when $z_{ij} \geq 1$, fractional solutions of $x_{ij}$ and $x_{ik}x_{kj}$
+may satisfy the constraints without giving a valid integral path in the root. 
 
 \section{Linear Program} \label{sec::LP}
 \subsection{Max Objective Function} \label{subsubsec::max_obj}
@@ -400,8 +403,15 @@ defined by Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::LP_z_variable} in Se
 \begin{equation} \label{eq::max_obj_function}
   \max \sum_{i=1}^{n} \sum_{j=1}^{n} x_{ij}.
 \end{equation}
+This addition gives the improved results in Figure~\ref{fig::max_objective_function_diagram}.
 
-This addition gives the improved results in Figure~\ref{fig:max_objective_function_diagram}.
+A maximizing objective function is considered because it pushes the linear program towards dense solutions, which are 
+much more informative than trivial sparse solution. If a minimizing objective function is used instead, the linear program 
+tends to avoid direct integral edges and satisfies the constraint in Equation~\eqref{eq::IP_indicator_arg} using fractional 
+paths of length $2$, distributing weight so that the summation is $\geq 1$.However, such solutions do not correspond to valid integral 
+structures. In contrast, a maximizing objective function encourages variables to take values closer to $1$, promoting direct edges and 
+avoiding the dispersion of weight across many fractional paths of length $2$. This yields more integral solutions and fewer fractional 
+roots - see Figure~\ref*{fig::min_objective_function_diagram}. 
 
 \subsection{Singular Triangular Decomposition} \label{subsubsec::singular_triangular_decomposition}
 
@@ -421,40 +431,67 @@ w=\arg\min\{\deg_G(u), \deg_G(v)\}.
 \end{equation}
 
 If $\deg_G(u) = \deg_G(v)$, no constraint is imposed. This addition gives the improved results in 
-Figure~\ref{fig:singular_triangular_decomposition_diagram} whilst maintaining polynomial runtime. 
+Figure~\ref{fig::singular_triangular_decomposition_diagram} whilst maintaining polynomial runtime. 
 
 In the case of $\deg_G(u) = \deg_G(v)$, enforcement is done by arbitrarily choosing one of the edges of only one 
-such triangle. This is done recursively until all such singular triangles are resolved. This gives the improved 
-results in Figure~\ref{fig:recursive_singular_triangular_decomposition_diagram}.  
+such triangle. This is done recursively until all such singular triangles are resolved. This gives the 
+additional constraint 
+Consider the addition of the following constraints which enforce $n-1$ edges and no cycles for every subset of $V$. 
+\begin{alignat}{3}
+& \sum_{i = 1}^n \sum_{j = 1}^n x_{ij} = 2(n - 1), 
+&& \label{eq::spanning_tre} \\
+& \sum_{i \in S} \sum_{j \in S} x_{ij} \le |S| - 1,
+&& \forall S \subseteq \{1,\dots,n\},\ |S|\ge 2 \label{eq::subset_cycles},
+\end{alignat} 
+and the improved results in Figure~\ref{fig::recursive_singular_triangular_decomposition_diagram}.  
 
 Ross and Harary in 1960 gave an algorithm for constructing a tree root by using characterizations of the square graph 
 to conclude that existing tree square roots are unique up to isomorphism \cite{ross_1960_square}. 
 
 \begin{proposition} \label{prop::singular_triangular_decomposition_proposition}
-  Singular triangular decomposition completely categorizes all triangle roots in polynomial time linear program. 
+  Singular triangular decomposition completely categorizes all triangle roots in polynomial time. 
 \end{proposition}
+\begin{proof}
+To the contrary assume that for square $G$ there exists a root $H$ such that $H^2 = G$  
+\end{proof}
+
+\subsection{Vertex Deletion} \label{subsec::vertex_deletion}
+
+As singular triangular decomposition gives perfect characterizations of the root using the linear program 
+for up to $n=5$, a further refinement is obtained by analyzing fractional solutions through vertex deletion.
+
+If the solution of the original linear program is fractional, starting from the vertex $v \in V$ with the smallest 
+degree, the linear program is ran on the induced subgraph $G - v$. If the resulting solution is integral, then the 
+fractional behaviour of $G$ is localized at $v$ and the algorithm attempts to lift the integral structure of 
+$G-v$ back to $G$ by enforcing that $v$ is attached to one of its neighbours. For each 
+$u \in N_G(v)$, the constraint
+\begin{equation}
+x_{vu} = 1, \quad x_{uv} = 1,
+\label{eq:recursive_attachment}
+\end{equation}
+is added. If the resulting solution is integral, then $v$ is identified as a leaf vertex adjacent 
+to $u$ in the square root, and the solution is accepted.
+
+If no such $u$ yields an integral solution, the process is repeated over all vertices. 
+This gives a recursive refinement which augments the feasible region by dynamically adding 
+constraints of the form Equation~\eqref{eq:recursive_attachment}, thereby eliminating fractional solutions 
+by enforcing consistency with an integral substructure. Importantly, the technique runs in polynomial time, as 
+it performs at most $n$ vertex-deletion checks and, for each such vertex $v$, at most $\deg_G(v) \leq n-1$ constrained 
+linear program solves. Since each linear program has $O(n^2)$ variables and constraints and can be solved in polynomial 
+time $T_{\mathrm{LP}}(n)$, the overall procedure requires at most $O(n^2 \cdot T_{\mathrm{LP}}(n))$ time, 
+and hence remains polynomial in $n$.
+
+\begin{proposition}
+  Vertex deletion completely categorizes all proper interval roots in polynomial time. 
+\end{proposition}
+\begin{proof}
+  
+\end{proof}
 
 
-% \subsubsection{Tree Constraint} \label{subsubsec::tree_constraint}
+\subsection{Rounding} \label{subsec::rounding}
 
-% Ross and Harary in 1960 gave an algorithm for constructing a tree root by using characterizations of the square graph 
-% to conclude that existing tree square roots are unique up to isomorphism \cite{ross_1960_square}. We investigate whether
-% the linear program constrained to only tree square roots can likewise solve the problem in polynomial time. 
-
-% Consider the addition of the following constraints which enforce $n-1$ edges and no cycles for every subset of $V$. 
-% \begin{alignat}{3}
-% & \sum_{i = 1}^n \sum_{j = 1}^n x_{ij} = 2(n - 1), 
-% && \label{eq::spanning_tre} \\
-% & \sum_{i \in S} \sum_{j \in S} x_{ij} \le |S| - 1,
-% && \forall S \subseteq \{1,\dots,n\},\ |S|\ge 2 \label{eq::subset_cycles}. 
-% \end{alignat} 
-
-% NOT POSSIBLE since $x_{ij}$ MUST be fractional and not integer. 
-
-\subsection{Rounding} \label{subsubsec:rounding}
-
-LP fractional solutions are derived from the LP when the root $H$ exists and does not exist. An attempt for rounding 
-is achieved such that the classification in Figure~\ref{fig:rounding_max_objective_function_diagram} is obtained.   
+Rounding fractional solutions such that an integer solution or the problem is deemed infeasible gives the classification in Figure~\ref{fig::rounding_max_objective_function_diagram} is obtained.   
 
 
 \subsection{Dual Problem} \label{subsec::dual_prob} 
@@ -753,13 +790,13 @@ g_{ij}\delta_{ij}
 
 This dual formulation 
 
-\section{Dismantlable Graphs}
+% \section{Dismantlable Graphs}
 
-We expand Proposition~\ref{prop::singular_triangular_decomposition_proposition} by considering all dominated vertices rather than 
-just pendant vertices. 
-\begin{theorem} \label{theorem::dismantlable_roots_theorem}
-  Singular triangular decomposition completely categorizes all dismantlable roots in the polynomial time linear program. 
-\end{theorem}
+% We expand Proposition~\ref{prop::singular_triangular_decomposition_proposition} by considering all dominated vertices rather than 
+% just pendant vertices. 
+% \begin{theorem} \label{theorem::dismantlable_roots_theorem}
+%   Singular triangular decomposition completely categorizes all dismantlable roots in the polynomial time linear program. 
+% \end{theorem}
 
 
 \newpage 
@@ -861,7 +898,7 @@ just pendant vertices.
 
 \caption{LP outcomes for different values of $n$ on base linear program.} 
 \footnotemark 
-\label{fig:linear_program_diagram} 
+\label{fig::linear_program_diagram} 
 \end{figure}
 
 \footnotetext{
@@ -961,12 +998,93 @@ The total number of graphs which are squares is the sequence $2, 3, 6, 11, 28, 7
 
 \caption{LP outcomes for different values of $n$ on the linear program with max objective function.}
 \footnotemark
-\label{fig:max_objective_function_diagram}
+\label{fig::max_objective_function_diagram}
 \end{figure}
 
 \footnotetext{The LP integer 
 solution sequence $3, 6, 11, 22, 42, 102, \dots$ is very similar to the 
 number of distinct characteristic polynomials of tress with $n$ nodes - \href{https://oeis.org/A226594}{A226594}.}
+
+\newpage
+
+\subsubsection{Min Objective Function}
+
+\begin{figure}[!htbp]
+\centering
+\begin{tikzpicture}[level distance=1cm,
+  level 1/.style={sibling distance=9cm},
+  level 2/.style={sibling distance=5cm}]
+  \node {n=3}
+    child { node {$H$ exists}
+      child { node {$\underset{\raisebox{-0.8em}{2}}{\text{LP integer solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{1}}{\text{LP fractional solution}}$} }
+    }
+    child { node {$H$ does not exist}
+      child { node {$\underset{\raisebox{-0.8em}{1}}{\text{LP infeasible}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{0}}{\text{LP fractional solution}}$} }
+    };
+\end{tikzpicture}
+
+\begin{tikzpicture}[level distance=1cm,
+  level 1/.style={sibling distance=9cm},
+  level 2/.style={sibling distance=5cm}]
+  \node {n=4}
+    child { node {$H$ exists}
+      child { node {$\underset{\raisebox{-0.8em}{3}}{\text{LP integer solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{3}}{\text{LP fractional solution}}$} }
+    }
+    child { node {$H$ does not exist}
+      child { node {$\underset{\raisebox{-0.8em}{5}}{\text{LP infeasible}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{0}}{\text{LP fractional solution}}$} }
+    };
+\end{tikzpicture}
+
+\begin{tikzpicture}[level distance=1cm,
+  level 1/.style={sibling distance=9cm},
+  level 2/.style={sibling distance=5cm}]
+  \node {n=5}
+    child { node {$H$ exists}
+      child { node {$\underset{\raisebox{-0.8em}{3}}{\text{LP integer solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{8}}{\text{LP fractional solution}}$} }
+    }
+    child { node {$H$ does not exist}
+      child { node {$\underset{\raisebox{-0.8em}{20}}{\text{LP infeasible}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{3}}{\text{LP fractional solution}}$} }
+    };
+\end{tikzpicture}
+
+\begin{tikzpicture}[level distance=1cm,
+  level 1/.style={sibling distance=9cm},
+  level 2/.style={sibling distance=5cm}]
+  \node {n=6}
+    child { node {$H$ exists}
+      child { node {$\underset{\raisebox{-0.8em}{4}}{\text{LP integer solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{24}}{\text{LP fractional solution}}$} }
+    }
+    child { node {$H$ does not exist}
+      child { node {$\underset{\raisebox{-0.8em}{107}}{\text{LP infeasible}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{21}}{\text{LP fractional solution}}$} }
+    };
+\end{tikzpicture}
+
+\begin{tikzpicture}[level distance=1cm,
+  level 1/.style={sibling distance=9cm},
+  level 2/.style={sibling distance=5cm}]
+  \node {n=7}
+    child { node {$H$ exists}
+      child { node {$\underset{\raisebox{-0.8em}{5}}{\text{LP integer solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{72}}{\text{LP fractional solution}}$} }
+    }
+    child { node {$H$ does not exist}
+      child { node {$\underset{\raisebox{-0.8em}{767}}{\text{LP infeasible}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{200}}{\text{LP fractional solution}}$} }
+    };
+\end{tikzpicture}
+
+\caption{LP outcomes for different values of $n$ on the linear program with min objective function.}
+\footnotemark
+\label{fig::min_objective_function_diagram}
+\end{figure}
 
 \newpage
 
@@ -1046,7 +1164,7 @@ number of distinct characteristic polynomials of tress with $n$ nodes - \href{ht
 
 \caption{LP outcomes for different values of $n$ on the linear program with max objective function 
 and singular triangular decomposition.}
-\label{fig:singular_triangular_decomposition_diagram}
+\label{fig::singular_triangular_decomposition_diagram}
 \end{figure}
 
 \newpage
@@ -1126,7 +1244,7 @@ and singular triangular decomposition.}
 
 \caption{LP outcomes for different values of $n$ on the linear program with max objective function 
 and singular triangular decomposition with recursion for tie-breaking.}
-\label{fig:recursive_singular_triangular_decomposition_diagram}
+\label{fig::recursive_singular_triangular_decomposition_diagram}
 \end{figure}
 
 \newpage
@@ -1222,7 +1340,7 @@ and singular triangular decomposition with recursion for tie-breaking.}
 
 \caption{LP outcomes for different values of $n$ on the linear program with max objective function 
 and using rounding for fractional solutions.}
-\label{fig:rounding_max_objective_function_diagram}
+\label{fig::rounding_max_objective_function_diagram}
 \end{figure}
 
 \newpage
@@ -1316,7 +1434,7 @@ and using rounding for fractional solutions.}
 
 \caption{LP outcomes for different values of $n$ on the linear program with max objective function, singular 
 triangular decomposition and using rounding for fractional solutions.}
-\label{fig:rounding_triangular_max_objective_function_diagram}
+\label{fig::rounding_triangular_max_objective_function_diagram}
 \end{figure}
 
 \newpage
@@ -1359,7 +1477,7 @@ triangular decomposition and using rounding for fractional solutions.}
 \end{tikzpicture}
 
 \caption{LP outcomes for different values of $n$ on the dual linear program.}
-\label{fig:duak_objective_function_diagram}
+\label{fig::duak_objective_function_diagram}
 \end{figure}
 
 \newpage
