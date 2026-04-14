@@ -456,18 +456,38 @@ to conclude that existing tree square roots are unique up to isomorphism \cite{r
 If a square graph $G$ has a triangle root $H$, then the single triangular decomposition linear program returns an integral solution. 
 \end{proposition}
 \begin{proof}
-Assume for contradiction that there exists a square graph $G = (V, E_G)$ with a triangle root $H = (V, E_H)$ such that $G = H^2$, 
-but the linear program returns a fractional solution $x^*$. As an optimal solution, $x^*$ lies on the boundary of the convex polytope 
-defined by the constraints Equations~\eqref{eq::IP_fund_matrix}-\eqref{eq::IP_diagonal_x} and the single triangular decomposition 
-constraints Equations~\eqref{eq::single_triangle_spanning_tree}-\eqref{eq::single_trianglesubset_cycles}. As $x^*$ is fractional, 
-there exists at least one pair $(i,j)$ such that $0 < x^H_{ij} < 1$, whilst all pairs satisfying $0 \leq x^H_{ij} \leq 1$. 
+% Assume for contradiction that there exists a square graph $G = (V, E_G)$ with a triangle root $H = (V, E_H)$ such that $G = H^2$, 
+% but the linear program returns a fractional solution $x^*$. As an optimal solution, $x^*$ lies on the boundary of the convex polytope 
+% defined by the constraints Equations~\eqref{eq::IP_fund_matrix}-\eqref{eq::IP_diagonal_x} and the single triangular decomposition 
+% constraints Equations~\eqref{eq::single_triangle_spanning_tree}-\eqref{eq::single_trianglesubset_cycles}. As $x^*$ is fractional, 
+% there exists at least one pair $(i,j)$ such that $0 < x^H_{ij} < 1$, whilst all pairs satisfying $0 \leq x^H_{ij} \leq 1$. 
 
-If $G$ has a vertex $v$ that is only in one triangle, then $v$ must be a pendant in $H$. As the linear program applies  
+Assume for contradiction that there exists a square graph $G$ with a triangle root $H$ such that the linear 
+program has an optimal solution $x^*$ that is fractional. Then there exists at least one edge $(i,j)$ such 
+that $0 < x^*_{ij} < 1 $.
 
-If all vertices $G$ are in more than one triangle, then there are no pendant vertices in $H$ and hence all vertices in the root 
-are either leaves or internal vertex. However, if the root has two leaves coming off of the same internal vertex, then an additional 
-edge between the two leaves can be added such that the square is the same. Indeed, this new root is not only feasible but also has 
-greater weight and hence would have been chosen by the linear program to be the optimal solution. 
+If $G$ has a vertex $v$ that is only in one triangle, then $v$ must be a pendant in $H$. As the 
+linear program applies  (...) any pendant edge will be integral. Hence, any fractional edge must be incident only to
+ vertices of degree at least two in the support of $x^*$.
+
+Consider such a fractional edge $(i,j)$. Since both endpoints are not pendants, each is incident to at least 
+one other edge with positive weight. Iterating this argument yields a maximal connected fractional root  
+consisting entirely of edges with endpoints that are not pendants. 
+
+If all vertices $G$ are in more than one triangle, then there are no pendant vertices in $H$ and hence all 
+vertices in the root are either leaves or internal vertex. However, if the root has two leaves coming off 
+of the same internal vertex, then an additional edge between the two leaves can be added such that the 
+square is the same. Indeed, this new root is not only feasible but also has greater weight and hence would 
+have been chosen by the linear program to be the optimal solution. 
+
+This implies that no internal vertex may support two leaves and hence that the root cannot branch. 
+Therefore, the fractional root must be a simple path.
+
+% Let $P$ be such a path. Consider an endpoint of $P$. By maximality, extending beyond this endpoint would 
+% introduce a pendant edge, which must be integral. This contradicts the assumption that at least one edge 
+% in $P$ are fractional. 
+
+% Hence, no fractional edge exists, and $x^*$ must be integral.
 \end{proof}
 
 
