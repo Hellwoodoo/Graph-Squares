@@ -375,7 +375,7 @@ are replaced with
 &&\qquad \forall i,j \in \{1, \dots, n\} \label{eq::LP_z_variable}. 
 \end{alignat} 
 
-The results from the linear programming can give \emph{integer solutions} and \emph{fractional solutions} when the root exists 
+The results from the linear programming can give \emph{integral solutions} and \emph{fractional solutions} when the root exists 
 and \emph{fractional solutions} and \emph{infeasible solutions} when the root does not exist such that the results in 
 Figure~\ref{fig::linear_program_diagram} can be generated. 
 
@@ -411,53 +411,69 @@ tends to avoid direct integral edges and satisfies the constraint in Equation~\e
 paths of length $2$, distributing weight so that the summation is $\geq 1$.However, such solutions do not correspond to valid integral 
 structures. In contrast, a maximizing objective function encourages variables to take values closer to $1$, promoting direct edges and 
 avoiding the dispersion of weight across many fractional paths of length $2$. This yields more integral solutions and fewer fractional 
-roots - see Figure~\ref*{fig::min_objective_function_diagram}. 
+roots - see Figure~\ref{fig::min_objective_function_diagram}. 
 
-\subsection{Singular Triangular Decomposition} \label{subsubsec::singular_triangular_decomposition}
+Furthermore, the addition of the maximizing objective function helps with identifying square root solutions beyond those that are 
+just unique up to isomorphism. Consider the complete graphs of which the triangle $K_3$ is the smallest nontrivial example. $K_3$
+has four roots, itself, and three path graphs of length $2$ that are isomorphic to each other. This ensures that the solution to 
+the linear program remain consistent (up to isomorphism) and give useful properties for . 
+
+\subsection{Single Triangular Decomposition} \label{subsubsec::single_triangular_decomposition}
 
 Using the local triangular structure of the graph, certain edge assignments in a square root can be fixed. 
 For a vertex $s \in V$, define
 \[
 T(s) = \bigl\{ \{u,v\} \subseteq V \setminus \{s\} \vert (s,u)\in E,\ (s,v)\in E,\ (u,v)\in E \bigr\}
 \]
-to be the set of triangles in $G$ that contain $s$. If $|T(s)| = 1$ where $T(s) = \{\{u,v\}\}$ then the vertex $s$ 
+to be the set of $3$-cliques in $G$ that contain $s$. If $|T(s)| = 1$ where $T(s) = \{\{u,v\}\}$ then the vertex $s$ 
 exists in a unique triangle of $G$. When the neighbours are structurally distinct with different degree 
 $\deg_G(u) \neq \deg_G(v)$, then the vertex with smaller degree must be the leaf-adjacent vertex in the square root.  
 We enforce the deterministic assignment
 \begin{equation}
 x_{s w} = 1, \; x_{w s} = 1 \text{ where } 
 w=\arg\min\{\deg_G(u), \deg_G(v)\}.
-\label{eq:singular_triangle_fix}
+\label{eq:single_triangle_fix}
 \end{equation}
 
 If $\deg_G(u) = \deg_G(v)$, no constraint is imposed. This addition gives the improved results in 
-Figure~\ref{fig::singular_triangular_decomposition_diagram} whilst maintaining polynomial runtime. 
+Figure~\ref{fig::single_triangular_decomposition_diagram} whilst maintaining polynomial runtime. 
 
 In the case of $\deg_G(u) = \deg_G(v)$, enforcement is done by arbitrarily choosing one of the edges of only one 
-such triangle. This is done recursively until all such singular triangles are resolved. This gives the 
+such triangle. This is done recursively until all such single triangles are resolved. This gives the 
 additional constraint 
-Consider the addition of the following constraints which enforce $n-1$ edges and no cycles for every subset of $V$. 
 \begin{alignat}{3}
 & \sum_{i = 1}^n \sum_{j = 1}^n x_{ij} = 2(n - 1), 
-&& \label{eq::spanning_tre} \\
+&& \label{eq::single_triangle_spanning_tree} \\
 & \sum_{i \in S} \sum_{j \in S} x_{ij} \le |S| - 1,
-&& \forall S \subseteq \{1,\dots,n\},\ |S|\ge 2 \label{eq::subset_cycles},
+&& \forall S \subseteq \{1,\dots,n\},\ |S|\ge 2 \label{eq::single_trianglesubset_cycles},
 \end{alignat} 
-and the improved results in Figure~\ref{fig::recursive_singular_triangular_decomposition_diagram}.  
+and the improved results in Figure~\ref{fig::recursive_single_triangular_decomposition_diagram}.  
 
 Ross and Harary in 1960 gave an algorithm for constructing a tree root by using characterizations of the square graph 
 to conclude that existing tree square roots are unique up to isomorphism \cite{ross_1960_square}. 
 
-\begin{proposition} \label{prop::singular_triangular_decomposition_proposition}
-  Singular triangular decomposition completely categorizes all triangle roots in polynomial time. 
+\begin{proposition} \label{prop::single_triangular_decomposition_proposition}
+If a square graph $G$ has a triangle root $H$, then the single triangular decomposition linear program returns an integral solution. 
 \end{proposition}
 \begin{proof}
-To the contrary assume that for square $G$ there exists a root $H$ such that $H^2 = G$  
+Assume for contradiction that there exists a square graph $G = (V, E_G)$ with a triangle root $H = (V, E_H)$ such that $G = H^2$, 
+but the linear program returns a fractional solution $x^*$. As an optimal solution, $x^*$ lies on the boundary of the convex polytope 
+defined by the constraints Equations~\eqref{eq::IP_fund_matrix}-\eqref{eq::IP_diagonal_x} and the single triangular decomposition 
+constraints Equations~\eqref{eq::single_triangle_spanning_tree}-\eqref{eq::single_trianglesubset_cycles}. As $x^*$ is fractional, 
+there exists at least one pair $(i,j)$ such that $0 < x^H_{ij} < 1$, whilst all pairs satisfying $0 \leq x^H_{ij} \leq 1$. 
+
+If $G$ has a vertex $v$ that is only in one triangle, then $v$ must be a pendant in $H$. As the linear program applies  
+
+If all vertices $G$ are in more than one triangle, then there are no pendant vertices in $H$ and hence all vertices in the root 
+are either leaves or internal vertex. However, if the root has two leaves coming off of the same internal vertex, then an additional 
+edge between the two leaves can be added such that the square is the same. Indeed, this new root is not only feasible but also has 
+greater weight and hence would have been chosen by the linear program to be the optimal solution. 
 \end{proof}
+
 
 \subsection{Vertex Deletion} \label{subsec::vertex_deletion}
 
-As singular triangular decomposition gives perfect characterizations of the root using the linear program 
+As single triangular decomposition gives perfect characterizations of the root using the linear program 
 for up to $n=5$, a further refinement is obtained by analyzing fractional solutions through vertex deletion.
 
 If the solution of the original linear program is fractional, starting from the vertex $v \in V$ with the smallest 
@@ -485,13 +501,15 @@ and hence remains polynomial in $n$.
   Vertex deletion completely categorizes all proper interval roots in polynomial time. 
 \end{proposition}
 \begin{proof}
-  
+  % If removing a vertex from the square means that if the subgraph of size $n-1$ does not have a root then vertex had two edges and no loop between problematic 
+  % $i,j$
 \end{proof}
 
 
 \subsection{Rounding} \label{subsec::rounding}
 
-Rounding fractional solutions such that an integer solution or the problem is deemed infeasible gives the classification in Figure~\ref{fig::rounding_max_objective_function_diagram} is obtained.   
+Rounding fractional solutions such that an integral solution or the problem is deemed infeasible gives the classification in 
+Figure~\ref{fig::rounding_max_objective_function_diagram} is obtained.   
 
 
 \subsection{Dual Problem} \label{subsec::dual_prob} 
@@ -792,10 +810,10 @@ This dual formulation
 
 % \section{Dismantlable Graphs}
 
-% We expand Proposition~\ref{prop::singular_triangular_decomposition_proposition} by considering all dominated vertices rather than 
+% We expand Proposition~\ref{prop::single_triangular_decomposition_proposition} by considering all dominated vertices rather than 
 % just pendant vertices. 
 % \begin{theorem} \label{theorem::dismantlable_roots_theorem}
-%   Singular triangular decomposition completely categorizes all dismantlable roots in the polynomial time linear program. 
+%   Single triangular decomposition completely categorizes all dismantlable roots in the polynomial time linear program. 
 % \end{theorem}
 
 
@@ -1088,7 +1106,7 @@ number of distinct characteristic polynomials of tress with $n$ nodes - \href{ht
 
 \newpage
 
-\subsubsection{Singular Triangular Decomposition}
+\subsubsection{Single Triangular Decomposition}
 \begin{figure}[!htbp]
 \centering
 
@@ -1163,8 +1181,8 @@ number of distinct characteristic polynomials of tress with $n$ nodes - \href{ht
 \end{tikzpicture}
 
 \caption{LP outcomes for different values of $n$ on the linear program with max objective function 
-and singular triangular decomposition.}
-\label{fig::singular_triangular_decomposition_diagram}
+and single triangular decomposition.}
+\label{fig::single_triangular_decomposition_diagram}
 \end{figure}
 
 \newpage
@@ -1243,8 +1261,8 @@ and singular triangular decomposition.}
 \end{tikzpicture}
 
 \caption{LP outcomes for different values of $n$ on the linear program with max objective function 
-and singular triangular decomposition with recursion for tie-breaking.}
-\label{fig::recursive_singular_triangular_decomposition_diagram}
+and single triangular decomposition with recursion for tie-breaking.}
+\label{fig::recursive_single_triangular_decomposition_diagram}
 \end{figure}
 
 \newpage
@@ -1432,7 +1450,7 @@ and using rounding for fractional solutions.}
     };
 \end{tikzpicture}
 
-\caption{LP outcomes for different values of $n$ on the linear program with max objective function, singular 
+\caption{LP outcomes for different values of $n$ on the linear program with max objective function, single 
 triangular decomposition and using rounding for fractional solutions.}
 \label{fig::rounding_triangular_max_objective_function_diagram}
 \end{figure}
