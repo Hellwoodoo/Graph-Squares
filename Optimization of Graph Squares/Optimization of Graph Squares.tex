@@ -425,10 +425,10 @@ For a vertex $s \in V$, define
 \[
 T(s) = \bigl\{ \{u,v\} \subseteq V \setminus \{s\} \vert (s,u)\in E,\ (s,v)\in E,\ (u,v)\in E \bigr\}
 \]
-to be the set of $3$-cliques in $G$ that contain $s$. If $|T(s)| = 1$ where $T(s) = \{\{u,v\}\}$ then the vertex $s$ 
+to be the set of $3$-cliques or triangles in $G$ that contain $s$. If $|T(s)| = 1$ where $T(s) = \{\{u,v\}\}$ then the vertex $s$ 
 exists in a unique triangle of $G$. When the neighbours are structurally distinct with different degree 
 $\deg_G(u) \neq \deg_G(v)$, then the vertex with smaller degree must be the leaf-adjacent vertex in the square root.  
-We enforce the deterministic assignment
+This is assigned deterministically using 
 \begin{equation}
 x_{s w} = 1, \; x_{w s} = 1 \text{ where } 
 w=\arg\min\{\deg_G(u), \deg_G(v)\}.
@@ -437,17 +437,6 @@ w=\arg\min\{\deg_G(u), \deg_G(v)\}.
 
 If $\deg_G(u) = \deg_G(v)$, no constraint is imposed. This addition gives the improved results in 
 Figure~\ref{fig::single_triangular_decomposition_diagram} whilst maintaining polynomial runtime. 
-
-In the case of $\deg_G(u) = \deg_G(v)$, enforcement is done by arbitrarily choosing one of the edges of only one 
-such triangle. This is done recursively until all such single triangles are resolved. This gives the 
-additional constraint 
-\begin{alignat}{3}
-& \sum_{i = 1}^n \sum_{j = 1}^n x_{ij} = 2(n - 1), 
-&& \label{eq::single_triangle_spanning_tree} \\
-& \sum_{i \in S} \sum_{j \in S} x_{ij} \le |S| - 1,
-&& \forall S \subseteq \{1,\dots,n\},\ |S|\ge 2 \label{eq::single_trianglesubset_cycles},
-\end{alignat} 
-and the improved results in Figure~\ref{fig::recursive_single_triangular_decomposition_diagram}.  
 
 Ross and Harary in 1960 gave an algorithm for constructing a tree root by using characterizations of the square graph 
 to conclude that existing tree square roots are unique up to isomorphism \cite{ross_1960_square}. 
@@ -463,14 +452,14 @@ If a square graph $G$ has a triangle root $H$, then the single triangular decomp
 % there exists at least one pair $(i,j)$ such that $0 < x^H_{ij} < 1$, whilst all pairs satisfying $0 \leq x^H_{ij} \leq 1$. 
 
 Assume for contradiction that there exists a square graph $G$ with a triangle root $H$ such that the linear 
-program has an optimal solution $x^*$ that is fractional. Then there exists at least one edge $(i,j)$ such 
+program has an optimal solution $x^*$ that is fractional. Then there exists at least one edge $ij \in E_G$ such 
 that $0 < x^*_{ij} < 1 $.
 
 If $G$ has a vertex $v$ that is only in one triangle, then $v$ must be a pendant in $H$. As the 
 linear program applies  (...) any pendant edge will be integral. Hence, any fractional edge must be incident only to
  vertices of degree at least two in the support of $x^*$.
 
-Consider such a fractional edge $(i,j)$. Since both endpoints are not pendants, each is incident to at least 
+Consider such a fractional edge $ij$ with endpoints $i,j$. Since both endpoints are not pendants, each is incident to at least 
 one other edge with positive weight. Iterating this argument yields a maximal connected fractional root  
 consisting entirely of edges with endpoints that are not pendants. 
 
@@ -489,6 +478,10 @@ Therefore, the fractional root must be a simple path.
 
 % Hence, no fractional edge exists, and $x^*$ must be integral.
 \end{proof}
+
+In the case of $\deg_G(u) = \deg_G(v)$, enforcement is done by arbitrarily choosing one of the edges of only one 
+such triangle and gives the improved results in Figure~\ref{fig::recursive_single_triangular_decomposition_diagram}.  
+
 
 
 \subsection{Vertex Deletion} \label{subsec::vertex_deletion}
