@@ -8,16 +8,24 @@
 %	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
 %----------------------------------------------------------------------------------------
 
-\documentclass[landscape,a0paper,fontscale=0.28]{baposter} % Adjust the font scale/size here
+\documentclass[landscape,a0paper,fontscale=0.36]{baposter} % Adjust the font scale/size here
 
 \usepackage{graphicx} % Required for including images
-\graphicspath{{figures/}} % Directory in which figures are stored
 
 \usepackage{hyperref}
 \hypersetup{colorlinks, citecolor=blue, filecolor=blue, linkcolor=blue, urlcolor=blue}
 
-\usepackage{amsmath} % For typesetting math
-\usepackage{amssymb} % Adds new symbols to be used in math mode
+\usepackage{amsmath, amssymb, amsthm, bbm}
+\usepackage[backend=biber,
+    maxnames=10,
+    minnames=1,
+style=alphabetic]{biblatex}
+\addbibresource{references.bib}
+
+\newtheorem{proposition}{Proposition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
 
 \usepackage{booktabs} % Top and bottom rules for tables
 \usepackage{enumitem} % Used to reduce itemize/enumerate spacing
@@ -72,190 +80,215 @@ linewidth=2pt % Width of the border lines around content boxes
 %----------------------------------------------------------------------------------------
 %
 {\includegraphics[height=6em]{UoM_logo.png}} % First university/lab logo on the left
-{\bf\textsc{POSTER TITLE}\vspace{0.5em}} % Poster title
+{\bf\textsc{Algorithms for solving the graph-square problem}\vspace{0.5em}} % Poster title
 {\textsc{Student: Eddie Xu \hspace{1cm}Supervisor: Chris Duffy}} % Author
 {\includegraphics[height=6em]{UoM_logo.png}} % Second university/lab logo on the right
 
-%----------------------------------------------------------------------------------------
-%	INTRODUCTION
-%----------------------------------------------------------------------------------------
-
-\headerbox{Introduction}{name=Subtitle1,column=0,row=0}{
-%\vspace{0.5em}
-%The {\em Poster Session} gives you a forum to present a summary of your research project.
-
-\vspace{0.5em}
-The {\em audience} will be
-your fellow graduate students and other members of the School Community.
-
-\vspace{0.5em}
-Preparing your poster will help you {\em think more clearly} about your research.
-
-%\vspace{0.5em}
-%Your poster does not need to be a masterpiece, but it does require
-%some thought: most likely about what to {\em leave out.}
-
-\vspace{0.6em}
-
-%\vspace{0.3em} % When there are two boxes, some whitespace may need to be added if the one on the right has more content
+\headerbox{Introduction}{name=Introduction,column=0,row=0}{
+    \small{
+The problem of finding the square root of a graph is a well-studied field in both mathematics and computer-science 
+\cite{motwani_sudan_1994_roots} and \cite{farzad_karimi_2012_root}, 
+with specific relation to distributed computing, network design and computational biology. Research in this area has
+primarily focused around the undirected graph $H$ and its square $G=H^2$ which is obtained by adding an edge between 
+every pair of vertices whose distance in $H$ is at most two. 
+}
 }
 
-%----------------------------------------------------------------------------------------
-%	AIM OF YOUR POSTER
-%----------------------------------------------------------------------------------------
-
-\headerbox{Aim of your poster}{name=Subtitle2,column=1,row=0,bottomaligned=Subtitle1}{
-
-Your poster is a {\em catalyst} to start a {\em conversation.}
-It visually presents:
-%
-\begin{itemize}\compresslist
-\item important concept(s), 
-\item motivating problem(s) 
-\item your progress to date
-\item your plans for the future
-\end{itemize}
-
-%\vspace{0.5em}
-%It should also describe your {\em plans for the future} and
-%citations of the most {\em relevant references} from your bibliography.
+\headerbox{Aim}{name=Aim,column=1,row=0,bottomaligned=Introduction}{
+    \small{
+Much of the existing research on graph square roots has centered on characterizing when a graph admits such 
+a root and on the complexity of reconstructing $H$ from $G$. In contrast, rather than studying the construction problem 
+directly, we analyze the relationship between the adjacency matrix $A_H$ of the root and the adjacency matrix $A_G$ of 
+the square, and show that the problem can be completely categorized as an integer program. 
+}
 }
 
-%----------------------------------------------------------------------------------------
-%	SUMMARISE YOUR PROJECT AND PROGRESS
-%----------------------------------------------------------------------------------------
-
-\headerbox{Summarise your project and progress}{name=Subtitle3,column=2,span=2,row=0}{
+\headerbox{Background}{name=Background,column=0,span = 2, below=Introduction}{ 
+    \small{
+We examine the relaxed linear program which can be evaluated in polynomial time using interior point method, and 
+integrate existing literature on special root structures as a stepping-stone towards generating a true polynomial time 
+algorithm. 
 
 \vspace{0.5em}
-Your poster should introduce some of the important concepts and results 
-in the area where your research project is situated.
-%\vspace{1em}
-Do this in the {\em introduction.}% of your poster.
 
-\vspace{1em}
-It is also important that you summarise the progress you have made so far, 
-even if it might seem modest.
-Do this in a {\em results section.}
+Let the \emph{graph root} $H = (V, E_H)$ be a finite, simple, undirected graph, where $V$ is the vertex set with $|V| = n$, 
+and $E_H \subseteq \{\{u,v\} \mid u,v \in V,\; u \neq v\}$ is the edge set. Denote by $d_H(u,v)$ the 
+\emph{graph distance} defined as the number of edges of the shortest path 
+between vertices $u$ and $v$ in $H$. If no such path exists, $d_H(u,v) = \infty$.
 
-\vspace{1.6em}
-
-
-%Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here.  Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here.  Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. 
-}
-
-
-
-%----------------------------------------------------------------------------------------
-%	SOME INSTRUCTIONS FOR PREPARING YOUR POSTER
-%----------------------------------------------------------------------------------------
-
-\headerbox{Some Instructions}{name=Subtitle4,column=0,span = 2, below=Subtitle1}{ 
 \vspace{0.5em}
-\begin{enumerate}\compresslist
-    \item Structure your poster into sections, including an introduction
-    \vspace{0.25em}
-    %\item Give some context and chose two or three key references
-    \vspace{0.25em}
-    \item Include figures and graphics; make sure they have captions 
-    \vspace{0.25em}
-    \item Highlight your main findings
-    \vspace{0.25em}
-    \item Technical abbreviations can be used but should be written out once.
-    \vspace{0.25em}
-    \item Try using bullets points rather than long text: {\em less can be more.}
-    \vspace{0.25em}
-    \item This template serves as an example: {\em You can modify it as you like.}
-     \vspace{0.25em}
-    \item Distill important information in figures or tables with \LaTeX; e.g.
-\begin{center}
-\begin{tabular}{l c c}
-\toprule
-\textbf{Group} & \textbf{Response 1} & \textbf{Response 2}\\
-\midrule
-Group 1 & 1.1 & 0.56 \\
-Group 2 & 3 & 0.9 \\
-Group 3 & 2 & 0.2 \\
-\bottomrule
-\end{tabular}
-\captionof{table}{Table caption}
-\end{center}
-%\item Use a constant font throughout the poster.    
-\end{enumerate}
 
-%\begin{center}
-%\includegraphics[width=0.55\linewidth]{placeholder.jpg}
-%\captionof{figure}{Figure caption}
-%\end{center}
+The \emph{square} of the graph $H$, denoted by $H^2 = (V, E_{H^2})$ is the graph on the same vertex set with edge set
+\begin{equation} \label{eq::fund_def_square}
+E_{H^2} = \{\, uv \mid u \neq v,\; 1 \leq d_H(u,v) \leq 2 \,\}.
+\end{equation}
+That is, two distinct vertices are adjacent in $H^2$ if and only if they are connected by a path of length one or two in $H$. 
+This is the standard definition of the square of a graph.
+
+\vspace{0.5em}
+
+Using an alternative construction, let the \emph{graph square} $G = (V, E_G)$ be an undirected graph defined on 
+the same vertex set $V$. Let $A_H \in \{0,1\}^{n \times n}$ denote the adjacency matrix of $H$, 
+and let $D_H \in \mathbb{R}^{n \times n}$ denote the degree matrix of $H$. 
+Let $\mathbbm{1}_{\geq 1} : \mathbb{R}^{n \times n} \to \{0,1\}^{n \times n}$ denote the 
+entrywise \emph{indicator function}, defined by
+\[
+\mathbbm{1}_{\geq 1}(M)_{ij} =
+\begin{cases}
+1 ,& \text{if } M_{ij} \geq 1 \\
+0 ,& \text{otherwise}
+\end{cases}
+\]
+Define the adjacency matrix of $G$ using the adjacency and degree matrices of $H$
+\begin{equation} \label{eq::fund_adj_eq_undirected}
+A_G = \mathbbm{1}_{\geq 1}\!\big((A_H)^2 - D_H + A_H\big).
+\end{equation}
+The graph $G$ defined by \eqref{eq::fund_adj_eq_undirected} is equivalent to the graph square $H^2$
+ defined in \eqref{eq::fund_def_square} 
+\begin{equation} \label{eq::fund_def_square_expanded}
+ ij \in E_{H^2} \iff 1 \leq d_H(i,j) \leq 2. 
+\end{equation}
+}
 }
 
-%----------------------------------------------------------------------------------------
+\headerbox{Linear Programming}{name=LP,column=2,span=2,row=0}{
+    \small{
+The formulation of the adjacency matrix of the graph square in Equation~\eqref{eq::fund_adj_eq_undirected} is very powerful 
+and gives the integer program 
+\begin{alignat}{3}
+\text{Variables: } & \nonumber \\ 
+& x_{ij} \in \mathbb{Z}_{\geq 0}, 
+&& \forall i,j \in \{1, \dots, n\}, \label{eq::IP_x_variable} \\ 
+& y_{ikj} \in \mathbb{Z}_{\geq 0}, 
+&& \forall i,k,j \in \{1, \dots, n\}, \label{eq::IP_y_variable} \\
+& z_{ij} \in \mathbb{Z}_{\geq 0}, 
+&& \forall i,j \in \{1, \dots, n\}. \label{eq::IP_z_variable} \\
+\text{Constraints: } & \nonumber \\
+\text{(1) Indicator argument: } 
+& z_{ii} = \sum_{k = 1}^{n}y_{iki} - \sum_{k = 1}^{n} x_{ik}, 
+&& \forall i \in \{1, \dots, n\} , \label{eq::IP_fund_matrix} \\
+& z_{ij} = \sum_{k = 1}^{n}y_{ikj} + x_{ij}, 
+&& \forall i \neq j \in \{1, \dots, n\} , \label{eq::IP_indicator_arg} \\
+\text{(2) Indicator function: } 
+& z_{ij} \leq M g_{ij}, 
+&& \forall i, j \in \{1, \dots, n\}, \label{eq::IP_indicator_upper} \\
+& z_{ij} \geq g_{ij}, 
+&& \forall i, j \in \{1, \dots, n\}, \label{eq::IP_indicator_lower}\\
+\text{(3) Product: } 
+& y_{ikj} \leq x_{ik}, 
+&& \forall i, k, j \in \{1, \dots, n\}, \label{eq::IP_product_upper_first} \\
+& y_{ikj} \leq x_{kj}, 
+&& \forall i, k, j \in \{1, \dots, n\}, \label{eq::IP_product_upper_second} \\
+& y_{ikj} \geq x_{ik} + x_{kj} - 1, 
+&& \forall i, k, j \in \{1, \dots, n\}, \label{eq::IP_product_lower} \\
+\text{(4) Upper Bound: } 
+& x_{ij} \leq 1, 
+&& \forall i, j \in \{1, \dots, n\}, \label{eq::IP_x_upper_bound} \\
+& y_{ikj} \leq 1, 
+&& \forall i, k, j \in \{1, \dots, n\}, \label{eq::IP_y_upper_bound} \\
+\text{(5) Symmetry: } 
+& x_{ij} = x_{ji}, 
+&&\qquad \forall i,j \in \{1, \dots, n\}, \label{eq::IP_symmetry_x} \\
+\text{(6) Diagonal: } 
+& x_{ii} = 0, 
+&&\qquad \forall i \in \{1, \dots, n\}.  \label{eq::IP_diagonal_x}
+\end{alignat} \label{eq::integer_program}
+The linear relaxation of the integer program defined by Equations~\eqref{eq::IP_x_variable}--\eqref{eq::IP_diagonal_x} is 
+constructed in order to generate a feasible weighted solution in polynomial time algorithm. It is done with identical constraints,
+however the decision variables \eqref{eq::IP_x_variable}, \eqref{eq::IP_y_variable} and \eqref{eq::IP_z_variable}
+are replaced with
+\begin{alignat}{3}
+& x_{ij} \in  \mathbb{R}_{\geq 0}, 
+&&\qquad \forall i,j \in \{1, \dots, n\}, \label{eq::LP_x_variable} \\
+& y_{ikj} \in \mathbb{R}_{\geq 0}, 
+&&\qquad \forall i,k,j \in \{1, \dots, n\}, \label{eq::LP_y_variable} \\
+& z_{ij} \in \mathbb{R}_{\geq 0}, 
+&&\qquad \forall i,j \in \{1, \dots, n\} \label{eq::LP_z_variable}. 
+\end{alignat} 
+}
+}
+\headerbox{Single Triangular Decomposition}{name=Subtitle5,column=0,span = 2, above=bottom}{ 
+    \small{
+Using the local triangular structure of the graph, certain edge assignments in a square root can be fixed. 
+For a vertex $s \in V$, define
+\[
+T(s) = \bigl\{ \{u,v\} \subseteq V \setminus \{s\} \vert (s,u)\in E,\ (s,v)\in E,\ (u,v)\in E \bigr\}
+\]
+to be the set of $3$-cliques or triangles in $G$ that contain $s$. If $|T(s)| = 1$ where $T(s) = \{\{u,v\}\}$ then the vertex $s$ 
+exists in a unique triangle of $G$. When the neighbours are structurally distinct with different degree 
+$\deg_G(u) \neq \deg_G(v)$, then the vertex with smaller degree must be the leaf-adjacent vertex in the square root.  
+This is assigned deterministically using 
+\begin{equation} 
+x_{s w} = 1, \; x_{w s} = 1 \text{ where } 
+w=\arg\min\{\deg_G(u), \deg_G(v)\}.
+\label{eq:single_triangle_fix}
+\end{equation}
+Ross and Harary in 1960 gave an algorithm for constructing a tree root by using characterizations of the square graph 
+to conclude that existing tree square roots are unique up to isomorphism \cite{ross_1960_square}. 
 
+\begin{proposition} \label{prop::single_triangular_decomposition_proposition}
+If a square graph $G$ has a triangle root $H$, then the single triangular decomposition linear program returns an integral solution. 
+\end{proposition}
+\begin{proof}
+
+Assume for contradiction that there exists a square graph $G$ with a triangle root $H$ such that the linear 
+program has an optimal solution $x^*$ that is fractional. Then there exists at least one edge $ij \in E_G$ such 
+that $0 < x^*_{ij} < 1 $.
+
+If $G$ has a vertex $v$ that is only in one triangle, then $v$ must be a pendant in $H$. As the 
+linear program applies \eqref{eq:single_triangle_fix}, any pendant edge will be integral. 
+Hence, any fractional edge must be incident only to vertices of degree at least two in the support of $x^*$.
+
+Consider such a fractional edge $ij$ with endpoints $i,j$. Since both endpoints are not pendants, each is incident to at least 
+one other edge with positive weight. Iterating this argument yields a maximal connected fractional root  
+consisting entirely of edges with endpoints that are not pendants. 
+
+If all vertices $G$ are in more than one triangle, then there are no pendant vertices in $H$ and hence all 
+vertices in the root are either leaves or internal vertex. However, if the root has two leaves coming off 
+of the same internal vertex, then an additional edge between the two leaves can be added such that the 
+square is the same. Indeed, this new root is not only feasible but also has greater weight and hence would 
+have been chosen by the linear program to be the optimal solution. 
+
+This implies that no internal vertex may support two leaves and hence that the root cannot branch. 
+Therefore, the fractional root must be a simple path.
+\end{proof}
+}
+}
 
 
 %----------------------------------------------------------------------------------------
 %	DIPLAY INFORMATION VISUALLY
 %----------------------------------------------------------------------------------------
 
-\headerbox{Diplay information visually}
-{name=Subtitle5,column=2,span=2,row=0,below=Subtitle3}{
-\vspace{0.5em}
-\begin{center}
-\tikzstyle{decision} = [diamond, draw, fill=blue!20, text width=4.5em, text badly centered, node distance=2cm, inner sep=0pt]
-\tikzstyle{block} = [rectangle, draw, fill=blue!20, text width=5em, text centered, rounded corners, minimum height=4em]
-\tikzstyle{line} = [draw, -latex']
-\tikzstyle{cloud} = [draw, ellipse, fill=red!20, node distance=3cm, minimum height=2em]
-
-\begin{tikzpicture}[node distance = 2cm, auto]
-\node [block] (init) {Initialize Model};
-\node [cloud, left of=init] (Start) {Start};
-\node [cloud, right of=init] (Start2) {Start Two};
-\node [block, below of=init] (init2) {Step Two};
-\node [decision, below of=init2] (End) {End};
-\path [line] (init) -- (init2);
-\path [line] (init2) -- (End);
-\path [line, dashed] (Start) -- (init);
-\path [line, dashed] (Start2) -- (init);
-\path [line, dashed] (Start2) |- (init2);
-\end{tikzpicture}
-\end{center}
-\begin{enumerate}\compresslist
-    \item Diagrams can be easier to understand than text
-    \vspace{0.25em}
-    \item Organise diagrams to reflect the logic and structure of your research
-    %\item You can use \LaTeX  as a basis for diagrams
-\end{enumerate}
+\headerbox{Example}{name=Example,column=2,span=2,row=0,below=LP}{
+\centering
+\includegraphics[height=20.5em]{Example.png}
+Example of a fractional linear program solution, its root and the original square. 
 }
-%------------------------------------------------
 
 
-%----------------------------------------------------------------------------------------
-%	REFERENCES
-%----------------------------------------------------------------------------------------
-
-\headerbox{References}{name=references,column=0,span = 2, above=bottom}{
+\headerbox{References}{name=references,column=2,span = 2, above=bottom}{
 \renewcommand{\section}[2]{\vskip 0.05em} % Get rid of the default "References" section title
-\nocite{*} % Insert publications even if they are not cited in the poster
 \small{ % Reduce the font size in this block
-\bibliographystyle{unsrt}
-\bibliography{sample} % Use sample.bib as the bibliography file
-}}
+\printbibliography
+}
+}
 
 %----------------------------------------------------------------------------------------
 %	SKETCH YOUR FUTURE PLANS
 %----------------------------------------------------------------------------------------
 
-\headerbox{Future Plans}{name=futureresearch,column=2,span=2,aligned=references,above=bottom}{ % This block is as tall as the references block
+% \headerbox{Future Plans}{name=futureresearch,column=2,span=2,aligned=references,above=bottom}{ % This block is as tall as the references block
 
-Your your poster should have an outlook:
-even if it may be vague.  
-Research is not war but we can all learn from Eisenhower: \\
-{\em 
-%``In preparing for battle I ...
-``... I have always found that plans are useless, but planning is indispensable.''}
+% Your your poster should have an outlook:
+% even if it may be vague.  
+% Research is not war but we can all learn from Eisenhower: \\
+% {\em 
+% %``In preparing for battle I ...
+% ``... I have always found that plans are useless, but planning is indispensable.''}
 
-% Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here.
-}
+% % Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here. Add more text here.
+% }
 
 
 
