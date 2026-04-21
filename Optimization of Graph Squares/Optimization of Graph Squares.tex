@@ -442,7 +442,7 @@ Ross and Harary in 1960 gave an algorithm for constructing a tree root by using 
 to conclude that existing tree square roots are unique up to isomorphism \cite{ross_1960_square}. 
 
 \begin{proposition} \label{prop::single_triangular_decomposition_proposition}
-If a square graph $G$ has a triangle root $H$, then the single triangular decomposition linear program returns an integral solution. 
+If a square graph $G$ has a tree root $H$, then the single triangular decomposition linear program returns an integral solution. 
 \end{proposition}
 \begin{proof}
 % Assume for contradiction that there exists a square graph $G = (V, E_G)$ with a triangle root $H = (V, E_H)$ such that $G = H^2$, 
@@ -486,13 +486,37 @@ such triangle and gives the improved results in Figure~\ref{fig::recursive_singl
 
 \subsection{Vertex Deletion} \label{subsec::vertex_deletion}
 
+
 As single triangular decomposition gives perfect characterizations of the root using the linear program 
-for up to $n=5$, a further refinement is obtained by analyzing fractional solutions through vertex deletion.
+for up to $n=5$, a further refinement is obtained by analyzing fractional solutions through vertex deletion
+and by considering subgraphs. 
+
+Let $G^-$ be the subgraph of $G$ defined by $(V^- = V - \{v\}, E_{G^-} = E_G \backslash \{uv \mid u \in V^-\})$ 
+and let $H^-$ be the subgraph of the root graph $H$ satisfying the relationship $H^2 = G$ defined by $(V^-, 
+E_H \backslash \{uv \mid u \in V^-\})$. The idea is that IF THE SUBGRAPH HAS AN INTEGRAL SOLUTION, THAN THE 
+
+
+Consider all of the following cases for vertex $v$
+\begin{enumerate}[label=\roman*)]
+  \item $v$ is connected to the subgraph $H'$ by only one edge to $u \in H'$
+  \item $v$ is connected to the subgraph $G'$ by two edges to $u, w \in G'$ where 
+  $uw \in E_H$
+  \item $v$ is connected to the subgraph $G'$ by two edges to vertices $u, w \in G'$ where 
+  $uw \notin E_H$ and there is no path of length two between $u,w$ in $G'$. 
+  \item $v$ is connected to the subgraph $G'$ by two edges to vertices $u, w \in G'$ where 
+  $uw \notin E_H$ and there is a path of length two between $u,w$ in $G'$. 
+\end{enumerate}
+where the remaining possibilities have the above sub-cases. \begin{enumerate}[label=\roman*)]
+  \item Since $G'$ has a valid square root $H'$, then $H = H' + \{v\}$ where $E_H = E_H' \cup vu$. 
+  \item If $G'$ has a valid square root $H'$, then $H = H' + \{v\}$ where $E_H = E_H' \cup vu$ or
+  $E_H = E_H' \cup vw$ ($E_H = E_H' \cup vu, vw$ also satisfies but is not necessary) 
+  \item 
+\end{enumerate}
 
 If the solution of the original linear program is fractional, starting from the vertex $v \in V$ with the smallest 
-degree, the linear program is ran on the induced subgraph $G - v$. If the resulting solution is integral, then the 
+degree, the linear program is ran on the induced subgraph $G' = V - \{v\}$. If the resulting solution is integral, then the 
 fractional behaviour of $G$ is localized at $v$ and the algorithm attempts to lift the integral structure of 
-$G-v$ back to $G$ by enforcing that $v$ is attached to one of its neighbours. For each 
+$G'$ back to $G$ by enforcing that $v$ is attached to one of its neighbours. For each 
 $u \in N_G(v)$, the constraint
 \begin{equation}
 x_{vu} = 1, \quad x_{uv} = 1,
@@ -501,11 +525,9 @@ x_{vu} = 1, \quad x_{uv} = 1,
 is added. If the resulting solution is integral, then $v$ is identified as a leaf vertex adjacent 
 to $u$ in the square root, and the solution is accepted.
 
-If no such $u$ yields an integral solution, the process is repeated over all vertices. 
-This gives a recursive refinement which augments the feasible region by dynamically adding 
-constraints of the form Equation~\eqref{eq:recursive_attachment}, thereby eliminating fractional solutions 
-by enforcing consistency with an integral substructure. Importantly, the technique runs in polynomial time, as 
-it performs at most $n$ vertex-deletion checks and, for each such vertex $v$, at most $\deg_G(v) \leq n-1$ constrained 
+
+If no such $u$ yields an integral solution, the process is repeated over all vertices. This technique runs in polynomial 
+time, as it performs at most $n$ vertex-deletion checks and, for each such vertex $v$, at most $\deg_G(v) \leq n-1$ constrained 
 linear program solves. Since each linear program has $O(n^2)$ variables and constraints and can be solved in polynomial 
 time $T_{\mathrm{LP}}(n)$, the overall procedure requires at most $O(n^2 \cdot T_{\mathrm{LP}}(n))$ time, 
 and hence remains polynomial in $n$.
@@ -848,7 +870,7 @@ This dual formulation
   level 2/.style={sibling distance=5cm}]
   \node {n=3}
     child { node {$H$ exists}
-      child { node {$\underset{\raisebox{-0.8em}{3}}{\text{LP integer solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{3}}{\text{LP integral solution}}$} }
       child { node {$\underset{\raisebox{-0.8em}{0}}{\text{LP fractional solution}}$} }
     }
     child { node {$H$ does not exist}
@@ -862,7 +884,7 @@ This dual formulation
   level 2/.style={sibling distance=5cm}]
   \node {n=4}
     child { node {$H$ exists}
-      child { node {$\underset{\raisebox{-0.8em}{6}}{\text{LP integer solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{6}}{\text{LP integral solution}}$} }
       child { node {$\underset{\raisebox{-0.8em}{0}}{\text{LP fractional solution}}$} }
     }
     child { node {$H$ does not exist}
@@ -876,7 +898,7 @@ This dual formulation
   level 2/.style={sibling distance=5cm}]
   \node {n=5}
     child { node {$H$ exists}
-      child { node {$\underset{\raisebox{-0.8em}{10}}{\text{LP integer solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{10}}{\text{LP integral solution}}$} }
       child { node {$\underset{\raisebox{-0.8em}{1}}{\text{LP fractional solution}}$} }
     }
     child { node {$H$ does not exist}
@@ -890,7 +912,7 @@ This dual formulation
   level 2/.style={sibling distance=5cm}]
   \node {n=6}
     child { node {$H$ exists}
-      child { node {$\underset{\raisebox{-0.8em}{17}}{\text{LP integer solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{17}}{\text{LP integral solution}}$} }
       child { node {$\underset{\raisebox{-0.8em}{11}}{\text{LP fractional solution}}$} }
     }
     child { node {$H$ does not exist}
@@ -904,7 +926,7 @@ This dual formulation
   level 2/.style={sibling distance=5cm}]
   \node {n=7}
     child { node {$H$ exists}
-      child { node {$\underset{\raisebox{-0.8em}{29}}{\text{LP integer solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{29}}{\text{LP integral solution}}$} }
       child { node {$\underset{\raisebox{-0.8em}{48}}{\text{LP fractional solution}}$} }
     }
     child { node {$H$ does not exist}
@@ -918,7 +940,7 @@ This dual formulation
   level 2/.style={sibling distance=5cm}]
   \node {n=8}
     child { node {$H$ exists}
-      child { node {$\underset{\raisebox{-0.8em}{51}}{\text{LP integer solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{51}}{\text{LP integral solution}}$} }
       child { node {$\underset{\raisebox{-0.8em}{256}}{\text{LP fractional solution}}$} }
     }
     child { node {$H$ does not exist}
@@ -934,7 +956,7 @@ This dual formulation
 
 \footnotetext{
 The total number of simple graphs on $n=2,3,4,\dots$ unlabeled nodes is the sequence $2, 4, 11, 34, 156, 1044, 12346, \dots$ given by \href{https://oeis.org/A000088}{\texttt{A000088}}. \\
-The IP integer solution sequence $2, 3, 6, 10, 17, 29, 51, \dots$ is given by \href{https://oeis.org/A285665}{A285665}. \\
+The IP integral solution sequence $2, 3, 6, 10, 17, 29, 51, \dots$ is given by \href{https://oeis.org/A285665}{A285665}. \\
 The total number of graphs which are squares is the sequence $2, 3, 6, 11, 28, 77, 307, \dots$ given by \href{https://oeis.org/A382181}{A382181}.}
 
 \newpage
@@ -948,7 +970,7 @@ The total number of graphs which are squares is the sequence $2, 3, 6, 11, 28, 7
   level 2/.style={sibling distance=5cm}]
   \node {n=3}
     child { node {$H$ exists}
-      child { node {$\underset{\raisebox{-0.8em}{3}}{\text{LP integer solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{3}}{\text{LP integral solution}}$} }
       child { node {$\underset{\raisebox{-0.8em}{0}}{\text{LP fractional solution}}$} }
     }
     child { node {$H$ does not exist}
@@ -962,7 +984,7 @@ The total number of graphs which are squares is the sequence $2, 3, 6, 11, 28, 7
   level 2/.style={sibling distance=5cm}]
   \node {n=4}
     child { node {$H$ exists}
-      child { node {$\underset{\raisebox{-0.8em}{6}}{\text{LP integer solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{6}}{\text{LP integral solution}}$} }
       child { node {$\underset{\raisebox{-0.8em}{0}}{\text{LP fractional solution}}$} }
     }
     child { node {$H$ does not exist}
@@ -976,7 +998,7 @@ The total number of graphs which are squares is the sequence $2, 3, 6, 11, 28, 7
   level 2/.style={sibling distance=5cm}]
   \node {n=5}
     child { node {$H$ exists}
-      child { node {$\underset{\raisebox{-0.8em}{11}}{\text{LP integer solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{11}}{\text{LP integral solution}}$} }
       child { node {$\underset{\raisebox{-0.8em}{0}}{\text{LP fractional solution}}$} }
     }
     child { node {$H$ does not exist}
@@ -990,7 +1012,7 @@ The total number of graphs which are squares is the sequence $2, 3, 6, 11, 28, 7
   level 2/.style={sibling distance=5cm}]
   \node {n=6}
     child { node {$H$ exists}
-      child { node {$\underset{\raisebox{-0.8em}{24}}{\text{LP integer solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{24}}{\text{LP integral solution}}$} }
       child { node {$\underset{\raisebox{-0.8em}{4}}{\text{LP fractional solution}}$} }
     }
     child { node {$H$ does not exist}
@@ -1004,7 +1026,7 @@ The total number of graphs which are squares is the sequence $2, 3, 6, 11, 28, 7
   level 2/.style={sibling distance=5cm}]
   \node {n=7}
     child { node {$H$ exists}
-      child { node {$\underset{\raisebox{-0.8em}{43}}{\text{LP integer solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{43}}{\text{LP integral solution}}$} }
       child { node {$\underset{\raisebox{-0.8em}{34}}{\text{LP fractional solution}}$} }
     }
     child { node {$H$ does not exist}
@@ -1018,7 +1040,7 @@ The total number of graphs which are squares is the sequence $2, 3, 6, 11, 28, 7
   level 2/.style={sibling distance=5cm}]
   \node {n=8}
     child { node {$H$ exists}
-      child { node {$\underset{\raisebox{-0.8em}{102}}{\text{LP integer solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{102}}{\text{LP integral solution}}$} }
       child { node {$\underset{\raisebox{-0.8em}{205}}{\text{LP fractional solution}}$} }
     }
     child { node {$H$ does not exist}
@@ -1047,7 +1069,7 @@ number of distinct characteristic polynomials of tress with $n$ nodes - \href{ht
   level 2/.style={sibling distance=5cm}]
   \node {n=3}
     child { node {$H$ exists}
-      child { node {$\underset{\raisebox{-0.8em}{2}}{\text{LP integer solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{2}}{\text{LP integral solution}}$} }
       child { node {$\underset{\raisebox{-0.8em}{1}}{\text{LP fractional solution}}$} }
     }
     child { node {$H$ does not exist}
@@ -1061,7 +1083,7 @@ number of distinct characteristic polynomials of tress with $n$ nodes - \href{ht
   level 2/.style={sibling distance=5cm}]
   \node {n=4}
     child { node {$H$ exists}
-      child { node {$\underset{\raisebox{-0.8em}{3}}{\text{LP integer solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{3}}{\text{LP integral solution}}$} }
       child { node {$\underset{\raisebox{-0.8em}{3}}{\text{LP fractional solution}}$} }
     }
     child { node {$H$ does not exist}
@@ -1075,7 +1097,7 @@ number of distinct characteristic polynomials of tress with $n$ nodes - \href{ht
   level 2/.style={sibling distance=5cm}]
   \node {n=5}
     child { node {$H$ exists}
-      child { node {$\underset{\raisebox{-0.8em}{3}}{\text{LP integer solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{3}}{\text{LP integral solution}}$} }
       child { node {$\underset{\raisebox{-0.8em}{8}}{\text{LP fractional solution}}$} }
     }
     child { node {$H$ does not exist}
@@ -1089,7 +1111,7 @@ number of distinct characteristic polynomials of tress with $n$ nodes - \href{ht
   level 2/.style={sibling distance=5cm}]
   \node {n=6}
     child { node {$H$ exists}
-      child { node {$\underset{\raisebox{-0.8em}{4}}{\text{LP integer solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{4}}{\text{LP integral solution}}$} }
       child { node {$\underset{\raisebox{-0.8em}{24}}{\text{LP fractional solution}}$} }
     }
     child { node {$H$ does not exist}
@@ -1103,7 +1125,7 @@ number of distinct characteristic polynomials of tress with $n$ nodes - \href{ht
   level 2/.style={sibling distance=5cm}]
   \node {n=7}
     child { node {$H$ exists}
-      child { node {$\underset{\raisebox{-0.8em}{5}}{\text{LP integer solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{5}}{\text{LP integral solution}}$} }
       child { node {$\underset{\raisebox{-0.8em}{72}}{\text{LP fractional solution}}$} }
     }
     child { node {$H$ does not exist}
@@ -1128,7 +1150,7 @@ number of distinct characteristic polynomials of tress with $n$ nodes - \href{ht
   level 2/.style={sibling distance=5cm}]
   \node {n=4}
     child { node {$H$ exists}
-      child { node {$\underset{\raisebox{-0.8em}{6}}{\text{LP integer solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{6}}{\text{LP integral solution}}$} }
       child { node {$\underset{\raisebox{-0.8em}{0}}{\text{LP fractional solution}}$} }
     }
     child { node {$H$ does not exist}
@@ -1142,7 +1164,7 @@ number of distinct characteristic polynomials of tress with $n$ nodes - \href{ht
   level 2/.style={sibling distance=5cm}]
   \node {n=5}
     child { node {$H$ exists}
-      child { node {$\underset{\raisebox{-0.8em}{11}}{\text{LP integer solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{11}}{\text{LP integral solution}}$} }
       child { node {$\underset{\raisebox{-0.8em}{0}}{\text{LP fractional solution}}$} }
     }
     child { node {$H$ does not exist}
@@ -1156,7 +1178,7 @@ number of distinct characteristic polynomials of tress with $n$ nodes - \href{ht
   level 2/.style={sibling distance=5cm}]
   \node {n=6}
     child { node {$H$ exists}
-      child { node {$\underset{\raisebox{-0.8em}{24}}{\text{LP integer solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{24}}{\text{LP integral solution}}$} }
       child { node {$\underset{\raisebox{-0.8em}{4}}{\text{LP fractional solution}}$} }
     }
     child { node {$H$ does not exist}
@@ -1170,7 +1192,7 @@ number of distinct characteristic polynomials of tress with $n$ nodes - \href{ht
   level 2/.style={sibling distance=5cm}]
   \node {n=7}
     child { node {$H$ exists}
-      child { node {$\underset{\raisebox{-0.8em}{51}}{\text{LP integer solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{51}}{\text{LP integral solution}}$} }
       child { node {$\underset{\raisebox{-0.8em}{26}}{\text{LP fractional solution}}$} }
     }
     child { node {$H$ does not exist}
@@ -1184,7 +1206,7 @@ number of distinct characteristic polynomials of tress with $n$ nodes - \href{ht
   level 2/.style={sibling distance=5cm}]
   \node {n=8}
     child { node {$H$ exists}
-      child { node {$\underset{\raisebox{-0.8em}{142}}{\text{LP integer solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{142}}{\text{LP integral solution}}$} }
       child { node {$\underset{\raisebox{-0.8em}{165}}{\text{LP fractional solution}}$} }
     }
     child { node {$H$ does not exist}
@@ -1208,7 +1230,7 @@ and single triangular decomposition.}
   level 2/.style={sibling distance=5cm}]
   \node {n=4}
     child { node {$H$ exists}
-      child { node {$\underset{\raisebox{-0.8em}{6}}{\text{LP integer solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{6}}{\text{LP integral solution}}$} }
       child { node {$\underset{\raisebox{-0.8em}{0}}{\text{LP fractional solution}}$} }
     }
     child { node {$H$ does not exist}
@@ -1222,7 +1244,7 @@ and single triangular decomposition.}
   level 2/.style={sibling distance=5cm}]
   \node {n=5}
     child { node {$H$ exists}
-      child { node {$\underset{\raisebox{-0.8em}{11}}{\text{LP integer solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{11}}{\text{LP integral solution}}$} }
       child { node {$\underset{\raisebox{-0.8em}{0}}{\text{LP fractional solution}}$} }
     }
     child { node {$H$ does not exist}
@@ -1236,7 +1258,7 @@ and single triangular decomposition.}
   level 2/.style={sibling distance=5cm}]
   \node {n=6}
     child { node {$H$ exists}
-      child { node {$\underset{\raisebox{-0.8em}{22}}{\text{LP integer solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{22}}{\text{LP integral solution}}$} }
       child { node {$\underset{\raisebox{-0.8em}{6}}{\text{LP fractional solution}}$} }
     }
     child { node {$H$ does not exist}
@@ -1250,7 +1272,7 @@ and single triangular decomposition.}
   level 2/.style={sibling distance=5cm}]
   \node {n=7}
     child { node {$H$ exists}
-      child { node {$\underset{\raisebox{-0.8em}{51}}{\text{LP integer solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{51}}{\text{LP integral solution}}$} }
       child { node {$\underset{\raisebox{-0.8em}{26}}{\text{LP fractional solution}}$} }
     }
     child { node {$H$ does not exist}
@@ -1264,7 +1286,7 @@ and single triangular decomposition.}
   level 2/.style={sibling distance=5cm}]
   \node {n=8}
     child { node {$H$ exists}
-      child { node {$\underset{\raisebox{-0.8em}{142}}{\text{LP integer solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{142}}{\text{LP integral solution}}$} }
       child { node {$\underset{\raisebox{-0.8em}{165}}{\text{LP fractional solution}}$} }
     }
     child { node {$H$ does not exist}

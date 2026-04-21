@@ -90,9 +90,10 @@ The problem of finding the square root of a graph is a well-studied field in bot
 \cite{motwani_sudan_1994_roots} and \cite{farzad_karimi_2012_root}, 
 with specific relation to distributed computing, network design and computational biology. Research in this area has
 primarily focused around the undirected graph $H$ and its square $G=H^2$ which is obtained by adding an edge between 
-every pair of vertices whose distance in $H$ is at most two. 
+every pair of vertices whose distance in $H$ is at most two.  % Rework last sentence to mention the decision problem, it is np and that it is polynomial for certain subclasses
 }
 }
+
 
 \headerbox{Aim}{name=Aim,column=1,row=0,bottomaligned=Introduction}{
     \small{
@@ -107,27 +108,28 @@ the square, and show that the problem can be completely categorized as an intege
     \small{
 We examine the relaxed linear program which can be evaluated in polynomial time using interior point method, and 
 integrate existing literature on special root structures as a stepping-stone towards generating a true polynomial time 
-algorithm. 
+algorithm for subclasses of graphs. 
 
 \vspace{0.5em}
-
+% Dont introduce graph root here 
 Let the \emph{graph root} $H = (V, E_H)$ be a finite, simple, undirected graph, where $V$ is the vertex set with $|V| = n$, 
 and $E_H \subseteq \{\{u,v\} \mid u,v \in V,\; u \neq v\}$ is the edge set. Denote by $d_H(u,v)$ the 
 \emph{graph distance} defined as the number of edges of the shortest path 
 between vertices $u$ and $v$ in $H$. If no such path exists, $d_H(u,v) = \infty$.
 
 \vspace{0.5em}
-
+% Introduce graph root after graph square has been introduced
 The \emph{square} of the graph $H$, denoted by $H^2 = (V, E_{H^2})$ is the graph on the same vertex set with edge set
 \begin{equation} \label{eq::fund_def_square}
 E_{H^2} = \{\, uv \mid u \neq v,\; 1 \leq d_H(u,v) \leq 2 \,\}.
 \end{equation}
 That is, two distinct vertices are adjacent in $H^2$ if and only if they are connected by a path of length one or two in $H$. 
-This is the standard definition of the square of a graph.
+% This is the standard definition of the square of a graph.
 
 \vspace{0.5em}
-
-Using an alternative construction, let the \emph{graph square} $G = (V, E_G)$ be an undirected graph defined on 
+% Remove definition of graph square, and add more on alternative construction 
+Using an alternative construction, 
+% let the \emph{graph square} $G = (V, E_G)$ be an undirected graph defined on 
 the same vertex set $V$. Let $A_H \in \{0,1\}^{n \times n}$ denote the adjacency matrix of $H$, 
 and let $D_H \in \mathbb{R}^{n \times n}$ denote the degree matrix of $H$. 
 Let $\mathbbm{1}_{\geq 1} : \mathbb{R}^{n \times n} \to \{0,1\}^{n \times n}$ denote the 
@@ -149,8 +151,11 @@ The graph $G$ defined by \eqref{eq::fund_adj_eq_undirected} is equivalent to the
  ij \in E_{H^2} \iff 1 \leq d_H(i,j) \leq 2. 
 \end{equation}
 }
+% This gives a integer program 
+% Research in this area also involves finding classes of graphs which yield a solution in polynomial time
 }
-
+% Add max obj function
+% Two trees
 \headerbox{Linear Programming}{name=LP,column=2,span=2,row=0}{
     \small{
 The formulation of the adjacency matrix of the graph square in Equation~\eqref{eq::fund_adj_eq_undirected} is very powerful 
@@ -216,21 +221,24 @@ T(s) = \bigl\{ \{u,v\} \subseteq V \setminus \{s\} \vert (s,u)\in E,\ (s,v)\in E
 \]
 to be the set of $3$-cliques or triangles in $G$ that contain $s$. If $|T(s)| = 1$ where $T(s) = \{\{u,v\}\}$ then the vertex $s$ 
 exists in a unique triangle of $G$. When the neighbours are structurally distinct with different degree 
-$\deg_G(u) \neq \deg_G(v)$, then the vertex with smaller degree must be the leaf-adjacent vertex in the square root.  
+$\deg_G(u) \neq \deg_G(v)$, then the vertex with smaller degree must be the stem vertex in the square root.  
 This is assigned deterministically using 
 \begin{equation} 
 x_{s w} = 1, \; x_{w s} = 1 \text{ where } 
 w=\arg\min\{\deg_G(u), \deg_G(v)\}.
 \label{eq:single_triangle_fix}
 \end{equation}
-Ross and Harary in 1960 gave an algorithm for constructing a tree root by using characterizations of the square graph 
+Ross and Harary in 1960 gave a polynomial time algorithm for constructing a tree root by using characterizations of the square graph 
 to conclude that existing tree square roots are unique up to isomorphism \cite{ross_1960_square}. 
 
 \begin{proposition} \label{prop::single_triangular_decomposition_proposition}
-If a square graph $G$ has a triangle root $H$, then the single triangular decomposition linear program returns an integral solution. 
+If a square graph $G$ has a  tree root $H$, then the single triangular decomposition linear program returns an integral solution. 
 \end{proposition}
 \begin{proof}
-
+% Build up one linear program which can categorize different subclasses 
+    % Tidy up by including max 
+% Improve by considering non-pendant cases explicitly 
+% Remove proof and 
 Assume for contradiction that there exists a square graph $G$ with a triangle root $H$ such that the linear 
 program has an optimal solution $x^*$ that is fractional. Then there exists at least one edge $ij \in E_G$ such 
 that $0 < x^*_{ij} < 1 $.
@@ -266,6 +274,7 @@ Therefore, the fractional root must be a simple path.
 Example of a fractional linear program solution, its root and the original square. 
 }
 
+%Algorithms for Square Roots of Graphs 
 
 \headerbox{References}{name=references,column=2,span = 2, above=bottom}{
 \renewcommand{\section}[2]{\vskip 0.05em} % Get rid of the default "References" section title
