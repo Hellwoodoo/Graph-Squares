@@ -491,24 +491,25 @@ As single triangular decomposition gives perfect characterizations of the root u
 for up to $n=5$, a further refinement is obtained by analyzing fractional solutions through vertex deletion
 and by considering subgraphs. 
 
-Let $G^-$ be the subgraph of $G$ defined by $(V^- = V - \{v\}, E_{G^-} = E_G \backslash \{uv \mid u \in V^-\})$ 
+Let $G^-$ be the subgraph of $G$ defined by $(V^- = V - \{v\}, E_{G^-} = E_G \;\backslash\; \{uv \mid u \in V^-\})$ 
 and if it has a valid square root denote it by $H^-$. 
 Let $H_-$ be the subgraph of the root graph $H$ satisfying the relationship $H^2 = G$ defined by $(V^-, 
-E_H \backslash \{uv \mid u \in V^-\})$. The idea is that if $G^-$ has a valid square root, can we construct 
-$H_-$ from $H^-$. 
+E_H \;\backslash\; \{uv \mid u \in V^-\})$. The idea is that if $G^-$ has a valid square root, can construct 
+$H_-$ from $H^-$ by considering the following scenarios. 
 
 Consider all of the following cases for vertex $v$
 \begin{enumerate}[label=\roman*)]
-  \item $v$ is connected to the subgraph $H'$ by only one edge to $u \in H'$
-  \item $v$ is connected to the subgraph $G'$ by two edges to $u, w \in G'$ where 
-  $uw \in E_H$
+  \item $v$ is connected to the subgraph $V^-$ by only one edge to $u \in V^-$
+  \item $v$ is connected to the subgraph $V^-$ by two edges to $u, w \in V^-$ where 
+  $uw \in E_{H_-}$
   \item $v$ is connected to the subgraph $G'$ by two edges to vertices $u, w \in G'$ where 
   $uw \notin E_H$ and there is no path of length two between $u,w$ in $G'$. 
   \item $v$ is connected to the subgraph $G'$ by two edges to vertices $u, w \in G'$ where 
   $uw \notin E_H$ and there is a path of length two between $u,w$ in $G'$. 
 \end{enumerate}
-where the remaining possibilities have the above sub-cases. \begin{enumerate}[label=\roman*)]
-  \item Since $G'$ has a valid square root $H'$, then $H = H' + \{v\}$ where $E_H = E_H' \cup vu$. 
+where the remaining possibilities have the above sub-cases. 
+\begin{enumerate}[label=\roman*)]
+  \item If $G^-$ has a valid square root $H'$, then $H = H' + \{v\}$ where $E_H = E_H' \cup vu$. 
   \item If $G'$ has a valid square root $H'$, then $H = H' + \{v\}$ where $E_H = E_H' \cup vu$ or
   $E_H = E_H' \cup vw$ ($E_H = E_H' \cup vu, vw$ also satisfies but is not necessary) 
   \item 
