@@ -86,51 +86,51 @@ linewidth=2pt % Width of the border lines around content boxes
 
 \headerbox{Introduction}{name=Introduction,column=0,row=0}{
     \small{
-The problem of finding the square root of a graph is a well-studied field in both mathematics and computer-science 
-\cite{motwani_sudan_1994_roots} and \cite{farzad_karimi_2012_root}, 
-with specific relation to distributed computing, network design and computational biology. Research in this area has
+The problem of finding the square root of a graph is a well-studied field in both mathematics and computer-science, 
+with specific relation to distributed computing (e.g., see \cite{peres_2023_distributed}), network design and computational 
+biology. Research in this area has
 primarily focused around the undirected graph $H$ and its square $G=H^2$ which is obtained by adding an edge between 
-every pair of vertices whose distance in $H$ is at most two.  % Rework last sentence to mention the decision problem, it is np and that it is polynomial for certain subclasses
+every pair of vertices whose distance in $H$ is at most two. The corresponding decision problem—determining whether a 
+given graph $G$ admits a square root—is NP-complete in general \cite{motwani_sudan_1994_roots}, 
+but becomes polynomial-time solvable for certain restricted graph classes (e.g., see \cite{lin_skiena_1995_algorithms}).
 }
 }
-
 
 \headerbox{Aim}{name=Aim,column=1,row=0,bottomaligned=Introduction}{
     \small{
 Much of the existing research on graph square roots has centered on characterizing when a graph admits such 
-a root and on the complexity of reconstructing $H$ from $G$. In contrast, rather than studying the construction problem 
-directly, we analyze the relationship between the adjacency matrix $A_H$ of the root and the adjacency matrix $A_G$ of 
-the square, and show that the problem can be completely categorized as an integer program. 
+a root and on the computational complexity of reconstructing $H$ from $G$. In contrast, rather than studying the construction 
+problem directly, we analyze the relationship between the adjacency matrix $A_H$ of the root and the adjacency matrix $A_G$ 
+of the square, and show that the problem can be completely categorized as an integer program. 
+The relaxed linear program can then be solved in polynomial time using interior-point methods. We seek to find 
+subclasses of graphs for which the modified relaxation may yield integral solutions and hence exactly recovers the square root.
 }
 }
 
 \headerbox{Background}{name=Background,column=0,span = 2, below=Introduction}{ 
     \small{
-We examine the relaxed linear program which can be evaluated in polynomial time using interior point method, and 
-integrate existing literature on special root structures as a stepping-stone towards generating a true polynomial time 
-algorithm for subclasses of graphs. 
-
 \vspace{0.5em}
-% Dont introduce graph root here 
-Let the \emph{graph root} $H = (V, E_H)$ be a finite, simple, undirected graph, where $V$ is the vertex set with $|V| = n$, 
+Let $H = (V, E_H)$ be a finite, simple, undirected graph, where $V$ is the vertex set with $|V| = n$, 
 and $E_H \subseteq \{\{u,v\} \mid u,v \in V,\; u \neq v\}$ is the edge set. Denote by $d_H(u,v)$ the 
 \emph{graph distance} defined as the number of edges of the shortest path 
 between vertices $u$ and $v$ in $H$. If no such path exists, $d_H(u,v) = \infty$.
 
 \vspace{0.5em}
-% Introduce graph root after graph square has been introduced
-The \emph{square} of the graph $H$, denoted by $H^2 = (V, E_{H^2})$ is the graph on the same vertex set with edge set
+
+The \emph{square} of the graph $H$, denoted by $H^2 = (V, E_{H^2})$, is the graph on the same vertex set with edge set
 \begin{equation} \label{eq::fund_def_square}
 E_{H^2} = \{\, uv \mid u \neq v,\; 1 \leq d_H(u,v) \leq 2 \,\}.
 \end{equation}
-That is, two distinct vertices are adjacent in $H^2$ if and only if they are connected by a path of length one or two in $H$. 
-% This is the standard definition of the square of a graph.
+That is, two distinct vertices are adjacent in $H^2$ if and only if they are connected by a path of length one or two in $H$.
 
 \vspace{0.5em}
-% Remove definition of graph square, and add more on alternative construction 
-Using an alternative construction, 
-% let the \emph{graph square} $G = (V, E_G)$ be an undirected graph defined on 
-the same vertex set $V$. Let $A_H \in \{0,1\}^{n \times n}$ denote the adjacency matrix of $H$, 
+
+Given a graph $G = (V, E_G)$, if there exists a graph $H$ such that $G = H^2$, then $H$ is called a \emph{square root} of $G$.
+
+\vspace{0.5em}
+
+Alternatively, we may approach the problem of studying the square root problem by way of the adjacency matrix of a graph. 
+Let $A_H \in \{0,1\}^{n \times n}$ denote the adjacency matrix of $H$, 
 and let $D_H \in \mathbb{R}^{n \times n}$ denote the degree matrix of $H$. 
 Let $\mathbbm{1}_{\geq 1} : \mathbb{R}^{n \times n} \to \{0,1\}^{n \times n}$ denote the 
 entrywise \emph{indicator function}, defined by
@@ -138,7 +138,7 @@ entrywise \emph{indicator function}, defined by
 \mathbbm{1}_{\geq 1}(M)_{ij} =
 \begin{cases}
 1 ,& \text{if } M_{ij} \geq 1 \\
-0 ,& \text{otherwise}
+0 ,& \text{otherwise}. 
 \end{cases}
 \]
 Define the adjacency matrix of $G$ using the adjacency and degree matrices of $H$
@@ -146,29 +146,20 @@ Define the adjacency matrix of $G$ using the adjacency and degree matrices of $H
 A_G = \mathbbm{1}_{\geq 1}\!\big((A_H)^2 - D_H + A_H\big).
 \end{equation}
 The graph $G$ defined by \eqref{eq::fund_adj_eq_undirected} is equivalent to the graph square $H^2$
- defined in \eqref{eq::fund_def_square} 
+ defined in \eqref{eq::fund_def_square}, that is,
 \begin{equation} \label{eq::fund_def_square_expanded}
  ij \in E_{H^2} \iff 1 \leq d_H(i,j) \leq 2. 
 \end{equation}
+This matrix formulation naturally leads to an integer programming formulation of the graph square root problem. 
 }
-% This gives a integer program 
-% Research in this area also involves finding classes of graphs which yield a solution in polynomial time
 }
-% Add max obj function
-% Two trees
-\headerbox{Linear Programming}{name=LP,column=2,span=2,row=0}{
+\headerbox{Integer Programming Formulation of Graph Square Root Problem}{name=LP,column=2,span=2,row=0}{
     \small{
-The formulation of the adjacency matrix of the graph square in Equation~\eqref{eq::fund_adj_eq_undirected} is very powerful 
-and gives the integer program 
+Equation~\eqref{eq::fund_adj_eq_undirected} permits the construction of an integer program with the 
+ objective function $ \displaystyle \max \sum_{i=1}^{n} \sum_{j=1}^{n} x_{ij} $, variables 
+ $x_{ij} \in \mathbb{Z}_{\geq 0}, y_{ikj} \in \mathbb{Z}_{\geq 0}, z_{ij} \in \mathbb{Z}_{\geq 0}$ 
+ for all $i,k,j \in \{1, \dots, n\}$ and constraints
 \begin{alignat}{3}
-\text{Variables: } & \nonumber \\ 
-& x_{ij} \in \mathbb{Z}_{\geq 0}, 
-&& \forall i,j \in \{1, \dots, n\}, \label{eq::IP_x_variable} \\ 
-& y_{ikj} \in \mathbb{Z}_{\geq 0}, 
-&& \forall i,k,j \in \{1, \dots, n\}, \label{eq::IP_y_variable} \\
-& z_{ij} \in \mathbb{Z}_{\geq 0}, 
-&& \forall i,j \in \{1, \dots, n\}. \label{eq::IP_z_variable} \\
-\text{Constraints: } & \nonumber \\
 \text{(1) Indicator argument: } 
 & z_{ii} = \sum_{k = 1}^{n}y_{iki} - \sum_{k = 1}^{n} x_{ik}, 
 && \forall i \in \{1, \dots, n\} , \label{eq::IP_fund_matrix} \\
@@ -198,10 +189,9 @@ and gives the integer program
 & x_{ii} = 0, 
 &&\qquad \forall i \in \{1, \dots, n\}.  \label{eq::IP_diagonal_x}
 \end{alignat} \label{eq::integer_program}
-The linear relaxation of the integer program defined by Equations~\eqref{eq::IP_x_variable}--\eqref{eq::IP_diagonal_x} is 
+The linear relaxation of the integer program defined by Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::IP_diagonal_x} is 
 constructed in order to generate a feasible weighted solution in polynomial time algorithm. It is done with identical constraints,
-however the decision variables \eqref{eq::IP_x_variable}, \eqref{eq::IP_y_variable} and \eqref{eq::IP_z_variable}
-are replaced with
+however the decision variables $x_{ij}, y_{ikj}, z_{ij}$ are replaced with
 \begin{alignat}{3}
 & x_{ij} \in  \mathbb{R}_{\geq 0}, 
 &&\qquad \forall i,j \in \{1, \dots, n\}, \label{eq::LP_x_variable} \\
@@ -212,55 +202,43 @@ are replaced with
 \end{alignat} 
 }
 }
-\headerbox{Single Triangular Decomposition}{name=Subtitle5,column=0,span = 2, above=bottom}{ 
+\headerbox{Categorizing Trees}{name=Categorizing Trees,column=0,span = 2, below=Background}{ 
     \small{
-Using the local triangular structure of the graph, certain edge assignments in a square root can be fixed. 
-For a vertex $s \in V$, define
+In some cases, local graph structure in $G$ can be used to locally reconstruct a root of $H$. For example, this can 
+be done by analyzing the number of $K_3$ subgraphs incident to each vertex. For a vertex $s \in V$, define
 \[
 T(s) = \bigl\{ \{u,v\} \subseteq V \setminus \{s\} \vert (s,u)\in E,\ (s,v)\in E,\ (u,v)\in E \bigr\}
 \]
-to be the set of $3$-cliques or triangles in $G$ that contain $s$. If $|T(s)| = 1$ where $T(s) = \{\{u,v\}\}$ then the vertex $s$ 
+to be the set of $K_3$ triangles in $G$ that contain $s$. If $|T(s)| = 1$ where $T(s) = \{\{u,v\}\}$ then the vertex $s$ 
 exists in a unique triangle of $G$. When the neighbours are structurally distinct with different degree 
-$\deg_G(u) \neq \deg_G(v)$, then the vertex with smaller degree must be the stem vertex in the square root.  
-This is assigned deterministically using 
-\begin{equation} 
+$\deg_G(u) \neq \deg_G(v)$, then the vertex with smaller degree must be the stem vertex in the square root of a graph that is 
+locally acyclic. This can be incorporated in the integer program with the following constraint:  
+\begin{equation} \label{eq::single_triangle_fix}
 x_{s w} = 1, \; x_{w s} = 1 \text{ where } 
 w=\arg\min\{\deg_G(u), \deg_G(v)\}.
-\label{eq:single_triangle_fix}
 \end{equation}
 Ross and Harary in 1960 gave a polynomial time algorithm for constructing a tree root by using characterizations of the square graph 
 to conclude that existing tree square roots are unique up to isomorphism \cite{ross_1960_square}. 
-
 \begin{proposition} \label{prop::single_triangular_decomposition_proposition}
-If a square graph $G$ has a  tree root $H$, then the single triangular decomposition linear program returns an integral solution. 
+If a square graph $G$ has a tree root $H$, then the linear program 
+Equations~\eqref{eq::IP_fund_matrix}-\eqref{eq::LP_z_variable} together with Equation~\eqref{eq::single_triangle_fix}
+returns an integral solution. 
 \end{proposition}
-\begin{proof}
-% Build up one linear program which can categorize different subclasses 
-    % Tidy up by including max 
-% Improve by considering non-pendant cases explicitly 
-% Remove proof and 
-Assume for contradiction that there exists a square graph $G$ with a triangle root $H$ such that the linear 
-program has an optimal solution $x^*$ that is fractional. Then there exists at least one edge $ij \in E_G$ such 
-that $0 < x^*_{ij} < 1 $.
-
-If $G$ has a vertex $v$ that is only in one triangle, then $v$ must be a pendant in $H$. As the 
-linear program applies \eqref{eq:single_triangle_fix}, any pendant edge will be integral. 
-Hence, any fractional edge must be incident only to vertices of degree at least two in the support of $x^*$.
-
-Consider such a fractional edge $ij$ with endpoints $i,j$. Since both endpoints are not pendants, each is incident to at least 
-one other edge with positive weight. Iterating this argument yields a maximal connected fractional root  
-consisting entirely of edges with endpoints that are not pendants. 
-
-If all vertices $G$ are in more than one triangle, then there are no pendant vertices in $H$ and hence all 
-vertices in the root are either leaves or internal vertex. However, if the root has two leaves coming off 
-of the same internal vertex, then an additional edge between the two leaves can be added such that the 
-square is the same. Indeed, this new root is not only feasible but also has greater weight and hence would 
-have been chosen by the linear program to be the optimal solution. 
-
-This implies that no internal vertex may support two leaves and hence that the root cannot branch. 
-Therefore, the fractional root must be a simple path.
-\end{proof}
+This proposition gives the first step towards building a unified linear program that can categorize different subclasses of 
+graphs. 
 }
+}
+
+\headerbox{Future Plans}{name=Future Plans,column=0,span = 2, below=Categorizing Trees}{ 
+    \small{
+Whilst the algorithmic problem of solving the graph-square problem can be improved drastically by considering heuristics 
+such as rounding or approximation, the primary focus remains on understanding when such heuristics are not required, and 
+when the structure of the graph itself is sufficient  to force an integral solution.
+
+The future is to consider further known polynomial subclasses, such as chordal graphs or graphs with girth $> 6$, and 
+attempt to find their structural composition such as to generate deterministic constraints which can be added to the 
+linear program. 
+    }
 }
 
 
@@ -270,13 +248,13 @@ Therefore, the fractional root must be a simple path.
 
 \headerbox{Example}{name=Example,column=2,span=2,row=0,below=LP}{
 \centering
-\includegraphics[height=20.5em]{Example.png}
-Example of a fractional linear program solution, its root and the original square. 
+\includegraphics[height=20.9em]{Example.png}
+Example of a fractional linear program solution, its true root and the original square. 
 }
 
 %Algorithms for Square Roots of Graphs 
 
-\headerbox{References}{name=references,column=2,span = 2, above=bottom}{
+\headerbox{References}{name=references,column=2,span = 2, below=Example}{
 \renewcommand{\section}[2]{\vskip 0.05em} % Get rid of the default "References" section title
 \small{ % Reduce the font size in this block
 \printbibliography

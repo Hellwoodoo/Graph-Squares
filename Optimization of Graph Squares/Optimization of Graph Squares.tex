@@ -429,10 +429,9 @@ to be the set of $3$-cliques or triangles in $G$ that contain $s$. If $|T(s)| = 
 exists in a unique triangle of $G$. When the neighbours are structurally distinct with different degree 
 $\deg_G(u) \neq \deg_G(v)$, then the vertex with smaller degree must be the leaf-adjacent vertex in the square root.  
 This is assigned deterministically using 
-\begin{equation}
+\begin{equation} \label{eq:single_triangle_fix}
 x_{s w} = 1, \; x_{w s} = 1 \text{ where } 
 w=\arg\min\{\deg_G(u), \deg_G(v)\}.
-\label{eq:single_triangle_fix}
 \end{equation}
 
 If $\deg_G(u) = \deg_G(v)$, no constraint is imposed. This addition gives the improved results in 
@@ -542,6 +541,27 @@ and hence remains polynomial in $n$.
   % $i,j$
 \end{proof}
 
+\subsection*{Bipartite Symmetry} \label{subsec::bipartite_symmetry}
+Let $A \subseteq V$ and $B \subseteq V$ be subsets of size greater than $1$ being either a clique or completely disjoint
+with equal cardinality $|A|=|B|=m$. 
+
+% Comes from (115, 6) (139, 6)
+Let $A \cup B = V$ where $A$ is completely disjoint, $B$ being a clique and each vertex $a_1, \dots, a_m \in A$ 
+have an edge to all vertices $b_1, \dots, b_m \in B$ and vice versa. 
+If weight of all $m (m-1)$ edges $x_{ab}$ in this subgraph are equal, then there exists a perfect integral matching 
+which can be arbitrarily fixed and is assigned deterministically using 
+\begin{equation} \label{eq:bipartite_symmetry_fix_disjoint_clique_complete}
+x_{a[0] b[0]} = x_{b[0] a[0]} = 1, \dots, x_{a[m] b[m]} = x_{b[m] a[m]} = 1,
+\end{equation}
+where $ a[0] < \dots < a[m], b[0] < \dots < b[m]$ are an arbitrarily but fixed lexicographical ordering of all 
+the vertices equivalent to labelling the vertices. 
+
+
+% Comes from (139, 6)
+% Let $A \cup B \subset V$ where $A, B$ are cliques where $A$ only has edges to $B$ such that vertices $a_1, \dots, a_m \in A$ 
+% do not necessarily have an edge to $b_1, \dots, b_m \in B$. 
+% If weight of $< m (m-1)$ edges $x_{ab}$ in this subgraph are equal then the vertex in $A$ with the largest degree has 
+% at least one edge and hence can fix it arbitrarily to one vertex in $B$. 
 
 \subsection{Rounding} \label{subsec::rounding}
 
