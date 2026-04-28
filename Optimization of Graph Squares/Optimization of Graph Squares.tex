@@ -434,7 +434,10 @@ x_{s w} = 1, \; x_{w s} = 1 \text{ where }
 w=\arg\min\{\deg_G(u), \deg_G(v)\}.
 \end{equation}
 
-If $\deg_G(u) = \deg_G(v)$, no constraint is imposed. This addition gives the improved results in 
+If $\deg_G(u) = \deg_G(v)$, then either $u,v$ can be chosen since they are connected to a clique. 
+
+
+no constraint is imposed. This addition gives the improved results in 
 Figure~\ref{fig::single_triangular_decomposition_diagram} whilst maintaining polynomial runtime. 
 
 Ross and Harary in 1960 gave an algorithm for constructing a tree root by using characterizations of the square graph 
@@ -466,8 +469,8 @@ $H_i$ and $H_j$ are disjoint with only one fractional bridge $ij$ connecting the
 apply the above logic such that we are eventually left with at least two subgraphs $H_0, H_1$ that do not have 
 fractional bridges and are comprised completely of pendant vertices and leafs. From above two cases, all edges 
 in the roots of $H_0, H_1$ are integral, and since the situation where a vertex has multiple leaves can not occur (
-  there must be pendant 2-leaves together with leaves), this completely categorizes the position of the node which 
-  connects to the rest of the graph such that there are no other automorisphsm which form the same square! 
+there must be pendant 2-leaves together with leaves), this completely categorizes the position of the node which 
+connects to the rest of the graph such that there are no other automorisphsm which form the same square! 
 
 completely integral subgraph for the root. As 
 thes
