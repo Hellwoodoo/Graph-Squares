@@ -425,11 +425,11 @@ For a vertex $s \in V$, define
 \[
 T(s) = \bigl\{ \{u,v\} \subseteq V \setminus \{s\} \vert (s,u)\in E,\ (s,v)\in E,\ (u,v)\in E \bigr\}
 \]
-to be the set of $3$-cliques or triangles in $G$ that contain $s$. If $|T(s)| = 1$ where $T(s) = \{\{u,v\}\}$ then the vertex $s$ 
-exists in a unique triangle of $G$. When the neighbours are structurally distinct with different degree 
+to be the set of $3$-cliques or triangles in $G$ that contain $s$. If $|T(s)| = 1$ where $T(s) = \{\{u,v\}\}$ then the vertex 
+$s$ exists in a unique triangle of $G$. When the neighbours are structurally distinct with different degree 
 $\deg_G(u) \neq \deg_G(v)$, then the vertex with smaller degree must be the leaf-adjacent vertex in the square root.  
 This is assigned deterministically using 
-\begin{equation} \label{eq:single_triangle_fix}
+\begin{equation} \label{eq::single_triangle_fix}
 x_{s w} = 1, \; x_{w s} = 1 \text{ where } 
 w=\arg\min\{\deg_G(u), \deg_G(v)\}.
 \end{equation}
@@ -441,47 +441,48 @@ Ross and Harary in 1960 gave an algorithm for constructing a tree root by using 
 to conclude that existing tree square roots are unique up to isomorphism \cite{ross_1960_square}. 
 
 \begin{proposition} \label{prop::single_triangular_decomposition_proposition}
-If a square graph $G$ has a tree root $H$, then the single triangular decomposition linear program returns an integral solution. 
+If a square graph $G$ has a maximal root $H$ that is a tree, then the single triangular decomposition linear program 
+returns an integral solution. 
 \end{proposition}
 \begin{proof}
-% Assume for contradiction that there exists a square graph $G = (V, E_G)$ with a triangle root $H = (V, E_H)$ such that $G = H^2$, 
-% but the linear program returns a fractional solution $x^*$. As an optimal solution, $x^*$ lies on the boundary of the convex polytope 
-% defined by the constraints Equations~\eqref{eq::IP_fund_matrix}-\eqref{eq::IP_diagonal_x} and the single triangular decomposition 
-% constraints Equations~\eqref{eq::single_triangle_spanning_tree}-\eqref{eq::single_trianglesubset_cycles}. As $x^*$ is fractional, 
-% there exists at least one pair $(i,j)$ such that $0 < x^H_{ij} < 1$, whilst all pairs satisfying $0 \leq x^H_{ij} \leq 1$. 
 
 Assume for contradiction that there exists a square graph $G$ with a triangle root $H$ such that the linear 
-program has an optimal solution $x^*$ that is fractional. Then there exists at least one edge $ij \in E_G$ such 
-that $0 < x^*_{ij} < 1 $.
+program has an optimal, maximal solution $x^*$ that is fractional. Then there exists at least one edge 
+$ij \in E_G$ such that $0 < x^*_{ij} < 1 $. Consider the root solution $x^*$ and the following cases. 
 
-If $G$ has a vertex $v$ that is only in one triangle, then $v$ must be a pendant in $H$. As the 
-linear program applies \eqref{eq:single_triangle_fix}, any pendant edge will be integral. Hence, any fractional edge must be incident only to
- vertices of degree at least two in the support of $x^*$.
+Let $i$ be a leaf, $j$ be its neighbour with degree $2$ and let $k \neq i$ be the other neighbour of $j$. Let 
+$ij$ be the fractional edge along the path $i - j - k$ which meets the rest of the graph only at $k$. In $G$, $ijk$ 
+form a clique in $G$ which by construction is also the only triangle that $i$ can be in. As the linear program applies 
+\eqref{eq::single_triangle_fix}, $ij$ pendant edge will be fixed and hence cannot be integral, hence this case 
+cannot occur. 
 
-Consider such a fractional edge $ij$ with endpoints $i,j$. Since both endpoints are not pendants, each is incident to at least 
-one other edge with positive weight. Iterating this argument yields a maximal connected fractional root  
-consisting entirely of edges with endpoints that are not pendants. 
+Let $i$ be a leaf, $j$ be its neighbour with degree $\geq 2$ and let $k \neq i$ be another leaf of $j$. Let 
+$j$ meet the rest of the graph. Then $ijk$ form a clique and solution $x^*$ can be extended by simply adding an 
+additional edge $ik$ to form a root of larger size. This contradicts the maximality of $x^*$. 
 
-If all vertices $G$ are in more than one triangle, then there are no pendant vertices in $H$ and hence all 
-vertices in the root are either leaves or internal vertex. However, if the root has two leaves coming off 
-of the same internal vertex, then an additional edge between the two leaves can be added such that the 
-square is the same. Indeed, this new root is not only feasible but also has greater weight and hence would 
-have been chosen by the linear program to be the optimal solution. 
+The remaining case is where both $i$ and $j$ are internal vertices. Denote the subgraph of $x^*$ from $i$
+as $H_i$ and the subgraph from $j$ as $H_j$. Since $x^*$ must be a tree, there are no cycles in $H$ and hence
+$H_i$ and $H_j$ are disjoint with only one fractional bridge $ij$ connecting them. Consider $H_i, H_j$ and recursively
+apply the above logic such that we are eventually left with at least two subgraphs $H_0, H_1$ that do not have 
+fractional bridges and are comprised completely of pendant vertices and leafs. From above two cases, all edges 
+in the roots of $H_0, H_1$ are integral, and since the situation where a vertex has multiple leaves can not occur (
+  there must be pendant 2-leaves together with leaves), this completely categorizes the position of the node which 
+  connects to the rest of the graph such that there are no other automorisphsm which form the same square! 
 
-This implies that no internal vertex may support two leaves and hence that the root cannot branch. 
-Therefore, the fractional root must be a simple path.
+completely integral subgraph for the root. As 
+thes
 
-% Let $P$ be such a path. Consider an endpoint of $P$. By maximality, extending beyond this endpoint would 
-% introduce a pendant edge, which must be integral. This contradicts the assumption that at least one edge 
-% in $P$ are fractional. 
 
-% Hence, no fractional edge exists, and $x^*$ must be integral.
 \end{proof}
 
-In the case of $\deg_G(u) = \deg_G(v)$, enforcement is done by arbitrarily choosing one of the edges of only one 
-such triangle and gives the improved results in Figure~\ref{fig::recursive_single_triangular_decomposition_diagram}.  
+This result is strictly weaker than Ross and Harary's since any tree with an internal vertex connected to more than 
+one leaf will generate a clique in the maximal root. 
+
+% In the case of $\deg_G(u) = \deg_G(v)$, enforcement is done by arbitrarily choosing one of the edges of only one 
+% such triangle and gives the improved results in Figure~\ref{fig::recursive_single_triangular_decomposition_diagram}.  
 
 
+IDEA: Let $A$ be set of vertices that are connected by integral edges. 
 
 \subsection{Vertex Deletion} \label{subsec::vertex_deletion}
 
@@ -542,8 +543,10 @@ and hence remains polynomial in $n$.
 \end{proof}
 
 \subsection*{Bipartite Symmetry} \label{subsec::bipartite_symmetry}
-Let $A \subseteq V$ and $B \subseteq V$ be subsets of size greater than $1$ being either a clique or completely disjoint
+Let $A \subseteq V$ and $B \subseteq V$ be subsets of size greater than $1$ being either a clique or independent
 with equal cardinality $|A|=|B|=m$. 
+
+Consider the case where $A \cup B = V$. Then if one of $A,B$ is a clique and the other is independent then 
 
 % Comes from (115, 6) (139, 6)
 Let $A \cup B = V$ where $A$ is completely disjoint, $B$ being a clique and each vertex $a_1, \dots, a_m \in A$ 
