@@ -427,18 +427,23 @@ T(s) = \bigl\{ \{u,v\} \subseteq V \setminus \{s\} \vert (s,u)\in E,\ (s,v)\in E
 \]
 to be the set of $3$-cliques or triangles in $G$ that contain $s$. If $|T(s)| = 1$ where $T(s) = \{\{u,v\}\}$ then the vertex 
 $s$ exists in a unique triangle of $G$. When the neighbours are structurally distinct with different degree 
-$\deg_G(u) \neq \deg_G(v)$, then the vertex with smaller degree must be the leaf-adjacent vertex in the square root.  
+$\deg_G(u) \neq \deg_G(v)$, then the vertex with smaller degree must be the leaf-adjacent vertex in the square root. If 
+$\deg_G(u) = \deg_G(v)$, then either $u,v$ can be chosen since they are connected to a clique. 
 This is assigned deterministically using 
+% \begin{equation} \label{eq::single_triangle_fix}
+% x_{s w} = 1, \; x_{w s} = 1 \text{ where } 
+% w=\arg\min\{\deg_G(u), \deg_G(v)\}.
+% \end{equation}
 \begin{equation} \label{eq::single_triangle_fix}
 x_{s w} = 1, \; x_{w s} = 1 \text{ where } 
-w=\arg\min\{\deg_G(u), \deg_G(v)\}.
+w =
+\begin{cases}
+u, & \deg_G(u) \le \deg_G(v), \\
+v, & \deg_G(v) < \deg_G(u).
+\end{cases}
 \end{equation}
-
-If $\deg_G(u) = \deg_G(v)$, then either $u,v$ can be chosen since they are connected to a clique. 
-
-
-no constraint is imposed. This addition gives the improved results in 
-Figure~\ref{fig::single_triangular_decomposition_diagram} whilst maintaining polynomial runtime. 
+This addition gives the improved results in Figure~\ref{fig::single_triangular_decomposition_diagram} whilst maintaining 
+polynomial runtime. 
 
 Ross and Harary in 1960 gave an algorithm for constructing a tree root by using characterizations of the square graph 
 to conclude that existing tree square roots are unique up to isomorphism \cite{ross_1960_square}. 
@@ -449,7 +454,7 @@ returns an integral solution.
 \end{proposition}
 \begin{proof}
 
-Assume for contradiction that there exists a square graph $G$ with a triangle root $H$ such that the linear 
+Assume for contradiction that there exists a square graph $G$ with a tree root $H$ such that the linear 
 program has an optimal, maximal solution $x^*$ that is fractional. Then there exists at least one edge 
 $ij \in E_G$ such that $0 < x^*_{ij} < 1 $. Consider the root solution $x^*$ and the following cases. 
 
@@ -469,23 +474,27 @@ $H_i$ and $H_j$ are disjoint with only one fractional bridge $ij$ connecting the
 apply the above logic such that we are eventually left with at least two subgraphs $H_0, H_1$ that do not have 
 fractional bridges and are comprised completely of pendant vertices and leafs. From above two cases, all edges 
 in the roots of $H_0, H_1$ are integral, and since the situation where a vertex has multiple leaves can not occur (
-there must be pendant 2-leaves together with leaves), this completely categorizes the position of the node which 
-connects to the rest of the graph such that there are no other automorisphsm which form the same square! 
+there must be pendant 2-leaves together with leaves else would have above case), this completely categorizes the position of the node which 
+connects to the rest of the graph such that there are no other automorisphsm which form the same square. 
+As this holds for both $H_0$ and $H_1$, the endpoints of the bridge between them can be completely identified such that 
+their bridge will be made integral. Applying this recursively thus means that $H_i$ and $H_j$ are completely integral 
+such that $i$ and $j$ are identified and $ij$ is made integral. This contradicts the fractional nature of $x^*_{ij}$. 
 
-completely integral subgraph for the root. As 
-thes
-
+Since no fractional, solution exists, the optimal, maximal output of the linear program must be completely integral 
+if it results in a tree root. 
 
 \end{proof}
 
 This result is strictly weaker than Ross and Harary's since any tree with an internal vertex connected to more than 
-one leaf will generate a clique in the maximal root. 
+one leaf will generate a clique in the maximal root. That is, it is not a maximal tree and hence the modified linear program
+will not return a solution. 
 
 % In the case of $\deg_G(u) = \deg_G(v)$, enforcement is done by arbitrarily choosing one of the edges of only one 
 % such triangle and gives the improved results in Figure~\ref{fig::recursive_single_triangular_decomposition_diagram}.  
 
 
-IDEA: Let $A$ be set of vertices that are connected by integral edges. 
+IDEA: Let $A,B$ be set of vertices that are internally connected by integral edges but are disjoint where each edge 
+between $A$ and $B$ is fractional. 
 
 \subsection{Vertex Deletion} \label{subsec::vertex_deletion}
 
