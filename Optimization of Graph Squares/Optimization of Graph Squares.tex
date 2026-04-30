@@ -428,18 +428,17 @@ T(s) = \bigl\{ \{u,v\} \subseteq V \setminus \{s\} \vert (s,u)\in E,\ (s,v)\in E
 to be the set of $3$-cliques or triangles in $G$ that contain $s$. If $|T(s)| = 1$ where $T(s) = \{\{u,v\}\}$ then the vertex 
 $s$ exists in a unique triangle of $G$. When the neighbours are structurally distinct with different degree 
 $\deg_G(u) \neq \deg_G(v)$, then the vertex with smaller degree must be the leaf-adjacent vertex in the square root. If 
-$\deg_G(u) = \deg_G(v)$, then either $u,v$ can be chosen since they are connected to a clique. 
+$\deg_G(u) = \deg_G(v)$, then either $u,v$ can be chosen since they are connected to a clique. Importantly, 
+if $u,v$ is fixed by equality then it cannot be fixed again in an alternative single triangular decomposition. 
 This is assigned deterministically using 
-% \begin{equation} \label{eq::single_triangle_fix}
-% x_{s w} = 1, \; x_{w s} = 1 \text{ where } 
-% w=\arg\min\{\deg_G(u), \deg_G(v)\}.
-% \end{equation}
 \begin{equation} \label{eq::single_triangle_fix}
-x_{s w} = 1, \; x_{w s} = 1 \text{ where } 
-w =
+x_{sa} = x_{as} = x_{ab} = x_{ba} = 1,
+\quad
+\text{where }
+(a,b) =
 \begin{cases}
-u, & \deg_G(u) \le \deg_G(v), \\
-v, & \deg_G(v) < \deg_G(u).
+(u,v), & \deg_G(u) \le \deg_G(v), \\
+(v,u), & \deg_G(v) < \deg_G(u).
 \end{cases}
 \end{equation}
 This addition gives the improved results in Figure~\ref{fig::single_triangular_decomposition_diagram} whilst maintaining 
