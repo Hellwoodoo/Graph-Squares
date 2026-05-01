@@ -437,22 +437,33 @@ x_{sa} = x_{as} = x_{ab} = x_{ba} = 1,
 \text{where }
 (a,b) =
 \begin{cases}
-(u,v), & \deg_G(u) \le \deg_G(v), \\
-(v,u), & \deg_G(v) < \deg_G(u).
+(u,v), & \deg_G(u) \leq \deg_G(v), \\
+(v,u), & \deg_G(u) > \deg_G(v).
 \end{cases}
 \end{equation}
 This addition gives the improved results in Figure~\ref{fig::single_triangular_decomposition_diagram} whilst maintaining 
 polynomial runtime. 
 
-Ross and Harary in 1960 gave an algorithm for constructing a tree root by using characterizations of the square graph 
-to conclude that existing tree square roots are unique up to isomorphism \cite{ross_1960_square}. 
-
-\begin{proposition} \label{prop::single_triangular_decomposition_proposition}
-If a square graph $G$ has a maximal root $H$ that is a tree, then the single triangular decomposition linear program 
-returns an integral solution. 
+\begin{proposition} \label{prop::single_triangular_decomposition_equality}
+  Let $s,u,v$ form a triangle in square $G$ where $s$ only lies in a single clique. If $\deg_G(u) = \deg_G(v) = d \geq 2$, then 
+  can choose to assign $x_{su} = x_{uv} = 1$ in the root $H$ without loss of generality. 
 \end{proposition}
 \begin{proof}
+Since $s$ lies in a single clique in $G$, in the root $H$ $s$ must be a leaf with either $u$ or $v$ being the internal 
+vertex of degree two connected to $v$ or $u$ which is potentially connected to the rest of the graph. Assume without loss
+of generality that $u$ is the internal vertex. As $u$ and $v$ are both connected to $s$ in $G$ and connected to each other,
+there exists $d-2$ vertices which are connected to $v$ in $G$, and by construction of the square these $d-2$ vertices will 
+be connected to $u$ by paths of length two in $H$. However, this means that any vertex connected to a vertex in the neighbourhood 
+of $v$, $N_G(v) = \{w \in V: uv \in E_G\}$ must also be in the neighbourhood else $v$ would have degree greater than $d$ in 
+the square. By definition, this means that $N_G(v) \cup v$ form a clique in $G$ and hence in the root, either $u$ or $v$ 
+can be the internal vertex since the resulting square graph $G$ is unchanged up to an automorphism exchanging $u$ and $v$.
+\end{proof}. 
 
+\begin{proposition} \label{prop::single_triangular_decomposition}
+  If a square graph $G$ has a maximal root $H$ that is a tree, then the single triangular decomposition linear program 
+  returns an integral solution. 
+\end{proposition}
+\begin{proof}
 Assume for contradiction that there exists a square graph $G$ with a tree root $H$ such that the linear 
 program has an optimal, maximal solution $x^*$ that is fractional. Then there exists at least one edge 
 $ij \in E_G$ such that $0 < x^*_{ij} < 1 $. Consider the root solution $x^*$ and the following cases. 
@@ -473,30 +484,34 @@ $H_i$ and $H_j$ are disjoint with only one fractional bridge $ij$ connecting the
 apply the above logic such that we are eventually left with at least two subgraphs $H_0, H_1$ that do not have 
 fractional bridges and are comprised completely of pendant vertices and leafs. From above two cases, all edges 
 in the roots of $H_0, H_1$ are integral, and since the situation where a vertex has multiple leaves can not occur (
-there must be pendant 2-leaves together with leaves else would have above case), this completely categorizes the position of the node which 
-connects to the rest of the graph such that there are no other automorisphsm which form the same square. 
+there must be pendant 2-leaves together with leaves else would have above case), this completely categorizes the position 
+of the node which connects to the rest of the graph such that there are no other automorisphsm which form the same square. 
 As this holds for both $H_0$ and $H_1$, the endpoints of the bridge between them can be completely identified such that 
 their bridge will be made integral. Applying this recursively thus means that $H_i$ and $H_j$ are completely integral 
 such that $i$ and $j$ are identified and $ij$ is made integral. This contradicts the fractional nature of $x^*_{ij}$. 
 
 Since no fractional, solution exists, the optimal, maximal output of the linear program must be completely integral 
 if it results in a tree root. 
-
 \end{proof}
 
-This result is strictly weaker than Ross and Harary's since any tree with an internal vertex connected to more than 
-one leaf will generate a clique in the maximal root. That is, it is not a maximal tree and hence the modified linear program
-will not return a solution. 
+Ross and Harary in 1960 gave an algorithm for constructing a tree root by using characterizations of the square graph 
+to conclude that existing tree square roots are unique up to isomorphism \cite{ross_1960_square}. 
+
+This result is strictly weaker than Ross and Harary's since any tree with an internal vertex connected to only leaves of cardinality 
+greater than or equal to $2$ apart from an edge to the remaining subgraph  will always generate a clique in the maximal root. That is, 
+it is not a maximal tree and hence the modified linear program will not return a solution despite the input containing a tree root.  
 
 % In the case of $\deg_G(u) = \deg_G(v)$, enforcement is done by arbitrarily choosing one of the edges of only one 
 % such triangle and gives the improved results in Figure~\ref{fig::recursive_single_triangular_decomposition_diagram}.  
 
 
-IDEA: Let $A,B$ be set of vertices that are internally connected by integral edges but are disjoint where each edge 
-between $A$ and $B$ is fractional. 
+\subsection{Forbidden Edges} \label{subsec::forbiden_edges}
+
+We consider running the linear program twice - the second time by analyzing the first result and adding constraints that forbid
+certain subgraphs and edges from appearing. That is, rather than deterministically assigning certain fractional edges integral values,
+certain fractional edges are made to have zero weight. 
 
 \subsection{Vertex Deletion} \label{subsec::vertex_deletion}
-
 
 As single triangular decomposition gives perfect characterizations of the root using the linear program 
 for up to $n=5$, a further refinement is obtained by analyzing fractional solutions through vertex deletion
@@ -576,6 +591,14 @@ the vertices equivalent to labelling the vertices.
 % do not necessarily have an edge to $b_1, \dots, b_m \in B$. 
 % If weight of $< m (m-1)$ edges $x_{ab}$ in this subgraph are equal then the vertex in $A$ with the largest degree has 
 % at least one edge and hence can fix it arbitrarily to one vertex in $B$. 
+
+\begin{proposition} \label{prop::bipartite_symmetry}
+  If a square graph $G$ has a maximal root $H$ that is a split graph, then the bipartite symmetry linear program 
+  returns an integral solution. 
+\end{proposition}
+\begin{proof}
+  
+\end{proof}
 
 \subsection{Rounding} \label{subsec::rounding}
 
