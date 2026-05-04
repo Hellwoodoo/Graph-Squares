@@ -457,7 +457,7 @@ be connected to $u$ by paths of length two in $H$. However, this means that any 
 of $v$, $N_G(v) = \{w \in V: uv \in E_G\}$ must also be in the neighbourhood else $v$ would have degree greater than $d$ in 
 the square. By definition, this means that $N_G(v) \cup v$ form a clique in $G$ and hence in the root, either $u$ or $v$ 
 can be the internal vertex since the resulting square graph $G$ is unchanged up to an automorphism exchanging $u$ and $v$.
-\end{proof}. 
+\end{proof}
 
 \begin{proposition} \label{prop::single_triangular_decomposition}
   If a square graph $G$ has a maximal root $H$ that is a tree, then the single triangular decomposition linear program 
@@ -509,7 +509,9 @@ it is not a maximal tree and hence the modified linear program will not return a
 
 We consider running the linear program twice - the second time by analyzing the first result and adding constraints that forbid
 certain subgraphs and edges from appearing. That is, rather than deterministically assigning certain fractional edges integral values,
-certain fractional edges are made to have zero weight. 
+certain fractional edges are made to have zero weight. If the first root has assigned value one to the edge between $x$ and $y$, then if 
+there is no edge between $w$ and $x$ then $x_{yw} = 0$. 
+
 
 \subsection{Vertex Deletion} \label{subsec::vertex_deletion}
 
