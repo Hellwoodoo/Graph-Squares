@@ -396,7 +396,7 @@ at least one of $x_{ik},x_{kj}$ must be equal to $0$. However, when $z_{ij} \geq
 may satisfy the constraints without giving a valid integral path in the root. 
 
 \section{Linear Program} \label{sec::LP}
-\subsection{Max Objective Function} \label{subsubsec::max_obj}
+\subsection{Max Objective Function} \label{subsec::max_obj}
 
 Consider the addition of an objective function maximizing the total weights on all edges to the linear relaxation 
 defined by Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::LP_z_variable} in Section~\ref{subsec::LP} 
@@ -418,7 +418,7 @@ just unique up to isomorphism. Consider the complete graphs of which the triangl
 has four roots, itself, and three path graphs of length $2$ that are isomorphic to each other. This ensures that the solution to 
 the linear program remain consistent (up to isomorphism) and give useful properties for . 
 
-\subsection{Single Triangular Decomposition} \label{subsubsec::single_triangular_decomposition}
+\subsection{Single Triangular Decomposition} \label{subsec::single_triangular_decomposition}
 
 Using the local triangular structure of the graph, certain edge assignments in a square root can be fixed. 
 For a vertex $s \in V$, define
@@ -441,17 +441,28 @@ x_{sa} = x_{as} = x_{ab} = x_{ba} = 1,
 (v,u), & \deg_G(u) > \deg_G(v).
 \end{cases}
 \end{equation}
+
+% Add constraint that the sum of all weights is n-1
+
 This addition gives the improved results in Figure~\ref{fig::single_triangular_decomposition_diagram} whilst maintaining 
 polynomial runtime. 
 
+% First proof how deg u = deg v implies that $G$ has explicit structure with $K-2$ clique (IFF? )
+\begin{lemma}
+  
+\end{lemma}
+
 \begin{proposition} \label{prop::single_triangular_decomposition_equality}
   Let $s,u,v$ form a triangle in square $G$ where $s$ only lies in a single clique. If $\deg_G(u) = \deg_G(v) = d \geq 2$, then 
-  can choose to assign $x_{su} = x_{uv} = 1$ in the root $H$ without loss of generality. 
+  can choose to assign $x_{su} = x_{uv} = 1$, $x_{sv} = 0$ in the tree root $H$ without loss of generality.  (if feasible, after adding 
+  this condition still feasible)
 \end{proposition}
 \begin{proof}
-Since $s$ lies in a single clique in $G$, in the root $H$ $s$ must be a leaf with either $u$ or $v$ being the internal 
-vertex of degree two connected to $v$ or $u$ which is potentially connected to the rest of the graph. Assume without loss
-of generality that $u$ is the internal vertex. As $u$ and $v$ are both connected to $s$ in $G$ and connected to each other,
+  % Explicitly mention how clique proves s-u-v/s-v-u  
+Since $s$ lies in a single clique in $G$, in the root $H$, $s$ must be a leaf with either $u$ or $v$ being the internal 
+vertex of degree two in $H$ adjacent to $v$ or $u$ which is potentially adjacent to the rest of the graph. Assume without loss
+of generality that $u$ is the internal vertex. As $u$ and $v$ are both adjacent to $s$ in $G$ and connected to each other,
+% Any neighbour of U is a subset of  neighbour of V and since the size of sets is equal, it is actually equality 
 there exists $d-2$ vertices which are connected to $v$ in $G$, and by construction of the square these $d-2$ vertices will 
 be connected to $u$ by paths of length two in $H$. However, this means that any vertex connected to a vertex in the neighbourhood 
 of $v$, $N_G(v) = \{w \in V: uv \in E_G\}$ must also be in the neighbourhood else $v$ would have degree greater than $d$ in 
@@ -462,8 +473,8 @@ can be the internal vertex since the resulting square graph $G$ is unchanged up 
 \begin{proposition} \label{prop::single_triangular_decomposition}
   If a square graph $G$ has a maximal root $H$ that is a tree, then the single triangular decomposition linear program 
   returns an integral solution. 
-\end{proposition}
-\begin{proof}
+\end{proposition} % Not maximal root 
+\begin{proof} % Need to rewrite proof in terms of $G$ rather than $H$ 
 Assume for contradiction that there exists a square graph $G$ with a tree root $H$ such that the linear 
 program has an optimal, maximal solution $x^*$ that is fractional. Then there exists at least one edge 
 $ij \in E_G$ such that $0 < x^*_{ij} < 1 $. Consider the root solution $x^*$ and the following cases. 
@@ -487,12 +498,18 @@ in the roots of $H_0, H_1$ are integral, and since the situation where a vertex 
 there must be pendant 2-leaves together with leaves else would have above case), this completely categorizes the position 
 of the node which connects to the rest of the graph such that there are no other automorisphsm which form the same square. 
 As this holds for both $H_0$ and $H_1$, the endpoints of the bridge between them can be completely identified such that 
-their bridge will be made integral. Applying this recursively thus means that $H_i$ and $H_j$ are completely integral 
+their bridge will be made integral. Applying this inductively thus means that $H_i$ and $H_j$ are completely integral 
 such that $i$ and $j$ are identified and $ij$ is made integral. This contradicts the fractional nature of $x^*_{ij}$. 
 
 Since no fractional, solution exists, the optimal, maximal output of the linear program must be completely integral 
 if it results in a tree root. 
 \end{proof}
+
+% Define maximal root 
+
+
+
+% Same as pendant argument, except argue for binary tree $s_1, s_2, u$ forms a clique 
 
 Ross and Harary in 1960 gave an algorithm for constructing a tree root by using characterizations of the square graph 
 to conclude that existing tree square roots are unique up to isomorphism \cite{ross_1960_square}. 
@@ -504,28 +521,40 @@ it is not a maximal tree and hence the modified linear program will not return a
 % In the case of $\deg_G(u) = \deg_G(v)$, enforcement is done by arbitrarily choosing one of the edges of only one 
 % such triangle and gives the improved results in Figure~\ref{fig::recursive_single_triangular_decomposition_diagram}.  
 
+\subsection{Tetrahedron Decomposition} \label{subsec::tetrahedron_decomposition}
+The extension of \ref{subsec::single_triangular_decomposition} can be done by considering cliques of size greater than three. However whilst
+finding a clique of size $\geq k$ for fixed $k$ is polynomial of order $O(n^k)$ simply by checking all tuples of size $k$, the decision problem
+of whether graph $G$ contains a clique of size $k$ or the problem of finding a largest clique is NP-complete. However, we are only concerned 
+with cliques of size $4$ since any branching vertex with exactly two leaves will generate a $4$-clique whilst a branching vertex with more than
+two leaves will generate multiple $4$-cliques by just arbitrarily choosing only two leaves. However, in this manner the  
 
-\subsection{Forbidden Edges} \label{subsec::forbiden_edges}
+\begin{proposition} \label{prop::clique_size_4}
+  If square graph $G$ has a clique of size $\geq 4$, 
+\end{proposition}
+
+
+\subsection{Forbidden Edges} \label{subsec::forbidden_edges}
 
 We consider running the linear program twice - the second time by analyzing the first result and adding constraints that forbid
 certain subgraphs and edges from appearing. That is, rather than deterministically assigning certain fractional edges integral values,
-certain fractional edges are made to have zero weight. If the first root has assigned value one to the edge between $x$ and $y$, then if 
-there is no edge between $w$ and $x$ then $x_{yw} = 0$. 
+certain fractional edges are made to have zero weight. If the first root has assigned value one to the edge between $y$ and $z$, 
+and to the edge between $v$ and $w$, then if there is no edge between $w$ and $y$ in graph $G$, can deterministically assign 
+\begin{equation} \label{eq::forbidden_edges}
+ x_{yv} = x_{zw} = 0 
+\end{equation} 
 
 
 \subsection{Vertex Deletion} \label{subsec::vertex_deletion}
 
-As single triangular decomposition gives perfect characterizations of the root using the linear program 
+As single triangular decomposition gives perfect characterizations of the root using the linear program
 for up to $n=5$, a further refinement is obtained by analyzing fractional solutions through vertex deletion
-and by considering subgraphs. 
+and by considering the subgraphs after this process. 
 
-Let $G^-$ be the subgraph of $G$ defined by $(V^- = V - \{v\}, E_{G^-} = E_G \;\backslash\; \{uv \mid u \in V^-\})$ 
+Let $G^-$ be the subgraph of $G$ defined by $\displaystyle (V^- = V - \{v\}, E_{G^-} = E_G \;\backslash\; \{uv \mid u \in V^-\})$ 
 and if it has a valid square root denote it by $H^-$. 
 Let $H_-$ be the subgraph of the root graph $H$ satisfying the relationship $H^2 = G$ defined by $(V^-, 
 E_H \;\backslash\; \{uv \mid u \in V^-\})$. The idea is that if $G^-$ has a valid square root, can construct 
-$H_-$ from $H^-$ by considering the following scenarios. 
-
-Consider all of the following cases for vertex $v$
+$H_-$ from $H^-$ by considering the following scenarios for vertex $v$
 \begin{enumerate}[label=\roman*)]
   \item $v$ is connected to the subgraph $V^-$ by only one edge to $u \in V^-$
   \item $v$ is connected to the subgraph $V^-$ by two edges to $u, w \in V^-$ where 
