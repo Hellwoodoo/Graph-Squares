@@ -426,7 +426,7 @@ For a vertex $s \in V$, define
 T(s) = \bigl\{ \{u,v\} \subseteq V \setminus \{s\} \vert (s,u)\in E,\ (s,v)\in E,\ (u,v)\in E \bigr\}
 \]
 to be the set of $3$-cliques or triangles in $G$ that contain $s$. If $|T(s)| = 1$ where $T(s) = \{\{u,v\}\}$ then the vertex 
-$s$ exists in a unique triangle of $G$. When the neighbours are structurally distinct with different degree 
+$s$ exists in a unique triangle of $G$. When the neighbours have different degree 
 $\deg_G(u) \neq \deg_G(v)$, then the vertex with smaller degree must be the leaf-adjacent vertex in the square root. If 
 $\deg_G(u) = \deg_G(v)$, then either $u,v$ can be chosen since they are connected to a clique. Importantly, 
 if $u,v$ is fixed by equality then it cannot be fixed again in an alternative single triangular decomposition. 
@@ -526,22 +526,17 @@ The extension of \ref{subsec::single_triangular_decomposition} can be done by co
 finding a clique of size $\geq k$ for fixed $k$ is polynomial of order $O(n^k)$ simply by checking all tuples of size $k$, the decision problem
 of whether graph $G$ contains a clique of size $k$ or the problem of finding a largest clique is NP-complete. However, we are only concerned 
 with cliques of size $4$ since any branching vertex with exactly two leaves will generate a $4$-clique whilst a branching vertex with more than
-two leaves will generate multiple $4$-cliques by just arbitrarily choosing only two leaves. However, in this manner the  
+two leaves will generate multiple $4$-cliques by just arbitrarily choosing only two leaves. 
+
+Consider vertices $s_1, s_2, s_3, v \in V$ which form a $4$-clique in $G$, consider the following scenarios 
+\begin{enumerate} [label=\roman*)]
+  \item If $s_1 < s_2 < s_3 < v$ then 
+\end{enumerate}
 
 \begin{proposition} \label{prop::clique_size_4}
-  If square graph $G$ has a clique of size $\geq 4$, 
+  If square graph $G$ has a clique of size $\geq 4$,  
 \end{proposition}
 
-
-\subsection{Forbidden Edges} \label{subsec::forbidden_edges}
-
-We consider running the linear program twice - the second time by analyzing the first result and adding constraints that forbid
-certain subgraphs and edges from appearing. That is, rather than deterministically assigning certain fractional edges integral values,
-certain fractional edges are made to have zero weight. If the first root has assigned value one to the edge between $y$ and $z$, 
-and to the edge between $v$ and $w$, then if there is no edge between $w$ and $y$ in graph $G$, can deterministically assign 
-\begin{equation} \label{eq::forbidden_edges}
- x_{yv} = x_{zw} = 0 
-\end{equation} 
 
 
 \subsection{Vertex Deletion} \label{subsec::vertex_deletion}
