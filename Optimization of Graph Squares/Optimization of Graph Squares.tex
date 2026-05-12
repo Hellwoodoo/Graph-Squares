@@ -529,7 +529,7 @@ Consider vertices $s_1,s_2,u,v\in V$ such that  $\{s_1,s_2,u,v\}$ induces a $4$-
 \begin{equation} \label{eq::tetrahedron_assignment}
 \deg_G(s_1)=\deg_G(s_2)=n,
 \quad 
-\deg_G(s_1)\le \deg_G(u)\le \deg_G(v).
+\deg_G(s_1) < \deg_G(u) \leq \deg_G(v).
 \end{equation}
 Under these degree constraints, the vertices of minimum degree correspond to leaves adjacent to a common internal vertex $u$ and the vertex 
 $v$, having maximal degree, acts as the connecting vertex between $u$ and the remainder of the graph.
@@ -547,15 +547,14 @@ distinct $4$-clique $\{s_i,s_j,u,v\}$ where the total number of such $4$-cliques
 $ \displaystyle {k \choose 2}$. Therefore, for every $4$-clique that satisfies Equation~\eqref{eq::tetrahedron_assignment} can deterministically 
 assign values to the edges using  
 \begin{equation}\label{eq::tetrahedron_fix}
-x_{s_1a}=x_{as_1}=x_{s_2a}=x_{as_2}=x_{ab}=x_{ba}=x_{s_1s_2}=x_{s_2s_1}=1,
+x_{s_1a}=x_{as_1}=x_{s_2a}=x_{as_2}=x_{ab}=x_{ba}=1,
 \text{where }
 (a,b)=
 \begin{cases}
-(u,v), & \deg_G(u)\leq \deg_G(v), \\[2mm]
-(v,u), & \deg_G(u)>\deg_G(v).
+(u,v), & \deg_G(u) \leq \deg_G(v), \\
+(v,u), & \deg_G(u) > \deg_G(v).
 \end{cases}
 \end{equation}
-Moreover, once a $4$-clique has been fixed as such, none of the vertices are to be fixed in future iterations. 
 
 \begin{proposition}
   Fixing any leaf, their internal vertex and their parent will completely categorize this structure. 
