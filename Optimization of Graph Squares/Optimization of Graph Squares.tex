@@ -529,7 +529,7 @@ Consider vertices $s_1,s_2,u,v\in V$ such that  $\{s_1,s_2,u,v\}$ induces a $4$-
 \begin{equation} \label{eq::tetrahedron_assignment}
 \deg_G(s_1)=\deg_G(s_2)=n,
 \quad 
-\deg_G(s_1) < \deg_G(u) \leq \deg_G(v).
+\deg_G(s_1) < \deg_G(u) < \deg_G(v).
 \end{equation}
 Under these degree constraints, the vertices of minimum degree correspond to leaves adjacent to a common internal vertex $u$ and the vertex 
 $v$, having maximal degree, acts as the connecting vertex between $u$ and the remainder of the graph.
@@ -551,7 +551,7 @@ x_{s_1a}=x_{as_1}=x_{s_2a}=x_{as_2}=x_{ab}=x_{ba}=1,
 \text{where }
 (a,b)=
 \begin{cases}
-(u,v), & \deg_G(u) \leq \deg_G(v), \\
+(u,v), & \deg_G(u) > \deg_G(v), \\
 (v,u), & \deg_G(u) > \deg_G(v).
 \end{cases}
 \end{equation}
