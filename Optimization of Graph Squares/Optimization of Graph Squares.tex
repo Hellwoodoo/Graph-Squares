@@ -18,6 +18,7 @@ style=alphabetic]{biblatex}
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}{Lemma}
 \newtheorem{corollary}{Corollary}
+\newtheorem{definition}{Definition}[section] 
 
 \title{Optimization of Graph Squares}
 \author{Eddie Xu\\\small\texttt{eddie.xu@student.unimelb.com.au}}
@@ -426,6 +427,16 @@ to conclude that existing tree square roots are unique up to isomorphism \cite{r
 modified linear program still gives integral or fractional solutions for graphs with roots and gives fractional or infeasible solutions for graphs 
 without roots but always return valid integral root solution if there exists a tree root.
 
+\begin{definition} \label{def::pendant}
+  A pendant subgraph  is the induced subgraph on three vertices $s,u,v$ where $s$ is a leaf with unique neighbour $u$, and $u$ is an 
+  internal vertex of degree $2$ with neighbours $s$ and $v$, where $v$ connects the subgraph to the remainder of the tree.
+\end{definition}
+
+\begin{definition} \label{def::claw}
+  A claw subgraph  is the induced subgraph on four vertices $s_1,s_2,u,v$ where $s_1,s_2$ are leaves with unique neighbour $u$, and $u$ 
+  is an internal vertex of degree $3$ with neighbours $s_1,s_2,$ and $v$, where $v$ connects the subgraph to the remainder of the tree.
+\end{definition}
+
 We show this by showing that 
 \begin{enumerate}[label=(\Roman*)]
   \item Every leaf of a tree with at least three vertices is adjacent to an internal vertex that is either 
@@ -681,24 +692,22 @@ any two leaves together with their internal vertex and parent uniquely determine
 \subsection{Theorem} \label{sec::tree_theorem}
 
 \begin{lemma} \label{lemma::tree_leaf_structure}
-  Every tree with at least three vertices must contain an internal vertex that is
+  Every tree with at least three vertices must contain an internal vertex that is only 
   \begin{enumerate}[label=(\roman*)]
     \item adjacent to exactly one leaf, or
-    \item adjacent to multiple leaves. 
+    \item adjacent to multiple leaves.
   \end{enumerate}
 \end{lemma}
 \begin{proof}
-As there exists only one tree of size $3$ which is unique up to isomorphism, consider the tree of size $3$ with internal vertex $u$ connected 
-to two leaves $s$ and $v$ to form  $s-u-v$. $u$ is adjacent to multiple leaves $s, v$ such that $u$ satisfies property $(ii)$. We show 
-that any larger tree will always result in at least one internal vertex which satisfies either $(i)$ or $(ii)$ by constructing it from $s-u-v$.  
+Since every tree with at least two vertices contains at least two leaves, let $s$ be a leaf and let $u$ be its unique neighbour.
+As the tree has at least three vertices, $u$ cannot itself be a leaf, otherwise the tree would consist only of the edge $su$,
+hence $u$ is an internal vertex.
 
-Since $u$ satisfy $(ii)$, the construction necessitates the addition of an additional vertex $a_1$ to potentially build a counterexample. 
-If $a_1$ is added to $u$, it becomes a leaf such that $u$ still satisfies $(ii)$, however if $a_1$ is added to $v$, $u-v-a_1$ exist such
-that $u,v$ now both satisfy $(i)$. By symmetry the exact same hold when $a_1$ is added to $u$ such that the addition of any single vertex 
-still resulting in the property holding. 
+Since $s$ is adjacent to $u$, the vertex $u$ is adjacent to at least one leaf. Therefore the case where $u$ is adjacent to no
+leaf vertices cannot occur. The only remaining possibilities are that $u$ is adjacent to exactly one leaf, namely $s$, or that
+$u$ is adjacent to two or more leaves including $s$.
 
-When $a_1$ is added to $u$, consider the addition of another vertex $a_2$ 
-
+Since no other number of leaf neighbours is possible, there exists an internal vertex satisfying either $(i)$ or $(ii)$.
 \end{proof}
 
 \begin{theorem} \label{prop::single_triangular_decomposition+tetrahedron_decomposition}
