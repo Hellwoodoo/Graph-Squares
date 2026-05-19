@@ -421,6 +421,16 @@ the linear program remain consistent (up to isomorphism) and give useful propert
 
 \section{Trees}
 
+\citeauthor{ross_1960_square} in 1960 gave a polynomial algorithm for constructing a tree root by using characterizations of the square graph 
+to conclude that existing tree square roots are unique up to isomorphism \cite{ross_1960_square}. Using adjacency matrices, we show that the 
+modified linear program still gives integral or fractional solutions for graphs with roots and gives fractional or infeasible solutions for graphs 
+without roots but always return valid integral root solution if there exists a tree root.
+
+We show this by showing that 
+\begin{enumerate}[label=(\Roman*)]
+  \item Every leaf of a tree with at least three vertices is adjacent to an internal vertex that is either 
+\end{enumerate}
+
 \subsection{Single Triangular Decomposition} \label{subsec::single_triangular_decomposition}
 
 Using the local triangular structure of the graph, certain edge assignments in a square root can be fixed. 
@@ -476,8 +486,8 @@ $N_G(u)\cup\{u\}$ and $N_G(v)\cup\{v\}$ induce the same clique structure.
 \end{proof}
 
 \begin{proposition} \label{prop::single_triangular_decomposition_equality}
-Let $s,u,v$ form a triangle in square $G$ where $s$ only lies in a single clique. If $\deg_G(u)=\deg_G(v)=d\geq2$, then one can 
-choose to assign $x_{su}=x_{uv}=1$, $x_{sv}=0$ in the tree root $H$ without loss of generality.
+  Let $s,u,v$ form a triangle in square $G$ where $s$ only lies in a single clique. If $\deg_G(u)=\deg_G(v)=d\geq2$, then one can 
+  choose to assign $x_{su}=x_{uv}=1$ in the tree root $H$ without loss of generality.
 \end{proposition}
 \begin{proof}
 Since $s$ lies in a single clique in $G$, in the root $H$, $s$ must be a leaf with either $u$ or $v$ being the internal
@@ -488,26 +498,24 @@ identical clique structure in $G$. Therefore exchanging the roles of $u$ and $v$
 as the internal vertex and assigning
 \[
 x_{su}=x_{uv}=1,
-\qquad
-x_{sv}=0
 \]
 does not alter feasibility, since the alternative choice obtained by exchanging $u$ and $v$ produces an isomorphic tree root
 with identical square graph.
 \end{proof}
 
+This result is strictly weaker than Ross and Harary's since any tree with an internal vertex connected only to leaves of cardinality 
+greater than or equal to $2$, apart from an edge to the remaining subgraph, will always generate a clique in the maximal root. That is, 
+it is not a maximal tree and hence the modified linear program will not return a solution despite the input graph containing a tree root.
+
+% Proof that it does not break feasibility? 
+
 \begin{proposition} \label{prop::single_triangular_fixing}
-Let $H$ be A tree and let $u$ be an internal vertex with leaf children $s_1,\dots,s_k$ and parent $v$. Fixing any two leaves together 
-with their internal vertex and parent uniquely determines the remaining leaf children of $u$ in the linear program.
+Let $H$ be a tree and let $u$ be an internal vertex with single leaf child $s_1$ and single parent $v$. Fixing the internal vertex,
+its parent and its child uniquely determines the subtree rooted at $v$ with end vertex $s$ in the linear program.
 \end{proposition}
 \begin{proof}
   
 \end{proof}
-
-Ross and Harary in 1960 gave an algorithm for constructing a tree root by using characterizations of the square graph 
-to conclude that existing tree square roots are unique up to isomorphism \cite{ross_1960_square}. 
-This result is strictly weaker than Ross and Harary's since any tree with an internal vertex connected only to leaves of cardinality 
-greater than or equal to $2$, apart from an edge to the remaining subgraph, will always generate a clique in the maximal root. That is, 
-it is not a maximal tree and hence the modified linear program will not return a solution despite the input graph containing a tree root.
 
 \subsection{Tetrahedron Decomposition} \label{subsec::tetrahedron_decomposition}
 A natural extension of Section~\ref{subsec::single_triangular_decomposition} can be achieved by considering cliques of size greater than 
@@ -577,9 +585,66 @@ N_G(u)\setminus\{s_1,s_2,u,v\}.
 \end{split}
 \end{equation}
 
+\begin{lemma} \label{lem::tetrahedron_subset_neighbourhood}
+  Let $s_1,s_2,u,v$ form a $4$-clique in square $G$. If $N_G(s_1)\setminus\{s_1,s_2,u,v\}=N_G(s_2)\setminus\{s_1,s_2,u,v\}$, then
+  \[
+  N_G(u)\setminus\{s_1, s_2\}=N_G(v)\setminus\{s_1, s_2\}.
+  \]
+  That is, $N_G(u)\cup\{u\}$ and $N_G(v)\cup\{v\}$ induce the same clique structure in $G$.
+\end{lemma}
+\begin{proof}
+Let $x \in N_G(v)\setminus\{s_1,s_2\}$ be a vertex adjacent to $v$ in $G$ such that there exists a path of length
+at most two between $x$ and $v$ in $H$. If $x$ is adjacent to either $s_1$ or $s_2$, then by the assumption
+\[
+N_G(s_1)\setminus\{s_1,s_2,u,v\}
+=
+N_G(s_2)\setminus\{s_1,s_2,u,v\},
+\]
+where the vertices $s_1$ and $s_2$ contribute identically outside the
+clique. Hence any external connection from the clique through $v$
+must also be realised through the same local structure containing
+$u$. Consequently $x$ is also at distance at most two from $u$ in
+$H$, and therefore
+\[
+x\in N_G(u)\setminus\{s_1,s_2\}.
+\]
+Thus
+\[
+N_G(v)\setminus\{s_1,s_2\}
+\subseteq
+N_G(u)\setminus\{s_1,s_2\}.
+\]
+
+By symmetry, interchanging the roles of $u$ and $v$ gives
+\[
+N_G(u)\setminus\{s_1,s_2\}
+\subseteq
+N_G(v)\setminus\{s_1,s_2\}.
+\]
+Hence
+\[
+N_G(u)\setminus\{s_1,s_2\}
+=
+N_G(v)\setminus\{s_1,s_2\}.
+\]
+
+Therefore the vertices adjacent to $u$ and $v$ outside of
+$\{s_1,s_2\}$ have identical adjacency structure in $G$, and so
+$N_G(u)\cup\{u\}$ and $N_G(v)\cup\{v\}$ induce the same clique
+structure in $G$.
+\end{proof}
+
+\begin{proposition} \label{prop::textrahedron_decomposition_equality}
+  Let $s_1,s_2,u,v$ form a $4$-clique in square $G$. If $\deg_G(u)=\deg_G(v)=d\geq3$, then one can 
+  choose to assign $x_{s_1u}=x_{x_2u}=x_{uv}=1$ in the tree root $H$ without loss of generality.
+\end{proposition}
+\begin{proof}
+  
+\end{proof}
+
 \begin{proposition} \label{prop::tetrahedron_fixing}
-Let $H$ be A tree and let $u$ be an internal vertex with leaf children $s_1,\dots,s_k$ and parent $v$. Fixing any two leaves together 
-with their internal vertex and parent uniquely determines the remaining leaf children of $u$ in the linear program.
+  Let $H$ be a tree and let $u$ be an internal vertex with leaf children $s_1,\dots,s_k$ and parent $v$. Fixing any two leaves together 
+  with their internal vertex and parent uniquely determines the remaining leaf children of $u$ in the linear program.
 \end{proposition}
 \begin{proof}
 Since any tree may be rooted at an arbitrary vertex, assume without loss of generality that $H$ is rooted. 
@@ -616,17 +681,24 @@ any two leaves together with their internal vertex and parent uniquely determine
 \subsection{Theorem} \label{sec::tree_theorem}
 
 \begin{lemma} \label{lemma::tree_leaf_structure}
-  Every leaf of a tree with at least three vertices is adjacent to an internal vertex that is either adjacent to exactly 
-  one leaf or adjacent to multiple leaves.
+  Every tree with at least three vertices must contain an internal vertex that is
+  \begin{enumerate}[label=(\roman*)]
+    \item adjacent to exactly one leaf, or
+    \item adjacent to multiple leaves. 
+  \end{enumerate}
 \end{lemma}
 \begin{proof}
-  Let $s$ be a leaf and let $u$ be its unique neighbour since $\deg(s)=1$ by definition. Since the tree has at least three
-  vertices, $u$ cannot be a leaf, otherwise the tree would consist only of the edge $su$. Hence $u$ is an internal vertex.
-  The only two possibilities for vertex $u$ in relation to the leaves in its neighbourhood are
-  \begin{enumerate}
-    \item $u$ is adjacent to exactly one leaf $s$,
-    \item $u$ is adjacent to two or more leaves including $s$. 
-  \end{enumerate}
+As there exists only one tree of size $3$ which is unique up to isomorphism, consider the tree of size $3$ with internal vertex $u$ connected 
+to two leaves $s$ and $v$ to form  $s-u-v$. $u$ is adjacent to multiple leaves $s, v$ such that $u$ satisfies property $(ii)$. We show 
+that any larger tree will always result in at least one internal vertex which satisfies either $(i)$ or $(ii)$ by constructing it from $s-u-v$.  
+
+Since $u$ satisfy $(ii)$, the construction necessitates the addition of an additional vertex $a_1$ to potentially build a counterexample. 
+If $a_1$ is added to $u$, it becomes a leaf such that $u$ still satisfies $(ii)$, however if $a_1$ is added to $v$, $u-v-a_1$ exist such
+that $u,v$ now both satisfy $(i)$. By symmetry the exact same hold when $a_1$ is added to $u$ such that the addition of any single vertex 
+still resulting in the property holding. 
+
+When $a_1$ is added to $u$, consider the addition of another vertex $a_2$ 
+
 \end{proof}
 
 \begin{theorem} \label{prop::single_triangular_decomposition+tetrahedron_decomposition}
