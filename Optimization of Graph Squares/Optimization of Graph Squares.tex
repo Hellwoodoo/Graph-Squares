@@ -428,19 +428,25 @@ modified linear program still gives integral or fractional solutions for graphs 
 without roots but always return valid integral root solution if there exists a tree root.
 
 \begin{definition} \label{def::pendant}
-  A pendant subgraph  is the induced subgraph on three vertices $s,u,v$ where $s$ is a leaf with unique neighbour $u$, and $u$ is an 
+  A pendant subgraph is the induced subgraph on three vertices $s,u,v$ where $s$ is a leaf with unique neighbour $u$, and $u$ is an 
   internal vertex of degree $2$ with neighbours $s$ and $v$, where $v$ connects the subgraph to the remainder of the tree.
 \end{definition}
 
 \begin{definition} \label{def::claw}
-  A claw subgraph  is the induced subgraph on four vertices $s_1,s_2,u,v$ where $s_1,s_2$ are leaves with unique neighbour $u$, and $u$ 
-  is an internal vertex of degree $3$ with neighbours $s_1,s_2,$ and $v$, where $v$ connects the subgraph to the remainder of the tree.
+  A claw subgraph is the induced subgraph on four vertices $s_1,s_2,u,v$ where $s_1,s_2$ are leaves with unique neighbour $u$, and $u$ 
+  is an internal vertex of degree $\geq 3$ where $\{s_1,s_2, v\} \subseteq N(u)$, where $v$ connects the subgraph to the remainder of the tree.
 \end{definition}
 
 We show this by showing that 
 \begin{enumerate}[label=(\Roman*)]
-  \item Every leaf of a tree with at least three vertices is adjacent to an internal vertex that is either 
+  \item Every tree contains a pendant or claw subgraph 
+  \item Every pendant can be completely classified by single triangular decomposition such that its connection to the remainder of the 
+  tree is correctly identified 
+  \item Every claw can be completely classified by tetrahedron decomposition such that its connection to the remainder of the tree 
+  is correctly identified 
 \end{enumerate}
+Since any subgraph of a tree is also a tree, using the above three propositions we can coaless pendants and claws into new leafs,
+such that iteratively end up with an integral tree solution to the linear program 
 
 \subsection{Single Triangular Decomposition} \label{subsec::single_triangular_decomposition}
 
@@ -691,23 +697,38 @@ any two leaves together with their internal vertex and parent uniquely determine
 
 \subsection{Theorem} \label{sec::tree_theorem}
 
-\begin{lemma} \label{lemma::tree_leaf_structure}
-  Every tree with at least three vertices must contain an internal vertex that is only 
-  \begin{enumerate}[label=(\roman*)]
-    \item adjacent to exactly one leaf, or
-    \item adjacent to multiple leaves.
-  \end{enumerate}
+\begin{lemma} \label{lemma::tree_pendant_claw}
+  Every tree contains either a \hyperref[def::pendant]{pendant} or a \hyperref[def::claw]{claw} subgraph.
 \end{lemma}
+
 \begin{proof}
-Since every tree with at least two vertices contains at least two leaves, let $s$ be a leaf and let $u$ be its unique neighbour.
-As the tree has at least three vertices, $u$ cannot itself be a leaf, otherwise the tree would consist only of the edge $su$,
-hence $u$ is an internal vertex.
+Using induction, for the base case $|V(T)|=3$, there exists a unique tree up to isomorphism and is labelled $s-u-v$ such that $u$ is the 
+inner vertex adjacent to two leaves and hence the graph is a pendant with the statement holding. 
 
-Since $s$ is adjacent to $u$, the vertex $u$ is adjacent to at least one leaf. Therefore the case where $u$ is adjacent to no
-leaf vertices cannot occur. The only remaining possibilities are that $u$ is adjacent to exactly one leaf, namely $s$, or that
-$u$ is adjacent to two or more leaves including $s$.
+Assume that every tree on $n\ge3$ vertices contains either a pendant or a claw subgraph, and let $T$ be a tree on $n+1$ vertices.
 
-Since no other number of leaf neighbours is possible, there exists an internal vertex satisfying either $(i)$ or $(ii)$.
+Since every tree contains a leaf, let $x$ be a leaf of $T$ and let
+$T'=T-x$. Since removing a leaf preserves connectedness and
+acyclicity, $T'$ is a tree on $n$ vertices.
+
+By the induction hypothesis, $T'$ contains either a pendant or a claw
+subgraph.
+
+If this subgraph does not involve the neighbour of $x$, then it
+remains unchanged in $T$, and we are done.
+
+Otherwise let $y$ denote the neighbour of $x$. The addition of $x$
+only changes the local structure around $y$.
+
+If $\deg_T(y)=2$, then together with its neighbours $x$ and $z$, the
+induced subgraph on $\{x,y,z\}$ forms a pendant subgraph.
+
+If $\deg_T(y)\ge3$ and $y$ is adjacent to at least two leaves, then
+choosing two such leaves $s_1,s_2$ and another neighbour $v$ of $y$
+forms a claw subgraph.
+
+Hence $T$ contains either a pendant or a claw subgraph, completing
+the induction.
 \end{proof}
 
 \begin{theorem} \label{prop::single_triangular_decomposition+tetrahedron_decomposition}
