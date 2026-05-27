@@ -432,21 +432,27 @@ without roots but always return valid integral root solution if there exists a t
   internal vertex of degree $2$ with neighbours $s$ and $v$, where $v$ connects the subgraph to the remainder of the tree.
 \end{definition}
 
-\begin{definition} \label{def::claw}
-  A claw subgraph is the induced subgraph on four vertices $s_1,s_2,u,v$ where $s_1,s_2$ are leaves with unique neighbour $u$, and $u$ 
+\begin{definition} \label{def::leaf_clique}
+  A leaf clique subgraph is the induced subgraph on four vertices $s_1,s_2,u,v$ where $s_1,s_2$ are leaves with unique neighbour $u$, and $u$ 
   is an internal vertex of degree $\geq 3$ where $\{s_1,s_2, v\} \subseteq N(u)$, where $v$ connects the subgraph to the remainder of the tree.
 \end{definition}
 
-We show this by showing that 
+We prove that there exists a polynomial time linear program solution by showing that 
 \begin{enumerate}[label=(\Roman*)]
-  \item Every tree contains a pendant or claw subgraph 
+  \item Every tree contains a pendant or leaf clique subgraph 
   \item Every pendant can be completely classified by single triangular decomposition such that its connection to the remainder of the 
   tree is correctly identified 
-  \item Every claw can be completely classified by tetrahedron decomposition such that its connection to the remainder of the tree 
-  is correctly identified 
+  \item Every leaf clique can be completely classified by tetrahedron decomposition such that its connection to the remainder of the 
+  tree is correctly identified 
 \end{enumerate}
-Since any subgraph of a tree is also a tree, using the above three propositions we can coaless pendants and claws into new leafs,
-such that iteratively end up with an integral tree solution to the linear program 
+Since any subgraph of a tree is also a tree, using the above three propositions we can coalesce pendants and leaf cliques into fixed
+edge assignments such that the maximal linear program pushes the tree solution towards integrality.
+
+% Do we need to show that fixing single edge is strong enough to fix subtrees? Argument would be - use decomposition to fix 
+% s-u-v- or s1s2-u-v structure, then can safely condense s_1,s_2,s into u such that u is a leaf and u-v is fixed. Argument is that 
+% this fixes all solutions up the tree until a point of symmetry is met. Then by symmetry, the other branch must also have 
+% a pendant or leaf clique that has likewise been fixed such that every symmetric edge is fixed, breaking symmetry and enforcing 
+% the rest of the tree to integrality 
 
 \subsection{Single Triangular Decomposition} \label{subsec::single_triangular_decomposition}
 
@@ -476,12 +482,11 @@ This addition gives the improved results in Figure~\ref{fig::single_triangular_d
 polynomial runtime. 
 
 \begin{lemma} \label{lem::single_triangle_equal_neighbourhood}
-Let $s,u,v$ form a triangle in square $G$ where $s$ only lies in a single clique. If 
-$\deg_G(u)=\deg_G(v)=d\geq 2$, then
-\[
-N_G(u)\setminus\{s\}=N_G(v)\setminus\{s\}.
-\]
-That is, $N_G(u)\cup\{u\}$ and $N_G(v)\cup\{v\}$ induce the same clique structure in $G$.
+  Let $s,u,v$ form a triangle in square $G$ where $s$ only lies in a single clique. If $\deg_G(u)=\deg_G(v)=d\geq 2$, then
+  \[
+  N_G(u)\setminus\{s\}=N_G(v)\setminus\{s\}.
+  \]
+  That is, $N_G(u)\cup\{u\}$ and $N_G(v)\cup\{v\}$ induce the same clique structure in $G$.
 \end{lemma}
 \begin{proof}
 Since $s$ lies in a single clique in $G$, in any tree root $H$ the vertex $s$ must be a leaf, and exactly one of $u$ or $v$ is the
@@ -520,9 +525,18 @@ does not alter feasibility, since the alternative choice obtained by exchanging 
 with identical square graph.
 \end{proof}
 
+\begin{proposition} \label{prop::single_triangular_decomposition_feasibility}
+  Let $s,u,v$ form a triangle in square $G$ where $s$ only lies in a single clique. The linear program with Equation~\eqref{eq::single_triangle_fix}
+  never returns a infeasible solution for squares with tree roots. 
+\end{proposition}
+\begin{proof}
+  
+\end{proof}
+
 This result is strictly weaker than Ross and Harary's since any tree with an internal vertex connected only to leaves of cardinality 
-greater than or equal to $2$, apart from an edge to the remaining subgraph, will always generate a clique in the maximal root. That is, 
-it is not a maximal tree and hence the modified linear program will not return a solution despite the input graph containing a tree root.
+greater than or equal to $2$, with an edge to the remaining subgraph, will always generate a clique in the maximal root. That is, 
+the maximal solution is not a tree and hence the modified linear program will not return a solution despite the input graph containing 
+a tree root.
 
 % Proof that it does not break feasibility? 
 
@@ -668,8 +682,7 @@ Since any tree may be rooted at an arbitrary vertex, assume without loss of gene
 Let $s_1,\dots,s_k$ be leaf children adjacent to an internal vertex $u$, and let $v$ be the parent of $u$. Consider any pair
 of leaves $s_i,s_j$, and suppose the internal branching vertex $u$ together with its parent $v$ have been fixed in the linear program.
 Now consider any remaining leaf $s_\ell$ adjacent to $u$. Since $s_\ell$ is a leaf in the root, its only neighbour in the tree is
-$u$. Furthermore, all leaf children of $u$ have identical neighbourhood structure in the square graph outside of
-$\{u,v,s_i,s_j\}$.
+$u$. Furthermore, all leaf children of $u$ have identical neighbourhood structure in the square graph outside of $\{u,v,s_i,s_j\}$.
 
 Now consider any remaining leaf $s_\ell$ adjacent to $u$. Since every leaf adjacent to $u$ lies at distance two from $s_\ell$
 through $u$, and $v$ lies at distance two through the path $s_\ell-u-v$, the neighbourhood of $s_\ell$ in the square graph is
@@ -694,42 +707,60 @@ Thus the only feasible assignment is for $s_\ell$ to be adjacent to the already 
 any two leaves together with their internal vertex and parent uniquely determines all remaining leaf children adjacent to $u$.
 \end{proof}
 
+\begin{proposition} \label{prop::tetrahedron_decomposition_feasibility}
+  Let $s_1,s_2,u,v$ form a $4$-clique in square $G$. The linear program with Equation~\eqref{eq::tetrahedron_fix}
+  never returns a infeasible solution for squares with tree roots. 
+\end{proposition}
+\begin{proof}
+  
+\end{proof}
+
+% Need to use \neq 0 and then using maximality to show 1 
+% Left right structure of proofs with longest path 
+% Smaller proof needed for pendants/leaf cliques 
+
 
 \subsection{Theorem} \label{sec::tree_theorem}
 
-\begin{lemma} \label{lemma::tree_pendant_claw}
-  Every tree contains either a \hyperref[def::pendant]{pendant} or a \hyperref[def::claw]{claw} subgraph.
+\begin{lemma} \label{lemma::tree_pendant_leaf_clique}
+  Every tree contains either a \hyperref[def::pendant]{pendant} or a \hyperref[def::leaf_clique]{leaf clique} subgraph.
 \end{lemma}
+\begin{proof} 
+Let $T$ be a finite tree with $|V(T)|\ge 3$, and root $T$ at an arbitrary vertex. Since $T$ is finite, there exists a leaf $s$ of 
+maximal depth where its parent is $u$. Every child of $u$ is a leaf, since if there was some child $w$ of $u$ that is not a leaf, 
+then $w$ would have a child and hence there would exist a vertex at depth strictly greater than that of $s$, contradicting the 
+choice of $s$.
 
-\begin{proof}
-Using induction, for the base case $|V(T)|=3$, there exists a unique tree up to isomorphism and is labelled $s-u-v$ such that $u$ is the 
-inner vertex adjacent to two leaves and hence the graph is a pendant with the statement holding. 
+If $u$ is not the root, let $v$ denote its parent such that every neighbour of $u$ other than $v$ is a leaf.
 
-Assume that every tree on $n\ge3$ vertices contains either a pendant or a claw subgraph, and let $T$ be a tree on $n+1$ vertices.
+If $u$ has exactly one leaf neighbour $s$ besides $v$ (when $u$ is not
+the root), then $u$ has exactly two neighbours, namely $s$ and $v$,
+hence $\deg_T(u)=2$. Therefore the induced subgraph on
+\[
+\{s,u,v\}
+\]
+forms a pendant subgraph.
 
-Since every tree contains a leaf, let $x$ be a leaf of $T$ and let
-$T'=T-x$. Since removing a leaf preserves connectedness and
-acyclicity, $T'$ is a tree on $n$ vertices.
-
-By the induction hypothesis, $T'$ contains either a pendant or a claw
-subgraph.
-
-If this subgraph does not involve the neighbour of $x$, then it
-remains unchanged in $T$, and we are done.
-
-Otherwise let $y$ denote the neighbour of $x$. The addition of $x$
-only changes the local structure around $y$.
-
-If $\deg_T(y)=2$, then together with its neighbours $x$ and $z$, the
-induced subgraph on $\{x,y,z\}$ forms a pendant subgraph.
-
-If $\deg_T(y)\ge3$ and $y$ is adjacent to at least two leaves, then
-choosing two such leaves $s_1,s_2$ and another neighbour $v$ of $y$
-forms a claw subgraph.
-
-Hence $T$ contains either a pendant or a claw subgraph, completing
-the induction.
+Otherwise $u$ has at least two leaf neighbours $s_1,s_2$. Choose
+another neighbour $v$ of $u$ distinct from $s_1,s_2$; if $u$ is not the
+root, take its parent, while if $u$ is the root choose any remaining
+neighbour. Then
+\[
+\{s_1,s_2,v\}\subseteq N(u),
+\]
+and $\deg_T(u)\ge3$. Hence the induced subgraph on
+\[
+\{s_1,s_2,u,v\}
+\]
+forms a leaf clique subgraph.
 \end{proof}
+\begin{proof}
+Consider the smallest tree of size $3$ that is unique up to isomorphism, $s-u-v$ which is clearly a pendant. In order to form 
+a tree without a pendant or a leaf-clique, a vertex $a$ must be added. However, without loss of generality adding $a$ to the leaf 
+$v$ forms a new pendant $\{a,v,u\}$ whilst adding $a$ to the internal vertex $u$ forms a  $\{\}$ 
+\end{proof}
+
+
 
 \begin{theorem} \label{prop::single_triangular_decomposition+tetrahedron_decomposition}
   If a square graph $G$ has a root $H$ that is a tree, then the single triangular decomposition and tetrahedron decomposition 
