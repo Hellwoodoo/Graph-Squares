@@ -616,6 +616,8 @@ N_G(u)\setminus\{s_1,s_2,u,v\}.
 \end{split}
 \end{equation}
 
+% If the neighbourhood of a k4 tetrahedron contains contains a pendant internal vertex than it is not valid
+
 \begin{lemma} \label{lem::tetrahedron_subset_neighbourhood}
   Let $s_1,s_2,u,v$ form a $4$-clique in square $G$. If $N_G(s_1)\setminus\{s_1,s_2,u,v\}=N_G(s_2)\setminus\{s_1,s_2,u,v\}$, then
   \[
@@ -721,6 +723,8 @@ any two leaves together with their internal vertex and parent uniquely determine
 
 
 \subsection{Theorem} \label{sec::tree_theorem}
+
+Combining 
 
 \begin{lemma} \label{lemma::tree_pendant_leaf_clique}
   Every tree contains either a \hyperref[def::pendant]{pendant} or a \hyperref[def::leaf_clique]{leaf clique} subgraph.
