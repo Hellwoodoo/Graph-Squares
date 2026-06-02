@@ -397,6 +397,25 @@ at least one of $x_{ik},x_{kj}$ must be equal to $0$. However, when $z_{ij} \geq
 may satisfy the constraints without giving a valid integral path in the root. 
 
 \section{Linear Program} \label{sec::LP}
+
+% Need a section on here mathematically about why min objective function generates so many fractional solutions
+\subsection{Min Objective Function} \label{subsec::min_obj}   
+Consider the addition of an objective function maximizing the total weights on all edges to the linear relaxation 
+defined by Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::LP_z_variable} in Section~\ref{subsec::LP} 
+\begin{equation} \label{eq::min_obj_function}
+  \min \sum_{i=1}^{n} \sum_{j=1}^{n} x_{ij}.
+\end{equation}
+This relaxation however yields more fractional solutions, as illustrated in Figure~\ref{fig::min_objective_function_diagram}. 
+
+\begin{lemma} \label{lem::min_obj_fractional_path}
+  All induced paths of length two in the true root that are not part of an integral triangle will produce fractional solutions in the 
+  minimizing linear program.  
+\end{lemma}
+\begin{proof}
+  
+\end{proof}
+
+
 \subsection{Max Objective Function} \label{subsec::max_obj}
 
 Consider the addition of an objective function maximizing the total weights on all edges to the linear relaxation 
@@ -404,21 +423,23 @@ defined by Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::LP_z_variable} in Se
 \begin{equation} \label{eq::max_obj_function}
   \max \sum_{i=1}^{n} \sum_{j=1}^{n} x_{ij}.
 \end{equation}
-This addition gives the improved results in Figure~\ref{fig::max_objective_function_diagram}.
+This objective encourages dense solutions and therefore tends to produce relaxations that are more dense and hence more informative 
+than trivial sparse solutions. In particular, maximizing the total edge weight pushes the variables toward values closer to $1$, which 
+promotes direct edges and reduces the need for fractional paths of length $2$ to satisfy Equation~\eqref{eq::IP_indicator_arg}. As a 
+result, the relaxation is more likely to yield integral solutions, as illustrated in Figure~\ref{fig::max_objective_function_diagram}.
 
-A maximizing objective function is considered because it pushes the linear program towards dense solutions, which are 
-much more informative than trivial sparse solution. If a minimizing objective function is used instead, the linear program 
-tends to avoid direct integral edges and satisfies the constraint in Equation~\eqref{eq::IP_indicator_arg} using fractional 
-paths of length $2$, distributing weight so that the summation is $\geq 1$.However, such solutions do not correspond to valid integral 
-structures. In contrast, a maximizing objective function encourages variables to take values closer to $1$, promoting direct edges and 
-avoiding the dispersion of weight across many fractional paths of length $2$. This yields more integral solutions and fewer fractional 
-roots - see Figure~\ref{fig::min_objective_function_diagram}. 
+This choice of objective is also useful when identifying square root solutions beyond those unique up to isomorphism. For example, the
+complete graph $K_3$ has four roots: itself and three path graphs of length $2$, which are isomorphic to one another. This illustrates 
+that the maximization objective preserves consistency up to isomorphism
+while still distinguishing structurally meaningful solutions.
 
-Furthermore, the addition of the maximizing objective function helps with identifying square root solutions beyond those that are 
-just unique up to isomorphism. Consider the complete graphs of which the triangle $K_3$ is the smallest nontrivial example. $K_3$
-has four roots, itself, and three path graphs of length $2$ that are isomorphic to each other. This ensures that the solution to 
-the linear program remain consistent (up to isomorphism) and give useful properties for identifying singular solutions. 
-
+\begin{lemma}
+  All induced paths of length two in the true root that are not part of an integral triangle will be integral in the maximizing linear 
+  program. 
+\end{lemma}
+\begin{proof}
+  
+\end{proof}
 
 \section{Trees}
 
@@ -428,8 +449,8 @@ modified linear program still gives integral or fractional solutions for graphs 
 without roots but always return valid integral root solution if there exists a tree root.
 
 \begin{definition} \label{def::pendant}
-  A pendant subgraph is the induced subgraph on three vertices $s,u,v$ where $s$ is a leaf with unique neighbour $u$, and $u$ is an 
-  internal vertex of degree $2$ with neighbours $s$ and $v$, where $v$ connects the subgraph to the remainder of the tree.
+  A pendant subgraph is the induced subgraph on three vertices $s,u,v$ where $s$ is a leaf with unique neighbour $u$, and $u$ is a 
+  stem of degree $2$ with neighbours $s$ and $v$, where $v$ connects the subgraph to the remainder of the tree.
 \end{definition}
 
 \begin{definition} \label{def::leaf_clique}
@@ -437,7 +458,7 @@ without roots but always return valid integral root solution if there exists a t
   is an internal vertex of degree $\geq 3$ where $\{s_1,s_2, v\} \subseteq N(u)$, where $v$ connects the subgraph to the remainder of the tree.
 \end{definition}
 
-We prove that there exists a polynomial time linear program solution by showing that 
+We prove that there exists a polynomial time linear program by showing that 
 \begin{enumerate}[label=(\Roman*)]
   \item Every tree contains a pendant or leaf clique subgraph 
   \item Every pendant can be completely classified by single triangular decomposition such that its connection to the remainder of the 
@@ -453,6 +474,25 @@ edge assignments such that the maximal linear program pushes the tree solution t
 % this fixes all solutions up the tree until a point of symmetry is met. Then by symmetry, the other branch must also have 
 % a pendant or leaf clique that has likewise been fixed such that every symmetric edge is fixed, breaking symmetry and enforcing 
 % the rest of the tree to integrality 
+
+% Alternatively, do we argue via symmetry - that if the existing problem is symmetric fractional solutions are obtained 
+% hence by fixing pendants and leaf cliques there are no symmetries remaining in the class 
+
+We prove that there exists a polynomial time program by showing that 
+\begin{enumerate}[label=(\Roman*)]
+  \item The linear program with maximizing objective function will always generate integral solution except in the case of symmetry
+  whereby the solution must be fractional
+  \item Every tree contains a pendant or leaf clique subgraph (else will be a star root with a complete square)
+  \item Fixing every pendant and leaf cliques will break symmetry 
+\end{enumerate}
+
+% Need lemma taking about k3 labelling, where each has epsilon weight 
+
+
+
+
+
+% Are the weights the averages over all possible solutions 
 
 \subsection{Single Triangular Decomposition} \label{subsec::single_triangular_decomposition}
 

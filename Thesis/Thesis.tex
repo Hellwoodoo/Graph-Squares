@@ -18,7 +18,7 @@ style=alphabetic]{biblatex}
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}{Lemma}
 \newtheorem{corollary}{Corollary}
-
+\newtheorem{definition}{Definition}[section] 
 
 \title{Linear Programming of Graph Squares}
 
@@ -140,11 +140,111 @@ algorithm.
 
 Prior, to this we first standardize the definitions that will be used for the rest of this thesis. 
 
-\section{Background} \label{sec::background}
+\subsection{Complexity Theory}
+
+\begin{definition}[Big-$O$ Notation] \label{def::big_O_notation}
+  Let $f,g:\mathbb{N} \rightarrow \mathbb{R}_{\geq 0}$. The \textbf{Big-$O$ Notation} $f(n)=O(g(n))$ is written 
+  if there exist constants $c>0$ and $n_0\in\mathbb{N}$ such that for all $n\geq n_0$
+  \[
+  f(n)\leq c g(n). 
+  \]
+\end{definition}
+
+\begin{definition}[Decision Problem] \label{def::decision_problem}
+  A \textbf{decision problem} is a computational problem whose output is either \textbf{Yes} or \textbf{No} for 
+  every valid input instance. 
+\end{definition}
+
+\begin{definition}[Certificate] \label{def::certificate}
+  Let $L$ be a decision problem. A \textbf{certificate} for an instance $x$ of $L$ is a finite string $c$ that 
+  provides evidence that $x$ is a \textbf{Yes}-instance of $L$. A certificate is said to be 
+  \textbf{polynomially verifiable} if there exists a deterministic algorithm that for given input $(x,c)$, can 
+  determines whether $c$ is a valid certificate for $x$ in time polynomial in $|x|$.
+\end{definition}
+
+\begin{definition}[Polynomial-Time Algorithm] \label{def::polynomial_time_algorithm}
+  An algorithm is said to run in \textbf{polynomial time} if there exists a constant $c \ge 0$ such that its
+  running time on inputs of size $n$ is $O(n^c)$.
+\end{definition}
+
+\begin{definition}[Class $\mathbf{P}$] \label{def::class_p}
+  The complexity class $\mathbf{P}$ consists of all decision problems that can be solved by a deterministic 
+  algorithm in polynomial time.
+\end{definition}
+
+\begin{definition}[Class $\mathbf{NP}$] \label{def::class_np}
+  The complexity class $\mathbf{NP}$ consists of all decision problems for which every \textbf{Yes}-instance admits 
+  a certificate that is polynomially verifiable. 
+\end{definition}
+
+\begin{definition}[Class $\mathbf{NP}$-Hard] \label{def::class_np_hard}
+  A decision problem $B$ is \textbf{$\mathbf{NP}$-hard} if every problem $A \in \mathbf{NP}$ satisfies $A \leq_p B$. 
+  The collection of all $\mathbf{NP}$-hard problems is denoted by the class \textbf{$\mathbf{NP}$-hard}.
+\end{definition}
+
+\begin{definition}[Class $\mathbf{NP}$-Complete] \label{def::class_np_complete}
+  A decision problem $B$ is \textbf{$\mathbf{NP}$-complete} if $B \in \mathbf{NP}$, and $B$ is $\mathbf{NP}$-hard.
+  The collection of all $\mathbf{NP}$-complete problems is denoted by the class \textbf{$\mathbf{NP}$-complete}.
+\end{definition}
+
+\begin{definition}[Polynomial-Time Reduction] \label{def::polynomial_time_reduction}
+  Let $A$ and $B$ be decision problems. A \textbf{polynomial-time reduction} from $A$ to $B$, denoted $A \leq_p B$,
+  is a polynomial-time computable function $f$ such that, for every instance $x$ of $A$,
+  \[
+  x \in A \Longleftrightarrow f(x) \in B.
+  \]
+\end{definition}
+
+\subsection{Graph Theory}
+
+\begin{definition}[Graph] \label{def::graph}
+  
+\end{definition}
+
+\begin{definition}[Undirected Graph] \label{def::undirected_graph}
+  
+\end{definition}
+
+\begin{definition}[Directed Graph] \label{def::directed_graph}
+  
+\end{definition}
+
+\begin{definition}[Graph Distance] \label{def::graph_distance}
+  
+\end{definition}
+
+\begin{definition}[Graph Root] \label{def::graph_root}
+  
+\end{definition}
+
+\begin{definition}[Graph Square] \label{def::grapH_square}
+  
+\end{definition}
+
+\begin{definition}[Adjacency Matrix] \label{def::adjacency_matrix}
+  
+\end{definition}
+
+\subsection{optimization Problem}
+
+\begin{definition}[Intger Program] \label{def::integer_program}
+  
+\end{definition}
+
+\begin{definition}[Linear Program] \label{def::linear_program}
+  
+\end{definition}
+
+
 Let the \emph{graph root} $H = (V, E_H)$ be a finite, simple, undirected graph, where $V$ is the vertex set with $|V| = n$, 
 and $E_H \subseteq \{\{u,v\} \mid u,v \in V,\; u \neq v\}$ is the edge set. Denote by $d_H(u,v)$ the 
 \emph{graph distance} defined as the number of edges of the shortest path 
 between vertices $u$ and $v$ in $H$. If no such path exists, $d_H(u,v) = \infty$.
+
+For vertices $u,v\in V$, the \emph{graph distance}
+$d_H(u,v)$ is the length of a shortest path between
+$u$ and $v$ in $H$. If no such path exists, then
+$d_H(u,v)=\infty$.
 
 The \emph{square} of the graph $H$, denoted by $H^2 = (V, E_{H^2})$ is the graph on the same vertex set with edge set
 \begin{equation} \label{eq::fund_def_square}
@@ -183,6 +283,26 @@ Define the adjacency matrix of $G$ using the adjacency and degree matrices of $H
 \begin{equation} \label{eq::fund_adj_eq_undirected}
 A_G = \mathbbm{1}_{\geq 1}\!\big((A_H)^2 - D_H + A_H\big).
 \end{equation}
+
+\chapter{Algorithmic Approaches} \label{chap::algorithmic_approaches}
+
+In this chapter we explore different methodologies that have been used to show certain properties of the graph root and 
+the graph square. For many restricted cases which are NP, a polynomial time reduction is given and incases which are
+polynomial, a polynomial time algorithm is given.  
+
+
+We then examine the relaxed linear program which can be evaluated in polynomial time using interior point method, and 
+integrate existing literature on special root structures as a stepping-stone towards generating a true polynomial time 
+algorithm. 
+
+\section{Polynomial Time Algorithm} 
+
+\section{NP-Completeness Proofs}
+
+\section{Integer Program Foundation}
+
+\subsection{Background}
+
 \begin{lemma} \label{lemma::G_equal_to_H^2}
 The graph $G$ defined by \eqref{eq::fund_adj_eq_undirected} is equivalent to the graph square $H^2$
  defined in \eqref{eq::fund_def_square} 
@@ -256,14 +376,6 @@ as a purely quadratic form, thereby limiting the direct applicability of existin
   = \deg_H(i) - \deg_H(i) + 0 = 0 = (A_G)_{ii}.
   \]
 \end{proof}
-
-\chapter{Algorithmic Approaches} \label{chap::algorithmic_approaches}
-
-\section{Polynomial Time Objective} 
-
-\section{NP-Completeness Proofs}
-
-\section{Integer Program Foundation}
 
 \section{Linear Program Relaxation}
 
