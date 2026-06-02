@@ -1,0 +1,1 @@
+[paper](https://raw.githubusercontent.com/Hellwoodoo/Graph-Squares/blob/master/Optimization%20of%20Graph%20Squares/Optimization%20of%20Graph%20Squares.pdf)
