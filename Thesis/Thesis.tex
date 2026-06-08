@@ -142,6 +142,9 @@ Prior, to this we first standardize the definitions that will be used for the re
 
 \subsection{Complexity Theory}
 
+Complexity theory studies the classification of computational problems and explores the amount of resources required to solve 
+certain problems. The critical resource that is measured is running time and is standardized across various different problems by using
+
 \begin{definition}[Big-$O$ Notation] \label{def::big_O_notation}
   Let $f,g:\mathbb{N} \rightarrow \mathbb{R}_{\geq 0}$. The \textbf{Big-$O$ Notation} $f(n)=O(g(n))$ is written 
   if there exist constants $c>0$ and $n_0\in\mathbb{N}$ such that for all $n\geq n_0$
@@ -150,10 +153,29 @@ Prior, to this we first standardize the definitions that will be used for the re
   \]
 \end{definition}
 
+Using this notation, can classify algorithms based on their runtime. 
+
+\begin{definition}[Polynomial-Time Algorithm] \label{def::polynomial_time_algorithm}
+  An algorithm is said to run in \textbf{polynomial time} if there exists a constant $c \ge 0$ such that its
+  running time on inputs of size $n$ is $O(n^c)$.
+\end{definition}
+
+Polynomial-time algorithms are important because they are generally regarded as efficient and computationally ``simple". Consequently, 
+the class of problems that admit polynomial-time algorithms forms the basis for the complexity class $\mathbf{P}$.
+
 \begin{definition}[Decision Problem] \label{def::decision_problem}
   A \textbf{decision problem} is a computational problem whose output is either \textbf{Yes} or \textbf{No} for 
   every valid input instance. 
 \end{definition}
+
+\begin{definition}[Class $\mathbf{P}$] \label{def::class_p}
+  The complexity class $\mathbf{P}$ consists of all decision problems that can be solved by a deterministic 
+  algorithm in polynomial time.
+\end{definition}
+
+Unfortunately many important decision problems are not known to admit such polynomial-time algorithms and hence need additional classification
+on their ``hardness''. For these problems, despite not have an efficient algorithm for finding a solution, a proposed solution can be
+verified efficiently.
 
 \begin{definition}[Certificate] \label{def::certificate}
   Let $L$ be a decision problem. A \textbf{certificate} for an instance $x$ of $L$ is a finite string $c$ that 
@@ -162,20 +184,27 @@ Prior, to this we first standardize the definitions that will be used for the re
   determines whether $c$ is a valid certificate for $x$ in time polynomial in $|x|$.
 \end{definition}
 
-\begin{definition}[Polynomial-Time Algorithm] \label{def::polynomial_time_algorithm}
-  An algorithm is said to run in \textbf{polynomial time} if there exists a constant $c \ge 0$ such that its
-  running time on inputs of size $n$ is $O(n^c)$.
-\end{definition}
-
-\begin{definition}[Class $\mathbf{P}$] \label{def::class_p}
-  The complexity class $\mathbf{P}$ consists of all decision problems that can be solved by a deterministic 
-  algorithm in polynomial time.
-\end{definition}
-
 \begin{definition}[Class $\mathbf{NP}$] \label{def::class_np}
   The complexity class $\mathbf{NP}$ consists of all decision problems for which every \textbf{Yes}-instance admits 
   a certificate that is polynomially verifiable. 
 \end{definition}
+
+Since every decision problem in $\mathbf{P}$ can be solved in polynomial time, a solution can also be verified in polynomial time,
+\[
+\mathbf{P} \subseteq \mathbf{NP}.
+\]
+Whether this inclusion is strict remains one of the most important open questions in theoretical computer science - the
+$\mathbf{P}$ vs $\mathbf{NP}$ problem. As $\mathbf{NP}$ is a large space, the relative difficulty of problems in $\mathbf{NP}$
+is compared by using reduction. 
+
+\begin{definition}[Polynomial-Time Reduction] \label{def::polynomial_time_reduction}
+  Let $A$ and $B$ be decision problems. A \textbf{polynomial-time reduction} from $A$ to $B$, denoted $A \leq_p B$,
+  is a polynomial-time computable function $f$ such that, for every instance $x$ of $A$,
+  \[
+  x \in A \Longleftrightarrow f(x) \in B.
+  \]
+\end{definition}
+
 
 \begin{definition}[Class $\mathbf{NP}$-Hard] \label{def::class_np_hard}
   A decision problem $B$ is \textbf{$\mathbf{NP}$-hard} if every problem $A \in \mathbf{NP}$ satisfies $A \leq_p B$. 
@@ -187,13 +216,6 @@ Prior, to this we first standardize the definitions that will be used for the re
   The collection of all $\mathbf{NP}$-complete problems is denoted by the class \textbf{$\mathbf{NP}$-complete}.
 \end{definition}
 
-\begin{definition}[Polynomial-Time Reduction] \label{def::polynomial_time_reduction}
-  Let $A$ and $B$ be decision problems. A \textbf{polynomial-time reduction} from $A$ to $B$, denoted $A \leq_p B$,
-  is a polynomial-time computable function $f$ such that, for every instance $x$ of $A$,
-  \[
-  x \in A \Longleftrightarrow f(x) \in B.
-  \]
-\end{definition}
 
 \subsection{Graph Theory}
 
@@ -225,7 +247,7 @@ Prior, to this we first standardize the definitions that will be used for the re
   
 \end{definition}
 
-\subsection{optimization Problem}
+\subsection{Optimization Problem}
 
 \begin{definition}[Intger Program] \label{def::integer_program}
   
