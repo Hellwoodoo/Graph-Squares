@@ -60,7 +60,7 @@ between vertices $u$ and $v$ in $H$. If no such path exists, $d_H(u,v) = \infty$
 
 The \emph{square} of the graph $H$, denoted by $H^2 = (V, E_{H^2})$ is the graph on the same vertex set with edge set
 \begin{equation} \label{eq::fund_def_square}
-E_{H^2} = \{\, uv \mid u \neq v,\; 1 \leq d_H(u,v) \leq 2 \,\}.
+E_{H^2} = \{ uv \mid u \neq v,\; 1 \leq d_H(u,v) \leq 2 \}.
 \end{equation}
 That is, two distinct vertices are adjacent in $H^2$ if and only if they are connected by a path of length one or two in $H$. 
 This is the standard definition of the square of a graph.
@@ -93,7 +93,7 @@ entrywise \emph{indicator function}, defined by
 \]
 Define the adjacency matrix of $G$ using the adjacency and degree matrices of $H$
 \begin{equation} \label{eq::fund_adj_eq_undirected}
-A_G = \mathbbm{1}_{\geq 1}\!\big((A_H)^2 - D_H + A_H\big).
+A_G = \mathbbm{1}_{\geq 1}\big((A_H)^2 - D_H + A_H\big).
 \end{equation}
 \begin{lemma} \label{lemma::G_equal_to_H^2}
 The graph $G$ defined by \eqref{eq::fund_adj_eq_undirected} is equivalent to the graph square $H^2$
@@ -128,7 +128,7 @@ values $\displaystyle (D_H)_{ii} = \sum_k x_{ik}$ and each edge from vertex $i$ 
 will always create a loop to itself in the square such that $\displaystyle (A_H)^2_{ii} = 
 \sum_{k = 1} x_{ik}x_{ki} = \sum_{k = 1} x_{ik}^2$ by the symmetry of adjacency matrix $A_H$. Since $x_{ik} \in \{0, 1\}$,
 the square of the boolean is identical to the boolean $x_ik$ such that $\displaystyle (A_H)^2_{ii} = \sum_k x_{ik} = (D_H)_{ii}$
-and $(A_G)_{ii} = \mathbbm{1}_{\geq 1}\!\big((A_H)^2 - D_H + A_H\big)$ as required. 
+and $(A_G)_{ii} = \mathbbm{1}_{\geq 1}\big((A_H)^2 - D_H + A_H\big)$ as required. 
 
 Combining both gives that $E_G = E_{H^2}$, and so $G = H^2$.  
 
@@ -162,7 +162,7 @@ as a purely quadratic form, thereby limiting the direct applicability of existin
     \item If one path is of length $2$, then the other is of length $\geq 3$ and hence $(A_H)_{ij} = 0, (A_H)^2_{ij} = 1 \implies (A_G)_{ij} = 1 - 0 - 0 = 1$.
     \item If the paths are both of length $\geq 3$,  then $(A_H)_{ij} = 0, (A_H)^2_{ij} = 0 \implies (A_G)_{ij} = 0$. 
   \end{enumerate}
-  If $i = j$, then \((A_H)_{ii} = 0\), \((D_H)_{ii} = \deg_H(i)\), and \((A_H)^2_{ii} = \deg_H(i)\). Thus,
+  If $i = j$, then $(A_H)_{ii} = 0$, $(D_H)_{ii} = \deg_H(i)$, and $(A_H)^2_{ii} = \deg_H(i)$. Thus,
   \[
   (A_H)^2_{ii} - (D_H)_{ii} + (A_H)_{ii}
   = \deg_H(i) - \deg_H(i) + 0 = 0 = (A_G)_{ii}.
@@ -229,15 +229,15 @@ g_{nn}
 \end{bmatrix}
 =
 \begin{bmatrix} \displaystyle
-\mathbbm{1}_{\geq 1}\!\big(\sum_{k=1}^n x_{1k}x_{k1} - (D_H)_{11} + x_{11} \big) \\
+\mathbbm{1}_{\geq 1}\big(\sum_{k=1}^n x_{1k}x_{k1} - (D_H)_{11} + x_{11} \big) \\
 \vdots \\ \displaystyle
-\mathbbm{1}_{\geq 1}\!\big(\sum_{k=1}^n x_{1k}x_{kj} - (D_H)_{1j} + x_{1j} \big) \\
+\mathbbm{1}_{\geq 1}\big(\sum_{k=1}^n x_{1k}x_{kj} - (D_H)_{1j} + x_{1j} \big) \\
 \vdots \\ \displaystyle
-\mathbbm{1}_{\geq 1}\!\big(\sum_{k=1}^n x_{1k}x_{kn} - (D_H)_{1n} + x_{1n} \big)\\
+\mathbbm{1}_{\geq 1}\big(\sum_{k=1}^n x_{1k}x_{kn} - (D_H)_{1n} + x_{1n} \big)\\
 \vdots \\ \displaystyle
-\mathbbm{1}_{\geq 1}\!\big(\sum_{k=1}^n x_{ik}x_{kj} - (D_H)_{ij} + x_{ij} \big)\\
+\mathbbm{1}_{\geq 1}\big(\sum_{k=1}^n x_{ik}x_{kj} - (D_H)_{ij} + x_{ij} \big)\\
 \vdots \\ \displaystyle
-\mathbbm{1}_{\geq 1}\!\big(\sum_{k=1}^n x_{nk}x_{kn} - (D_H)_{nn} + x_{nn} \big)
+\mathbbm{1}_{\geq 1}\big(\sum_{k=1}^n x_{nk}x_{kn} - (D_H)_{nn} + x_{nn} \big)
 \end{bmatrix}.
 \end{equation}
 The matrix $D_H$ is diagonal can be represented as $\displaystyle (D_H)_{ii} = \sum_{k} x_{ik}$ where $(D_H)_{ij} = 0$ for $i \neq j$. 
@@ -286,10 +286,10 @@ introduces artificial degeneracy in the linear program.
 \begin{alignat}{3} 
 \text{(5) Symmetry: } 
 & x_{ij} = x_{ji}, 
-&&\qquad \forall i,j \in \{1, \dots, n\}, \label{eq::IP_symmetry_x} \\
+&&\quad \forall i,j \in \{1, \dots, n\}, \label{eq::IP_symmetry_x} \\
 \text{(6) Diagonal: } 
 & x_{ii} = 0, 
-&&\qquad \forall i \in \{1, \dots, n\}.  \label{eq::IP_diagonal_x} 
+&&\quad \forall i \in \{1, \dots, n\}.  \label{eq::IP_diagonal_x} 
 \end{alignat}
 
 \begin{proposition} \label{prop::IP_gives_root}
@@ -382,8 +382,8 @@ Figure~\ref{fig::linear_program_diagram} can be generated.
 
 The linear relaxation potentially breaks equations in the integer program which are critical to the definition. 
 
-Consider Equations~\eqref{eq::IP_product_upper_first}-\eqref{eq::IP_product_lower} which gives $y_{ikj} = x_{ik}x_{kj}$. When $x$ is binary, this construction of $y$
-leads to $y$ being binary as well.  
+Consider Equations~\eqref{eq::IP_product_upper_first}-\eqref{eq::IP_product_lower} which gives $y_{ikj} = x_{ik}x_{kj}$. When $x$ is binary, this construction 
+of $y$ leads to $y$ being binary as well.  
 
 Consider Equation~\eqref{eq::IP_fund_matrix}, where $\displaystyle z_{ii} = \sum_{k = 1}^{n} y_{iki} - \sum_{k = 1}^{n} x_{ik} + x_{ii}$ can be simplified to 
 $\displaystyle z_{ii} = \sum_{k = 1}^{n} x_{ik}^2 - \sum_{k = 1}^{n} x_{ik}$ and is equal to $0$ when $x$ is binary. 
@@ -443,12 +443,43 @@ defined by Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::LP_z_variable} in Se
 \end{equation}
 This relaxation however yields more fractional solutions, as illustrated in Figure~\ref{fig::min_objective_function_diagram}. 
 
-\begin{lemma} \label{lem::min_obj_fractional_path}
-  All induced paths of length two in the true root that are not part of an integral triangle will produce fractional solutions in the 
-  minimizing linear program.  
+\begin{lemma}
+Let $C\cong K_n$ be a complete subgraph be a complete subgraph. In the linear relaxation of the model Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::IP_y_upper_bound}, 
+the minimizing solution assigns the same value to every edge of graph $G$, such that for $i \neq j$
+\[
+x_{ij}=\frac{1}{n-1}.
+\]
+In particular, $K_3$ gives $\displaystyle x_{ij}=\frac 12$, $K_4$ gives $\displaystyle x_{ij}=\frac 13$, and in general $K_n$ gives $\displaystyle x_{ij}= \frac{1}{n-1}$.
 \end{lemma}
 \begin{proof}
-  
+Since $C\cong K_n$ is vertex-transitive, the feasible region and the objective function Equation~\eqref{eq::min_obj_function} are invariant under every 
+permutation of the vertices of $G$. Hence, if $x$ is optimal, then averaging $x$ over all permutations of the vertex set $V$
+produces another optimal solution $\bar x$ with
+\[
+\bar x_{ij}=w \quad \text{for all } i\neq j \in V
+\]
+for some constant $w\ge 0$. Consider any vertex $i \in V$, where in the clique every pair $(i,j)$ with $j \neq i$ is present, so that $g_{ij}=1$. By the indicator 
+constraints Equations~\eqref{eq::IP_indicator_upper}--\eqref{eq::IP_indicator_lower},
+\[
+z_{ij}\ge g_{ij}=1 \quad  \text{for all } j\neq i.
+\]
+Together with Equation~\eqref{eq::IP_indicator_arg} and the product constraints Equations~\eqref{eq::IP_product_upper_first}--\eqref{eq::IP_product_lower},
+this forces each vertex $i$ to carry at least one unit of total incident $x$-mass on the clique, 
+\[
+\sum_{j\in V(C)\setminus\{i\}} x_{ij}\ge 1.
+\]
+For the symmetric solution $\bar x$, this becomes $(n-1)w \ge 1$, hence
+\[
+w \ge \frac{1}{n-1}.
+\]
+On the other hand, the objective function is
+\[
+\sum_{i<j,\ i,j\in V(C)} x_{ij}
+=
+\binom{n}{2}w,
+\]
+which is strictly increasing in $w$. Therefore the minimum is attained at the
+smallest feasible value of $\displaystyle w = \frac{1}{n-1}$ which every edge of $K_n$ achieves in the minimizing LP. 
 \end{proof}
 
 
@@ -469,13 +500,60 @@ complete graph $K_3$ has four roots: itself and three path graphs of length $2$,
 that the maximization objective preserves consistency up to isomorphism
 while still distinguishing structurally meaningful solutions.
 
-\begin{lemma}
-  All induced paths of length two in the true root that are not part of an integral triangle will be integral in the maximizing linear 
-  program. 
+\begin{lemma}\label{lem:no_triangle_edge_square}
+Let $x$ be an optimal solution to the linear relaxation defined by Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::LP_z_variable} with 
+the addition of objective function Equation~\eqref{eq::max_obj_function}. If $g_{ij}=0$, then for every $k\in\{1,\dots,n\}$,
+\[
+x_{ik}+x_{kj}=1.
+\]
 \end{lemma}
+
 \begin{proof}
-  
+Since $g_{ij}=0$, Equations~\eqref{eq::IP_indicator_upper}
+and~\eqref{eq::IP_indicator_lower} imply
+\[
+z_{ij}=0.
+\]
+Substituting into Equation~\eqref{eq::IP_indicator_arg} yields
+\[
+0=z_{ij}=\sum_{k=1}^{n} y_{ikj}+x_{ij}.
+\]
+As $y_{ikj}\ge0$ and $x_{ij}\ge0$, it follows that
+\[
+y_{ikj}=0 \quad \forall k,
+\qquad
+x_{ij}=0.
+\]
+
+Now applying Equation~\eqref{eq::IP_product_lower},
+\[
+0=y_{ikj}\ge x_{ik}+x_{kj}-1,
+\]
+and hence
+\[
+x_{ik}+x_{kj}\le 1.
+\]
+
+Suppose that for some $k$,
+\[
+x_{ik}+x_{kj}<1.
+\]
+Then there exists $\delta>0$ such that
+\[
+x_{ik}+x_{kj}+\delta \le 1.
+\]
+Increasing either $x_{ik}$ or $x_{kj}$ by $\delta$ preserves the
+inequality $x_{ik}+x_{kj}\le1$ and therefore preserves feasibility.
+However, this strictly increases the value of the objective function
+Equation~\eqref{eq::max_obj_function}, contradicting the optimality of $x$.
+
+Therefore the inequality must be tight at optimality, and thus
+\[
+x_{ik}+x_{kj}=1.
+\]
 \end{proof}
+
+
 
 \section{Trees}
 
@@ -503,7 +581,15 @@ We prove that there exists a polynomial time linear program by showing that
   tree is correctly identified 
 \end{enumerate}
 Since any subgraph of a tree is also a tree, using the above three propositions we can coalesce pendants and leaf cliques into fixed
-edge assignments such that the maximal linear program pushes the tree solution towards integrality.
+edge assignments such that the maximal linear program pushes the tree solution towards integrality. This is done iteratively and is proven by 
+showing that 
+\begin{enumerate}
+  \item If $g_{ij}=0$ then $x_{ik} = \epsilon_1$ and $x_{kj} = epsilon_2$ are such that $x_{ik} + x_{kj} = 1$.   (\textbf{IMPORTANT!!!})
+  \item Cannot strictly increase the value of $x_{ik}$ without reducing the value of $x_{kj}$, which strictly reduces the objective function
+\end{enumerate}
+
+
+
 
 % Do we need to show that fixing single edge is strong enough to fix subtrees? Argument would be - use decomposition to fix 
 % s-u-v- or s1s2-u-v structure, then can safely condense s_1,s_2,s into u such that u is a leaf and u-v is fixed. Argument is that 
@@ -514,21 +600,14 @@ edge assignments such that the maximal linear program pushes the tree solution t
 % Alternatively, do we argue via symmetry - that if the existing problem is symmetric fractional solutions are obtained 
 % hence by fixing pendants and leaf cliques there are no symmetries remaining in the class 
 
-We prove that there exists a polynomial time program by showing that 
-\begin{enumerate}[label=(\Roman*)]
-  \item The linear program with maximizing objective function will always generate integral solution except in the case of symmetry
-  whereby the solution must be fractional
-  \item Every tree contains a pendant or leaf clique subgraph (else will be a star root with a complete square)
-  \item Fixing every pendant and leaf cliques will break symmetry 
-\end{enumerate}
+% We prove that there exists a polynomial time program by showing that 
+% \begin{enumerate}[label=(\Roman*)]
+%   \item The linear program with maximizing objective function will always generate integral solution except in the case of symmetry
+%   whereby the solution must be fractional
+%   \item Every tree contains a pendant or leaf clique subgraph (else will be a star root with a complete square)
+%   \item Fixing every pendant and leaf cliques will break symmetry 
+% \end{enumerate}
 
-% Need lemma taking about k3 labelling, where each has epsilon weight 
-
-
-
-
-
-% Are the weights the averages over all possible solutions 
 
 \subsection{Single Triangular Decomposition} \label{subsec::single_triangular_decomposition}
 
@@ -647,11 +726,7 @@ their neighbourhoods are equivalent and give the common neighbourhood $N_L = N_G
 \end{equation}
 and if every vertex in the common neighbourhood of each leaf has no neighbours outside the tetrahedron and that neighbourhood itself,
 \begin{equation} \label{eq::tetrahedron_leaf_class}
-N_G(w)
-\subseteq
-K_4 \cup N_L
-\qquad
-\forall\,w\in N_L,
+N_G(w) \subseteq K_4 \cup N_L \qquad \forall w\in N_L,
 \end{equation}
 then $u$ is designated as the internal vertex, $v$ as the external vertex, and $s_1,s_2$ as the leaf vertices of the tetrahedron.
 
@@ -870,7 +945,9 @@ Since no fractional, solution exists, the optimal, maximal output of the linear 
 if it results in a tree root. 
 \end{proof}
 
+\section{Complete Graph} \label{sec::complete_graph}
 
+% Theorem: the number of roots in a complete graph is the # of diameter 2 graphs 
 
 \section{Symmetry} \label{sec::symmetry}
 
@@ -978,9 +1055,9 @@ by first restating it in canonical form.
 \end{alignat}
 \begin{alignat}{3}
 \text{Variables: } & \nonumber \\ 
-& x_{ij} \in \mathbb{R}_{\geq 0} \, \Big([0,1]\Big), 
+& x_{ij} \in \mathbb{R}_{\geq 0}  \Big([0,1]\Big), 
 &&\qquad \forall i,j \in \{1, \dots, n\}, \label{eq::standard_LP_x_variable} \\
-& y_{ikj} \in \mathbb{R}_{\geq 0} \, \Big([0,1]\Big), 
+& y_{ikj} \in \mathbb{R}_{\geq 0}  \Big([0,1]\Big), 
 &&\qquad \forall i,k,j \in \{1, \dots, n\}, \label{eq::standard_LP_y_variable} \\
 & z_{ij} \in \mathbb{R}_{\geq 0}, 
 &&\qquad \forall i,j \in \{1, \dots, n\} \label{eq::standard_LP_z_variable}. \\
@@ -1229,8 +1306,8 @@ x_{ij}
 + \sum_{i=1}^n \sum_{k=1}^n \sum_{j=1}^n
 y_{ikj}
 \Biggl[
-- \mathbf{1}_{\{j=i\}}\,\alpha_i
-- \mathbf{1}_{\{j\neq i\}}\,\beta_{ij}
+- \mathbf{1}_{\{j=i\}}\alpha_i
+- \mathbf{1}_{\{j\neq i\}}\beta_{ij}
 + \epsilon_{ikj}
 + \zeta_{ikj}
 - \eta_{ikj}
@@ -1241,8 +1318,8 @@ y_{ikj}
 + \sum_{i=1}^n \sum_{j=1}^n
 z_{ij}
 \Biggl[
-\mathbf{1}_{\{j=i\}}\,\alpha_i
-+ \mathbf{1}_{\{j\neq i\}}\,\beta_{ij}
+\mathbf{1}_{\{j=i\}}\alpha_i
++ \mathbf{1}_{\{j\neq i\}}\beta_{ij}
 + \gamma_{ij}
 - \delta_{ij}
 \Biggr]
