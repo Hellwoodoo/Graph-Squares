@@ -399,6 +399,42 @@ may satisfy the constraints without giving a valid integral path in the root.
 \section{Linear Program} \label{sec::LP}
 
 % Need a section on here mathematically about why min objective function generates so many fractional solutions
+
+In the linear program, the most important object is the triangle, the $3$-clique that denotes the relationship between any three vertices
+$i,j,k$.  Consider the following scenarios for the square $G$
+\begin{enumerate}[label=(\Roman*)]
+  \item \label{lp::single_edge} $ij$ is the only edge for  $i,j,k$ in $G$. There are three situations which can occur  
+  \begin{enumerate}[label=(\roman*)]
+    \item \label{lp::single_edge_no_vertex} $ij$ edge is present in root $H$ and there does not exist another vertex $l$ where $il, lj$ in $H$
+    \item \label{lp::no_edge_vertex} $ij$ edge is not present in root $H$ and there exists another vertex $l$ where $il, lj$ in $H$
+    \item \label{lp::edge_no_vertex} $ij$ edge is present in root $H$ and there exists another vertex $l$ where $il, lj$ in $H$
+  \end{enumerate}
+  \item \label{lp::three_edges} $i,j,k$ form a clique in $G$ with $ij, jk, ki$ present in $G$. \ref{lp::single_edge} applies for all three 
+  edges, with the addition that if
+  \begin{enumerate}[resume, label=(\roman*)]
+    \item any two edges $ij$ and $jk$ exist in $H$ then $jk$ need not exist at all in $H$ and no intermediary vertex is required. 
+  \end{enumerate}
+\end{enumerate}
+These common scenarios clearly exhibit the ``hardness'' of the square root problem as the analysis of each triangle branches out into at least
+three possible that need to be chosen for each edge that is present. However, the remaining case gives critical structure to the problem 
+\begin{enumerate}[resume, label=(\Roman*)]
+  \item \label{lp::two_edges} $ij$ and $jk$ are the two edges for $i,j,k$ in $G$. Since $ki$ does not appear in $G$ there must not be an edge 
+  in $H$ for both $ij$ and $jk$ in $H$, giving the scenarios for both edges
+  \begin{enumerate}[label=(\arabic*)] 
+    \item \label{lp::two_edges_single_edge_1} $ij$ edge follows \ref{lp::single_edge_no_vertex} and $jk$ follows \ref{lp::no_edge_vertex}
+    \item \label{lp::two_edges_single_edge_2} $ij$ edge follows \ref{lp::no_edge_vertex} and $jk$ follows \ref{lp::single_edge_no_vertex}
+    \item \label{lp::two_edges_no_edges} $ij$ edge follows \ref{lp::no_edge_vertex} and $jk$ follows \ref{lp::no_edge_vertex}
+  \end{enumerate}
+\end{enumerate}
+With only three branches for the two edges, the structure of \ref{lp::two_edges} is the most efficient method of analyzing any graph square 
+since it allows an efficient logical disjunction to simply summarize or possible scenarios. 
+
+\begin{lemma}
+  Let \ref{lp::single_edge_no_vertex} be denoted by $0$ and let \ref{lp::no_edge_vertex} be denoted by $1$, then the triangle with two edges 
+  in $G$ denoted by \ref{lp::two_edges} must satisfy logical disjunction on the two edges such that $1$ is returned. 
+\end{lemma}
+
+
 \subsection{Min Objective Function} \label{subsec::min_obj}   
 Consider the addition of an objective function maximizing the total weights on all edges to the linear relaxation 
 defined by Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::LP_z_variable} in Section~\ref{subsec::LP} 
