@@ -361,7 +361,65 @@ g_{ij} = 1 \iff 1 \leq d_H(i,j) \leq 2.
 Now apply Lemma~\ref{lemma::G_equal_to_H^2} gives $ij \in E_G \iff ij \in E_H^2$ such that $G=H^2$. 
 \end{proof}
 
-\subsection{Linear Program} \label{subsec::LP}
+In the integer program, the most important object is the triangle, the $3$-clique that denotes the relationship between any three vertices
+$i,j,k$.  Consider the following scenarios for the square $G$
+\begin{enumerate}[label=(\Roman*)]
+  \item \label{lp::single_edge} $ij$ is the only edge for $i,j,k$ in $G$. There are three situations which can occur  
+  \begin{enumerate}[label=(\roman*)]
+    \item \label{lp::single_edge_no_vertex} $ij$ edge is present in root $H$ and there does not exist another vertex $l$ where $il, lj$ in $H$
+    \item \label{lp::no_edge_vertex} $ij$ edge is not present in root $H$ and there exists another vertex $l$ where $il, lj$ in $H$
+    \item \label{lp::edge_vertex} $ij$ edge is present in root $H$ and there exists another vertex $l$ where $il, lj$ in $H$
+  \end{enumerate}
+  \item \label{lp::three_edges} $i,j,k$ form a clique in $G$ with $ij, jk, ki$ present in $G$. \ref{lp::single_edge} applies for all three 
+  edges, with the caveat that any vertex can act as the corresponding $l$ vertex for the other two vertices. 
+\end{enumerate}
+These common scenarios clearly exhibit the ``hardness'' of the square root problem as the each present edge of a triangle branches out into
+three possibilities. However, the remaining case gives critical structure to the problem 
+\begin{enumerate}[resume, label=(\Roman*)]
+  \item \label{lp::two_edges} $ij$ and $jk$ are the two edges for $i,j,k$ in $G$. Since $ki$ does not appear in $G$ there must not be an edge 
+  in $H$ for both $ij$ and $jk$ in $H$, giving the scenarios for both edges
+  \begin{enumerate}[label=(\arabic*)] 
+    \item \label{lp::two_edges_single_edge_1} $ij$ edge follows \ref{lp::single_edge_no_vertex} and $jk$ follows \ref{lp::no_edge_vertex}
+    \item \label{lp::two_edges_single_edge_2} $ij$ edge follows \ref{lp::no_edge_vertex} and $jk$ follows \ref{lp::single_edge_no_vertex}
+    \item \label{lp::two_edges_no_edges} $ij$ edge follows \ref{lp::no_edge_vertex} and $jk$ follows \ref{lp::no_edge_vertex}
+  \end{enumerate}
+\end{enumerate}
+With only three branches for the two edges, the structure of \ref{lp::two_edges} is the most efficient method of analyzing any graph square 
+since it allows an efficient logical disjunction to simply summarize all possible scenarios. 
+
+\begin{theorem} \label{theorem::two_edges_triangle_mapping}
+  Let $g: E_G \rightarrow \{0,1\} \equiv g_{ij}$ defined in the integer program be a function such that if an edge exists in $G$ label it with 
+  $1$ and if it does not exist in $G$ label it with $0$. Let a triangle with exactly two edges $ij$ and $jk$ 
+  satisfy the structure of \ref{lp::two_edges} such that $g_{ij} = 1$, $g_{kj} = 1$, and $g_{ki} = 0$. 
+
+  Let $h: E_H \rightarrow \{0,1\}$ be a function such that if an edge exists in $H$ label it with $0$ and if it does not exist in $H$ label it 
+  with $1$. 
+
+  The relationship from $f \mapsto g$ in \ref{lp::two_edges} is given by the logical disjunction such that the structure is only valid when 
+
+  Let \ref{lp::single_edge_no_vertex} be denoted by $0$ and let \ref{lp::no_edge_vertex} be denoted by $1$, then the triangle with two edges 
+  in $G$ denoted by \ref{lp::two_edges} must satisfy logical disjunction on the two edges such that $1$ is returned. 
+\end{theorem}
+\begin{proof}
+
+  
+\end{proof}
+
+Let $g_{ij} + g_{jk} + g_{ki} = 2$ and assume without loss of generality that $f(ij) = f(jk) = 1$ such that $f(ki) = 0$. 
+
+
+\begin{lemma} \label{lemma::two_edges_integer_sum}
+  Consider the triangle $ijk$ where $ij$ and $jk$ are present and $ki$ is absent in square $G$. Then for root $G$, the integer program must satisfy 
+  \[
+  x_{ij} + x_{ki} \leq 1. 
+  \]
+\end{lemma}
+\begin{proof}
+  Using Theorem~\eqref{theorem::two_edges_triangle_mapping}, 
+\end{proof}
+
+
+\subsection{Linear Relaxation} \label{subsec::LP}
 
 The linear relaxation of the integer program defined by Equations~\eqref{eq::IP_x_variable}--\eqref{eq::IP_diagonal_x} is 
 constructed in order to generate a feasible weighted solution in polynomial time algorithm. It is done with identical constraints,
@@ -398,41 +456,17 @@ may satisfy the constraints without giving a valid integral path in the root.
 
 \section{Linear Program} \label{sec::LP}
 
-% Need a section on here mathematically about why min objective function generates so many fractional solutions
+Many of the same propositions and lemmas likewise hold for the linear program. 
 
-In the linear program, the most important object is the triangle, the $3$-clique that denotes the relationship between any three vertices
-$i,j,k$.  Consider the following scenarios for the square $G$
-\begin{enumerate}[label=(\Roman*)]
-  \item \label{lp::single_edge} $ij$ is the only edge for  $i,j,k$ in $G$. There are three situations which can occur  
-  \begin{enumerate}[label=(\roman*)]
-    \item \label{lp::single_edge_no_vertex} $ij$ edge is present in root $H$ and there does not exist another vertex $l$ where $il, lj$ in $H$
-    \item \label{lp::no_edge_vertex} $ij$ edge is not present in root $H$ and there exists another vertex $l$ where $il, lj$ in $H$
-    \item \label{lp::edge_no_vertex} $ij$ edge is present in root $H$ and there exists another vertex $l$ where $il, lj$ in $H$
-  \end{enumerate}
-  \item \label{lp::three_edges} $i,j,k$ form a clique in $G$ with $ij, jk, ki$ present in $G$. \ref{lp::single_edge} applies for all three 
-  edges, with the addition that if
-  \begin{enumerate}[resume, label=(\roman*)]
-    \item any two edges $ij$ and $jk$ exist in $H$ then $jk$ need not exist at all in $H$ and no intermediary vertex is required. 
-  \end{enumerate}
-\end{enumerate}
-These common scenarios clearly exhibit the ``hardness'' of the square root problem as the analysis of each triangle branches out into at least
-three possible that need to be chosen for each edge that is present. However, the remaining case gives critical structure to the problem 
-\begin{enumerate}[resume, label=(\Roman*)]
-  \item \label{lp::two_edges} $ij$ and $jk$ are the two edges for $i,j,k$ in $G$. Since $ki$ does not appear in $G$ there must not be an edge 
-  in $H$ for both $ij$ and $jk$ in $H$, giving the scenarios for both edges
-  \begin{enumerate}[label=(\arabic*)] 
-    \item \label{lp::two_edges_single_edge_1} $ij$ edge follows \ref{lp::single_edge_no_vertex} and $jk$ follows \ref{lp::no_edge_vertex}
-    \item \label{lp::two_edges_single_edge_2} $ij$ edge follows \ref{lp::no_edge_vertex} and $jk$ follows \ref{lp::single_edge_no_vertex}
-    \item \label{lp::two_edges_no_edges} $ij$ edge follows \ref{lp::no_edge_vertex} and $jk$ follows \ref{lp::no_edge_vertex}
-  \end{enumerate}
-\end{enumerate}
-With only three branches for the two edges, the structure of \ref{lp::two_edges} is the most efficient method of analyzing any graph square 
-since it allows an efficient logical disjunction to simply summarize or possible scenarios. 
-
-\begin{lemma}
-  Let \ref{lp::single_edge_no_vertex} be denoted by $0$ and let \ref{lp::no_edge_vertex} be denoted by $1$, then the triangle with two edges 
-  in $G$ denoted by \ref{lp::two_edges} must satisfy logical disjunction on the two edges such that $1$ is returned. 
+\begin{lemma} \label{lemma::two_edges_linear_sum}
+  Consider the triangle $ijk$ where $ij$ and $jk$ are present and $ki$ is absent in square $G$. Then for root $G$, the linear program must satisfy 
+  \[
+  x_{ij} + x_{ki} \leq 1. 
+  \]
 \end{lemma}
+\begin{proof}
+  Follows directly from the Lemma~\eqref{lemma::two_edges_integer_sum}. 
+\end{proof}
 
 
 \subsection{Min Objective Function} \label{subsec::min_obj}   
@@ -500,7 +534,7 @@ complete graph $K_3$ has four roots: itself and three path graphs of length $2$,
 that the maximization objective preserves consistency up to isomorphism
 while still distinguishing structurally meaningful solutions.
 
-\begin{lemma}\label{lem:no_triangle_edge_square}
+\begin{lemma}\label{lemma::no_triangle_edge_square}
 Let $x$ be an optimal solution to the linear relaxation defined by Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::LP_z_variable} with 
 the addition of objective function Equation~\eqref{eq::max_obj_function}. If $g_{ij}=0$, then for every $k\in\{1,\dots,n\}$,
 \[
@@ -636,7 +670,7 @@ x_{sa} = x_{as} = x_{ab} = x_{ba} = 1,
 This addition gives the improved results in Figure~\ref{fig::single_triangular_decomposition_diagram} whilst maintaining 
 polynomial runtime. 
 
-\begin{lemma} \label{lem::single_triangle_equal_neighbourhood}
+\begin{lemma} \label{lemma::single_triangle_equal_neighbourhood}
   Let $s,u,v$ form a triangle in square $G$ where $s$ only lies in a single clique. If $\deg_G(u)=\deg_G(v)=d\geq 2$, then
   \[
   N_G(u)\setminus\{s\}=N_G(v)\setminus\{s\}.
@@ -670,7 +704,7 @@ $N_G(u)\cup\{u\}$ and $N_G(v)\cup\{v\}$ induce the same clique structure.
 Since $s$ lies in a single clique in $G$, in the root $H$, $s$ must be a leaf with either $u$ or $v$ being the internal
 vertex adjacent to the remainder of the graph. Assume without loss of generality that $u$ is the internal vertex.
 
-By Lemma~\ref{lem::single_triangle_equal_neighbourhood}, $N_G(u)\setminus\{s\}=N_G(v)\setminus\{s\}$, such that $u$ and $v$ induce
+By Lemma~\ref{lemma::single_triangle_equal_neighbourhood}, $N_G(u)\setminus\{s\}=N_G(v)\setminus\{s\}$, such that $u$ and $v$ induce
 identical clique structure in $G$. Therefore exchanging the roles of $u$ and $v$ preserves the square graph $G$.Hence choosing $u$ 
 as the internal vertex and assigning
 \[
@@ -763,7 +797,7 @@ x_{uv}=x_{vu}
 
 % If the neighbourhood of a k4 tetrahedron contains contains a pendant internal vertex than it is not valid
 
-\begin{lemma} \label{lem::tetrahedron_subset_neighbourhood}
+\begin{lemma} \label{lemma::tetrahedron_subset_neighbourhood}
   Let $s_1,s_2,u,v$ form a $4$-clique in square $G$. If $N_G(s_1)\setminus\{s_1,s_2,u,v\}=N_G(s_2)\setminus\{s_1,s_2,u,v\}$, then
   \[
   N_G(u)\setminus\{s_1, s_2\}=N_G(v)\setminus\{s_1, s_2\}.
@@ -910,7 +944,7 @@ $v$ forms a new pendant $\{a,v,u\}$ whilst adding $a$ to the internal vertex $u$
 
 
 
-\begin{theorem} \label{prop::single_triangular_decomposition+tetrahedron_decomposition}
+\begin{theorem} \label{theorem::single_triangular_decomposition+tetrahedron_decomposition}
   If a square graph $G$ has a root $H$ that is a tree, then the single triangular decomposition and tetrahedron decomposition 
   linear program together return an integral solution. 
 \end{theorem} 
