@@ -103,35 +103,34 @@ The graph $G$ defined by \eqref{eq::fund_adj_eq_undirected} is equivalent to the
 \end{equation}
 \end{lemma}
 \begin{proof} 
-\noindent
-For $i \neq j$, since $D_H$ is diagonal, have $(D_H)_{ij} = 0$ and hence
-\[
-\big((A_H)^2 - D_H + A_H\big)_{ij} = (A_H)^2_{ij} + (A_H)_{ij}.
-\]
+  \noindent
+  For $i \neq j$, since $D_H$ is diagonal, have $(D_H)_{ij} = 0$ and hence
+  \[
+  \big((A_H)^2 - D_H + A_H\big)_{ij} = (A_H)^2_{ij} + (A_H)_{ij}.
+  \]
 
-($\Rightarrow$) Suppose $ij \in E_G$ such that $(A_H)^2_{ij} + (A_H)_{ij} \geq 1$.
-This implies that at least on of $(A_H)_{ij} = 1$ or $(A_H)^2_{ij} \geq 1$ must be true. If $(A_H)_{ij} = 1$, then $d_H(i,j) = 1$.  
-If $(A_H)^2_{ij} \geq 1$, then there exists a vertex $k$ such that $ik, kj \in E_H$, and hence $d_H(i,j) \leq 2$. Therefore 
-$1 \leq d_H(i,j) \leq 2$, and thus $ij \in E_{H^2}$.
+  ($\Rightarrow$) Suppose $ij \in E_G$ such that $(A_H)^2_{ij} + (A_H)_{ij} \geq 1$.
+  This implies that at least on of $(A_H)_{ij} = 1$ or $(A_H)^2_{ij} \geq 1$ must be true. If $(A_H)_{ij} = 1$, then $d_H(i,j) = 1$.  
+  If $(A_H)^2_{ij} \geq 1$, then there exists a vertex $k$ such that $ik, kj \in E_H$, and hence $d_H(i,j) \leq 2$. Therefore 
+  $1 \leq d_H(i,j) \leq 2$, and thus $ij \in E_{H^2}$.
 
-($\Leftarrow$) Suppose $ij \in E_{H^2}$ such that $1 \leq d_H(i,j) \leq 2$. 
-$D_H$ is diagonal such that $(D_H)_{ij} = 0$. If $d_H(i,j) = 1$, then $(A_H)_{ij} = 1$.  
-If $d_H(i,j) = 2$, then there exists a vertex $k$ such that $ik, kj \in E_H$, and hence $(A_H)^2_{ij} \geq 1$.
-In either case, $(A_H)^2_{ij} + (A_H)_{ij} \geq 1$, so $(A_G)_{ij} = 1$, and hence $ij \in E_G$.
+  ($\Leftarrow$) Suppose $ij \in E_{H^2}$ such that $1 \leq d_H(i,j) \leq 2$. 
+  $D_H$ is diagonal such that $(D_H)_{ij} = 0$. If $d_H(i,j) = 1$, then $(A_H)_{ij} = 1$.  
+  If $d_H(i,j) = 2$, then there exists a vertex $k$ such that $ik, kj \in E_H$, and hence $(A_H)^2_{ij} \geq 1$.
+  In either case, $(A_H)^2_{ij} + (A_H)_{ij} \geq 1$, so $(A_G)_{ij} = 1$, and hence $ij \in E_G$.
 
-For $i = j$, since all graphs are simple, have $(E_{\cdot})_{ii} = 0$, $(A_{\cdot})_{ii} = 0$ and hence
-\[
-\big((A_H)^2 - D_H + A_H\big)_{ii} = (A_H)^2_{ii} - (D_H)_{ii}.
-\]
-$(A_H)^2_{ii} - (D_H)_{ii} = 0$ is always true since the degree matrix of $H$ always has diagonal 
-values $\displaystyle (D_H)_{ii} = \sum_k x_{ik}$ and each edge from vertex $i$ to its neighbour in $H$ 
-will always create a loop to itself in the square such that $\displaystyle (A_H)^2_{ii} = 
-\sum_{k = 1} x_{ik}x_{ki} = \sum_{k = 1} x_{ik}^2$ by the symmetry of adjacency matrix $A_H$. Since $x_{ik} \in \{0, 1\}$,
-the square of the boolean is identical to the boolean $x_ik$ such that $\displaystyle (A_H)^2_{ii} = \sum_k x_{ik} = (D_H)_{ii}$
-and $(A_G)_{ii} = \mathbbm{1}_{\geq 1}\big((A_H)^2 - D_H + A_H\big)$ as required. 
+  For $i = j$, since all graphs are simple, have $(E_{\cdot})_{ii} = 0$, $(A_{\cdot})_{ii} = 0$ and hence
+  \[
+  \big((A_H)^2 - D_H + A_H\big)_{ii} = (A_H)^2_{ii} - (D_H)_{ii}.
+  \]
+  $(A_H)^2_{ii} - (D_H)_{ii} = 0$ is always true since the degree matrix of $H$ always has diagonal 
+  values $\displaystyle (D_H)_{ii} = \sum_k x_{ik}$ and each edge from vertex $i$ to its neighbour in $H$ 
+  will always create a loop to itself in the square such that $\displaystyle (A_H)^2_{ii} = 
+  \sum_{k = 1} x_{ik}x_{ki} = \sum_{k = 1} x_{ik}^2$ by the symmetry of adjacency matrix $A_H$. Since $x_{ik} \in \{0, 1\}$,
+  the square of the boolean is identical to the boolean $x_ik$ such that $\displaystyle (A_H)^2_{ii} = \sum_k x_{ik} = (D_H)_{ii}$
+  and $(A_G)_{ii} = \mathbbm{1}_{\geq 1}\big((A_H)^2 - D_H + A_H\big)$ as required. 
 
-Combining both gives that $E_G = E_{H^2}$, and so $G = H^2$.  
-
+  Combining both gives that $E_G = E_{H^2}$, and so $G = H^2$.  
 \end{proof}
 \noindent
 The formulation of the adjacency matrix of the graph square in Equation~\eqref{eq::fund_adj_eq_undirected} is very powerful. 
@@ -298,67 +297,67 @@ $H$ with adjacency matrix $A_H = (x_{ij})$. Then $G$ has a square root $H$ if an
 program has a feasible solution $x$ such that the corresponding graph $H$ satisfies $H^2 = G$.
 \end{proposition}
 \begin{proof}
-($\Rightarrow$) Suppose $G$ has a square root $H$ and let $A_H$ be the adjacency matrix of $H$.  $x_{ij} = (A_H)_{ij}$.
-% We show that $x$ satisfies all the constraints of the integer program.
-Construct the variables $x_{ij}, y_{ikj}, z_{ij}$ and the constant $g_{ij}$ as such 
-\begin{enumerate}[label=\roman*)]
-  \item Let $x_{ij} = 1$ if $ij \in E_H$ and $=0$ otherwise. 
-  \item Let $y_{ikj} = x_{ik}x_{kj}$ for all $i,k,j$. 
-  \item Let $\displaystyle z_{ij} = \sum_{k = 1}^{n} y_{ikj} + x_{ij} $ for all $i,j$. 
-  \item Let $\displaystyle z_{ii} = \sum_{k  = 1}^{n} y_{iki} - \sum_{k = 1}^{n} x_{ik} =  \sum_{k = 1}^{n} x_{ik}^2 -  \sum_{k = 1}^{n} x_{ik} = 0 $
-  since $x_{ij} \in \{0 , 1\} \implies x_{ik}^2 = x_{ik}$. 
-  \item Let $g_{ij} = 1$ if $ij \in E_G$ and $=0$ otherwise. 
-\end{enumerate}
-Verifying constraints of the integer program for the variables 
-\begin{enumerate}[label=\roman*)]
-  \item As $x_{ij} \in \{0, 1 \} \implies y_{ikj}  \in \{0, 1 \} $, Equations~\eqref{eq::IP_x_variable}-\eqref{eq::IP_z_variable}
-  and Equations~\eqref{eq::IP_x_upper_bound}-\eqref{eq::IP_y_upper_bound} are satisfied.  
-  \item As $H$ is a simple directed graph, its adjacency matrix is hallow and symmetric such that Equations~\eqref{eq::IP_symmetry_x}
-  -\eqref{eq::IP_diagonal_x} are satisfied.  
-  \item As $y_{ikj} = x_{ik}x_{kj}$ and all variables are binary, Equations~\eqref{eq::IP_product_upper_first}-
-  \eqref{eq::IP_product_lower} are satisfied. 
-  \item Equation~\eqref{eq::IP_indicator_arg} by definition is satisfied. 
-  \item As $\displaystyle z_{ii} = \sum_{k = 1}^{n} x_{ik}x_{ki} - \sum_{k = 1}^{n} x_{ik}$, Equation~\eqref{eq::IP_fund_matrix} is satisfied. 
-  \item As $\displaystyle z_{ij} \geq 1 \iff x_{ij} = 1 \; \text{or} \; \exists k \text{ such that } x_{ik}=x_{kj}= 1$ and as $H^2 = G$,
-  have $g_{ij} = 1 \iff 1 \leq d_H(i,j) \leq 2$. Thus $g_{ij} = 1 \iff z_{ij}geq 1$ so the indicator 
-  constraints Equations~\eqref{eq::IP_indicator_upper}-\eqref{eq::IP_indicator_lower} hold. 
-\end{enumerate}
-All constraints of the integer program are satisfied by the constructed variables. Hence, the integer program is feasible.
+  ($\Rightarrow$) Suppose $G$ has a square root $H$ and let $A_H$ be the adjacency matrix of $H$.  $x_{ij} = (A_H)_{ij}$.
+  % We show that $x$ satisfies all the constraints of the integer program.
+  Construct the variables $x_{ij}, y_{ikj}, z_{ij}$ and the constant $g_{ij}$ as such 
+  \begin{enumerate}[label=\roman*)]
+    \item Let $x_{ij} = 1$ if $ij \in E_H$ and $=0$ otherwise. 
+    \item Let $y_{ikj} = x_{ik}x_{kj}$ for all $i,k,j$. 
+    \item Let $\displaystyle z_{ij} = \sum_{k = 1}^{n} y_{ikj} + x_{ij} $ for all $i,j$. 
+    \item Let $\displaystyle z_{ii} = \sum_{k  = 1}^{n} y_{iki} - \sum_{k = 1}^{n} x_{ik} =  \sum_{k = 1}^{n} x_{ik}^2 -  \sum_{k = 1}^{n} x_{ik} = 0 $
+    since $x_{ij} \in \{0 , 1\} \implies x_{ik}^2 = x_{ik}$. 
+    \item Let $g_{ij} = 1$ if $ij \in E_G$ and $=0$ otherwise. 
+  \end{enumerate}
+  Verifying constraints of the integer program for the variables 
+  \begin{enumerate}[label=\roman*)]
+    \item As $x_{ij} \in \{0, 1 \} \implies y_{ikj}  \in \{0, 1 \} $, Equations~\eqref{eq::IP_x_variable}-\eqref{eq::IP_z_variable}
+    and Equations~\eqref{eq::IP_x_upper_bound}-\eqref{eq::IP_y_upper_bound} are satisfied.  
+    \item As $H$ is a simple directed graph, its adjacency matrix is hallow and symmetric such that Equations~\eqref{eq::IP_symmetry_x}
+    -\eqref{eq::IP_diagonal_x} are satisfied.  
+    \item As $y_{ikj} = x_{ik}x_{kj}$ and all variables are binary, Equations~\eqref{eq::IP_product_upper_first}-
+    \eqref{eq::IP_product_lower} are satisfied. 
+    \item Equation~\eqref{eq::IP_indicator_arg} by definition is satisfied. 
+    \item As $\displaystyle z_{ii} = \sum_{k = 1}^{n} x_{ik}x_{ki} - \sum_{k = 1}^{n} x_{ik}$, Equation~\eqref{eq::IP_fund_matrix} is satisfied. 
+    \item As $\displaystyle z_{ij} \geq 1 \iff x_{ij} = 1 \; \text{or} \; \exists k \text{ such that } x_{ik}=x_{kj}= 1$ and as $H^2 = G$,
+    have $g_{ij} = 1 \iff 1 \leq d_H(i,j) \leq 2$. Thus $g_{ij} = 1 \iff z_{ij}geq 1$ so the indicator 
+    constraints Equations~\eqref{eq::IP_indicator_upper}-\eqref{eq::IP_indicator_lower} hold. 
+  \end{enumerate}
+  All constraints of the integer program are satisfied by the constructed variables. Hence, the integer program is feasible.
 
-($\Leftarrow$) Suppose the integer program on graph $G$ has a feasible solution $x$, and let $x_{ij}$ define a graph $H$ by 
-\[
-ij \in E_H \iff x_{ij} = 1. 
-\]
-% We show that $H^2 = G$. 
-As $x_{ij}$ satisfies the constraints of the integer program, 
-\begin{enumerate}[label=\roman*)]
-  \item Equation~\eqref{eq::IP_x_variable} and Equation~\eqref{eq::IP_x_upper_bound} gives $x_{ij} \in \{0 , 1\}$ for all $i,j$,
-  \item Equation~\eqref{eq::IP_symmetry_x} and Equation~\eqref{eq::IP_diagonal_x} give $x_{ij} = x_{ji}$ and $x_{ii} = 0$,
-\end{enumerate}
-such that $x_{ij}$ defines a hollow, symmetric matrix with all elements being either $0$ or $1$ which is a valid adjacency matrix of a graph. 
-Examining the auxiliary variables $y_{ikj}$ and $z_{ij}$, 
-\begin{enumerate}[label=\roman*)]
-  \item Equations~\eqref{eq::IP_product_upper_first}-\eqref{eq::IP_product_lower} give the strict equality $y_{ikj} = x_{ik}x_{kj}$ for all $i,j,k$,
-  \item Equation~\eqref{eq::IP_indicator_arg} gives $\displaystyle z_{ij} = \sum_{k = 1}^{n}y_{ikj} + x_{ij} = \sum_{k = 1}^{n}x_{ik}x_{kj} + x_{ij}$ for all $i \neq j$,
-  \item Equation~\eqref{eq::IP_fund_matrix} gives $\displaystyle z_{ii} = \sum_{k = 1}^{n}y_{iki} + \sum_{n}^{k = 1}x_{ik} = \sum_{k = 1}^{n} x_{ik}x_{ki} - \sum_{n}^{k = 1}x_{ik} = 0$ for all $i$ since
+  ($\Leftarrow$) Suppose the integer program on graph $G$ has a feasible solution $x$, and let $x_{ij}$ define a graph $H$ by 
   \[
-   \sum_{k = 1}^{n} x_{ik}x_{ki} = \sum_{k = 1}^{n} x_{ik}^2 = \sum_{k = 1}^{n} x_{ik},
+  ij \in E_H \iff x_{ij} = 1. 
   \]
-  by symmetry and since $x_{ij} \in \{0 , 1\}$. 
-\end{enumerate} 
-The indicator constraints Equations~\eqref{eq::IP_indicator_upper}-\eqref{eq::IP_indicator_lower} thus give for $i \neq j$
-\[
-g_{ij} = 1 \iff \sum_{k=1}^{n} x_{ik}x_{kj} + x_{ij} \geq 1 \; \text{and} \; g_{ij} = 0 \iff \sum_{k=1}^{n} x_{ik}x_{kj} + x_{ij} = 0. 
-\]
-Since $x_{ij} \in \{0,1\}$, this is equivalent to 
-\[
-g_{ij} = 1 \iff \Big(x_{ij} = 1 \Big) \lor \Big(\exists k \;\text{such that}\; x_{ik}= 1 \land x_{kj}=1\Big) \; \text{and} \; g_{ij} = 0 \iff x_{ij} = 0. 
-\]
-By definition of $H$ this means that $g_{ij} = 1 \iff \Big( ij \in E_H \Big) \lor \Big( \exists k \;\text{such that}\; ik,kj \in E_H\Big)$ which is equivalent to 
-\[
-g_{ij} = 1 \iff 1 \leq d_H(i,j) \leq 2. 
-\]
-Now apply Lemma~\ref{lemma::G_equal_to_H^2} gives $ij \in E_G \iff ij \in E_H^2$ such that $G=H^2$. 
+  % We show that $H^2 = G$. 
+  As $x_{ij}$ satisfies the constraints of the integer program, 
+  \begin{enumerate}[label=\roman*)]
+    \item Equation~\eqref{eq::IP_x_variable} and Equation~\eqref{eq::IP_x_upper_bound} gives $x_{ij} \in \{0 , 1\}$ for all $i,j$,
+    \item Equation~\eqref{eq::IP_symmetry_x} and Equation~\eqref{eq::IP_diagonal_x} give $x_{ij} = x_{ji}$ and $x_{ii} = 0$,
+  \end{enumerate}
+  such that $x_{ij}$ defines a hollow, symmetric matrix with all elements being either $0$ or $1$ which is a valid adjacency matrix of a graph. 
+  Examining the auxiliary variables $y_{ikj}$ and $z_{ij}$, 
+  \begin{enumerate}[label=\roman*)]
+    \item Equations~\eqref{eq::IP_product_upper_first}-\eqref{eq::IP_product_lower} give the strict equality $y_{ikj} = x_{ik}x_{kj}$ for all $i,j,k$,
+    \item Equation~\eqref{eq::IP_indicator_arg} gives $\displaystyle z_{ij} = \sum_{k = 1}^{n}y_{ikj} + x_{ij} = \sum_{k = 1}^{n}x_{ik}x_{kj} + x_{ij}$ for all $i \neq j$,
+    \item Equation~\eqref{eq::IP_fund_matrix} gives $\displaystyle z_{ii} = \sum_{k = 1}^{n}y_{iki} + \sum_{n}^{k = 1}x_{ik} = \sum_{k = 1}^{n} x_{ik}x_{ki} - \sum_{n}^{k = 1}x_{ik} = 0$ for all $i$ since
+    \[
+    \sum_{k = 1}^{n} x_{ik}x_{ki} = \sum_{k = 1}^{n} x_{ik}^2 = \sum_{k = 1}^{n} x_{ik},
+    \]
+    by symmetry and since $x_{ij} \in \{0 , 1\}$. 
+  \end{enumerate} 
+  The indicator constraints Equations~\eqref{eq::IP_indicator_upper}-\eqref{eq::IP_indicator_lower} thus give for $i \neq j$
+  \[
+  g_{ij} = 1 \iff \sum_{k=1}^{n} x_{ik}x_{kj} + x_{ij} \geq 1 \; \text{and} \; g_{ij} = 0 \iff \sum_{k=1}^{n} x_{ik}x_{kj} + x_{ij} = 0. 
+  \]
+  Since $x_{ij} \in \{0,1\}$, this is equivalent to 
+  \[
+  g_{ij} = 1 \iff \Big(x_{ij} = 1 \Big) \lor \Big(\exists k \;\text{such that}\; x_{ik}= 1 \land x_{kj}=1\Big) \; \text{and} \; g_{ij} = 0 \iff x_{ij} = 0. 
+  \]
+  By definition of $H$ this means that $g_{ij} = 1 \iff \Big( ij \in E_H \Big) \lor \Big( \exists k \;\text{such that}\; ik,kj \in E_H\Big)$ which is equivalent to 
+  \[
+  g_{ij} = 1 \iff 1 \leq d_H(i,j) \leq 2. 
+  \]
+  Now apply Lemma~\ref{lemma::G_equal_to_H^2} gives $ij \in E_G \iff ij \in E_H^2$ such that $G=H^2$. 
 \end{proof}
 
 In the integer program, the most important object is the triangle, the $3$-clique that denotes the relationship between any three vertices
@@ -407,15 +406,23 @@ since it allows an efficient logical disjunction to simply summarize all possibl
 
 Let $g_{ij} + g_{jk} + g_{ki} = 2$ and assume without loss of generality that $f(ij) = f(jk) = 1$ such that $f(ki) = 0$. 
 
-
 \begin{lemma} \label{lemma::two_edges_integer_sum}
   Consider the triangle $ijk$ where $ij$ and $jk$ are present and $ki$ is absent in square $G$. Then for root $G$, the integer program must satisfy 
   \[
-  x_{ij} + x_{ki} \leq 1. 
+  x_{ij} + x_{jk} \leq 1. 
   \]
 \end{lemma}
 \begin{proof}
-  Using Theorem~\eqref{theorem::two_edges_triangle_mapping}, 
+  As $g_{ki} = 0$, Equation~\eqref{eq::IP_indicator_upper} gives $z_{ki} \leq 0$ and Equation~\eqref{eq::IP_indicator_lower} gives $z_{ki} \geq 0$ 
+  such that $z_{ki} = 0$. Therefore Equation~\eqref{eq::IP_indicator_arg} gives 
+  \[
+  0 = \sum_{a = 1}^{n} y_{kai} + x_{ki} = \sum_{a = 1}^{n} x_{ka}x_{ai} + x_{ki}
+  \]
+  where the second equality follows from the product constraints Equations~\eqref{eq::IP_product_upper_first}--\eqref{eq::IP_product_lower}.
+  such that $x_{ki}=0$ and $x_{ka}x_{ai} = 0$, which implies that at most one of $x_{ka}$, $x_{ai}$ is equal to $1$ and the other must be $0$,
+  and can be equivalently written as $x_{ka} + x_{ai} \leq 1$. 
+
+  Taking $a=j$ gives $x_{kj} + x_{ji} \leq 1$ and as the graph is undirected, by symmetry this gives $x_{ij} + x_{kj} \leq 1$. 
 \end{proof}
 
 
@@ -465,7 +472,9 @@ Many of the same propositions and lemmas likewise hold for the linear program.
   \]
 \end{lemma}
 \begin{proof}
-  Follows directly from the Lemma~\eqref{lemma::two_edges_integer_sum}. 
+  The linear program is the relaxation of the integer program obtained byb removing the integrality constraints while retaining all linear constraints. Since the 
+  proof of Lemma~\ref{lemma::two_edges_integer_sum} relies only on these linear constraints, the inequality also holds for every feasible solution of the linear
+  program.
 \end{proof}
 
 \subsection{Min Objective Function} \label{subsec::min_obj}   
@@ -485,34 +494,34 @@ x_{ij}=\frac{1}{n-1}.
 In particular, $K_3$ gives $\displaystyle x_{ij}=\frac 12$, $K_4$ gives $\displaystyle x_{ij}=\frac 13$, and in general $K_n$ gives $\displaystyle x_{ij}= \frac{1}{n-1}$.
 \end{lemma}
 \begin{proof}
-Since $C\cong K_n$ is vertex-transitive, the feasible region and the objective function Equation~\eqref{eq::min_obj_function} are invariant under every 
-permutation of the vertices of $G$. Hence, if $x$ is optimal, then averaging $x$ over all permutations of the vertex set $V$
-produces another optimal solution $\bar x$ with
-\[
-\bar x_{ij}=w \quad \text{for all } i\neq j \in V
-\]
-for some constant $w\ge 0$. Consider any vertex $i \in V$, where in the clique every pair $(i,j)$ with $j \neq i$ is present, so that $g_{ij}=1$. By the indicator 
-constraints Equations~\eqref{eq::IP_indicator_upper}--\eqref{eq::IP_indicator_lower},
-\[
-z_{ij}\ge g_{ij}=1 \quad  \text{for all } j\neq i.
-\]
-Together with Equation~\eqref{eq::IP_indicator_arg} and the product constraints Equations~\eqref{eq::IP_product_upper_first}--\eqref{eq::IP_product_lower},
-this forces each vertex $i$ to carry at least one unit of total incident $x$-mass on the clique, 
-\[
-\sum_{j\in V(C)\setminus\{i\}} x_{ij}\ge 1.
-\]
-For the symmetric solution $\bar x$, this becomes $(n-1)w \ge 1$, hence
-\[
-w \ge \frac{1}{n-1}.
-\]
-On the other hand, the objective function is
-\[
-\sum_{i<j,\ i,j\in V(C)} x_{ij}
-=
-\binom{n}{2}w,
-\]
-which is strictly increasing in $w$. Therefore the minimum is attained at the
-smallest feasible value of $\displaystyle w = \frac{1}{n-1}$ which every edge of $K_n$ achieves in the minimizing LP. 
+  Since $C\cong K_n$ is vertex-transitive, the feasible region and the objective function Equation~\eqref{eq::min_obj_function} are invariant under every 
+  permutation of the vertices of $G$. Hence, if $x$ is optimal, then averaging $x$ over all permutations of the vertex set $V$
+  produces another optimal solution $\bar x$ with
+  \[
+  \bar x_{ij}=w \quad \text{for all } i\neq j \in V
+  \]
+  for some constant $w\ge 0$. Consider any vertex $i \in V$, where in the clique every pair $(i,j)$ with $j \neq i$ is present, so that $g_{ij}=1$. By the indicator 
+  constraints Equations~\eqref{eq::IP_indicator_upper}--\eqref{eq::IP_indicator_lower},
+  \[
+  z_{ij}\ge g_{ij}=1 \quad  \text{for all } j\neq i.
+  \]
+  Together with Equation~\eqref{eq::IP_indicator_arg} and the product constraints Equations~\eqref{eq::IP_product_upper_first}--\eqref{eq::IP_product_lower},
+  this forces each vertex $i$ to carry at least one unit of total incident $x$-mass on the clique, 
+  \[
+  \sum_{j\in V(C)\setminus\{i\}} x_{ij}\ge 1.
+  \]
+  For the symmetric solution $\bar x$, this becomes $(n-1)w \ge 1$, hence
+  \[
+  w \ge \frac{1}{n-1}.
+  \]
+  On the other hand, the objective function is
+  \[
+  \sum_{i<j,\ i,j\in V(C)} x_{ij}
+  =
+  \binom{n}{2}w,
+  \]
+  which is strictly increasing in $w$. Therefore the minimum is attained at the
+  smallest feasible value of $\displaystyle w = \frac{1}{n-1}$ which every edge of $K_n$ achieves in the minimizing LP. 
 \end{proof}
 
 
@@ -533,57 +542,20 @@ complete graph $K_3$ has four roots: itself and three path graphs of length $2$,
 that the maximization objective preserves consistency up to isomorphism
 while still distinguishing structurally meaningful solutions.
 
-\begin{lemma}\label{lemma::no_triangle_edge_square}
+\begin{lemma} \label{lemma::two_edge_linear_maximization}
 Let $x$ be an optimal solution to the linear relaxation defined by Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::LP_z_variable} with 
 the addition of objective function Equation~\eqref{eq::max_obj_function}. If $g_{ij}=0$, then for every $k\in\{1,\dots,n\}$,
 \[
 x_{ik}+x_{kj}=1.
 \]
 \end{lemma}
-
 \begin{proof}
-Since $g_{ij}=0$, Equations~\eqref{eq::IP_indicator_upper}
-and~\eqref{eq::IP_indicator_lower} imply
-\[
-z_{ij}=0.
-\]
-Substituting into Equation~\eqref{eq::IP_indicator_arg} yields
-\[
-0=z_{ij}=\sum_{k=1}^{n} y_{ikj}+x_{ij}.
-\]
-As $y_{ikj}\ge0$ and $x_{ij}\ge0$, it follows that
-\[
-y_{ikj}=0 \quad \forall k,
-\qquad
-x_{ij}=0.
-\]
-
-Now applying Equation~\eqref{eq::IP_product_lower},
-\[
-0=y_{ikj}\ge x_{ik}+x_{kj}-1,
-\]
-and hence
-\[
-x_{ik}+x_{kj}\le 1.
-\]
-
-Suppose that for some $k$,
-\[
-x_{ik}+x_{kj}<1.
-\]
-Then there exists $\delta>0$ such that
-\[
-x_{ik}+x_{kj}+\delta \le 1.
-\]
-Increasing either $x_{ik}$ or $x_{kj}$ by $\delta$ preserves the
-inequality $x_{ik}+x_{kj}\le1$ and therefore preserves feasibility.
-However, this strictly increases the value of the objective function
-Equation~\eqref{eq::max_obj_function}, contradicting the optimality of $x$.
-
-Therefore the inequality must be tight at optimality, and thus
-\[
-x_{ik}+x_{kj}=1.
-\]
+  By Lemma~\ref{lemma::two_edges_linear_sum} $x_{ij}+x_{ki} \leq 1$. Suppose to the contrary that $x_{ij}+x_{ki}<1$. Since the objective
+  maximizes the variables $x_{ij}$, increasing either $x_{ij}$ or $x_{ki}$ while preserving feasibility would strictly improve the objective 
+  value, contradicting optimality. Therefore the inequality must be tight, and hence
+  \[
+  x_{ij}+x_{ki}=1.
+  \]
 \end{proof}
 
 
@@ -677,22 +649,22 @@ polynomial runtime.
   That is, $N_G(u)\cup\{u\}$ and $N_G(v)\cup\{v\}$ induce the same clique structure in $G$.
 \end{lemma}
 \begin{proof}
-Since $s$ lies in a single clique in $G$, in any tree root $H$ the vertex $s$ must be a leaf, and exactly one of $u$ or $v$ is the
-internal vertex adjacent to the remainder of the graph. Assume without loss of generality that $u$ is this internal vertex. Any vertex
-adjacent to $v$ in $G$ other than $s$ must arise from a path of length at most two through $u$ in $H$, since $v$
-has no other connections in the root besides $u$ and $s$. Hence
-\[
-N_G(v)\setminus\{s\}\subseteq N_G(u)\setminus\{s\}.
-\]
-Since $\deg_G(u)=\deg_G(v)$, both neighbourhoods have equal cardinality $|N_G(v)| = |N_G(u)|$ such that via the equality 
-criterion for finite sets
-\[
-N_G(v)\setminus\{s\}
-=
-N_G(u)\setminus\{s\}.
-\]
-Hence the vertices adjacent to $u$ and $v$ outside of $s$ have identical adjacency structure in $G$, and therefore
-$N_G(u)\cup\{u\}$ and $N_G(v)\cup\{v\}$ induce the same clique structure.
+  Since $s$ lies in a single clique in $G$, in any tree root $H$ the vertex $s$ must be a leaf, and exactly one of $u$ or $v$ is the
+  internal vertex adjacent to the remainder of the graph. Assume without loss of generality that $u$ is this internal vertex. Any vertex
+  adjacent to $v$ in $G$ other than $s$ must arise from a path of length at most two through $u$ in $H$, since $v$
+  has no other connections in the root besides $u$ and $s$. Hence
+  \[
+  N_G(v)\setminus\{s\}\subseteq N_G(u)\setminus\{s\}.
+  \]
+  Since $\deg_G(u)=\deg_G(v)$, both neighbourhoods have equal cardinality $|N_G(v)| = |N_G(u)|$ such that via the equality 
+  criterion for finite sets
+  \[
+  N_G(v)\setminus\{s\}
+  =
+  N_G(u)\setminus\{s\}.
+  \]
+  Hence the vertices adjacent to $u$ and $v$ outside of $s$ have identical adjacency structure in $G$, and therefore
+  $N_G(u)\cup\{u\}$ and $N_G(v)\cup\{v\}$ induce the same clique structure.
 \end{proof}
 
 \begin{proposition} \label{prop::single_triangular_decomposition_equality}
@@ -700,17 +672,17 @@ $N_G(u)\cup\{u\}$ and $N_G(v)\cup\{v\}$ induce the same clique structure.
   choose to assign $x_{su}=x_{uv}=1$ in the tree root $H$ without loss of generality.
 \end{proposition}
 \begin{proof}
-Since $s$ lies in a single clique in $G$, in the root $H$, $s$ must be a leaf with either $u$ or $v$ being the internal
-vertex adjacent to the remainder of the graph. Assume without loss of generality that $u$ is the internal vertex.
+  Since $s$ lies in a single clique in $G$, in the root $H$, $s$ must be a leaf with either $u$ or $v$ being the internal
+  vertex adjacent to the remainder of the graph. Assume without loss of generality that $u$ is the internal vertex.
 
-By Lemma~\ref{lemma::single_triangle_equal_neighbourhood}, $N_G(u)\setminus\{s\}=N_G(v)\setminus\{s\}$, such that $u$ and $v$ induce
-identical clique structure in $G$. Therefore exchanging the roles of $u$ and $v$ preserves the square graph $G$.Hence choosing $u$ 
-as the internal vertex and assigning
-\[
-x_{su}=x_{uv}=1,
-\]
-does not alter feasibility, since the alternative choice obtained by exchanging $u$ and $v$ produces an isomorphic tree root
-with identical square graph.
+  By Lemma~\ref{lemma::single_triangle_equal_neighbourhood}, $N_G(u)\setminus\{s\}=N_G(v)\setminus\{s\}$, such that $u$ and $v$ induce
+  identical clique structure in $G$. Therefore exchanging the roles of $u$ and $v$ preserves the square graph $G$.Hence choosing $u$ 
+  as the internal vertex and assigning
+  \[
+  x_{su}=x_{uv}=1,
+  \]
+  does not alter feasibility, since the alternative choice obtained by exchanging $u$ and $v$ produces an isomorphic tree root
+  with identical square graph.
 \end{proof}
 
 \begin{proposition} \label{prop::single_triangular_decomposition_feasibility}
@@ -785,13 +757,7 @@ if the $4$-clique satisfies
 Equation~\eqref{eq::tetrahedron_neighbourhood_assignment} and Equation~\eqref{eq::tetrahedron_leaf_class} can deterministically assign 
 values to the edges using  
 \begin{equation} \label{eq:tetrahedron_fix}
-x_{s_1u}=x_{us_1}
-=
-x_{s_2u}=x_{us_2}
-=
-x_{uv}=x_{vu}
-=
-1,
+x_{s_1u}=x_{us_1} = x_{s_2u}=x_{us_2} = x_{uv}=x_{vu} = 1. 
 \end{equation}
 
 % If the neighbourhood of a k4 tetrahedron contains contains a pendant internal vertex than it is not valid
@@ -804,41 +770,41 @@ x_{uv}=x_{vu}
   That is, $N_G(u)\cup\{u\}$ and $N_G(v)\cup\{v\}$ induce the same clique structure in $G$.
 \end{lemma}
 \begin{proof}
-Let $x \in N_G(v)\setminus\{s_1,s_2\}$ be a vertex adjacent to $v$ in $G$ such that there exists a path of length
-at most two between $x$ and $v$ in $H$. If $x$ is adjacent to either $s_1$ or $s_2$, then by the assumption
-\[
-N_G(s_1)\setminus\{s_1,s_2,u,v\}
-=
-N_G(s_2)\setminus\{s_1,s_2,u,v\},
-\]
-where the vertices $s_1$ and $s_2$ contribute identically outside the
-clique. Hence any external connection from the clique through $v$
-must also be realised through the same local structure containing
-$u$. Consequently $x$ is also at distance at most two from $u$ in
-$H$, and therefore
-\[
-x\in N_G(u)\setminus\{s_1,s_2\},
-\]
-which implies that $
-N_G(v)\setminus\{s_1,s_2\}
-\subseteq
-N_G(u)\setminus\{s_1,s_2\}$. By symmetry, interchanging the roles of $u$ and $v$ gives
-\[
-N_G(u)\setminus\{s_1,s_2\}
-\subseteq
-N_G(v)\setminus\{s_1,s_2\}.
-\]
-Hence
-\[
-N_G(u)\setminus\{s_1,s_2\}
-=
-N_G(v)\setminus\{s_1,s_2\}.
-\]
+  Let $x \in N_G(v)\setminus\{s_1,s_2\}$ be a vertex adjacent to $v$ in $G$ such that there exists a path of length
+  at most two between $x$ and $v$ in $H$. If $x$ is adjacent to either $s_1$ or $s_2$, then by the assumption
+  \[
+  N_G(s_1)\setminus\{s_1,s_2,u,v\}
+  =
+  N_G(s_2)\setminus\{s_1,s_2,u,v\},
+  \]
+  where the vertices $s_1$ and $s_2$ contribute identically outside the
+  clique. Hence any external connection from the clique through $v$
+  must also be realised through the same local structure containing
+  $u$. Consequently $x$ is also at distance at most two from $u$ in
+  $H$, and therefore
+  \[
+  x\in N_G(u)\setminus\{s_1,s_2\},
+  \]
+  which implies that $
+  N_G(v)\setminus\{s_1,s_2\}
+  \subseteq
+  N_G(u)\setminus\{s_1,s_2\}$. By symmetry, interchanging the roles of $u$ and $v$ gives
+  \[
+  N_G(u)\setminus\{s_1,s_2\}
+  \subseteq
+  N_G(v)\setminus\{s_1,s_2\}.
+  \]
+  Hence
+  \[
+  N_G(u)\setminus\{s_1,s_2\}
+  =
+  N_G(v)\setminus\{s_1,s_2\}.
+  \]
 
-Therefore the vertices adjacent to $u$ and $v$ outside of
-$\{s_1,s_2\}$ have identical adjacency structure in $G$, and so
-$N_G(u)\cup\{u\}$ and $N_G(v)\cup\{v\}$ induce the same clique
-structure in $G$.
+  Therefore the vertices adjacent to $u$ and $v$ outside of
+  $\{s_1,s_2\}$ have identical adjacency structure in $G$, and so
+  $N_G(u)\cup\{u\}$ and $N_G(v)\cup\{v\}$ induce the same clique
+  structure in $G$.
 \end{proof}
 
 \begin{proposition} \label{prop::textrahedron_decomposition_equality}
@@ -854,33 +820,33 @@ structure in $G$.
   with their internal vertex and parent uniquely determines the remaining leaf children of $u$ in the linear program.
 \end{proposition}
 \begin{proof}
-Since any tree may be rooted at an arbitrary vertex, assume without loss of generality that $H$ is rooted. 
-Let $s_1,\dots,s_k$ be leaf children adjacent to an internal vertex $u$, and let $v$ be the parent of $u$. Consider any pair
-of leaves $s_i,s_j$, and suppose the internal branching vertex $u$ together with its parent $v$ have been fixed in the linear program.
-Now consider any remaining leaf $s_\ell$ adjacent to $u$. Since $s_\ell$ is a leaf in the root, its only neighbour in the tree is
-$u$. Furthermore, all leaf children of $u$ have identical neighbourhood structure in the square graph outside of $\{u,v,s_i,s_j\}$.
+  Since any tree may be rooted at an arbitrary vertex, assume without loss of generality that $H$ is rooted. 
+  Let $s_1,\dots,s_k$ be leaf children adjacent to an internal vertex $u$, and let $v$ be the parent of $u$. Consider any pair
+  of leaves $s_i,s_j$, and suppose the internal branching vertex $u$ together with its parent $v$ have been fixed in the linear program.
+  Now consider any remaining leaf $s_\ell$ adjacent to $u$. Since $s_\ell$ is a leaf in the root, its only neighbour in the tree is
+  $u$. Furthermore, all leaf children of $u$ have identical neighbourhood structure in the square graph outside of $\{u,v,s_i,s_j\}$.
 
-Now consider any remaining leaf $s_\ell$ adjacent to $u$. Since every leaf adjacent to $u$ lies at distance two from $s_\ell$
-through $u$, and $v$ lies at distance two through the path $s_\ell-u-v$, the neighbourhood of $s_\ell$ in the square graph is
-\[
-N_G(s_\ell)
-=
-\{u,v,s_1,\dots,s_{\ell-1},s_{\ell+1},\dots,s_k\}.
-\]
+  Now consider any remaining leaf $s_\ell$ adjacent to $u$. Since every leaf adjacent to $u$ lies at distance two from $s_\ell$
+  through $u$, and $v$ lies at distance two through the path $s_\ell-u-v$, the neighbourhood of $s_\ell$ in the square graph is
+  \[
+  N_G(s_\ell)
+  =
+  \{u,v,s_1,\dots,s_{\ell-1},s_{\ell+1},\dots,s_k\}.
+  \]
 
-Suppose for contradiction that $s_\ell$ is assigned to a vertex $w$ with $w\neq u$. Since $s_\ell$ is a leaf in the rooted tree,
-its neighbourhood in the square graph is determined by the vertices at distance at most two from $w$. Since $w\neq u$, the set of
-vertices at distance at most two from $s_\ell$ differs from that induced through $u$, giving
-\[
-N_G(s_\ell)
-\neq
-\{u,v,s_1,\dots,s_{\ell-1},s_{\ell+1},\dots,s_k\}.
-\]
+  Suppose for contradiction that $s_\ell$ is assigned to a vertex $w$ with $w\neq u$. Since $s_\ell$ is a leaf in the rooted tree,
+  its neighbourhood in the square graph is determined by the vertices at distance at most two from $w$. Since $w\neq u$, the set of
+  vertices at distance at most two from $s_\ell$ differs from that induced through $u$, giving
+  \[
+  N_G(s_\ell)
+  \neq
+  \{u,v,s_1,\dots,s_{\ell-1},s_{\ell+1},\dots,s_k\}.
+  \]
 
-Hence either additional adjacencies are introduced into the square graph or existing adjacencies are removed and the neighbourhood of 
-$s_\ell$ in the resulting square graph differs from that of the original graph, contradicting feasibility of the linear program. 
-Thus the only feasible assignment is for $s_\ell$ to be adjacent to the already identified internal vertex $u$, implying that fixing 
-any two leaves together with their internal vertex and parent uniquely determines all remaining leaf children adjacent to $u$.
+  Hence either additional adjacencies are introduced into the square graph or existing adjacencies are removed and the neighbourhood of 
+  $s_\ell$ in the resulting square graph differs from that of the original graph, contradicting feasibility of the linear program. 
+  Thus the only feasible assignment is for $s_\ell$ to be adjacent to the already identified internal vertex $u$, implying that fixing 
+  any two leaves together with their internal vertex and parent uniquely determines all remaining leaf children adjacent to $u$.
 \end{proof}
 
 \begin{proposition} \label{prop::tetrahedron_decomposition_feasibility}
@@ -907,38 +873,38 @@ tetrahedron.
   Every tree contains either a \hyperref[def::pendant]{pendant} or a \hyperref[def::leaf_clique]{leaf clique} subgraph.
 \end{lemma}
 \begin{proof} 
-Let $T$ be a finite tree with $|V(T)|\ge 3$, and root $T$ at an arbitrary vertex. Since $T$ is finite, there exists a leaf $s$ of 
-maximal depth where its parent is $u$. Every child of $u$ is a leaf, since if there was some child $w$ of $u$ that is not a leaf, 
-then $w$ would have a child and hence there would exist a vertex at depth strictly greater than that of $s$, contradicting the 
-choice of $s$.
+  Let $T$ be a finite tree with $|V(T)|\ge 3$, and root $T$ at an arbitrary vertex. Since $T$ is finite, there exists a leaf $s$ of 
+  maximal depth where its parent is $u$. Every child of $u$ is a leaf, since if there was some child $w$ of $u$ that is not a leaf, 
+  then $w$ would have a child and hence there would exist a vertex at depth strictly greater than that of $s$, contradicting the 
+  choice of $s$.
 
-If $u$ is not the root, let $v$ denote its parent such that every neighbour of $u$ other than $v$ is a leaf.
+  If $u$ is not the root, let $v$ denote its parent such that every neighbour of $u$ other than $v$ is a leaf.
 
-If $u$ has exactly one leaf neighbour $s$ besides $v$ (when $u$ is not
-the root), then $u$ has exactly two neighbours, namely $s$ and $v$,
-hence $\deg_T(u)=2$. Therefore the induced subgraph on
-\[
-\{s,u,v\}
-\]
-forms a pendant subgraph.
+  If $u$ has exactly one leaf neighbour $s$ besides $v$ (when $u$ is not
+  the root), then $u$ has exactly two neighbours, namely $s$ and $v$,
+  hence $\deg_T(u)=2$. Therefore the induced subgraph on
+  \[
+  \{s,u,v\}
+  \]
+  forms a pendant subgraph.
 
-Otherwise $u$ has at least two leaf neighbours $s_1,s_2$. Choose
-another neighbour $v$ of $u$ distinct from $s_1,s_2$; if $u$ is not the
-root, take its parent, while if $u$ is the root choose any remaining
-neighbour. Then
-\[
-\{s_1,s_2,v\}\subseteq N(u),
-\]
-and $\deg_T(u)\ge3$. Hence the induced subgraph on
-\[
-\{s_1,s_2,u,v\}
-\]
-forms a leaf clique subgraph.
+  Otherwise $u$ has at least two leaf neighbours $s_1,s_2$. Choose
+  another neighbour $v$ of $u$ distinct from $s_1,s_2$; if $u$ is not the
+  root, take its parent, while if $u$ is the root choose any remaining
+  neighbour. Then
+  \[
+  \{s_1,s_2,v\}\subseteq N(u),
+  \]
+  and $\deg_T(u)\ge3$. Hence the induced subgraph on
+  \[
+  \{s_1,s_2,u,v\}
+  \]
+  forms a leaf clique subgraph.
 \end{proof}
 \begin{proof}
-Consider the smallest tree of size $3$ that is unique up to isomorphism, $s-u-v$ which is clearly a pendant. In order to form 
-a tree without a pendant or a leaf-clique, a vertex $a$ must be added. However, without loss of generality adding $a$ to the leaf 
-$v$ forms a new pendant $\{a,v,u\}$ whilst adding $a$ to the internal vertex $u$ forms a  $\{\}$ 
+  Consider the smallest tree of size $3$ that is unique up to isomorphism, $s-u-v$ which is clearly a pendant. In order to form 
+  a tree without a pendant or a leaf-clique, a vertex $a$ must be added. However, without loss of generality adding $a$ to the leaf 
+  $v$ forms a new pendant $\{a,v,u\}$ whilst adding $a$ to the internal vertex $u$ forms a  $\{\}$ 
 \end{proof}
 
 
@@ -948,39 +914,44 @@ $v$ forms a new pendant $\{a,v,u\}$ whilst adding $a$ to the internal vertex $u$
   linear program together return an integral solution. 
 \end{theorem} 
 \begin{proof} % Need to rewrite proof in terms of $G$ rather than $H$ 
-Assume for contradiction that there exists a square graph $G$ with a tree root $H$ such that the linear 
-program has an optimal, maximal solution $x^*$ that is fractional. Then there exists at least one edge 
-$ij \in E_G$ such that $0 < x^*_{ij} < 1 $. Consider the root solution $x^*$ and the following cases. 
+  Assume for contradiction that there exists a square graph $G$ with a tree root $H$ such that the linear 
+  program has an optimal, maximal solution $x^*$ that is fractional. Then there exists at least one edge 
+  $ij \in E_G$ such that $0 < x^*_{ij} < 1 $. Consider the root solution $x^*$ and the following cases. 
 
-Let $i$ be a leaf, $j$ be its neighbour with degree $2$ and let $k \neq i$ be the other neighbour of $j$. Let 
-$ij$ be the fractional edge along the path $i - j - k$ which meets the rest of the graph only at $k$. In $G$, $ijk$ 
-form a clique in $G$ which by construction is also the only triangle that $i$ can be in. As the linear program applies 
-\eqref{eq::single_triangle_fix}, $ij$ pendant edge will be fixed and hence cannot be integral, hence this case 
-cannot occur. 
+  Let $i$ be a leaf, $j$ be its neighbour with degree $2$ and let $k \neq i$ be the other neighbour of $j$. Let 
+  $ij$ be the fractional edge along the path $i - j - k$ which meets the rest of the graph only at $k$. In $G$, $ijk$ 
+  form a clique in $G$ which by construction is also the only triangle that $i$ can be in. As the linear program applies 
+  \eqref{eq::single_triangle_fix}, $ij$ pendant edge will be fixed and hence cannot be integral, hence this case 
+  cannot occur. 
 
-Let $i$ be a leaf, $j$ be its neighbour with degree $\geq 2$ and let $k \neq i$ be another leaf of $j$. Let 
-$j$ meet the rest of the graph. Then $ijk$ form a clique and solution $x^*$ can be extended by simply adding an 
-additional edge $ik$ to form a root of larger size. This contradicts the maximality of $x^*$. 
+  Let $i$ be a leaf, $j$ be its neighbour with degree $\geq 2$ and let $k \neq i$ be another leaf of $j$. Let 
+  $j$ meet the rest of the graph. Then $ijk$ form a clique and solution $x^*$ can be extended by simply adding an 
+  additional edge $ik$ to form a root of larger size. This contradicts the maximality of $x^*$. 
 
-The remaining case is where both $i$ and $j$ are internal vertices. Denote the subgraph of $x^*$ from $i$
-as $H_i$ and the subgraph from $j$ as $H_j$. Since $x^*$ must be a tree, there are no cycles in $H$ and hence
-$H_i$ and $H_j$ are disjoint with only one fractional bridge $ij$ connecting them. Consider $H_i, H_j$ and recursively
-apply the above logic such that we are eventually left with at least two subgraphs $H_0, H_1$ that do not have 
-fractional bridges and are comprised completely of pendant vertices and leafs. From above two cases, all edges 
-in the roots of $H_0, H_1$ are integral, and since the situation where a vertex has multiple leaves can not occur (
-there must be pendant 2-leaves together with leaves else would have above case), this completely categorizes the position 
-of the node which connects to the rest of the graph such that there are no other automorisphsm which form the same square. 
-As this holds for both $H_0$ and $H_1$, the endpoints of the bridge between them can be completely identified such that 
-their bridge will be made integral. Applying this inductively thus means that $H_i$ and $H_j$ are completely integral 
-such that $i$ and $j$ are identified and $ij$ is made integral. This contradicts the fractional nature of $x^*_{ij}$. 
+  The remaining case is where both $i$ and $j$ are internal vertices. Denote the subgraph of $x^*$ from $i$
+  as $H_i$ and the subgraph from $j$ as $H_j$. Since $x^*$ must be a tree, there are no cycles in $H$ and hence
+  $H_i$ and $H_j$ are disjoint with only one fractional bridge $ij$ connecting them. Consider $H_i, H_j$ and recursively
+  apply the above logic such that we are eventually left with at least two subgraphs $H_0, H_1$ that do not have 
+  fractional bridges and are comprised completely of pendant vertices and leafs. From above two cases, all edges 
+  in the roots of $H_0, H_1$ are integral, and since the situation where a vertex has multiple leaves can not occur (
+  there must be pendant 2-leaves together with leaves else would have above case), this completely categorizes the position 
+  of the node which connects to the rest of the graph such that there are no other automorisphsm which form the same square. 
+  As this holds for both $H_0$ and $H_1$, the endpoints of the bridge between them can be completely identified such that 
+  their bridge will be made integral. Applying this inductively thus means that $H_i$ and $H_j$ are completely integral 
+  such that $i$ and $j$ are identified and $ij$ is made integral. This contradicts the fractional nature of $x^*_{ij}$. 
 
-Since no fractional, solution exists, the optimal, maximal output of the linear program must be completely integral 
-if it results in a tree root. 
+  Since no fractional, solution exists, the optimal, maximal output of the linear program must be completely integral 
+  if it results in a tree root. 
 \end{proof}
 
-\section{Complete Graph} \label{sec::complete_graph}
+\section{Edge Enforcement} \label{sec::edge_enforcement}
 
-% Theorem: the number of roots in a complete graph is the # of diameter 2 graphs 
+Lemma~\ref{lemma::two_edges_integer_sum} and its linear relaxation equivalent Lemma~\ref{lemma::two_edges_linear_sum} give extremely 
+strong structure into how the linear program operates. Using the maximization objective function Lemma~\ref{lemma::two_edges_linear_sum},
+any two edges $ij$, $jk$ which exist in $G$ but $ki$, can be assigned the weights $a$, $b$ respectively where $x_{ij} = a$, $x_{jk} = b$ 
+and $a + b = 1$. 
+
+Using this relationship $b = 1-a$, therefore giving a 
 
 \section{Symmetry} \label{sec::symmetry}
 
