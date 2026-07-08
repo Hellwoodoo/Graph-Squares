@@ -951,7 +951,38 @@ strong structure into how the linear program operates. Using the maximization ob
 any two edges $ij$, $jk$ which exist in $G$ but $ki$, can be assigned the weights $a$, $b$ respectively where $x_{ij} = a$, $x_{jk} = b$ 
 and $a + b = 1$. 
 
-Using this relationship $b = 1-a$, therefore giving a 
+This relationship $b = 1-a$ therefore gives a methodology for tackling scenarios where the maximal fractional objective function is
+greater than the optimal integer objective function corresponding to a valid square root. By continuously iterating Lemma~\ref{lemma::two_edges_linear_sum}
+can eventually categorize and formulate equations for many of the weights on the various edges. Consider this square graph on $6$ vertices 
+with only one unique root 
+\begin{figure}[ht]
+    \centering
+
+    \begin{subfigure}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Images/six_vertex_root.png}
+        \caption{The root graph $G$.}
+        \label{fig:six_vertex_root}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Images/six_vertex_square.png}
+        \caption{The graph square $H=G^2$.}
+        \label{fig:six_vertex_square}
+    \end{subfigure}
+
+    \caption{A six-vertex graph and its square.}
+    \label{fig:six_vertex_example}
+\end{figure}
+
+Assigning $a = x_{03}$ gives using the lemma that $x_{31} = 1 - a$ since $01$ does not exist in $G$, and likewise with $12$ does not exist 
+in $G$ have $x_{32} = a$. However with the absence of $02$, must have $x_{03} + x_{32} \leq 1$ such that $\displaystyle a \leq \frac{1}{2}$. By symmetry 
+this likewise holds for $b = x_{05} = x_{15}$, $1-b = x_{52}$ and $c = x_{42} = x_{41}$, $1-c = x_{40}$ giving $\displaystyle b, c \leq \frac{1}{2}$. 
+
+In this case, rather than maximizing the objective function and giving a fractional solution, setting $a=b=c=0$ gives a valid integral solution. 
+
+
 
 \section{Symmetry} \label{sec::symmetry}
 
