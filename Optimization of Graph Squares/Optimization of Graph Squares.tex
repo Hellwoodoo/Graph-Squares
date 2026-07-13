@@ -292,9 +292,9 @@ introduces artificial degeneracy in the linear program.
 \end{alignat}
 
 \begin{proposition} \label{prop::IP_gives_root}
-Let $G$ be a graph and consider the integer program whose variables $x_{ij} \in \{0,1\}$ encode a graph 
-$H$ with adjacency matrix $A_H = (x_{ij})$. Then $G$ has a square root $H$ if and only if the integer 
-program has a feasible solution $x$ such that the corresponding graph $H$ satisfies $H^2 = G$.
+Let $G$ be a graph and consider the integer program whose variables $x_{ij} \in \{0,1\}$ encode a graph $H$ with adjacency matrix $A_H = (x_{ij})$. 
+Then $G$ has a square root $H$ if and only if the integer  program has a feasible solution $x$ such that the corresponding graph $H$ satisfies 
+$H^2 = G$.
 \end{proposition}
 \begin{proof}
   ($\Rightarrow$) Suppose $G$ has a square root $H$ and let $A_H$ be the adjacency matrix of $H$.  $x_{ij} = (A_H)_{ij}$.
@@ -953,27 +953,67 @@ and $a + b = 1$.
 
 This relationship $b = 1-a$ therefore gives a methodology for tackling scenarios where the maximal fractional objective function is
 greater than the optimal integer objective function corresponding to a valid square root. By continuously iterating Lemma~\ref{lemma::two_edges_linear_sum}
-can eventually categorize and formulate equations for many of the weights on the various edges. Consider this square graph on $6$ vertices 
-with only one unique root 
+can eventually categorize and formulate equations for many of the weights on the various edges. 
+
+Consider this square graph on $6$ vertices with three different roots  
+\begin{figure}[ht]
+    \centering
+
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Images/130_6_root_1.png}
+        \caption{Root graph $G_1$.}
+        \label{fig:130_6_root_1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Images/130_6_root_2.png}
+        \caption{Root graph $G_2$.}
+        \label{fig:130_6_root_2}
+    \end{subfigure}
+
+    \vspace{0.5cm}
+
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Images/130_6_root_3.png}
+        \caption{Root graph $G_3$.}
+        \label{fig:130_6_root_3}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Images/130_6_square.png}
+        \caption{The graph square $H = G_i^2$.}
+        \label{fig:130_6_square}
+    \end{subfigure}
+
+    \caption{Three non-isomorphic square roots of the same six-vertex graph square.}
+    \label{fig:six_vertex_example}
+\end{figure}
+
+
+Consider this square graph on $6$ vertices with only one unique root 
 \begin{figure}[ht]
     \centering
 
     \begin{subfigure}{0.48\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{Images/six_vertex_root.png}
+        \includegraphics[width=\linewidth]{Images/115_6_root.png}
         \caption{The root graph $G$.}
-        \label{fig:six_vertex_root}
+        \label{fig:115_6_root}
     \end{subfigure}
     \hfill
     \begin{subfigure}{0.48\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{Images/six_vertex_square.png}
+        \includegraphics[width=\linewidth]{Images/115_6_square.png}
         \caption{The graph square $H=G^2$.}
-        \label{fig:six_vertex_square}
+        \label{fig:115_6_square}
     \end{subfigure}
 
     \caption{A six-vertex graph and its square.}
-    \label{fig:six_vertex_example}
+    \label{fig:115_6_example}
 \end{figure}
 
 Assigning $a = x_{03}$ gives using the lemma that $x_{31} = 1 - a$ since $01$ does not exist in $G$, and likewise with $12$ does not exist 
