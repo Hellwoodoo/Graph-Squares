@@ -542,19 +542,44 @@ complete graph $K_3$ has four roots: itself and three path graphs of length $2$,
 that the maximization objective preserves consistency up to isomorphism
 while still distinguishing structurally meaningful solutions.
 
-\begin{lemma} \label{lemma::two_edge_linear_maximization}
-Let $x$ be an optimal solution to the linear relaxation defined by Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::LP_z_variable} with 
-the addition of objective function Equation~\eqref{eq::max_obj_function}. If $g_{ij}=0$, then for every $k\in\{1,\dots,n\}$,
-\[
-x_{ik}+x_{kj}=1.
-\]
+\begin{proposition}\label{prop::two_edges_augmentation}
+  Let $(x, y, z)$ give a feasible solution to the linear relaxation defined by Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::LP_z_variable}. 
+  Suppose there exists vertices $i$, $j$ amd $k$ such that
+  \[
+  g_{ik}=1,\quad g_{kj}=1,\quad g_{ij}=0 \quad \text{and} \quad x_{ik} + x_{kj} < 1. 
+  \]
+  Then there exists another feasible solution $(x',y',z')$ satisfying $\displaystyle \sum_{u,v} x'_{uv} > \sum_{u,v} x_{uv}$.
+\end{proposition}
+\begin{proof}
+  Starting from $(x, y, z)$ let $x_{ik} + x_{kj} = 1 - \delta$ for some $\delta > 0$. Then choose $0 < \varepsilon \leq \delta$ such that
+  there is the perturbation $x'_{ik} =x_{ik} + \varepsilon$ with all other $x$-variables initially remaining unchanged. If $(x', y', z')$ 
+  is feasible then 
+  \[
+  \sum_{u,v} x'_{uv} = \sum_{u,v \backslash ik} x_{uv} + x'_{ik} = \sum_{u,v} x_{uv} + \varepsilon,
+  \]
+  gives $\displaystyle \sum_{u,v} x'_{uv} > \sum_{u,v} x_{uv}$ as required. 
+
+  Suppose that $(x', y', z')$ is not feasible and violates one of Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::LP_z_variable}. Using 
+  Equations~\eqref{eq::IP_product_upper_first}-\eqref{eq::IP_product_lower}, $y'_{ikj} = x_{ik}' + x_{kj}' - 1 = x_{ik} + \varepsilon + x_{kj} - 1 
+  > y_{ikj}$ and using Equations~\eqref{eq::IP_indicator_arg} $\displaystyle z'_{ij} = \sum_{k = 1}^{n} y'_{ikj} + x'_{ij} =  \sum_{k = 1}^{n} \big(
+  x_{ik} + \varepsilon + x_{kj} - 1 \big) + x_{ij}$
+
+
+\end{proof}
+
+\begin{lemma} \label{lemma::two_edges_linear_maximization}
+  Let $x$ be an optimal solution to the linear relaxation defined by Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::LP_z_variable} with 
+  the addition of objective function Equation~\eqref{eq::max_obj_function}. If $g_{ij}=0$, then for every $k\in\{1,\dots,n\}$,
+  \[
+  x_{ik}+x_{kj}=1.
+  \]
 \end{lemma}
 \begin{proof}
-  By Lemma~\ref{lemma::two_edges_linear_sum} $x_{ij}+x_{ki} \leq 1$. Suppose to the contrary that $x_{ij}+x_{ki}<1$. Since the objective
-  maximizes the variables $x_{ij}$, increasing either $x_{ij}$ or $x_{ki}$ while preserving feasibility would strictly improve the objective 
-  value, contradicting optimality. Therefore the inequality must be tight, and hence
+  By Lemma~\ref{lemma::two_edges_linear_sum} $x_{ij} + x_{kj} \leq 1$. Suppose $x_{ik} + x_{kj} < 1$, then by 
+  Proposition~\ref{prop::two_edges_augmentation} there exists a feasible solution with a strictly larger objective value than $x$,
+  contradicting the optimality of $x$. Therefore the inequality must be tight, and hence
   \[
-  x_{ij}+x_{ki}=1.
+  x_{ik}+x_{kj}=1.
   \]
 \end{proof}
 
@@ -959,40 +984,45 @@ Consider this square graph on $6$ vertices with three different roots
 \begin{figure}[ht]
     \centering
 
-    \begin{subfigure}{0.25\textwidth}
+    \begin{subfigure}{0.24\textwidth}
         \centering
         \includegraphics[width=\linewidth]{Images/130_6_root_1.png}
-        \caption{Root graph $G_1$.}
-        \label{fig:130_6_root_1}
+        \caption{The root graph $G_1$.}
+        \label{fig::130_6_root_1}
     \end{subfigure}
     \hfill
-    \begin{subfigure}{0.25\textwidth}
+    \begin{subfigure}{0.23\textwidth}
         \centering
         \includegraphics[width=\linewidth]{Images/130_6_root_2.png}
-        \caption{Root graph $G_2$.}
-        \label{fig:130_6_root_2}
+        \caption{The root graph $G_2$.}
+        \label{fig::130_6_root_2}
     \end{subfigure}
-
-    \vspace{0.5cm}
-
-    \begin{subfigure}{0.25\textwidth}
+    \hfill
+    \begin{subfigure}{0.15\textwidth}
         \centering
         \includegraphics[width=\linewidth]{Images/130_6_root_3.png}
-        \caption{Root graph $G_3$.}
-        \label{fig:130_6_root_3}
+        \caption{The root graph $G_3$.}
+        \label{fig::130_6_root_3}
     \end{subfigure}
     \hfill
     \begin{subfigure}{0.25\textwidth}
         \centering
         \includegraphics[width=\linewidth]{Images/130_6_square.png}
         \caption{The graph square $H = G_i^2$.}
-        \label{fig:130_6_square}
+        \label{fig::130_6_square}
     \end{subfigure}
-
     \caption{Three non-isomorphic square roots of the same six-vertex graph square.}
-    \label{fig:six_vertex_example}
+    \label{fig::130_6}
 \end{figure}
 
+$G_1$ is the unique maximal root. Assigning $a = x_{14}$ gives using Lemma~\eqref{lemma::two_edge_linear_maximization} that $1 - a = x_{40}$
+since $01$ does not exist in $G$. The same applies such that $1 - a = x_{42}$ and $a = x_{43}$, whereby the existence of edges $13$ and $02$
+prevent additional constraints being imposed upon $a$, it is internally consistent. By symmetry can likewise assign $b = x_{15} = x_{35}$ 
+and $1 - b = x_{50} = x_{52}$. 
+
+Setting $a = 0$ and $b = 1$ thus gives $x_{40}$
+
+\newpage
 
 Consider this square graph on $6$ vertices with only one unique root 
 \begin{figure}[ht]
@@ -1002,21 +1032,21 @@ Consider this square graph on $6$ vertices with only one unique root
         \centering
         \includegraphics[width=\linewidth]{Images/115_6_root.png}
         \caption{The root graph $G$.}
-        \label{fig:115_6_root}
+        \label{fig::115_6_root}
     \end{subfigure}
     \hfill
-    \begin{subfigure}{0.48\textwidth}
+    \begin{subfigure}{0.47\textwidth}
         \centering
         \includegraphics[width=\linewidth]{Images/115_6_square.png}
         \caption{The graph square $H=G^2$.}
-        \label{fig:115_6_square}
+        \label{fig::115_6_square}
     \end{subfigure}
 
     \caption{A six-vertex graph and its square.}
-    \label{fig:115_6_example}
+    \label{fig::115_6_example}
 \end{figure}
 
-Assigning $a = x_{03}$ gives using the lemma that $x_{31} = 1 - a$ since $01$ does not exist in $G$, and likewise with $12$ does not exist 
+Assigning $a = x_{03}$ gives using Lemma~\eqref{lemma::two_edge_linear_maximization} that $x_{31} = 1 - a$ since $01$ does not exist in $G$, and likewise with $12$ does not exist 
 in $G$ have $x_{32} = a$. However with the absence of $02$, must have $x_{03} + x_{32} \leq 1$ such that $\displaystyle a \leq \frac{1}{2}$. By symmetry 
 this likewise holds for $b = x_{05} = x_{15}$, $1-b = x_{52}$ and $c = x_{42} = x_{41}$, $1-c = x_{40}$ giving $\displaystyle b, c \leq \frac{1}{2}$. 
 
