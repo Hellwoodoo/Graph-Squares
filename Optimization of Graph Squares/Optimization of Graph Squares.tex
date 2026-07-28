@@ -372,7 +372,7 @@ $i,j,k$.  Consider the following scenarios for the square $G$
   \item \label{lp::three_edges} $i,j,k$ form a clique in $G$ with $ij, jk, ki$ present in $G$. \ref{lp::single_edge} applies for all three 
   edges, with the caveat that any vertex can act as the corresponding $l$ vertex for the other two vertices. 
 \end{enumerate}
-These common scenarios clearly exhibit the ``hardness'' of the square root problem as the each present edge of a triangle branches out into
+These common scenarios clearly exhibit the ``hardness'' of the square root problem as each present edge of a triangle branches out into
 three possibilities. However, the remaining case gives critical structure to the problem 
 \begin{enumerate}[resume, label=(\Roman*)]
   \item \label{lp::two_edges} $ij$ and $jk$ are the two edges for $i,j,k$ in $G$. Since $ki$ does not appear in $G$ there must not be an edge 
@@ -1015,7 +1015,7 @@ Consider this square graph on $6$ vertices with three different roots
     \label{fig::130_6}
 \end{figure}
 
-$G_1$ is the unique maximal root. Assigning $a = x_{14}$ gives using Lemma~\eqref{lemma::two_edge_linear_maximization} that $1 - a = x_{40}$
+$G_1$ is the unique maximal root. Assigning $a = x_{14}$ gives using Lemma~\eqref{lemma::two_edges_linear_maximization} that $1 - a = x_{40}$
 since $01$ does not exist in $G$. The same applies such that $1 - a = x_{42}$ and $a = x_{43}$, whereby the existence of edges $13$ and $02$
 prevent additional constraints being imposed upon $a$, it is internally consistent. By symmetry can likewise assign $b = x_{15} = x_{35}$ 
 and $1 - b = x_{50} = x_{52}$. 
@@ -1046,12 +1046,32 @@ Consider this square graph on $6$ vertices with only one unique root
     \label{fig::115_6_example}
 \end{figure}
 
-Assigning $a = x_{03}$ gives using Lemma~\eqref{lemma::two_edge_linear_maximization} that $x_{31} = 1 - a$ since $01$ does not exist in $G$, and likewise with $12$ does not exist 
+Assigning $a = x_{03}$ gives using Lemma~\eqref{lemma::two_edges_linear_maximization} that $x_{31} = 1 - a$ since $01$ does not exist in $G$, and likewise with $12$ does not exist 
 in $G$ have $x_{32} = a$. However with the absence of $02$, must have $x_{03} + x_{32} \leq 1$ such that $\displaystyle a \leq \frac{1}{2}$. By symmetry 
 this likewise holds for $b = x_{05} = x_{15}$, $1-b = x_{52}$ and $c = x_{42} = x_{41}$, $1-c = x_{40}$ giving $\displaystyle b, c \leq \frac{1}{2}$. 
 
 In this case, rather than maximizing the objective function and giving a fractional solution, setting $a=b=c=0$ gives a valid integral solution. 
 
+\subsection{Algorithm} \label{subsec::edge_enforcement_algorithm}
+
+Let a \textbf{consistent group} $CG \subseteq E_G$ be a group with at least three edges where all edges are labelled by a single symbol $\alpha$ such that every 
+pair of edges satisfies Lemma~\eqref{lemma::two_edges_linear_maximization} implicitly - that is every edge that satisfies the lemma is labelled $\alpha$ and 
+$1-\alpha$. Thus for a consistent group there are only two possibilities that must be considered, $\alpha = 0$ or $\alpha = 1$. 
+
+Let an \textbf{inconsistent group} $IG \subseteq E_G$ be a group with at least three edges where all edges are labelled by a single symbol $\alpha$ such that 
+every pair of edges satisfies Lemma~\eqref{lemma::two_edges_linear_maximization} where there exists a pair of edges satisfying the lemma, but both are labelled 
+$\alpha$ or $1-\alpha$. In this scenario $\alpha + \alpha \leq 1$ such that $\displaystyle 0 \leq \alpha \leq \frac{1}{2}$ or $1 - \alpha + 1 - \alpha \leq 1$ 
+such that $\displaystyle 1 \geq \alpha \geq \frac{1}{2}$. 
+
+\begin{theorem}
+  Any square graph with only consistent groups whose union forms a strict subgraph of $G$ can be solved by arbitrarily fixing one of the group's symbol with
+  either $0$ or $1$. 
+\end{theorem}
+
+\begin{theorem}
+  Any square graph with an inconsistent group must have at least one inconsistent group that is a star. By fixing one variable of the star, LP will only consist
+  of consistent groups.  
+\end{theorem}
 
 
 \section{Symmetry} \label{sec::symmetry}

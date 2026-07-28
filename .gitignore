@@ -8,11 +8,18 @@
 !Optimization of Graph Squares/Notebooks/DualGraphSquares.ipynb
 !Optimization of Graph Squares/Notebooks/IsomorphismGraphSquares.ipynb
 !Optimization of Graph Squares/Notebooks/OptimizationGraphSquares.ipynb
-!Optimization of Graph Squares/references.bib
-!Optimization of Graph Squares/Integer Programming of Graph Squares.tex
-!Optimization of Graph Squares/Integer Programming of Graph Squares.pdf
-!Optimization of Graph Squares/Images 
+!Optimization of Graph Squares/Notebooks/EdgeEnforcementGraphSquares.ipynb.ipynb
+
+!Optimization of Graph Squares/Images
 !Optimization of Graph Squares/Images/*
+
+!Optimization of Graph Squares/references.bib
+!Optimization of Graph Squares/Optimization of Graph Squares.tex
+!Optimization of Graph Squares/Optimization of Graph Squares.pdf
+
+!Optimization of Graph Squares/Proofs.tex
+!Optimization of Graph Squares/Proofs.pdf
+
 !Poster/
 !Poster/Poster.tex
 !Poster/Poster.pdf
@@ -20,6 +27,7 @@
 !Poster/baposter.cls
 !Poster/references.bib
 !Poster/Example.png
+
 !Thesis/
 !Thesis/Thesis.tex
 !Thesis/Thesis.pdf

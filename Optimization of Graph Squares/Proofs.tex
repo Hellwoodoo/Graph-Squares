@@ -1,0 +1,247 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath, amssymb, amsthm, bbm}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{tikz, subcaption}
+\usepackage{enumitem}
+\usepackage{geometry}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage[backend=biber,
+    maxnames=10,
+    minnames=1,
+style=alphabetic]{biblatex}
+\addbibresource{references.bib}
+\geometry{margin=1in}
+
+\newtheorem{proposition}{Proposition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{definition}{Definition}[section] 
+
+\title{Optimization of Graph Squares - Proofs}
+\author{Eddie Xu\\\small\texttt{eddie.xu@student.unimelb.com.au}}
+\date{\today}
+
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\section{Formulations} \label{sec::formulations}
+
+Let known constants $g_{ij} \in \{0, 1\}$ come from the adjacency matrix of the square $A_G$ and let $M \in \mathbb{Z}_{> 0}$ be a sufficiently 
+large constant. The variables in the program are $x_{ij}$, $y_{ikj}$, $z_{ij}$ where $x_{ij}$ form the $ij$-th entry of the adjacency matrix of 
+the root $A_H$.  
+
+\subsection{Integer Program} \label{subsec::integer_program}
+
+\begin{alignat}{3}
+\text{Variables: } & \nonumber \\ 
+& x_{ij} \in \mathbb{Z}_{\geq 0}, 
+&& \forall i,j \in \{1, \dots, n\}, \label{eq::IP_x_variable} \\ 
+& y_{ikj} \in \mathbb{Z}_{\geq 0}, 
+&& \forall i,k,j \in \{1, \dots, n\}, \label{eq::IP_y_variable} \\
+& z_{ij} \in \mathbb{Z}_{\geq 0}, 
+&& \forall i,j \in \{1, \dots, n\}. \label{eq::IP_z_variable} \\
+\text{Constraints: } & \nonumber \\
+\text{(1) Indicator argument: } 
+& z_{ii} = \sum_{k = 1}^{n}y_{iki} - \sum_{k = 1}^{n} x_{ik}, 
+&& \forall i \in \{1, \dots, n\} , \label{eq::IP_fund_matrix} \\
+& z_{ij} = \sum_{k = 1}^{n}y_{ikj} + x_{ij}, 
+&& \forall i \neq j \in \{1, \dots, n\} , \label{eq::IP_indicator_arg} \\
+\text{(2) Indicator function: } 
+& z_{ij} \leq M g_{ij}, 
+&& \forall i, j \in \{1, \dots, n\}, \label{eq::IP_indicator_upper} \\
+& z_{ij} \geq g_{ij}, 
+&& \forall i, j \in \{1, \dots, n\}, \label{eq::IP_indicator_lower}\\
+\text{(3) Product: } 
+& y_{ikj} \leq x_{ik}, 
+&& \forall i, k, j \in \{1, \dots, n\}, \label{eq::IP_product_upper_first} \\
+& y_{ikj} \leq x_{kj}, 
+&& \forall i, k, j \in \{1, \dots, n\}, \label{eq::IP_product_upper_second} \\
+& y_{ikj} \geq x_{ik} + x_{kj} - 1, 
+&& \forall i, k, j \in \{1, \dots, n\} \label{eq::IP_product_lower} \\
+\text{(4) Upper Bound: } 
+& x_{ij} \leq 1, 
+&& \forall i, j \in \{1, \dots, n\}, \label{eq::IP_x_upper_bound} \\
+& y_{ikj} \leq 1, 
+&& \forall i, k, j \in \{1, \dots, n\}, \label{eq::IP_y_upper_bound} \\
+\text{(5) Symmetry: } 
+& x_{ij} = x_{ji}, 
+&&\quad \forall i,j \in \{1, \dots, n\}, \label{eq::IP_symmetry_x} \\
+\text{(6) Diagonal: } 
+& x_{ii} = 0, 
+&&\quad \forall i \in \{1, \dots, n\}.  \label{eq::IP_diagonal_x} 
+\end{alignat} \label{eq::integer_program}
+
+\subsection{Linear Program} \label{subsec::linear_program}
+
+\begin{alignat}{3}
+& x_{ij} \in  \mathbb{R}_{\geq 0}, 
+&&\qquad \forall i,j \in \{1, \dots, n\}, \label{eq::LP_x_variable} \\
+& y_{ikj} \in \mathbb{R}_{\geq 0}, 
+&&\qquad \forall i,k,j \in \{1, \dots, n\}, \label{eq::LP_y_variable} \\
+& z_{ij} \in \mathbb{R}_{\geq 0}, 
+&&\qquad \forall i,j \in \{1, \dots, n\}, \label{eq::LP_z_variable} \\
+\text{Constraints: } & \nonumber \\
+\text{(1) Indicator argument: } 
+& z_{ii} = \sum_{k = 1}^{n}y_{iki} - \sum_{k = 1}^{n} x_{ik}, 
+&& \forall i \in \{1, \dots, n\} , \label{eq::LP_fund_matrix} \\
+& z_{ij} = \sum_{k = 1}^{n}y_{ikj} + x_{ij}, 
+&& \forall i \neq j \in \{1, \dots, n\} , \label{eq::LP_indicator_arg} \\
+\text{(2) Indicator function: } 
+& z_{ij} \leq M g_{ij}, 
+&& \forall i, j \in \{1, \dots, n\}, \label{eq::LP_indicator_upper} \\
+& z_{ij} \geq g_{ij}, 
+&& \forall i, j \in \{1, \dots, n\}, \label{eq::LP_indicator_lower}\\
+\text{(3) Product: } 
+& y_{ikj} \leq x_{ik}, 
+&& \forall i, k, j \in \{1, \dots, n\}, \label{eq::LP_product_upper_first} \\
+& y_{ikj} \leq x_{kj}, 
+&& \forall i, k, j \in \{1, \dots, n\}, \label{eq::LP_product_upper_second} \\
+& y_{ikj} \geq x_{ik} + x_{kj} - 1, 
+&& \forall i, k, j \in \{1, \dots, n\} \label{eq::LP_product_lower} \\
+\text{(4) Upper Bound: } 
+& x_{ij} \leq 1, 
+&& \forall i, j \in \{1, \dots, n\}, \label{eq::LP_x_upper_bound} \\
+& y_{ikj} \leq 1, 
+&& \forall i, k, j \in \{1, \dots, n\}, \label{eq::LP_y_upper_bound} \\
+\text{(5) Symmetry: } 
+& x_{ij} = x_{ji}, 
+&&\quad \forall i,j \in \{1, \dots, n\}, \label{eq::LP_symmetry_x} \\
+\text{(6) Diagonal: } 
+& x_{ii} = 0, 
+&&\quad \forall i \in \{1, \dots, n\}.  \label{eq::LP_diagonal_x} 
+\end{alignat} \label{eq::linear_program}
+
+\subsection{Max Linear Program} \label{subsec::max_linear_program}
+
+\begin{alignat}{3}
+& x_{ij} \in  \mathbb{R}_{\geq 0}, 
+&&\qquad \forall i,j \in \{1, \dots, n\}, \label{eq::max_LP_x_variable} \\
+& y_{ikj} \in \mathbb{R}_{\geq 0}, 
+&&\qquad \forall i,k,j \in \{1, \dots, n\}, \label{eq::max_LP_y_variable} \\
+& z_{ij} \in \mathbb{R}_{\geq 0}, 
+&&\qquad \forall i,j \in \{1, \dots, n\}, \label{eq::max_LP_z_variable} \\
+\text{Constraints: } & \nonumber \\
+\text{(1) Indicator argument: } 
+& z_{ii} = \sum_{k = 1}^{n}y_{iki} - \sum_{k = 1}^{n} x_{ik}, 
+&& \forall i \in \{1, \dots, n\} , \label{eq::max_LP_fund_matrix} \\
+& z_{ij} = \sum_{k = 1}^{n}y_{ikj} + x_{ij}, 
+&& \forall i \neq j \in \{1, \dots, n\} , \label{eq::max_LP_indicator_arg} \\
+\text{(2) Indicator function: } 
+& z_{ij} \leq M g_{ij}, 
+&& \forall i, j \in \{1, \dots, n\}, \label{eq::max_LP_indicator_upper} \\
+& z_{ij} \geq g_{ij}, 
+&& \forall i, j \in \{1, \dots, n\}, \label{eq::max_LP_indicator_lower}\\
+\text{(3) Product: } 
+& y_{ikj} \leq x_{ik}, 
+&& \forall i, k, j \in \{1, \dots, n\}, \label{eq::max_LP_product_upper_first} \\
+& y_{ikj} \leq x_{kj}, 
+&& \forall i, k, j \in \{1, \dots, n\}, \label{eq::max_LP_product_upper_second} \\
+& y_{ikj} \geq x_{ik} + x_{kj} - 1, 
+&& \forall i, k, j \in \{1, \dots, n\} \label{eq::max_LP_product_lower} \\
+\text{(4) Upper Bound: } 
+& x_{ij} \leq 1, 
+&& \forall i, j \in \{1, \dots, n\}, \label{eq::max_LP_x_upper_bound} \\
+& y_{ikj} \leq 1, 
+&& \forall i, k, j \in \{1, \dots, n\}, \label{eq::max_LP_y_upper_bound} \\
+\text{(5) Symmetry: } 
+& x_{ij} = x_{ji}, 
+&&\quad \forall i,j \in \{1, \dots, n\}, \label{eq::max_LP_symmetry_x} \\
+\text{(6) Diagonal: } 
+& x_{ii} = 0, 
+&&\quad \forall i \in \{1, \dots, n\},  \label{eq::max_LP_diagonal_x} \\
+\text{Objective Function: } & \nonumber \\ 
+& \max \sum_{i=1}^{n} \sum_{j=1}^{n} x_{ij}. \label{eq::max_objective_funtion}
+\end{alignat} \label{eq::max_linear_program}
+
+\section{Two-Edge-Triangle Proof} \label{sec::two_edge_triangle_proof}
+
+Let $x$ be an optimal solution to the linear relaxation defined by Equations~\eqref{eq::max_LP_x_variable}--\eqref{eq::max_objective_funtion}. 
+If $g_{ij}=0$, then for every $k\in\{1,\dots,n\}$,
+\[
+x_{ik}+x_{kj}=1.
+\]
+
+\subsection{Integer Program} \label{subsec::triangle_two_edges_integer_program}
+
+\begin{lemma} \label{lemma::two_edges_integer_sum}
+  Consider the triangle with three vertices $i$, $j$ and $k$ where edges $ik$ and $kj$ are present and $ij$ is absent in square $G$.
+  Then for root $G$, the integer program defined by Equations~\eqref{eq::IP_x_variable}-\eqref{eq::IP_diagonal_x} must satisfy
+  \[
+  x_{ik} + x_{kj} \leq 1. 
+  \]
+\end{lemma}
+\begin{proof}
+  As $ij$ is absent in $G$, $g_{ij} = 0$ such that Equation~\eqref{eq::IP_indicator_upper} gives $z_{ij} \leq 0$ and
+  Equation~\eqref{eq::IP_indicator_lower} gives $z_{ij} \geq 0$ such that $z_{ij} = 0$. Therefore Equation~\eqref{eq::IP_indicator_arg} gives 
+  \[
+  0 = \sum_{a=1}^{n}y_{iaj}+x_{ij} = \sum_{a=1}^{n}x_{ia}x_{aj}+x_{ij},
+  \]
+  where the second equality follows from the product constraints Equations~\eqref{eq::IP_product_upper_first}--\eqref{eq::IP_diagonal_x}.
+  Using Equation~\eqref{eq::IP_x_variable}, $x_{ij}$ is an integer and hence $0$ only holds when $x_{ij}=0$ and all $x_{ia}x_{aj}=0$. 
+  This implies that at most one of $x_{ia}$, $x_{aj}$ is equal to $1$ and the other must be $0$, and can be equivalently written as 
+  $x_{ia} + x_{aj} \leq 1$. 
+
+  Taking $a=k$ gives $x_{ik}+x_{kj} \leq 1$ as required. 
+\end{proof}
+
+\subsection{Linear Program} \label{subsec::triangle_two_edges_linear_program}
+
+\begin{lemma} \label{lemma::two_edges_linear_sum}
+  Consider the triangle with three vertices $i$, $j$ and $k$ where edges $ik$ and $kj$ are present and $ij$ is absent in square $G$.
+  Then for root $G$, the linear program defined by Equations~\eqref{eq::LP_x_variable}-\eqref{eq::LP_diagonal_x} must satisfy 
+  \[
+  x_{ik} + x_{kj} \leq 1. 
+  \]
+\end{lemma}
+\begin{proof}
+  The linear program is the relaxation of the integer program obtained by removing the integrality constraints on the variables while retaining 
+  all constraints. Since the proof of Lemma~\ref{lemma::two_edges_integer_sum} relies only on these constraints, the inequality also holds for 
+  every variable forming a feasible solution to the linear program.
+\end{proof}
+
+\subsection{Max Linear Program} \label{subsec::triangle_two_edges_max_linear_program}
+
+\begin{proposition}\label{prop::two_edges_augmentation}
+  Let $x$ be a feasible solution to the maximum linear relaxation defined by Equations~\eqref{eq::max_LP_x_variable}--\eqref{eq::max_objective_funtion}.
+  Suppose there exists vertices $i$, $j$ and $k$ such that
+  \[
+  g_{ik}=1,\quad g_{kj}=1,\quad g_{ij}=0 \quad \text{and} \quad x_{ik} + x_{kj} < 1. 
+  \]
+  Then there exists another feasible solution $(x',y',z')$ satisfying $\displaystyle \sum_{u,v} x'_{uv} > \sum_{u,v} x_{uv}$.
+\end{proposition}
+\begin{proof}
+  Starting from initial feasible solution $x$ let $x_{ik} + x_{kj} = 1 - \delta$ for some $\delta > 0$ and choose $0 < \varepsilon \leq \delta$ 
+  with $0 < \varepsilon \leq 1-x_{ik}-x_{kj}$ to consider increasing $x_{ik}$ by $\varepsilon$. By Equation~\eqref{eq::max_LP_fund_matrix}, 
+  increasing $x_{ik}$ decreases
+  \[
+  \sum_{t=1}^n y_{iti}-\sum_{t=1}^n x_{it}
+  \]
+  by $\varepsilon$. Therefore, to maintain
+  Equation~\eqref{eq::max_LP_fund_matrix}, either
+
+\end{proof}
+
+\begin{theorem} \label{theorem::two_edges_linear_maximization}
+  Let $x$ be an optimal solution to the linear relaxation defined by Equations~\eqref{eq::max_LP_x_variable}--\eqref{eq::max_objective_funtion}.
+  If $g_{ij}=0$, then for every $k\in\{1,\dots,n\}$,
+  \[
+  x_{ik}+x_{kj}=1.
+  \]
+\end{theorem}
+\begin{proof}
+  Using Lemma~\ref{lemma::two_edges_linear_sum} $x_{ik} + x_{kj} \leq 1$ and using Proposition~\ref{prop::two_edges_augmentation} $x_{ik} + x_{kj} \geq 1$
+  such that $x_{ik}+x_{kj}=1$ as required. 
+\end{proof}
+
+
+
+
+
+\end{document}
