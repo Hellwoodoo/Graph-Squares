@@ -49,163 +49,103 @@ style=alphabetic]{biblatex}
 
 \section{Historical Background}
 
-In 1949, Leon Festinger proposed a novel method in the field of social psychology for analyzing relationships among a number of people 
-present \cite{festinger_bahoken_beauguitte_2023}. Classically this was represented using a sociogram, a visual tool that maps out the 
-relationships between people, however Forsyth and Katz introduced the use of a matrix to represent the sociometric pattern, with rows and 
-columns being individuals and containing $1$s for choices and blank diagonals. Festinger noticed that the action of squaring a 
-matrix 
+In 1949, Leon Festinger proposed a novel method in the field of social psychology for analyzing relationships among a number of people present \cite{festinger_bahoken_beauguitte_2023}. Classically this was represented using a sociogram, a visual tool that maps out the relationships between people, however Forsyth and Katz introduced the use of a matrix to represent the sociometric pattern, with rows and columns being individuals and containing $1$s for choices and blank diagonals. Festinger noticed that the action of squaring a matrix 
 \[
-A_{rc}^2 = A_{1c}A_{r1} + \dots + A_{nc}A_{rn} \footnote{$A_{rc}^2$ is more naturally written as $\displaystyle \sum_{k = 1}^n A_{ck}A_{kr}$
-using the commutativity of multiplication $A_{1c}A_{r1} = A_{c1}A_{1r}$, which intuitively gives the notion of paths from c to r via intermediary k}
+A_{rc}^2 = A_{1c}A_{r1} + \dots + A_{nc}A_{rn} \footnote{$A_{rc}^2$ is more naturally written as $\displaystyle \sum_{k = 1}^n A_{ck}A_{kr}$ using the commutativity of multiplication $A_{1c}A_{r1} = A_{c1}A_{1r}$, which intuitively gives the notion of paths from c to r via intermediary k}
 \]
 represented the number of ``two-step'' connections, which can then be used to denote ``three-step'' connections between any two people  
 \[
-A_{rc}^3 = A_{1c}A_{r1}^2 + \dots + A_{nc}A_{rn}^2, \footnote{$A_{rc}^3$ is more naturally written as $\displaystyle \sum_{k=1}^n A_{ck}A^2_{kr}$,
-which intuitively counts the number of paths from $c$ to $r$ that go through an intermediate vertex $k$, followed by any two-step path from 
-$k$ to $r$.}
+A_{rc}^3 = A_{1c}A_{r1}^2 + \dots + A_{nc}A_{rn}^2, \footnote{$A_{rc}^3$ is more naturally written as $\displaystyle \sum_{k=1}^n A_{ck}A^2_{kr}$, which intuitively counts the number of paths from $c$ to $r$ that go through an intermediate vertex $k$, followed by any two-step path from $k$ to $r$.}
 \]
-such that higher steps can be easily generated. In this manner, higher powers of the adjacency matrix encode the number of walks of increasing 
-length between pairs of individuals, allowing densely connected groups of people, known as cliques, to be identified. In particular, the 
-cliques between three individuals can be done by looking at the diagonals of the cubed matrix $A^3$.  
+such that higher steps can be easily generated. In this manner, higher powers of the adjacency matrix encode the number of walks of increasing length between pairs of individuals, allowing densely connected groups of people, known as cliques, to be identified. In particular, cliques between any three individuals can be done by looking at the diagonals of the cubed matrix $A^3$.  
 
 This matrix $A$ can be considered as a form of adjacency matrix, and in the process of improving clique detection methods, 
-\citeauthor{ross_1960_square} showed that complete graphs may be realized as squares of star trees by considering powers of such matrices 
-\cite{ross_1960_square}. They introduced a structural characterization of the square of a graph in terms of clique intersections, multicliqual 
-vertices, and so called "neighborly" properties, proving that a graph is the square of a tree if and only if
+\citeauthor{ross_1960_square} showed that complete graphs may be realized as squares of star trees by considering powers of such matrices \cite{ross_1960_square}. They introduced a structural characterization of the square of a graph in terms of clique intersections, multicliqual vertices, and so called "neighborly" properties, proving that a graph is the square of a tree if and only if
 \begin{enumerate}[label=\roman*)]
   \item every vertex is "neighborly" - is not isolated, 
   \item no two cliques intersect in more than two vertices, and
   \item the number of clique pairs intersecting in two vertices is exactly one less than the total number of cliques. 
 \end{enumerate}
-In addition to these properties, there must exist a one-to-one correspondence between maximal cliques and multicliqual vertices where a vertex is
-called multicliqual if it belongs to at least two maximal cliques. If a multicliqual vertex $b$ belongs to exactly $k$ maximal cliques, 
-then the clique corresponding to $b$ contains exactly $k$ multicliqual vertices. Furthermore, if two maximal cliques intersect in
-exactly one vertex $b$, then there exists a third maximal clique which contains $b$ and shares exactly one additional vertex 
-with each of the original two cliques. Using these properties, they constructed an explicit algorithm that recovers the underlying tree 
-by associating multicliqual vertices with maximal cliques and forming a tree from pairwise clique intersections.
+In addition to these properties, there must exist a one-to-one correspondence between maximal cliques and multicliqual vertices where a vertex is called multicliqual if it belongs to at least two maximal cliques. If a multicliqual vertex $b$ belongs to exactly $k$ maximal cliques, then the clique corresponding to $b$ contains exactly $k$ multicliqual vertices. Furthermore, if two maximal cliques intersect at exactly one vertex $b$, then there exists a third maximal clique which contains $b$ and shares exactly one additional vertex with each of the original two cliques. Using these properties, they constructed an explicit algorithm that recovers the underlying tree by associating multicliqual vertices with maximal cliques and forming a tree from pairwise clique intersections.
 
-Since then, the problem of finding the square root of a graph has extended beyond sociology and is a well-studied field in both mathematics and 
-computer-science, with direct applications in distributed computing (e.g., see \cite{peres_2023_distributed}), network design and computational 
-biology. Research in this area has primarily focused around an undirected graph $H$ and its square $G = H^2$ which is obtained by adding an edge 
-between every pair of vertices whose distance in $H$ is at most two. 
+Since then, the problem of finding the square root of a graph has extended beyond sociology and is a well-studied field in both mathematics and computer-science, with direct applications in distributed computing (e.g., see \cite{peres_2023_distributed}), network design and computational biology. Research in this area has primarily focused around an undirected graph $H$ and its square $G = H^2$ which is obtained by adding an edge between every pair of vertices whose distance in $H$ is at most two. 
 
-This two-step undirected graph square has been studied extensively with much of the focus being on the complexity of the decision problem - 
-given a specific square graph $G$ does there exist a root graph $H$ such that $H^2=G$. \citeauthor{motwani_sudan_1994_roots} showed that graph 
-squares are NP-complete in general and hence subsequent studies in the area have restricted the decision problem in two ways, either by considering
-various properties on the root graph or by considering properties on the square graph. 
+This two-step undirected graph square has been studied extensively with much of the focus being on the complexity of the decision problem - given a specific square graph $G$ does there exist a root graph $H$ such that $H^2=G$. \citeauthor{motwani_sudan_1994_roots} showed that graph squares are NP-complete in general and hence subsequent studies in the area have restricted the decision problem in two ways, either by considering various properties on the root graph or by considering properties on the square graph. 
 
 \section{Aims}
 
-In contrast, rather than studying the construction problem directly, in this work we analyze the relationship between the adjacency matrix $A_H$ 
-of the root and the adjacency matrix $A_G$ of the square, and show that the problem can be completely categorized as an integer program. We then 
-examine the relaxed linear program which can be evaluated in polynomial time using interior point method, and integrate existing literature on special root 
-structures as a stepping-stone towards generating a true polynomial time algorithm.  
+In contrast, rather than studying the construction problem directly, in this work we analyze the relationship between the adjacency matrix $A_H$ of the root and the adjacency matrix $A_G$ of the square, and show that the problem can be completely categorized as an integer program. We then examine the relaxed linear program which can be evaluated in polynomial time using interior point method, and integrate existing literature on special root structures as a stepping-stone towards generating a true polynomial time algorithm.  
 
-We begin by introducing the comprehensive literature surrounding the subject and provide a general overview of the research direction in this area 
-and the major advances that have been made over the years. We then standardize the definitions that will be used for the rest of this thesis and 
-introduce fundamental theory on the three areas of complexity theory, graph theory and mathematical optimization that are used in the various 
-algorithmic approaches to the decision problem. 
+We begin by introducing the comprehensive literature surrounding the subject and provide a general overview of the research direction in this area and the major advances that have been made over the years. We then standardize the definitions that will be used for the rest of this thesis and introduce fundamental theory on the three areas of complexity theory, graph theory and mathematical optimization that are used in the various algorithmic approaches to the decision problem. 
 
-The first algorithm we explore is the polynomial time algorithm given by \citeauthor{ross_1960_square} for constructing a tree root from a given 
-square. We then explore the proof used by \citeauthor{motwani_sudan_1994_roots} in showing that 
+The first algorithm we explore is the polynomial time algorithm given by \citeauthor{ross_1960_square} for constructing a tree root from a given square. We then explore the proof used by \citeauthor{motwani_sudan_1994_roots} in showing that 
 
 
 \section{Literature}
-Focusing first on special undirected graph classes, the aforementioned work by \citeauthor{ross_1960_square} in 1960 gives an algorithm for 
-constructing a tree root by using characterizations of the square graph. As part of this work they proved tree square roots are unique up to 
-isomorphism. This was the first major contribution to the study of graph roots and provided fundamental structural characteristics of 
-square graphs, laying the groundwork for later research on graph root problems and their applications \cite{ross_1960_square}. 
+Focusing first on special undirected graph classes, the aforementioned work by \citeauthor{ross_1960_square} in 1960 gives an algorithm for constructing a tree root by using characterizations of the square graph. As part of this work they proved tree square roots are unique up to isomorphism. This was the first major contribution to the study of graph roots and provided fundamental structural characteristics of square graphs, laying the groundwork for later research on graph root problems and their applications \cite{ross_1960_square}. 
 
-\citeauthor{fleischner_1974_square} in 1974 showed that as long as a graph is 2-connected its square graph will have a Hamiltonian cycle. This 
-established a broad condition guaranteeing Hamiltonicity in graph squares which is used in many subsequent works \cite{fleischner_1974_square}. 
+\citeauthor{fleischner_1974_square} in 1974 showed that as long as a graph is 2-connected its square graph will have a Hamiltonian cycle. This established a broad condition guaranteeing Hamiltonicity in graph squares which is used in many subsequent works \cite{fleischner_1974_square}. 
 
-Lau and Corneil in 2004 provided an algorithm for constructing square roots from an interval square graph in polynomial time, and showed that the 
-decision problem for finding roots of chordal graphs, roots of split graphs, and chordal roots of graphs are NP-complete
-\cite{lau_corneil_2004_chordal_root}. Furthermore, Lau considered the construction of square roots from a bipartite graph in linear 
-time, and showed that the existence of cube roots in bipartite square is NP-complete \cite{lau_2006_bipartite_roots}. 
+Lau and Corneil in 2004 provided an algorithm for constructing square roots from an interval square graph in polynomial time, and showed that the decision problem for finding roots of chordal graphs, roots of split graphs, and chordal roots of graphs are NP-complete \cite{lau_corneil_2004_chordal_root}. Furthermore, Lau considered the construction of square roots from a bipartite graph in linear time, and showed that the existence of cube roots in bipartite square is NP-complete \cite{lau_2006_bipartite_roots}. 
 
 Le and Tuy in 2007 generalized tree-root results further by giving a linear time recognition of roots of block graphs \cite{le_tuy_2007_block_square}. 
 
-Extending to the broader generalizing of graph squares, Mukhopadhyay in 1967 provided necessary and sufficient conditions for a connected graph 
-to have a generalized square root \cite{mukhopadhyay_1967_root}, whilst Geller in 1970 likewise found necessary and sufficient conditions for a 
-digraph to have a square root \cite{geller_1970_root}. 
+Extending to the broader generalizing of graph squares, Mukhopadhyay in 1967 provided necessary and sufficient conditions for a connected graph to have a generalized square root \cite{mukhopadhyay_1967_root}, whilst Geller in 1970 likewise found necessary and sufficient conditions for a digraph to have a square root \cite{geller_1970_root}. 
 
-In 1994 Motwani and Sudan established the complexity of the square problem for the generalized undirected case and
-showed that the problem of determining if a given graph has a square root is a NP-complete problem via a polynomial reduction to 3-CNF
-Not-All-Equal SAT \cite{motwani_sudan_1994_roots}.
+In 1994 Motwani and Sudan established the complexity of the square problem for the generalized undirected case and showed that the problem of determining if a given graph has a square root is a NP-complete problem via a polynomial reduction to 3-CNF Not-All-Equal SAT \cite{motwani_sudan_1994_roots}.
 
-Their work led to joint work by Farzad, Le, Tuy, Lau and Karimi in 2009 and 2012, in which they established a partial dichotomy theorem for 
-the complexity of determining if a given undirected graph of girth $n$ has a square root \cite{farzad_2009_roots}
-which was informally completed under \cite{farzad_karimi_2012_root}. 
-In 2013, Cochefert and others gave an algorithm for constructing a square root with minimal number of edges from undirected graphs with max degree 
-$\leq 6$ in polynomial time and an algorithm for constructing maximal edge square roots in exponential time \cite{cochefert_et_al_2013_sparse_square_roots}. 
+Their work led to joint work by Farzad, Le, Tuy, Lau and Karimi in 2009 and 2012, in which they established a partial dichotomy theorem for the complexity of determining if a given undirected graph of girth $n$ has a square root \cite{farzad_2009_roots} which was informally completed under \cite{farzad_karimi_2012_root}. In 2013, Cochefert and others gave an algorithm for constructing a square root with minimal number of edges from undirected graphs with max degree $\leq 6$ in polynomial time and an algorithm for constructing maximal edge square roots in exponential time \cite{cochefert_et_al_2013_sparse_square_roots}. 
 
-In recent years, Duffy provided a full classification for the undirected square of oriented graphs
-satisfying max degree $\leq 3$ and girth $\geq 4$ \cite{duffy_2025_oriented_root}. 
+In recent years, Duffy provided a full classification for the undirected square of oriented graphs satisfying max degree $\leq 3$ and girth $\geq 4$ \cite{duffy_2025_oriented_root}. 
 
 
 \section{Definitions}
 
 \subsection{Complexity Theory}
 
-Complexity theory studies the classification of computational problems and explores the amount of resources required to solve 
-certain problems. The critical resource that is measured is running time and is standardized across various different problems by using
+Complexity theory studies the classification of computational problems and explores the amount of resources required to solve certain problems. The critical resource that is measured is running time and is standardized across various different problems by using 
 
 \begin{definition}[Big-$O$ Notation] \label{def::big_O_notation}
-  Let $f,g:\mathbb{N} \rightarrow \mathbb{R}_{\geq 0}$. The \textbf{Big-$O$ Notation} $f(n)=O(g(n))$ is written 
-  if there exist constants $c>0$ and $n_0\in\mathbb{N}$ such that for all $n\geq n_0$
+  Let $f,g:\mathbb{N} \rightarrow \mathbb{R}_{\geq 0}$. The \textbf{Big-$O$ Notation} $f(n)=O(g(n))$ is written if there exist constants $c>0$ and $n_0\in\mathbb{N}$ such that for all $n\geq n_0$
   \[
   f(n)\leq c g(n). 
   \]
 \end{definition}
 
-Using this notation, can classify algorithms based on their runtime. 
+Using this notation, we can classify algorithms based on their runtime. 
 
 \begin{definition}[Polynomial-Time Algorithm] \label{def::polynomial_time_algorithm}
-  An algorithm is said to run in \textbf{polynomial time} if there exists a constant $c \ge 0$ such that its
-  running time on inputs of size $n$ is $O(n^c)$.
+  An algorithm is said to run in \textbf{polynomial time} if there exists a constant $c \ge 0$ such that its run time on inputs of size $n$ is $O(n^c)$.
 \end{definition}
 
-Polynomial-time algorithms are important because they are generally regarded as efficient and computationally ``simple". Consequently, 
-the class of problems that admit polynomial-time algorithms forms the basis for the complexity class $\mathbf{P}$.
+Polynomial-time algorithms are important because they are generally regarded as efficient and computationally ``simple". Consequently, the class of problems that admit polynomial-time algorithms forms the basis for the complexity class $\mathbf{P}$.
 
 \begin{definition}[Decision Problem] \label{def::decision_problem}
-  A \textbf{decision problem} is a computational problem whose output is either \textbf{Yes} or \textbf{No} for 
-  every valid input instance. 
+  A \textbf{decision problem} is a computational problem whose output is either \textbf{Yes} or \textbf{No} for every valid input instance. 
 \end{definition}
 
 \begin{definition}[Class $\mathbf{P}$] \label{def::class_p}
-  The complexity class $\mathbf{P}$ consists of all decision problems that can be solved by a deterministic 
-  algorithm in polynomial time.
+  The complexity class $\mathbf{P}$ consists of all decision problems that can be solved by a deterministic algorithm in polynomial time.
 \end{definition}
 
-Unfortunately many important decision problems are not known to admit such polynomial-time algorithms and hence need additional classification
-on their ``hardness''. For these problems, despite not have an efficient algorithm for finding a solution, a proposed solution can be
-verified efficiently.
+Unfortunately many important decision problems are not known to admit such polynomial-time algorithms and hence need additional classification on their ``hardness''. For these problems, despite not have an efficient algorithm for finding a solution, a proposed solution can be verified efficiently.
 
 \begin{definition}[Certificate] \label{def::certificate}
-  Let $L$ be a decision problem. A \textbf{certificate} for an instance $x$ of $L$ is a finite string $c$ that 
-  provides evidence that $x$ is a \textbf{Yes}-instance of $L$. A certificate is said to be 
-  \textbf{polynomially verifiable} if there exists a deterministic algorithm that for given input $(x,c)$, can 
-  determines whether $c$ is a valid certificate for $x$ in time polynomial in $|x|$.
+  Let $L$ be a decision problem. A \textbf{certificate} for an instance $x$ of $L$ is a finite string $c$ that provides evidence that $x$ is a \textbf{Yes}-instance of $L$. A certificate is said to be \textbf{polynomially verifiable} if there exists a deterministic algorithm that for given input $(x,c)$, can determines whether $c$ is a valid certificate for $x$ in time polynomial in $|x|$.
 \end{definition}
 
 \begin{definition}[Class $\mathbf{NP}$] \label{def::class_np}
-  The complexity class $\mathbf{NP}$ consists of all decision problems for which every \textbf{Yes}-instance admits 
-  a certificate that is polynomially verifiable. 
+  The complexity class $\mathbf{NP}$ consists of all decision problems for which every \textbf{Yes}-instance admits a certificate that is polynomially verifiable. 
 \end{definition}
 
 Since every decision problem in $\mathbf{P}$ can be solved in polynomial time, a solution can also be verified in polynomial time,
 \[
 \mathbf{P} \subseteq \mathbf{NP}.
 \]
-Whether this inclusion is strict remains one of the most important open questions in theoretical computer science - the
-$\mathbf{P}$ vs $\mathbf{NP}$ problem. As $\mathbf{NP}$ is a large space, the relative difficulty of problems in $\mathbf{NP}$
-is compared by using reduction. 
+Whether this inclusion is strict remains one of the most important open questions in theoretical computer science - the $\mathbf{P}$ vs $\mathbf{NP}$ problem. As $\mathbf{NP}$ is a large space, the relative difficulty of problems in $\mathbf{NP}$ is compared by using reduction. 
 
 \begin{definition}[Polynomial-Time Reduction] \label{def::polynomial_time_reduction}
-  Let $A$ and $B$ be decision problems. A \textbf{polynomial-time reduction} from $A$ to $B$, denoted $A \leq_p B$,
-  is a polynomial-time computable function $f$ such that, for every instance $x$ of $A$,
+  Let $A$ and $B$ be decision problems. A \textbf{polynomial-time reduction} from $A$ to $B$, denoted $A \leq_p B$, is a polynomial-time computable function $f$ such that, for every instance $x$ of $A$,
   \[
   x \in A \Longleftrightarrow f(x) \in B.
   \]
@@ -213,13 +153,11 @@ is compared by using reduction.
 
 
 \begin{definition}[Class $\mathbf{NP}$-Hard] \label{def::class_np_hard}
-  A decision problem $B$ is \textbf{$\mathbf{NP}$-hard} if every problem $A \in \mathbf{NP}$ satisfies $A \leq_p B$. 
-  The collection of all $\mathbf{NP}$-hard problems is denoted by the class \textbf{$\mathbf{NP}$-hard}.
+  A decision problem $B$ is \textbf{$\mathbf{NP}$-hard} if every problem $A \in \mathbf{NP}$ satisfies $A \leq_p B$. The collection of all $\mathbf{NP}$-hard problems is denoted by the class \textbf{$\mathbf{NP}$-hard}.
 \end{definition}
 
 \begin{definition}[Class $\mathbf{NP}$-Complete] \label{def::class_np_complete}
-  A decision problem $B$ is \textbf{$\mathbf{NP}$-complete} if $B \in \mathbf{NP}$, and $B$ is $\mathbf{NP}$-hard.
-  The collection of all $\mathbf{NP}$-complete problems is denoted by the class \textbf{$\mathbf{NP}$-complete}.
+  A decision problem $B$ is \textbf{$\mathbf{NP}$-complete} if $B \in \mathbf{NP}$, and $B$ is $\mathbf{NP}$-hard. The collection of all $\mathbf{NP}$-complete problems is denoted by the class \textbf{$\mathbf{NP}$-complete}.
 \end{definition}
 
 
@@ -264,10 +202,7 @@ is compared by using reduction.
 \end{definition}
 
 
-Let the \emph{graph root} $H = (V, E_H)$ be a finite, simple, undirected graph, where $V$ is the vertex set with $|V| = n$, 
-and $E_H \subseteq \{\{u,v\} \mid u,v \in V,\; u \neq v\}$ is the edge set. Denote by $d_H(u,v)$ the 
-\emph{graph distance} defined as the number of edges of the shortest path 
-between vertices $u$ and $v$ in $H$. If no such path exists, $d_H(u,v) = \infty$.
+Let the \emph{graph root} $H = (V, E_H)$ be a finite, simple, undirected graph, where $V$ is the vertex set with $|V| = n$, and $E_H \subseteq \{\{u,v\} \mid u,v \in V,\; u \neq v\}$ is the edge set. Denote by $d_H(u,v)$ the \emph{graph distance} defined as the number of edges of the shortest path between vertices $u$ and $v$ in $H$. If no such path exists, $d_H(u,v) = \infty$.
 
 For vertices $u,v\in V$, the \emph{graph distance}
 $d_H(u,v)$ is the length of a shortest path between

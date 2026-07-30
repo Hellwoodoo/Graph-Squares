@@ -33,9 +33,7 @@ style=alphabetic]{biblatex}
 
 \section{Formulations} \label{sec::formulations}
 
-Let known constants $g_{ij} \in \{0, 1\}$ come from the adjacency matrix of the square $A_G$ and let $M \in \mathbb{Z}_{> 0}$ be a sufficiently 
-large constant. The variables in the program are $x_{ij}$, $y_{ikj}$, $z_{ij}$ where $x_{ij}$ form the $ij$-th entry of the adjacency matrix of 
-the root $A_H$.  
+Let known constants $g_{ij} \in \{0, 1\}$ come from the adjacency matrix of the square $A_G$ and let $M \in \mathbb{Z}_{> 0}$ be a sufficiently large constant. The variables in the program are $x_{ij}$, $y_{ikj}$, $z_{ij}$ where $x_{ij}$ form the $ij$-th entry of the adjacency matrix of the root $A_H$.  
 
 \subsection{Integer Program} \label{subsec::integer_program}
 
@@ -171,15 +169,13 @@ x_{ik}+x_{kj}=1.
 \subsection{Integer Program} \label{subsec::triangle_two_edges_integer_program}
 
 \begin{lemma} \label{lemma::two_edges_integer_sum}
-  Consider the triangle with three vertices $i$, $j$ and $k$ where edges $ik$ and $kj$ are present and $ij$ is absent in square $G$.
-  Then for root $G$, the integer program defined by Equations~\eqref{eq::IP_x_variable}-\eqref{eq::IP_diagonal_x} must satisfy
+  Consider the triangle with three vertices $i$, $j$ and $k$ where edges $ik$ and $kj$ are present and $ij$ is absent in square $G$. Then for root $G$, the integer program defined by Equations~\eqref{eq::IP_x_variable}-\eqref{eq::IP_diagonal_x} must satisfy
   \[
   x_{ik} + x_{kj} \leq 1. 
   \]
 \end{lemma}
 \begin{proof}
-  As $ij$ is absent in $G$, $g_{ij} = 0$ such that Equation~\eqref{eq::IP_indicator_upper} gives $z_{ij} \leq 0$ and
-  Equation~\eqref{eq::IP_indicator_lower} gives $z_{ij} \geq 0$ such that $z_{ij} = 0$. Therefore Equation~\eqref{eq::IP_indicator_arg} gives 
+  As $ij$ is absent in $G$, $g_{ij} = 0$ such that Equation~\eqref{eq::IP_indicator_upper} gives $z_{ij} \leq 0$ and Equation~\eqref{eq::IP_indicator_lower} gives $z_{ij} \geq 0$ such that $z_{ij} = 0$. Therefore Equation~\eqref{eq::IP_indicator_arg} gives 
   \[
   0 = \sum_{a=1}^{n}y_{iaj}+x_{ij} = \sum_{a=1}^{n}x_{ia}x_{aj}+x_{ij},
   \]
