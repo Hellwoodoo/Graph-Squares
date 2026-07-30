@@ -38,35 +38,22 @@ relationship between the adjacency matrix of a graph and the corresponding adjac
 
 \section{Introduction} \label{sec::intro}
 
-The problem of finding the square root of a graph is a well-studied field in both mathematics and computer-science, 
-with specific relation to distributed computing, network design and computational biology. Research in this area has
-primarily focused around the undirected graph $H$ and its square $G = H^2$ which is obtained by adding an edge between 
-every pair of vertices whose distance in $H$ is at most two. 
+The problem of finding the square root of a graph is a well-studied field in both mathematics and computer-science, with specific relation to distributed computing, network design and computational biology. Research in this area has primarily focused around the undirected graph $H$ and its square $G = H^2$ which is obtained by adding an edge between every pair of vertices whose distance in $H$ is at most two. 
 
-Much of the existing research on graph square roots has centered on characterizing when a graph admits such 
-a root and on the complexity of reconstructing $H$ from $G$. In contrast, rather than studying the construction problem 
-directly, we analyze the relationship between the adjacency matrix $A_H$ of the root and the adjacency matrix $A_G$ of 
-the square, and show that the problem can be completely categorized as an integer program. 
+Much of the existing research on graph square roots has centered on characterizing when a graph admits such a root and on the complexity of reconstructing $H$ from $G$. In contrast, rather than studying the construction problem directly, we analyze the relationship between the adjacency matrix $A_H$ of the root and the adjacency matrix $A_G$ of the square, and show that the problem can be completely categorized as an integer program. 
 
-We then examine the relaxed linear program which can be evaluated in polynomial time using interior point method, and 
-integrate existing literature on special root structures as a stepping-stone towards generating a true polynomial time 
-algorithm. 
+We then examine the relaxed linear program which can be evaluated in polynomial time using interior point method, and integrate existing literature on special root structures as a stepping-stone towards generating a true polynomial time algorithm. 
 
 \section{Background} \label{sec::background}
-Let the \emph{graph root} $H = (V, E_H)$ be a finite, simple, undirected graph, where $V$ is the vertex set with $|V| = n$, 
-and $E_H \subseteq \{\{u,v\} \mid u,v \in V,\; u \neq v\}$ is the edge set. Denote by $d_H(u,v)$ the 
-\emph{graph distance} defined as the number of edges of the shortest path 
-between vertices $u$ and $v$ in $H$. If no such path exists, $d_H(u,v) = \infty$.
+Let the \emph{graph root} $H = (V, E_H)$ be a finite, simple, undirected graph, where $V$ is the vertex set with $|V| = n$, and $E_H \subseteq \{\{u,v\} \mid u,v \in V,\; u \neq v\}$ is the edge set. Denote by $d_H(u,v)$ the \emph{graph distance} defined as the number of edges of the shortest path between vertices $u$ and $v$ in $H$. If no such path exists, $d_H(u,v) = \infty$.
 
 The \emph{square} of the graph $H$, denoted by $H^2 = (V, E_{H^2})$ is the graph on the same vertex set with edge set
 \begin{equation} \label{eq::fund_def_square}
 E_{H^2} = \{ uv \mid u \neq v,\; 1 \leq d_H(u,v) \leq 2 \}.
 \end{equation}
-That is, two distinct vertices are adjacent in $H^2$ if and only if they are connected by a path of length one or two in $H$. 
-This is the standard definition of the square of a graph.
+That is, two distinct vertices are adjacent in $H^2$ if and only if they are connected by a path of length one or two in $H$. This is the standard definition of the square of a graph.
 
-Using an alternative construction, let the \emph{graph square} $G = (V, E_G)$ be an undirected graph defined on 
-the same vertex set $V$. Let $A_H \in \{0,1\}^{n \times n}$ denote the adjacency matrix of $H$, where
+Using an alternative construction, let the \emph{graph square} $G = (V, E_G)$ be an undirected graph defined on the same vertex set $V$. Let $A_H \in \{0,1\}^{n \times n}$ denote the adjacency matrix of $H$, where
 \[
 (A_H)_{ij} =
 \begin{cases}
@@ -82,8 +69,7 @@ and let $D_H \in \mathbb{R}^{n \times n}$ denote the degree matrix of $H$, where
 0 ,& \text{otherwise}.
 \end{cases}
 \]
-Let $\mathbbm{1}_{\geq 1} : \mathbb{R}^{n \times n} \to \{0,1\}^{n \times n}$ denote the 
-entrywise \emph{indicator function}, defined by
+Let $\mathbbm{1}_{\geq 1} : \mathbb{R}^{n \times n} \to \{0,1\}^{n \times n}$ denote the entrywise \emph{indicator function}, defined by
 \[
 \mathbbm{1}_{\geq 1}(M)_{ij} =
 \begin{cases}
@@ -96,11 +82,10 @@ Define the adjacency matrix of $G$ using the adjacency and degree matrices of $H
 A_G = \mathbbm{1}_{\geq 1}\big((A_H)^2 - D_H + A_H\big).
 \end{equation}
 \begin{lemma} \label{lemma::G_equal_to_H^2}
-The graph $G$ defined by \eqref{eq::fund_adj_eq_undirected} is equivalent to the graph square $H^2$
- defined in \eqref{eq::fund_def_square} 
-\begin{equation} \label{eq::fund_def_square_expanded}
- ij \in E_{H^2} \iff 1 \leq d_H(i,j) \leq 2. 
-\end{equation}
+  The graph $G$ defined by \eqref{eq::fund_adj_eq_undirected} is equivalent to the graph square $H^2$ defined in \eqref{eq::fund_def_square} 
+  \begin{equation} \label{eq::fund_def_square_expanded}
+    ij \in E_{H^2} \iff 1 \leq d_H(i,j) \leq 2. 
+  \end{equation}
 \end{lemma}
 \begin{proof} 
   \noindent
@@ -109,47 +94,31 @@ The graph $G$ defined by \eqref{eq::fund_adj_eq_undirected} is equivalent to the
   \big((A_H)^2 - D_H + A_H\big)_{ij} = (A_H)^2_{ij} + (A_H)_{ij}.
   \]
 
-  ($\Rightarrow$) Suppose $ij \in E_G$ such that $(A_H)^2_{ij} + (A_H)_{ij} \geq 1$.
-  This implies that at least on of $(A_H)_{ij} = 1$ or $(A_H)^2_{ij} \geq 1$ must be true. If $(A_H)_{ij} = 1$, then $d_H(i,j) = 1$.  
-  If $(A_H)^2_{ij} \geq 1$, then there exists a vertex $k$ such that $ik, kj \in E_H$, and hence $d_H(i,j) \leq 2$. Therefore 
-  $1 \leq d_H(i,j) \leq 2$, and thus $ij \in E_{H^2}$.
+  ($\Rightarrow$) Suppose $ij \in E_G$ such that $(A_H)^2_{ij} + (A_H)_{ij} \geq 1$. This implies that at least on of $(A_H)_{ij} = 1$ or $(A_H)^2_{ij} \geq 1$ must be true. If $(A_H)_{ij} = 1$, then $d_H(i,j) = 1$.  If $(A_H)^2_{ij} \geq 1$, then there exists a vertex $k$ such that $ik, kj \in E_H$, and hence $d_H(i,j) \leq 2$. Therefore $1 \leq d_H(i,j) \leq 2$, and thus $ij \in E_{H^2}$.
 
-  ($\Leftarrow$) Suppose $ij \in E_{H^2}$ such that $1 \leq d_H(i,j) \leq 2$. 
-  $D_H$ is diagonal such that $(D_H)_{ij} = 0$. If $d_H(i,j) = 1$, then $(A_H)_{ij} = 1$.  
-  If $d_H(i,j) = 2$, then there exists a vertex $k$ such that $ik, kj \in E_H$, and hence $(A_H)^2_{ij} \geq 1$.
-  In either case, $(A_H)^2_{ij} + (A_H)_{ij} \geq 1$, so $(A_G)_{ij} = 1$, and hence $ij \in E_G$.
+  ($\Leftarrow$) Suppose $ij \in E_{H^2}$ such that $1 \leq d_H(i,j) \leq 2$. $D_H$ is diagonal such that $(D_H)_{ij} = 0$. If $d_H(i,j) = 1$, then $(A_H)_{ij} = 1$. If $d_H(i,j) = 2$, then there exists a vertex $k$ such that $ik, kj \in E_H$, and hence $(A_H)^2_{ij} \geq 1$. In either case, $(A_H)^2_{ij} + (A_H)_{ij} \geq 1$, so $(A_G)_{ij} = 1$, and hence $ij \in E_G$.
 
   For $i = j$, since all graphs are simple, have $(E_{\cdot})_{ii} = 0$, $(A_{\cdot})_{ii} = 0$ and hence
   \[
   \big((A_H)^2 - D_H + A_H\big)_{ii} = (A_H)^2_{ii} - (D_H)_{ii}.
   \]
-  $(A_H)^2_{ii} - (D_H)_{ii} = 0$ is always true since the degree matrix of $H$ always has diagonal 
-  values $\displaystyle (D_H)_{ii} = \sum_k x_{ik}$ and each edge from vertex $i$ to its neighbour in $H$ 
-  will always create a loop to itself in the square such that $\displaystyle (A_H)^2_{ii} = 
-  \sum_{k = 1} x_{ik}x_{ki} = \sum_{k = 1} x_{ik}^2$ by the symmetry of adjacency matrix $A_H$. Since $x_{ik} \in \{0, 1\}$,
-  the square of the boolean is identical to the boolean $x_ik$ such that $\displaystyle (A_H)^2_{ii} = \sum_k x_{ik} = (D_H)_{ii}$
-  and $(A_G)_{ii} = \mathbbm{1}_{\geq 1}\big((A_H)^2 - D_H + A_H\big)$ as required. 
+  $(A_H)^2_{ii} - (D_H)_{ii} = 0$ is always true since the degree matrix of $H$ always has diagonal values $\displaystyle (D_H)_{ii} = \sum_k x_{ik}$ and each edge from vertex $i$ to its neighbour in $H$ will always create a loop to itself in the square such that $\displaystyle (A_H)^2_{ii} = 
+  \sum_{k = 1} x_{ik}x_{ki} = \sum_{k = 1} x_{ik}^2$ by the symmetry of adjacency matrix $A_H$. Since $x_{ik} \in \{0, 1\}$, the square of the boolean is identical to the boolean $x_ik$ such that $\displaystyle (A_H)^2_{ii} = \sum_k x_{ik} = (D_H)_{ii}$ and $(A_G)_{ii} = \mathbbm{1}_{\geq 1}\big((A_H)^2 - D_H + A_H\big)$ as required. 
 
   Combining both gives that $E_G = E_{H^2}$, and so $G = H^2$.  
 \end{proof}
 \noindent
-The formulation of the adjacency matrix of the graph square in Equation~\eqref{eq::fund_adj_eq_undirected} is very powerful. 
-However, the presence of the indicator function introduces a nonlinearity that prevents the problem from being expressed 
-as a purely quadratic form, thereby limiting the direct applicability of existing results from the quadratic optimization literature.
+The formulation of the adjacency matrix of the graph square in Equation~\eqref{eq::fund_adj_eq_undirected} is very powerful. However, the presence of the indicator function introduces a nonlinearity that prevents the problem from being expressed as a purely quadratic form, thereby limiting the direct applicability of existing results from the quadratic optimization literature.
 
 \begin{lemma} \label{lemma::no_indicator_girth_5}
-  If there are no $K_3$ triangle subgraphs or any $C_4$ square subgraphs in the graph root such that $H$ has girth of length $5$,
-  then  Equation~\eqref{eq::fund_adj_eq_undirected} can be simplified to become 
+  If there are no $K_3$ triangle subgraphs or any $C_4$ square subgraphs in the graph root such that $H$ has girth of length $5$, then Equation~\eqref{eq::fund_adj_eq_undirected} can be simplified to become 
   \begin{equation} \label{eq::fund_adj_eq_undirected_no_indicator}
     A_G = \big((A_H)^2 - D_H + A_H\big).
   \end{equation}
 \end{lemma}
 
 \begin{proof}
-  Since the graph root has girth of length $5$ there are no cycles of length $3$ or $4$ in $H$. 
-  Thus for every pair of vertices $i \neq j \in V$ there is either no cycle that connects $i,j$ or there
-  is a cycle of at least length $5$ between them. In all cases $(D_H)_{ij} = 0$. 
-  If there is no cycle, then there is at most one path between $i,j$
+  Since the graph root has girth of length $5$ there are no cycles of length $3$ or $4$ in $H$. Thus for every pair of vertices $i \neq j \in V$ there is either no cycle that connects $i,j$ or there is a cycle of at least length $5$ between them. In all cases $(D_H)_{ij} = 0$. If there is no cycle, then there is at most one path between $i,j$
   \begin{enumerate}[label=\roman*)]
     \item If the path is of length $1$, then $(A_H)_{ij} = 1, (A_H)^2_{ij} = 0 \implies (A_G)_{ij} = 0 - 0 + 1 = 1$.
     \item If the path is of length $2$, then $(A_H)_{ij} = 0, (A_H)^2_{ij} = 1 \implies (A_G)_{ij} = 1 - 0 - 0 = 1$.
@@ -169,8 +138,7 @@ as a purely quadratic form, thereby limiting the direct applicability of existin
 \end{proof}
 
 \subsection{Integer Program} \label{subsec::IP}
-Let $x_{ij} \in \{0, 1\}$ be the decision variables of $A_H$, let $y_{ikj} \in \{0, 1\}$ be the decision variable for 
-$x_{ik}x_{kj}$ in $(A_H)^2_{ij}$ and let $z_{ij} \in \mathbb{Z}_{\geq 0}$ represent the argument inside the indicator function. 
+Let $x_{ij} \in \{0, 1\}$ be the decision variables of $A_H$, let $y_{ikj} \in \{0, 1\}$ be the decision variable for $x_{ik}x_{kj}$ in $(A_H)^2_{ij}$ and let $z_{ij} \in \mathbb{Z}_{\geq 0}$ represent the argument inside the indicator function. 
 
 $\displaystyle 
 D_H =
@@ -200,8 +168,7 @@ $ such that
 \displaystyle \sum_{k=1}^n x_{nk}x_{k1} & \cdots & \displaystyle \sum_{k=1}^n x_{nk}x_{kj} & \cdots & \displaystyle \sum_{k=1}^n x_{nk}x_{kn}
 \end{bmatrix}.
 \]
-Then with known constants $g_{ij} \in \{0, 1\}$ from $A_G$, can reformulating \eqref{eq::fund_adj_eq_undirected} as an 
-integer program by equating entries of each matrix to give the following linear system of $n^2$ equations.
+Then with known constants $g_{ij} \in \{0, 1\}$ from $A_G$, can reformulating \eqref{eq::fund_adj_eq_undirected} as an integer program by equating entries of each matrix to give the following linear system of $n^2$ equations.
 \begin{equation}  \label{eq::fund_programming_equation}
 \begin{bmatrix}
 g_{11} \\
@@ -239,13 +206,10 @@ g_{nn}
 \mathbbm{1}_{\geq 1}\big(\sum_{k=1}^n x_{nk}x_{kn} - (D_H)_{nn} + x_{nn} \big)
 \end{bmatrix}.
 \end{equation}
-The matrix $D_H$ is diagonal can be represented as $\displaystyle (D_H)_{ii} = \sum_{k} x_{ik}$ where $(D_H)_{ij} = 0$ for $i \neq j$. 
-Let $M \in \mathbb{Z}_{> 0}$ be a sufficiently large constant. The known 
-$z_{ij}$ represent the terms inside the indicator function such that
+The matrix $D_H$ is diagonal can be represented as $\displaystyle (D_H)_{ii} = \sum_{k} x_{ik}$ where $(D_H)_{ij} = 0$ for $i \neq j$. Let $M \in \mathbb{Z}_{> 0}$ be a sufficiently large constant. The known $z_{ij}$ represent the terms inside the indicator function such that
 \[
 g_{ij} = 1 \iff z_{ij} \geq 1 \;\text{and}\; g_{ij} = 0 \iff z_{ij} = 0.
-\] The above condition can be modelled using a standard big-$M$ formulation,
-and the resulting integer program is given by
+\] The above condition can be modelled using a standard big-$M$ formulation, and the resulting integer program is given by
 \begin{alignat}{3}
 \text{Variables: } & \nonumber \\ 
 & x_{ij} \in \mathbb{Z}_{\geq 0}, 
@@ -279,9 +243,7 @@ and the resulting integer program is given by
 && \forall i, k, j \in \{1, \dots, n\}, \label{eq::IP_y_upper_bound}. 
 \end{alignat} \label{eq::integer_program}
 
-In addition, the adjacency matrix $x$ must satisfy further constraints arising from symmetry and diagonality. Although analogous 
-constraints could also be imposed on the auxiliary variables $z$ they are omitted due to redundancy and potentially
-introduces artificial degeneracy in the linear program. 
+In addition, the adjacency matrix $x$ must satisfy further constraints arising from symmetry and diagonality. Although analogous constraints could also be imposed on the auxiliary variables $z$ they are omitted due to redundancy and potentially introduces artificial degeneracy in the linear program. 
 \begin{alignat}{3} 
 \text{(5) Symmetry: } 
 & x_{ij} = x_{ji}, 
@@ -292,9 +254,7 @@ introduces artificial degeneracy in the linear program.
 \end{alignat}
 
 \begin{proposition} \label{prop::IP_gives_root}
-Let $G$ be a graph and consider the integer program whose variables $x_{ij} \in \{0,1\}$ encode a graph $H$ with adjacency matrix $A_H = (x_{ij})$. 
-Then $G$ has a square root $H$ if and only if the integer  program has a feasible solution $x$ such that the corresponding graph $H$ satisfies 
-$H^2 = G$.
+Let $G$ be a graph and consider the integer program whose variables $x_{ij} \in \{0,1\}$ encode a graph $H$ with adjacency matrix $A_H = (x_{ij})$. Then $G$ has a square root $H$ if and only if the integer  program has a feasible solution $x$ such that the corresponding graph $H$ satisfies $H^2 = G$.
 \end{proposition}
 \begin{proof}
   ($\Rightarrow$) Suppose $G$ has a square root $H$ and let $A_H$ be the adjacency matrix of $H$.  $x_{ij} = (A_H)_{ij}$.
@@ -360,8 +320,7 @@ $H^2 = G$.
   Now apply Lemma~\ref{lemma::G_equal_to_H^2} gives $ij \in E_G \iff ij \in E_H^2$ such that $G=H^2$. 
 \end{proof}
 
-In the integer program, the most important object is the triangle, the $3$-clique that denotes the relationship between any three vertices
-$i,j,k$.  Consider the following scenarios for the square $G$
+In the integer program, the most important object is the triangle, the $3$-clique that denotes the relationship between any three vertices $i,j,k$. Consider the following scenarios for the square $G$
 \begin{enumerate}[label=(\Roman*)]
   \item \label{lp::single_edge} $ij$ is the only edge for $i,j,k$ in $G$. There are three situations which can occur  
   \begin{enumerate}[label=(\roman*)]
@@ -372,37 +331,30 @@ $i,j,k$.  Consider the following scenarios for the square $G$
   \item \label{lp::three_edges} $i,j,k$ form a clique in $G$ with $ij, jk, ki$ present in $G$. \ref{lp::single_edge} applies for all three 
   edges, with the caveat that any vertex can act as the corresponding $l$ vertex for the other two vertices. 
 \end{enumerate}
-These common scenarios clearly exhibit the ``hardness'' of the square root problem as each present edge of a triangle branches out into
-three possibilities. However, the remaining case gives critical structure to the problem 
+These common scenarios clearly exhibit the ``hardness'' of the square root problem as each present edge of a triangle branches out into three possibilities. However, the remaining case gives critical structure to the problem 
 \begin{enumerate}[resume, label=(\Roman*)]
-  \item \label{lp::two_edges} $ij$ and $jk$ are the two edges for $i,j,k$ in $G$. Since $ki$ does not appear in $G$ there must not be an edge 
-  in $H$ for both $ij$ and $jk$ in $H$, giving the scenarios for both edges
+  \item \label{lp::two_edges} $ij$ and $jk$ are the two edges for $i,j,k$ in $G$. Since $ki$ does not appear in $G$ there must not be an edge in $H$ for both $ij$ and $jk$ in $H$, giving the scenarios for both edges
   \begin{enumerate}[label=(\arabic*)] 
     \item \label{lp::two_edges_single_edge_1} $ij$ edge follows \ref{lp::single_edge_no_vertex} and $jk$ follows \ref{lp::no_edge_vertex}
     \item \label{lp::two_edges_single_edge_2} $ij$ edge follows \ref{lp::no_edge_vertex} and $jk$ follows \ref{lp::single_edge_no_vertex}
     \item \label{lp::two_edges_no_edges} $ij$ edge follows \ref{lp::no_edge_vertex} and $jk$ follows \ref{lp::no_edge_vertex}
   \end{enumerate}
 \end{enumerate}
-With only three branches for the two edges, the structure of \ref{lp::two_edges} is the most efficient method of analyzing any graph square 
-since it allows an efficient logical disjunction to simply summarize all possible scenarios. 
+With only three branches for the two edges, the structure of \ref{lp::two_edges} is the most efficient method of analyzing any graph square since it allows an efficient logical disjunction to simply summarize all possible scenarios. 
 
-\begin{theorem} \label{theorem::two_edges_triangle_mapping}
-  Let $g: E_G \rightarrow \{0,1\} \equiv g_{ij}$ defined in the integer program be a function such that if an edge exists in $G$ label it with 
-  $1$ and if it does not exist in $G$ label it with $0$. Let a triangle with exactly two edges $ij$ and $jk$ 
-  satisfy the structure of \ref{lp::two_edges} such that $g_{ij} = 1$, $g_{kj} = 1$, and $g_{ki} = 0$. 
+% \begin{theorem} \label{theorem::two_edges_triangle_mapping}
+%   Let $g: E_G \rightarrow \{0,1\} \equiv g_{ij}$ defined in the integer program be a function such that if an edge exists in $G$ label it with $1$ and if it does not exist in $G$ label it with $0$. Let a triangle with exactly two edges $ij$ and $jk$ satisfy the structure of \ref{lp::two_edges} such that $g_{ij} = 1$, $g_{kj} = 1$, and $g_{ki} = 0$. 
 
-  Let $h: E_H \rightarrow \{0,1\}$ be a function such that if an edge exists in $H$ label it with $0$ and if it does not exist in $H$ label it 
-  with $1$. 
+%   Let $h: E_H \rightarrow \{0,1\}$ be a function such that if an edge exists in $H$ label it with $0$ and if it does not exist in $H$ label it with $1$. 
 
-  The relationship from $f \mapsto g$ in \ref{lp::two_edges} is given by the logical disjunction such that the structure is only valid when 
+%   The relationship from $f \mapsto g$ in \ref{lp::two_edges} is given by the logical disjunction such that the structure is only valid when 
 
-  Let \ref{lp::single_edge_no_vertex} be denoted by $0$ and let \ref{lp::no_edge_vertex} be denoted by $1$, then the triangle with two edges 
-  in $G$ denoted by \ref{lp::two_edges} must satisfy logical disjunction on the two edges such that $1$ is returned. 
-\end{theorem}
-\begin{proof}
+%   Let \ref{lp::single_edge_no_vertex} be denoted by $0$ and let \ref{lp::no_edge_vertex} be denoted by $1$, then the triangle with two edges in $G$ denoted by \ref{lp::two_edges} must satisfy logical disjunction on the two edges such that $1$ is returned. 
+% \end{theorem}
+% \begin{proof}
 
   
-\end{proof}
+% \end{proof}
 
 Let $g_{ij} + g_{jk} + g_{ki} = 2$ and assume without loss of generality that $f(ij) = f(jk) = 1$ such that $f(ki) = 0$. 
 
@@ -418,9 +370,7 @@ Let $g_{ij} + g_{jk} + g_{ki} = 2$ and assume without loss of generality that $f
   \[
   0 = \sum_{a = 1}^{n} y_{kai} + x_{ki} = \sum_{a = 1}^{n} x_{ka}x_{ai} + x_{ki}
   \]
-  where the second equality follows from the product constraints Equations~\eqref{eq::IP_product_upper_first}--\eqref{eq::IP_product_lower}.
-  such that $x_{ki}=0$ and $x_{ka}x_{ai} = 0$, which implies that at most one of $x_{ka}$, $x_{ai}$ is equal to $1$ and the other must be $0$,
-  and can be equivalently written as $x_{ka} + x_{ai} \leq 1$. 
+  where the second equality follows from the product constraints Equations~\eqref{eq::IP_product_upper_first}--\eqref{eq::IP_product_lower} such that $x_{ki}=0$ and $x_{ka}x_{ai} = 0$. This implies that at most one of $x_{ka}$, $x_{ai}$ is equal to $1$ and the other must be $0$, and can be equivalently written as $x_{ka} + x_{ai} \leq 1$. 
 
   Taking $a=j$ gives $x_{kj} + x_{ji} \leq 1$ and as the graph is undirected, by symmetry this gives $x_{ij} + x_{kj} \leq 1$. 
 \end{proof}
@@ -428,10 +378,7 @@ Let $g_{ij} + g_{jk} + g_{ki} = 2$ and assume without loss of generality that $f
 
 \subsection{Linear Relaxation} \label{subsec::LP}
 
-The linear relaxation of the integer program defined by Equations~\eqref{eq::IP_x_variable}--\eqref{eq::IP_diagonal_x} is 
-constructed in order to generate a feasible weighted solution in polynomial time algorithm. It is done with identical constraints,
-however the decision variables \eqref{eq::IP_x_variable}, \eqref{eq::IP_y_variable} and \eqref{eq::IP_z_variable}
-are replaced with
+The linear relaxation of the integer program defined by Equations~\eqref{eq::IP_x_variable}--\eqref{eq::IP_diagonal_x} is constructed in order to generate a feasible weighted solution in polynomial time algorithm. It is done with identical constraints, however the decision variables \eqref{eq::IP_x_variable}, \eqref{eq::IP_y_variable} and \eqref{eq::IP_z_variable} are replaced with
 \begin{alignat}{3}
 & x_{ij} \in  \mathbb{R}_{\geq 0}, 
 &&\qquad \forall i,j \in \{1, \dots, n\}, \label{eq::LP_x_variable} \\
@@ -441,25 +388,15 @@ are replaced with
 &&\qquad \forall i,j \in \{1, \dots, n\} \label{eq::LP_z_variable}. 
 \end{alignat} 
 
-The results from the linear programming can give \emph{integral solutions} and \emph{fractional solutions} when the root exists 
-and \emph{fractional solutions} and \emph{infeasible solutions} when the root does not exist such that the results in 
-Figure~\ref{fig::linear_program_diagram} can be generated. 
+The results from the linear programming can give \emph{integral solutions} and \emph{fractional solutions} when the root exists and \emph{fractional solutions} and \emph{infeasible solutions} when the root does not exist such that the results in Figure~\ref{fig::linear_program_diagram} can be generated. 
 
 The linear relaxation potentially breaks equations in the integer program which are critical to the definition. 
 
-Consider Equations~\eqref{eq::IP_product_upper_first}-\eqref{eq::IP_product_lower} which gives $y_{ikj} = x_{ik}x_{kj}$. When $x$ is binary, this construction 
-of $y$ leads to $y$ being binary as well.  
+Consider Equations~\eqref{eq::IP_product_upper_first}-\eqref{eq::IP_product_lower} which gives $y_{ikj} = x_{ik}x_{kj}$. When $x$ is binary, this construction of $y$ leads to $y$ being binary as well.  
 
-Consider Equation~\eqref{eq::IP_fund_matrix}, where $\displaystyle z_{ii} = \sum_{k = 1}^{n} y_{iki} - \sum_{k = 1}^{n} x_{ik} + x_{ii}$ can be simplified to 
-$\displaystyle z_{ii} = \sum_{k = 1}^{n} x_{ik}^2 - \sum_{k = 1}^{n} x_{ik}$ and is equal to $0$ when $x$ is binary. 
-In the linear relaxation this strict inequality no longer holds for fractional values of $x_{ik}$. However, when $x_{ik}$ is fractional
-$x_{ik}^2 \leq x_{ik}$ such that $\displaystyle z_{ii} = \sum_{k = 1}^{n} x_{ik}^2 - x_{ik} \leq 0$. As $z \in \mathbb{Z}_{\geq 0}$, this gives 
-that $z_{ii} = 0$ as required - no additional modifications are required.
+Consider Equation~\eqref{eq::IP_fund_matrix}, where $\displaystyle z_{ii} = \sum_{k = 1}^{n} y_{iki} - \sum_{k = 1}^{n} x_{ik} + x_{ii}$ can be simplified to $\displaystyle z_{ii} = \sum_{k = 1}^{n} x_{ik}^2 - \sum_{k = 1}^{n} x_{ik}$ and is equal to $0$ when $x$ is binary. In the linear relaxation this strict inequality no longer holds for fractional values of $x_{ik}$. However, when $x_{ik}$ is fractional $x_{ik}^2 \leq x_{ik}$ such that $\displaystyle z_{ii} = \sum_{k = 1}^{n} x_{ik}^2 - x_{ik} \leq 0$. As $z \in \mathbb{Z}_{\geq 0}$, this gives that $z_{ii} = 0$ as required - no additional modifications are required.
 
-Consider Equation~\eqref{eq::IP_indicator_arg}, where $\displaystyle z_{ij} = \sum_{k = 1}^{n} x_{ik}x_{kj} + x_{ij}$. When $z_{ij} = 0$, 
-the equation follows the standard definition of graph squares such that $x_{ij} = 0 $ and for all intermediary $k$s 
-at least one of $x_{ik},x_{kj}$ must be equal to $0$. However, when $z_{ij} \geq 1$, fractional solutions of $x_{ij}$ and $x_{ik}x_{kj}$
-may satisfy the constraints without giving a valid integral path in the root. 
+Consider Equation~\eqref{eq::IP_indicator_arg}, where $\displaystyle z_{ij} = \sum_{k = 1}^{n} x_{ik}x_{kj} + x_{ij}$. When $z_{ij} = 0$, the equation follows the standard definition of graph squares such that $x_{ij} = 0 $ and for all intermediary $k$s at least one of $x_{ik},x_{kj}$ must be equal to $0$. However, when $z_{ij} \geq 1$, fractional solutions of $x_{ij}$ and $x_{ik}x_{kj}$ may satisfy the constraints without giving a valid integral path in the root. 
 
 \section{Linear Program} \label{sec::LP}
 
@@ -472,41 +409,33 @@ Many of the same propositions and lemmas likewise hold for the linear program.
   \]
 \end{lemma}
 \begin{proof}
-  The linear program is the relaxation of the integer program obtained byb removing the integrality constraints while retaining all linear constraints. Since the 
-  proof of Lemma~\ref{lemma::two_edges_integer_sum} relies only on these linear constraints, the inequality also holds for every feasible solution of the linear
-  program.
+  The linear program is the relaxation of the integer program obtained byb removing the integrality constraints while retaining all linear constraints. Since the proof of Lemma~\ref{lemma::two_edges_integer_sum} relies only on these linear constraints, the inequality also holds for every feasible solution of the linear program.
 \end{proof}
 
 \subsection{Min Objective Function} \label{subsec::min_obj}   
-Consider the addition of an objective function maximizing the total weights on all edges to the linear relaxation 
-defined by Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::LP_z_variable} in Section~\ref{subsec::LP} 
+Consider the addition of an objective function maximizing the total weights on all edges to the linear relaxation defined by Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::LP_z_variable} in Section~\ref{subsec::LP} 
 \begin{equation} \label{eq::min_obj_function}
   \min \sum_{i=1}^{n} \sum_{j=1}^{n} x_{ij}.
 \end{equation}
 This relaxation however yields more fractional solutions, as illustrated in Figure~\ref{fig::min_objective_function_diagram}. 
 
 \begin{lemma}
-Let $C\cong K_n$ be a complete subgraph be a complete subgraph. In the linear relaxation of the model Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::IP_y_upper_bound}, 
-the minimizing solution assigns the same value to every edge of graph $G$, such that for $i \neq j$
+Let $C\cong K_n$ be a complete subgraph be a complete subgraph. In the linear relaxation of the model Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::IP_y_upper_bound}, the minimizing solution assigns the same value to every edge of graph $G$, such that for $i \neq j$
 \[
 x_{ij}=\frac{1}{n-1}.
 \]
 In particular, $K_3$ gives $\displaystyle x_{ij}=\frac 12$, $K_4$ gives $\displaystyle x_{ij}=\frac 13$, and in general $K_n$ gives $\displaystyle x_{ij}= \frac{1}{n-1}$.
 \end{lemma}
 \begin{proof}
-  Since $C\cong K_n$ is vertex-transitive, the feasible region and the objective function Equation~\eqref{eq::min_obj_function} are invariant under every 
-  permutation of the vertices of $G$. Hence, if $x$ is optimal, then averaging $x$ over all permutations of the vertex set $V$
-  produces another optimal solution $\bar x$ with
+  Since $C\cong K_n$ is vertex-transitive, the feasible region and the objective function Equation~\eqref{eq::min_obj_function} are invariant under every permutation of the vertices of $G$. Hence, if $x$ is optimal, then averaging $x$ over all permutations of the vertex set $V$ produces another optimal solution $\bar x$ with
   \[
   \bar x_{ij}=w \quad \text{for all } i\neq j \in V
   \]
-  for some constant $w\ge 0$. Consider any vertex $i \in V$, where in the clique every pair $(i,j)$ with $j \neq i$ is present, so that $g_{ij}=1$. By the indicator 
-  constraints Equations~\eqref{eq::IP_indicator_upper}--\eqref{eq::IP_indicator_lower},
+  for some constant $w\ge 0$. Consider any vertex $i \in V$, where in the clique every pair $(i,j)$ with $j \neq i$ is present, so that $g_{ij}=1$. By the indicator constraints Equations~\eqref{eq::IP_indicator_upper}--\eqref{eq::IP_indicator_lower},
   \[
   z_{ij}\ge g_{ij}=1 \quad  \text{for all } j\neq i.
   \]
-  Together with Equation~\eqref{eq::IP_indicator_arg} and the product constraints Equations~\eqref{eq::IP_product_upper_first}--\eqref{eq::IP_product_lower},
-  this forces each vertex $i$ to carry at least one unit of total incident $x$-mass on the clique, 
+  Together with Equation~\eqref{eq::IP_indicator_arg} and the product constraints Equations~\eqref{eq::IP_product_upper_first}--\eqref{eq::IP_product_lower}, this forces each vertex $i$ to carry at least one unit of total incident $x$-mass on the clique, 
   \[
   \sum_{j\in V(C)\setminus\{i\}} x_{ij}\ge 1.
   \]
@@ -516,68 +445,49 @@ In particular, $K_3$ gives $\displaystyle x_{ij}=\frac 12$, $K_4$ gives $\displa
   \]
   On the other hand, the objective function is
   \[
-  \sum_{i<j,\ i,j\in V(C)} x_{ij}
-  =
-  \binom{n}{2}w,
+  \sum_{i<j,\ i,j\in V(C)} x_{ij} = \binom{n}{2}w,
   \]
-  which is strictly increasing in $w$. Therefore the minimum is attained at the
-  smallest feasible value of $\displaystyle w = \frac{1}{n-1}$ which every edge of $K_n$ achieves in the minimizing LP. 
+  which is strictly increasing in $w$. Therefore the minimum is attained at the smallest feasible value of $\displaystyle w = \frac{1}{n-1}$ which every edge of $K_n$ achieves in the minimizing LP. 
 \end{proof}
 
 
 \subsection{Max Objective Function} \label{subsec::max_obj}
 
-Consider the addition of an objective function maximizing the total weights on all edges to the linear relaxation 
-defined by Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::LP_z_variable} in Section~\ref{subsec::LP} 
+Consider the addition of an objective function maximizing the total weights on all edges to the linear relaxation defined by Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::LP_z_variable} in Section~\ref{subsec::LP} 
 \begin{equation} \label{eq::max_obj_function}
   \max \sum_{i=1}^{n} \sum_{j=1}^{n} x_{ij}.
 \end{equation}
-This objective encourages dense solutions and therefore tends to produce relaxations that are more dense and hence more informative 
-than trivial sparse solutions. In particular, maximizing the total edge weight pushes the variables toward values closer to $1$, which 
-promotes direct edges and reduces the need for fractional paths of length $2$ to satisfy Equation~\eqref{eq::IP_indicator_arg}. As a 
-result, the relaxation is more likely to yield integral solutions, as illustrated in Figure~\ref{fig::max_objective_function_diagram}.
+This objective encourages dense solutions and therefore tends to produce relaxations that are more dense and hence more informative than trivial sparse solutions. In particular, maximizing the total edge weight pushes the variables toward values closer to $1$, which promotes direct edges and reduces the need for fractional paths of length $2$ to satisfy Equation~\eqref{eq::IP_indicator_arg}. As a result, the relaxation is more likely to yield integral solutions, as illustrated in Figure~\ref{fig::max_objective_function_diagram}.
 
-This choice of objective is also useful when identifying square root solutions beyond those unique up to isomorphism. For example, the
-complete graph $K_3$ has four roots: itself and three path graphs of length $2$, which are isomorphic to one another. This illustrates 
-that the maximization objective preserves consistency up to isomorphism
-while still distinguishing structurally meaningful solutions.
+This choice of objective is also useful when identifying square root solutions beyond those unique up to isomorphism. For example, the complete graph $K_3$ has four roots: itself and three path graphs of length $2$, which are isomorphic to one another. This illustrates that the maximization objective preserves consistency up to isomorphism while still distinguishing structurally meaningful solutions.
 
 \begin{proposition}\label{prop::two_edges_augmentation}
-  Let $(x, y, z)$ give a feasible solution to the linear relaxation defined by Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::LP_z_variable}. 
-  Suppose there exists vertices $i$, $j$ amd $k$ such that
+  Let $(x, y, z)$ give a feasible solution to the linear relaxation defined by Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::LP_z_variable}. Suppose there exists vertices $i$, $j$ amd $k$ such that
   \[
   g_{ik}=1,\quad g_{kj}=1,\quad g_{ij}=0 \quad \text{and} \quad x_{ik} + x_{kj} < 1. 
   \]
   Then there exists another feasible solution $(x',y',z')$ satisfying $\displaystyle \sum_{u,v} x'_{uv} > \sum_{u,v} x_{uv}$.
 \end{proposition}
 \begin{proof}
-  Starting from $(x, y, z)$ let $x_{ik} + x_{kj} = 1 - \delta$ for some $\delta > 0$. Then choose $0 < \varepsilon \leq \delta$ such that
-  there is the perturbation $x'_{ik} =x_{ik} + \varepsilon$ with all other $x$-variables initially remaining unchanged. If $(x', y', z')$ 
-  is feasible then 
+  Starting from $(x, y, z)$ let $x_{ik} + x_{kj} = 1 - \delta$ for some $\delta > 0$. Then choose $0 < \varepsilon \leq \delta$ such that there is the perturbation $x'_{ik} =x_{ik} + \varepsilon$ with all other $x$-variables initially remaining unchanged. If $(x', y', z')$ is feasible then 
   \[
   \sum_{u,v} x'_{uv} = \sum_{u,v \backslash ik} x_{uv} + x'_{ik} = \sum_{u,v} x_{uv} + \varepsilon,
   \]
   gives $\displaystyle \sum_{u,v} x'_{uv} > \sum_{u,v} x_{uv}$ as required. 
 
-  Suppose that $(x', y', z')$ is not feasible and violates one of Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::LP_z_variable}. Using 
-  Equations~\eqref{eq::IP_product_upper_first}-\eqref{eq::IP_product_lower}, $y'_{ikj} = x_{ik}' + x_{kj}' - 1 = x_{ik} + \varepsilon + x_{kj} - 1 
-  > y_{ikj}$ and using Equations~\eqref{eq::IP_indicator_arg} $\displaystyle z'_{ij} = \sum_{k = 1}^{n} y'_{ikj} + x'_{ij} =  \sum_{k = 1}^{n} \big(
-  x_{ik} + \varepsilon + x_{kj} - 1 \big) + x_{ij}$
+  Suppose that $(x', y', z')$ is not feasible and violates one of Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::LP_z_variable}. Using Equations~\eqref{eq::IP_product_upper_first}-\eqref{eq::IP_product_lower}, $y'_{ikj} = x_{ik}' + x_{kj}' - 1 = x_{ik} + \varepsilon + x_{kj} - 1 > y_{ikj}$ and using Equations~\eqref{eq::IP_indicator_arg} $\displaystyle z'_{ij} = \sum_{k = 1}^{n} y'_{ikj} + x'_{ij} =  \sum_{k = 1}^{n} \big( x_{ik} + \varepsilon + x_{kj} - 1 \big) + x_{ij}$
 
 
 \end{proof}
 
 \begin{lemma} \label{lemma::two_edges_linear_maximization}
-  Let $x$ be an optimal solution to the linear relaxation defined by Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::LP_z_variable} with 
-  the addition of objective function Equation~\eqref{eq::max_obj_function}. If $g_{ij}=0$, then for every $k\in\{1,\dots,n\}$,
+  Let $x$ be an optimal solution to the linear relaxation defined by Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::LP_z_variable} with the addition of objective function Equation~\eqref{eq::max_obj_function}. If $g_{ij}=0$, then for every $k\in\{1,\dots,n\}$,
   \[
   x_{ik}+x_{kj}=1.
   \]
 \end{lemma}
 \begin{proof}
-  By Lemma~\ref{lemma::two_edges_linear_sum} $x_{ij} + x_{kj} \leq 1$. Suppose $x_{ik} + x_{kj} < 1$, then by 
-  Proposition~\ref{prop::two_edges_augmentation} there exists a feasible solution with a strictly larger objective value than $x$,
-  contradicting the optimality of $x$. Therefore the inequality must be tight, and hence
+  By Lemma~\ref{lemma::two_edges_linear_sum} $x_{ij} + x_{kj} \leq 1$. Suppose $x_{ik} + x_{kj} < 1$, then by Proposition~\ref{prop::two_edges_augmentation} there exists a feasible solution with a strictly larger objective value than $x$, contradicting the optimality of $x$. Therefore the inequality must be tight, and hence
   \[
   x_{ik}+x_{kj}=1.
   \]
@@ -587,32 +497,23 @@ while still distinguishing structurally meaningful solutions.
 
 \section{Trees}
 
-\citeauthor{ross_1960_square} in 1960 gave a polynomial algorithm for constructing a tree root by using characterizations of the square graph 
-to conclude that existing tree square roots are unique up to isomorphism \cite{ross_1960_square}. Using adjacency matrices, we show that the 
-modified linear program still gives integral or fractional solutions for graphs with roots and gives fractional or infeasible solutions for graphs 
-without roots but always return valid integral root solution if there exists a tree root.
+\citeauthor{ross_1960_square} in 1960 gave a polynomial algorithm for constructing a tree root by using characterizations of the square graph to conclude that existing tree square roots are unique up to isomorphism \cite{ross_1960_square}. Using adjacency matrices, we show that the modified linear program still gives integral or fractional solutions for graphs with roots and gives fractional or infeasible solutions for graphs without roots but always return valid integral root solution if there exists a tree root.
 
 \begin{definition} \label{def::pendant}
-  A pendant subgraph is the induced subgraph on three vertices $s,u,v$ where $s$ is a leaf with unique neighbour $u$, and $u$ is a 
-  stem of degree $2$ with neighbours $s$ and $v$, where $v$ connects the subgraph to the remainder of the tree.
+  A pendant subgraph is the induced subgraph on three vertices $s,u,v$ where $s$ is a leaf with unique neighbour $u$, and $u$ is a stem of degree $2$ with neighbours $s$ and $v$, where $v$ connects the subgraph to the remainder of the tree.
 \end{definition}
 
 \begin{definition} \label{def::leaf_clique}
-  A leaf clique subgraph is the induced subgraph on four vertices $s_1,s_2,u,v$ where $s_1,s_2$ are leaves with unique neighbour $u$, and $u$ 
-  is an internal vertex of degree $\geq 3$ where $\{s_1,s_2, v\} \subseteq N(u)$, where $v$ connects the subgraph to the remainder of the tree.
+  A leaf clique subgraph is the induced subgraph on four vertices $s_1,s_2,u,v$ where $s_1,s_2$ are leaves with unique neighbour $u$, and $u$ is an internal vertex of degree $\geq 3$ where $\{s_1,s_2, v\} \subseteq N(u)$, where $v$ connects the subgraph to the remainder of the tree.
 \end{definition}
 
 We prove that there exists a polynomial time linear program by showing that 
 \begin{enumerate}[label=(\Roman*)]
   \item Every tree contains a pendant or leaf clique subgraph 
-  \item Every pendant can be completely classified by single triangular decomposition such that its connection to the remainder of the 
-  tree is correctly identified 
-  \item Every leaf clique can be completely classified by tetrahedron decomposition such that its connection to the remainder of the 
-  tree is correctly identified 
+  \item Every pendant can be completely classified by single triangular decomposition such that its connection to the remainder of the tree is correctly identified 
+  \item Every leaf clique can be completely classified by tetrahedron decomposition such that its connection to the remainder of the tree is correctly identified 
 \end{enumerate}
-Since any subgraph of a tree is also a tree, using the above three propositions we can coalesce pendants and leaf cliques into fixed
-edge assignments such that the maximal linear program pushes the tree solution towards integrality. This is done iteratively and is proven by 
-showing that 
+Since any subgraph of a tree is also a tree, using the above three propositions we can coalesce pendants and leaf cliques into fixed edge assignments such that the maximal linear program pushes the tree solution towards integrality. This is done iteratively and is proven by showing that 
 \begin{enumerate}
   \item If $g_{ij}=0$ then $x_{ik} = \epsilon_1$ and $x_{kj} = epsilon_2$ are such that $x_{ik} + x_{kj} = 1$.   (\textbf{IMPORTANT!!!})
   \item Cannot strictly increase the value of $x_{ik}$ without reducing the value of $x_{kj}$, which strictly reduces the objective function
@@ -641,17 +542,11 @@ showing that
 
 \subsection{Single Triangular Decomposition} \label{subsec::single_triangular_decomposition}
 
-Using the local triangular structure of the graph, certain edge assignments in a square root can be fixed. 
-For a vertex $s \in V$, define
+Using the local triangular structure of the graph, certain edge assignments in a square root can be fixed. For a vertex $s \in V$, define
 \[
 T(s) = \bigl\{ \{u,v\} \subseteq V \setminus \{s\} \vert (s,u)\in E,\ (s,v)\in E,\ (u,v)\in E \bigr\}
 \]
-to be the set of $3$-cliques or triangles in $G$ that contain $s$. If $|T(s)| = 1$ where $T(s) = \{\{u,v\}\}$ then the vertex 
-$s$ exists in a unique triangle of $G$. When the neighbours have different degree 
-$\deg_G(u) \neq \deg_G(v)$, then the vertex with smaller degree must be the leaf-adjacent vertex in the square root. If 
-$\deg_G(u) = \deg_G(v)$, then either $u,v$ can be chosen since they are connected to a clique. Importantly, 
-if $u,v$ is fixed by equality then it cannot be fixed again in an alternative single triangular decomposition. 
-This is assigned deterministically using 
+to be the set of $3$-cliques or triangles in $G$ that contain $s$. If $|T(s)| = 1$ where $T(s) = \{\{u,v\}\}$ then the vertex $s$ exists in a unique triangle of $G$. When the neighbours have different degree $\deg_G(u) \neq \deg_G(v)$, then the vertex with smaller degree must be the leaf-adjacent vertex in the square root. If $\deg_G(u) = \deg_G(v)$, then either $u,v$ can be chosen since they are connected to a clique. Importantly, if $u,v$ is fixed by equality then it cannot be fixed again in an alternative single triangular decomposition. This is assigned deterministically using 
 \begin{equation} \label{eq::single_triangle_fix}
 x_{sa} = x_{as} = x_{ab} = x_{ba} = 1,
 \quad
@@ -663,8 +558,7 @@ x_{sa} = x_{as} = x_{ab} = x_{ba} = 1,
 \end{cases}
 \end{equation}
 
-This addition gives the improved results in Figure~\ref{fig::single_triangular_decomposition_diagram} whilst maintaining 
-polynomial runtime. 
+This addition gives the improved results in Figure~\ref{fig::single_triangular_decomposition_diagram} whilst maintaining polynomial runtime. 
 
 \begin{lemma} \label{lemma::single_triangle_equal_neighbourhood}
   Let $s,u,v$ form a triangle in square $G$ where $s$ only lies in a single clique. If $\deg_G(u)=\deg_G(v)=d\geq 2$, then
