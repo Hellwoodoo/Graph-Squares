@@ -158,6 +158,106 @@ Let known constants $g_{ij} \in \{0, 1\}$ come from the adjacency matrix of the 
 & \max \sum_{i=1}^{n} \sum_{j=1}^{n} x_{ij}. \label{eq::max_objective_funtion}
 \end{alignat} \label{eq::max_linear_program}
 
+\section{Integer Program Validity Proof} \label{sec::integer_program_validity_proof}
+Define the edge set of $H^2$ as 
+\begin{equation} \label{eq::fund_def_square}
+E_{H^2} = \{ uv \mid u \neq v,\; 1 \leq d_H(u,v) \leq 2 \}.
+\end{equation}
+Then for 
+\begin{equation} \label{eq::fund_adj_eq_undirected}
+A_G = \mathbbm{1}_{\geq 1}\big((A_H)^2 - D_H + A_H\big).
+\end{equation}
+\begin{lemma} \label{lemma::G_equal_to_H^2}
+  The graph $G$ defined by \eqref{eq::fund_adj_eq_undirected} is equivalent to the graph square $H^2$ defined in \eqref{eq::fund_def_square} 
+  \begin{equation} \label{eq::fund_def_square_expanded}
+    ij \in E_{H^2} \iff 1 \leq d_H(i,j) \leq 2. 
+  \end{equation}
+\end{lemma}
+\begin{proof} 
+  \noindent
+  For $i \neq j$, since $D_H$ is diagonal, have $(D_H)_{ij} = 0$ and hence
+  \[
+  \big((A_H)^2 - D_H + A_H\big)_{ij} = (A_H)^2_{ij} + (A_H)_{ij}.
+  \]
+
+  Suppose $ij \in E_G$ such that $(A_H)^2_{ij} + (A_H)_{ij} \geq 1$. This implies that at least on of $(A_H)_{ij} = 1$ or $(A_H)^2_{ij} \geq 1$ must be true. If $(A_H)_{ij} = 1$, then $d_H(i,j) = 1$.  If $(A_H)^2_{ij} \geq 1$, then there exists a vertex $k$ such that $ik, kj \in E_H$, and hence $d_H(i,j) \leq 2$. Therefore $1 \leq d_H(i,j) \leq 2$, and thus $ij \in E_{H^2}$.
+
+  Suppose $ij \in E_{H^2}$ such that $1 \leq d_H(i,j) \leq 2$. $D_H$ is diagonal such that $(D_H)_{ij} = 0$. If $d_H(i,j) = 1$, then $(A_H)_{ij} = 1$. If $d_H(i,j) = 2$, then there exists a vertex $k$ such that $ik, kj \in E_H$, and hence $(A_H)^2_{ij} \geq 1$. In either case, $(A_H)^2_{ij} + (A_H)_{ij} \geq 1$, so $(A_G)_{ij} = 1$, and hence $ij \in E_G$.
+
+  For $i = j$, since all graphs are simple, have $(E_{\cdot})_{ii} = 0$, $(A_{\cdot})_{ii} = 0$ and hence
+  \[
+  \big((A_H)^2 - D_H + A_H\big)_{ii} = (A_H)^2_{ii} - (D_H)_{ii}.
+  \]
+  $(A_H)^2_{ii} - (D_H)_{ii} = 0$ is always true since the degree matrix of $H$ always has diagonal values $\displaystyle (D_H)_{ii} = \sum_k x_{ik}$ and each edge from vertex $i$ to its neighbour in $H$ will always create a loop to itself in the square such that $\displaystyle (A_H)^2_{ii} = 
+  \sum_{k = 1} x_{ik}x_{ki} = \sum_{k = 1} x_{ik}^2$ by the symmetry of adjacency matrix $A_H$. Since $x_{ik} \in \{0, 1\}$, the square of the boolean is identical to the boolean $x_ik$ such that $\displaystyle (A_H)^2_{ii} = \sum_k x_{ik} = (D_H)_{ii}$ and $(A_G)_{ii} = \mathbbm{1}_{\geq 1}\big((A_H)^2 - D_H + A_H\big)$ as required. 
+
+  Combining both gives that $E_G = E_{H^2}$, and so $G = H^2$.  
+\end{proof}
+
+\begin{theorem} \label{theorem::IP_gives_root}
+Let $G$ be a graph and consider the integer program whose variables $x_{ij} \in \{0,1\}$ encode a graph $H$ with adjacency matrix $A_H = (x_{ij})$. Then $G$ has a square root $H$ if and only if the integer  program has a feasible solution $x$ such that the corresponding graph $H$ satisfies $H^2 = G$.
+\end{theorem}
+\begin{proof}
+  Suppose $G$ has a square root $H$ and let $A_H$ be the adjacency matrix of $H$.  $x_{ij} = (A_H)_{ij}$. Construct the variables $x_{ij}, y_{ikj}, z_{ij}$ and the constant $g_{ij}$ as such 
+  \begin{enumerate}[label=\roman*)]
+    \item Let $x_{ij} = 1$ if $ij \in E_H$ and $=0$ otherwise. 
+    \item Let $y_{ikj} = x_{ik}x_{kj}$ for all $i,k,j$. 
+    \item Let $\displaystyle z_{ij} = \sum_{k = 1}^{n} y_{ikj} + x_{ij} $ for all $i,j$. 
+    \item Let $\displaystyle z_{ii} = \sum_{k  = 1}^{n} y_{iki} - \sum_{k = 1}^{n} x_{ik} =  \sum_{k = 1}^{n} x_{ik}^2 -  \sum_{k = 1}^{n} x_{ik} = 0 $
+    since $x_{ij} \in \{0 , 1\} \implies x_{ik}^2 = x_{ik}$. 
+    \item Let $g_{ij} = 1$ if $ij \in E_G$ and $=0$ otherwise. 
+  \end{enumerate}
+  Verifying constraints of the integer program for the variables 
+  \begin{enumerate}[label=\roman*)]
+    \item As $x_{ij} \in \{0, 1 \} \implies y_{ikj}  \in \{0, 1 \} $, Equations~\eqref{eq::IP_x_variable}-\eqref{eq::IP_z_variable}
+    and Equations~\eqref{eq::IP_x_upper_bound}-\eqref{eq::IP_y_upper_bound} are satisfied.  
+    \item As $H$ is a simple directed graph, its adjacency matrix is hallow and symmetric such that Equations~\eqref{eq::IP_symmetry_x}
+    -\eqref{eq::IP_diagonal_x} are satisfied.  
+    \item As $y_{ikj} = x_{ik}x_{kj}$ and all variables are binary, Equations~\eqref{eq::IP_product_upper_first}-
+    \eqref{eq::IP_product_lower} are satisfied. 
+    \item Equation~\eqref{eq::IP_indicator_arg} by definition is satisfied. 
+    \item As $\displaystyle z_{ii} = \sum_{k = 1}^{n} x_{ik}x_{ki} - \sum_{k = 1}^{n} x_{ik}$, Equation~\eqref{eq::IP_fund_matrix} is satisfied. 
+    \item As $\displaystyle z_{ij} \geq 1 \iff x_{ij} = 1 \; \text{or} \; \exists k \text{ such that } x_{ik}=x_{kj}= 1$ and as $H^2 = G$,
+    have $g_{ij} = 1 \iff 1 \leq d_H(i,j) \leq 2$. Thus $g_{ij} = 1 \iff z_{ij}geq 1$ so the indicator 
+    constraints Equations~\eqref{eq::IP_indicator_upper}-\eqref{eq::IP_indicator_lower} hold. 
+  \end{enumerate}
+  All constraints of the integer program are satisfied by the constructed variables. Hence, the integer program is feasible.
+
+  Suppose the integer program on graph $G$ has a feasible solution $x$, and let $x_{ij}$ define a graph $H$ by 
+  \[
+  ij \in E_H \iff x_{ij} = 1. 
+  \]
+  As $x_{ij}$ satisfies the constraints of the integer program, 
+  \begin{enumerate}[label=\roman*)]
+    \item Equation~\eqref{eq::IP_x_variable} and Equation~\eqref{eq::IP_x_upper_bound} gives $x_{ij} \in \{0 , 1\}$ for all $i,j$,
+    \item Equation~\eqref{eq::IP_symmetry_x} and Equation~\eqref{eq::IP_diagonal_x} give $x_{ij} = x_{ji}$ and $x_{ii} = 0$,
+  \end{enumerate}
+  such that $x_{ij}$ defines a hollow, symmetric matrix with all elements being either $0$ or $1$ which is a valid adjacency matrix of a graph. 
+  Examining the auxiliary variables $y_{ikj}$ and $z_{ij}$, 
+  \begin{enumerate}[label=\roman*)]
+    \item Equations~\eqref{eq::IP_product_upper_first}-\eqref{eq::IP_product_lower} give the strict equality $y_{ikj} = x_{ik}x_{kj}$ for all $i,j,k$,
+    \item Equation~\eqref{eq::IP_indicator_arg} gives $\displaystyle z_{ij} = \sum_{k = 1}^{n}y_{ikj} + x_{ij} = \sum_{k = 1}^{n}x_{ik}x_{kj} + x_{ij}$ for all $i \neq j$,
+    \item Equation~\eqref{eq::IP_fund_matrix} gives $\displaystyle z_{ii} = \sum_{k = 1}^{n}y_{iki} + \sum_{n}^{k = 1}x_{ik} = \sum_{k = 1}^{n} x_{ik}x_{ki} - \sum_{n}^{k = 1}x_{ik} = 0$ for all $i$ since
+    \[
+    \sum_{k = 1}^{n} x_{ik}x_{ki} = \sum_{k = 1}^{n} x_{ik}^2 = \sum_{k = 1}^{n} x_{ik},
+    \]
+    by symmetry and since $x_{ij} \in \{0 , 1\}$. 
+  \end{enumerate} 
+  The indicator constraints Equations~\eqref{eq::IP_indicator_upper}-\eqref{eq::IP_indicator_lower} thus give for $i \neq j$
+  \[
+  g_{ij} = 1 \iff \sum_{k=1}^{n} x_{ik}x_{kj} + x_{ij} \geq 1 \; \text{and} \; g_{ij} = 0 \iff \sum_{k=1}^{n} x_{ik}x_{kj} + x_{ij} = 0. 
+  \]
+  Since $x_{ij} \in \{0,1\}$, this is equivalent to 
+  \[
+  g_{ij} = 1 \iff \Big(x_{ij} = 1 \Big) \lor \Big(\exists k \;\text{such that}\; x_{ik}= 1 \land x_{kj}=1\Big) \; \text{and} \; g_{ij} = 0 \iff x_{ij} = 0. 
+  \]
+  By definition of $H$ this means that $g_{ij} = 1 \iff \Big( ij \in E_H \Big) \lor \Big( \exists k \;\text{such that}\; ik,kj \in E_H\Big)$ which is equivalent to 
+  \[
+  g_{ij} = 1 \iff 1 \leq d_H(i,j) \leq 2. 
+  \]
+  Applying Lemma~\ref{lemma::G_equal_to_H^2} thus gives $ij \in E_G \iff ij \in E_H^2$ such that $G=H^2$. 
+\end{proof}
+
 \section{Two-Edge-Triangle Proof} \label{sec::two_edge_triangle_proof}
 
 Let $x$ be an optimal solution to the linear relaxation defined by Equations~\eqref{eq::max_LP_x_variable}--\eqref{eq::max_objective_funtion}. 
@@ -203,53 +303,168 @@ x_{ik}+x_{kj}=1.
   and hence $x_{ik}+x_{kj} \leq 1$ as required.
 \end{proof}
 
-
-% z_{ij} with sum of y_{ikj} must be 0 - however that doesnt necessarily mean all y_{ikj} are 0 - there could be one that is negative since y_{ikj} >= x_{ik} + x_{kj} - 1 which means 
-% the lower bound of y_{ikj} could be negative when $x_{ik} + x_{kj} < 1$. if however it is negative,  that means that another y_{ikj} must be positive OR x_{ij} must be positive.
-
 \subsection{Max Linear Program} \label{subsec::triangle_two_edges_max_linear_program}
 
 \begin{proposition} \label{prop::local_two_edges_augmentation}
-  Consider the maximum linear relaxation defined by Equations~\eqref{eq::max_LP_x_variable}--\eqref{eq::max_objective_funtion} on the graph induced by the three vertices $\{i,j,k\}$. Suppose
+  Consider the maximum linear relaxation defined by Equations~\eqref{eq::max_LP_x_variable}--\eqref{eq::max_objective_funtion} on the graph induced by only the three vertices $\{a,b,c\}$. Suppose
   \[
-  g_{ik}=1,\quad g_{kj}=1,\quad g_{ij}=0,
+  g_{ab}=1,\quad g_{ac}=0, \quad g_{bc}=1,
   \]
-  then there always exists an optimal, feasible solution satisfying $x_{ik}+x_{kj}=1$.
+  then there always exists an optimal, feasible solution satisfying $x_{ab}+x_{bc}=1$.
 \end{proposition}
 \begin{proof}
-  Since $g_{ij}=0$, Equations~\eqref{eq::max_LP_indicator_upper}--\eqref{eq::max_LP_indicator_lower} thus imply that $z_{ij}=0$. Equation~\eqref{eq::max_LP_indicator_arg} therefore gives
-  \begin{equation} \label{eq::local_two_edges_augementation_indicator_arg}
-    0 = \sum_{t\in\{i,j,k\}} y_{itj} + x_{ij} = y_{iij} + y_{ijj} + y_{ikj} + x_{ij} = y_{ikj} + x_{ij},
-  \end{equation}
-  since Equations~\eqref{eq::max_LP_product_upper_first}--\eqref{eq::max_LP_product_upper_second} together with Equation~\eqref{eq::max_LP_diagonal_x} give that $y_{iij} \leq x_{ii} = 0$ and $y_{ijj} \leq x_{jj} = 0$ and as all variables are non-negative by Equations~\eqref{eq::max_LP_x_variable}--\eqref{eq::max_LP_z_variable}, it follows that $y_{iij} = 0$, $y_{ijj} = 0$. Therefore Equation~\eqref{eq::local_two_edges_augementation_indicator_arg} gives
+  Using Lemma~\ref{lemma::two_edges_linear_sum}, every feasible solution satisfies $x_{ab}+x_{bc} \leq 1$. Suppose to the contrary that $x_{ab}+x_{bc} = 1 - \delta$ where $ \delta > 0$. As $x_{ac}=x_{ca}=0$ by Lemma~\ref{lemma::two_edges_linear_sum}, Equation~\eqref{eq::max_LP_symmetry_x} gives $x_{ab}=x_{ba}$, 
+  $x_{bc}=x_{cb}$ and Equation~\eqref{eq::max_LP_diagonal_x} gives $x_{aa}=x_{bb}=x_{cc}=0$. Therefore the objective function can be simplified to 
   \[
-  y_{ikj} = 0, \quad x_{ij}=0. 
+  \sum_{u,v \in \{a,b,c\}}x_{uv} = x_{aa}+x_{ab}+x_{ac}+x_{ba}+x_{bb}+x_{bc}+x_{ca}+x_{cb}+x_{cc} = 2(x_{ab}+x_{bc}) = 2(1 - \delta). 
   \]
-
-  By contradiction, assume that $x_{ik}$ and $x_{kj}$ give a optimal, feasible solution to the maximal linear program where $x_{ik} + x_{kj} = 1 - \delta$ and $0 \leq \delta \leq \varepsilon$ such that $x_{ik} + x_{kj} < 1$. Consider the perturbation $x_{ik}' = x_{ik} + \epsilon$ such that $x_{ik}' + x_{kj} = 1$. 
+  Without loss of generality, increase $x_{ab}$ such that $x_{ab}'=x_{ab}+\delta$ with the remaining $x_{bc}'=x_{bc}$ and $x_{ac}' = x_{ac} = 0$ remaining unchanged such that $x_{ab}'+x_{bc}'=x_{ab}'+x_{bc}=1$. It remains to verify that there exist corresponding variables $y'$ and $z'$ satisfying Equations~\eqref{eq::max_LP_y_variable}--\eqref{eq::max_LP_indicator_lower}. Since only the variable $x_{ab}$ has changed, using symmetry it is sufficient to examine every product variable whose upper or lower bounds involve $x_{ab}$. 
+  \begin{enumerate}[label=\Alph*.]
+    \item Equation~\eqref{eq::max_LP_fund_matrix}
+      \begin{enumerate}[label=(\roman*)]
+        \item Since $g_{aa} = 0$, Equations~\eqref{eq::max_LP_indicator_upper}--\eqref{eq::max_LP_indicator_lower} imply $z'_{aa} = 0$. Therefore, by     Equation~\eqref{eq::max_LP_fund_matrix}
+          \[
+          0 = z_{aa}' = \sum_{k\in\{a,b,c\}}y_{aka}' -\sum_{k\in\{a,b,c\}}x_{ak}' = y_{aaa}'+y_{aba}'+y_{aca}' -x_{aa}'-x_{ab}'-x_{ac}'.
+          \]
+          Since Equation~\eqref{eq::max_LP_diagonal_x} gives $x_{aa}'=0$ and $x_{ac}'=0$ by Lemma~\ref{lemma::two_edges_linear_sum}, Equations~\eqref{eq::max_LP_product_upper_first}--\eqref{eq::max_LP_product_upper_second} imply $y_{aaa}'=0$, $y_{aca}'=0$. Therefore, $0 = y_{aba}'-x_{ab}' = y_{aba}'-(x_{ab}+\delta)$ and hence 
+          \begin{equation} \label{eq::y_aba}
+          y_{aba}'=x_{ab}'
+          \end{equation} 
+          is an additional constraint that is needed.
+        \item  Since $g_{bb}=0$, Equations~\eqref{eq::max_LP_indicator_upper}--\eqref{eq::max_LP_indicator_lower} imply $z_{bb}'=0$. Therefore, as in above
+          \[
+          0 = z_{bb}' = \sum_{k\in\{a,b,c\}}y_{bkb}' -\sum_{k\in\{a,b,c\}}x_{bk}' = y_{bab}' + y_{bcb}' - x_{ba}' - x_{bc}'.
+          \]
+          Since $x_{ba}'=x_{ab}'$ by Equation~\eqref{eq::max_LP_symmetry_x} and
+          $x_{bc}'=x_{bc}$, it follows that
+          \begin{equation} \label{eq::y_bab_bcb}
+            y_{bab}'+y_{bcb}'= x_{ab}'+x_{bc}'
+          \end{equation}
+          is an additional constraint that is needed.
+        \item Since $g_{cc}=0$, Equations~\eqref{eq::max_LP_indicator_upper}--\eqref{eq::max_LP_indicator_lower} imply $z_{cc}'=0$. Therefore, as in above
+          \[
+          0 = \sum_{k\in\{a,b,c\}}y_{ckc}' -\sum_{k\in\{a,b,c\}}x_{ck}' = y_{cac}' + y_{cbc}' - x_{ca}' -x_{cb}'.
+          \]
+          Since $x_{ca}'=0$ by Lemma~\ref{lemma::two_edges_linear_sum} and $x_{cb}'=x_{bc}$, this equation is unchanged. Hence the original values of $y_{cac}'=y_{cac}$ and $y_{cbc}'=y_{cbc}$ remain feasible and no additional constraints are needed. 
+      \end{enumerate}
+    \item Equation~\eqref{eq::max_LP_indicator_arg}
+      \begin{enumerate}[label=(\roman*)]
+        \item Since $g_{ab}=1$, Equations~\eqref{eq::max_LP_indicator_upper}--\eqref{eq::max_LP_indicator_lower} imply $z_{ab}' \geq 1$. Hence 
+          \[
+          1 \leq z_{ab}' = \sum_{k = 1}^{n}y_{akb}' + x_{ab}' = y_{aab}'+y_{abb}'+y_{acb}'+x_{ab}'=y_{acb}'+x_{ab}',
+          \]
+          since Equations~\eqref{eq::max_LP_product_upper_first}--\eqref{eq::max_LP_product_upper_second} together with Equation~\eqref{eq::max_LP_diagonal_x} imply $y_{aab}'=y_{abb}'=0$.  As $1 \leq z_{ab}$, $z_{ab}' = z_{ab} + \delta$, $y_{acb}' = y_{acb}$ satisfies the new equation and no additional constraints are needed. 
+        \item  Since $g_{bc}=1$, Equations~\eqref{eq::max_LP_indicator_upper}--\eqref{eq::max_LP_indicator_lower} imply $z_{bc}'\geq 1$. 
+          Hence, by Equation~\eqref{eq::max_LP_indicator_arg},
+          \[
+          z_{bc}' = \sum_{k\in\{a,b,c\}}y_{bkc}'+x_{bc}' =y_{bac}'+y_{bbc}'+y_{bcc}'+x_{bc}'=y_{bac}'+x_{bc},
+          \]
+          since Equations~\eqref{eq::max_LP_product_upper_first}--\eqref{eq::max_LP_product_upper_second} together with Equation~\eqref{eq::max_LP_diagonal_x} imply $y_{bbc}'=y_{bcc}'=0$. As $x_{bc}'=x_{bc}$, $y_{bac}' = y_{bac}$ satisfies the new equation and no additional constraints are needed. 
+        \item Since $g_{ac}=0$, Equations~\eqref{eq::max_LP_indicator_upper}--\eqref{eq::max_LP_indicator_lower} imply $z_{ac}'=0$. Hence, by Equation~\eqref {eq::max_LP_indicator_arg},
+          \[
+          0=z_{ac}'=\sum_{k\in\{a,b,c\}}y_{akc}'+x_{ac}'=y_{aac}'+y_{abc}'+y_{acc}'+x_{ac}'=y_{abc}',
+          \]
+          since $y_{aac}'=y_{acc}'=0$ by Equations~\eqref{eq::max_LP_product_upper_first}--\eqref{eq::max_LP_product_upper_second}, and $x_{ac}'=0$ by Lemma~\ref{lemma::two_edges_linear_sum}. Therefore $y_{abc}'=y_{abc} = 0$ which is unchanged from the original feasible solution.  
+      \end{enumerate}
+    \item Equations~\eqref{eq::max_LP_product_upper_first}--\eqref{eq::max_LP_product_lower}. Consider any product variable $y_{uvw}$ for which neither $x_{uv}$ nor $x_{vw}$ equals $x_{ab}$. Since these $x$-variables are unchanged, Equations~\eqref{eq::max_LP_product_upper_first}--\eqref{eq::max_LP_product_lower} remain unchanged and are therefore still satisfied. Therefore only need to consider the product variables whose constraints involve $x_{ab}'$
+    \[
+    y_{aba}',y_{abc}',y_{cab}',y_{bab}',y_{acb}',y_{bac}'. 
+    \]
+    The remaining cases are analogous after interchanging $a$ and $b$ such that only three cases need to be examined $y_{aba}',y_{abc}',y_{cab}'$. However the previous equations give the constraints Equation~\eqref{eq::y_aba} and Equation~\eqref{eq::y_bab_bcb} hence also need to consider $y_{bab}'$ and $y_{bcb}'$. 
+      \begin{enumerate}[label=(\roman*)]
+        \item Consider $y_{aba}'$. By Equation~\eqref{eq::y_aba}, $y_{aba}'=x_{ab}'$ which together with Equation~\eqref{eq::max_LP_symmetry_x} and Equation~\eqref{eq::max_LP_x_upper_bound} giving $x_{ab}' \leq 1$ gives
+          \[
+          y_{aba}'=x_{ab}' \leq x_{ab}',\quad y_{aba}'=x_{ab}'\leq x_{ba}', \quad y_{aba}'=x_{ab}' \geq 2x_{ab}'-1 =x_{ab}'+x_{ba}'-1. 
+          \]
+          Therefore Equations~\eqref{eq::max_LP_product_upper_first}--\eqref{eq::max_LP_product_lower} are satisfied.
+        \item Consider $y_{bab}'$ and $y_{bcb}'$. By Equation~\eqref{eq::y_bab_bcb}, $y_{bab}'+y_{bcb}'=x_{ab}'+x_{bc}'$ which is satisfied by the selection
+          \[
+          y_{bab}'=x_{ab}',\quad y_{bcb}'=x_{bc}'. 
+          \] 
+          Equation~\eqref{eq::max_LP_symmetry_x} and Equation~\eqref{eq::max_LP_x_upper_bound} giving $x_{ab}' \leq 1$, $x_{bc}' \leq 1$ gives
+          \[
+          y_{bab}'=x_{ab}' \leq x_{ba}',\quad y_{bab}'=x_{ab}'\leq x_{ab}', \quad y_{bab}'=x_{ab}' \geq x_{ba}'+x_{ab}'-1
+          \]
+          \[
+          y_{bcb}'=x_{bc}' \leq x_{bc},\quad y_{bcb}'=x_{bc}' \leq x_{cb}', \quad y_{bcb}'=x_{bc}' \geq x_{bc}'+x_{cb}'-1
+          \]
+          Hence Equations~\eqref{eq::max_LP_product_upper_first}--\eqref{eq::max_LP_product_lower} are satisfied.
+        \item Consider $y_{abc}'$. Since $x_{ac}'=0$, Equations~\eqref{eq::max_LP_product_upper_first}--\eqref{eq::max_LP_product_upper_second} imply that $
+          y_{abc}'=0$. As $x_{ab}'+x_{bc}'-1=0$, so Equation~\eqref{eq::max_LP_product_lower} gives $y_{abc}'\ge0$, which is unchanged from the original feasible solution.  
+        \item Consider $y_{acb}'$. Since neither $x_{ac}$ nor $x_{cb}$ has been modified, all three product constraints are unchanged and therefore remain
+        satisfied.
+        \end{enumerate}
+  \end{enumerate}
+  Therefore $(x',y',z')$ can be constructed as 
+  \begin{align*}
+  x_{ab}'&=x_{ab}+\delta,\quad x_{ba}'=x_{ba}+\delta,\quad y_{aba}'=x_{ab}',\quad y_{bab}'=x_{ab}',\quad y_{bcb}'=x_{bc},\\
+  y_{acb}'&=y_{acb},\quad y_{bac}'=y_{bac},\quad  y_{abc}'=0,\quad z_{ab}'=z_{ab}+\delta,\quad z_{ba}'=z_{ba}+\delta,
+  \end{align*}
+  where every remaining variable is unchanged from $(x,y,z)$. As shown above, this is a feasible solution for Equations~\eqref{eq::max_LP_x_variable}--\eqref{eq::max_LP_indicator_lower} and since
+  \[
+  \sum_{u,v\in\{a,b,c\}}x_{uv}' = 2(x_{ab}'+x_{bc}) = 2 > 2(1-\delta) = \sum_{u,v\in\{a,b,c\}}x_{uv},
+  \]
+  this contradicts the optimality of $(x,y,z)$ and gives $x_{ab}+x_{bc}=1$ as required.
 \end{proof}
+
+\begin{lemma}\label{lemma::triangle_edge_independence}
+  Consider the maximum linear relaxation defined by Equations~\eqref{eq::max_LP_x_variable}--\eqref{eq::max_objective_funtion} on the graph induced by only the three vertices $\{a,b,c\}$ where $g_{ab}=g_{bc}=g_{ca}=1$. Let $(x,y,z)$ be an optimal feasible solution. If $x_{ab}<1$, then there exists another optimal feasible solution $(x',y',z')$ such that
+  \[
+  x_{ab}'=1,\quad x_{bc}'=x_{bc},\quad x_{ca}'=x_{ca}.
+  \]
+  Consequently, within the induced triangle the value of each edge variable is independent of the values of the other two edge variables.
+\end{lemma}
+\begin{proof}
+  Suppose for contradiction $x_{ab}=1-\delta$ for some $\delta>0$ and define $x_{ab}' = 1 > x_{ab}$ and $x_{bc}'=x_{bc}$, $x_{ca}'=x_{ca}$, it is necessary to verify that there exist corresponding variables $y'$ and $z'$ satisfying Equations~\eqref{eq::max_LP_y_variable}--\eqref{eq::max_LP_indicator_lower} and that it is optimal with greater objective function than for $(x,y,z)$. By 
+  \begin{enumerate}[label=\Alph*.] 
+    \item Equation~\eqref{eq::max_LP_fund_matrix}
+      \begin{enumerate}[label=(\roman*)]
+        \item Since $g_{aa} = 0$, Equations~\eqref{eq::max_LP_indicator_upper}--\eqref{eq::max_LP_indicator_lower} imply $z'_{aa} = 0$. Therefore, by     Equation~\eqref{eq::max_LP_fund_matrix}
+          \[
+          0 = z_{aa}' = \sum_{k\in\{a,b,c\}}y_{aka}' -\sum_{k\in\{a,b,c\}}x_{ak}' = y_{aaa}'+y_{aba}'+y_{aca}' -x_{aa}'-x_{ab}'-x_{ac}'.
+          \]
+          Since Equation~\eqref{eq::max_LP_diagonal_x} gives $x_{aa}'=0$, Equations~\eqref{eq::max_LP_product_upper_first}--\eqref{eq::max_LP_product_upper_second} imply $y_{aaa}'=0$. Therefore, $0 = y_{aba}'-x_{ab}' = y_{aba}'-(x_{ab}+\delta)$ and hence 
+          \begin{equation} \label{eq::y_aba_aca}
+          y_{aba}'+y_{aca}'=x_{ab}'+x_{ac}'
+          \end{equation} 
+          is an additional constraint that is needed.
+        \item  Since $g_{bb}=0$, Equations~\eqref{eq::max_LP_indicator_upper}--\eqref{eq::max_LP_indicator_lower} imply $z_{bb}'=0$. Therefore, as in above
+          \[
+          0 = z_{bb}' = \sum_{k\in\{a,b,c\}}y_{bkb}' -\sum_{k\in\{a,b,c\}}x_{bk}' = y_{bab}' + y_{bcb}' - x_{ba}' - x_{bc}'.
+          \]
+          Since $x_{ba}'=x_{ab}'$ by Equation~\eqref{eq::max_LP_symmetry_x} and
+          $x_{bc}'=x_{bc}$, it follows that
+          \begin{equation} \label{eq::y_bab_bc}
+            y_{bab}'+y_{bcb}'= x_{ab}+\delta+x_{bc} 
+          \end{equation}
+          is an additional constraint that is needed.
+        \item Since $g_{cc}=0$, Equations~\eqref{eq::max_LP_indicator_upper}--\eqref{eq::max_LP_indicator_lower} imply $z_{cc}'=0$. Therefore, as in above
+          \[
+          0 = \sum_{k\in\{a,b,c\}}y_{ckc}' -\sum_{k\in\{a,b,c\}}x_{ck}' = y_{cac}' + y_{cbc}' - x_{ca}' -x_{cb}'.
+          \]
+          Since $x_{ca}'=0$ by Lemma~\ref{lemma::two_edges_linear_sum} and $x_{cb}'=x_{bc}$, this equation is unchanged. Hence the original values of $y_{cac}'=y_{cac}$ and $y_{cbc}'=y_{cbc}$ remain feasible and no additional constraints are needed. 
+      \end{enumerate}
+  \end{enumerate}
+\end{proof}
+
 
 \begin{proposition} \label{prop::extended_two_edges_augmentation}
   Consider the maximum linear relaxation defined by Equations~\eqref{eq::max_LP_x_variable}--\eqref{eq::max_objective_funtion} on the square graph $G$. Suppose
   \[
   g_{ik}=1,\quad g_{kj}=1,\quad g_{ij}=0,
   \]
-  and let $(x,y,z)$ be a feasible solution satisfying $x_{ik}+x_{kj}<1$. Then in order for there to exist another feasible solution $(x',y',z')$ such that $ \displaystyle \sum_{u,v\in\{i,j,k\}}x'_{uv} > \sum_{u,v\in\{i,j,k\}}x_{uv}$ $G$ must be infinitely large.
+  and let $(x,y,z)$ be a feasible solution satisfying $x_{ik}+x_{kj}<1$. Then in order for there to exist another feasible solution $(x',y',z')$ such that $ \displaystyle \sum_{u,v\in\{i,j,k\}}x'_{uv} > \sum_{u,v\in\{i,j,k\}}x_{uv}$, $G$ must be infinitely large.
 \end{proposition}
 \begin{proof}
-  Using Proposition~\ref{prop::local_two_edges_augmentation}, any three vertices that satisfy the maximum linear relaxation defined by Equations~\eqref{eq::max_LP_x_variable}--\eqref{eq::max_objective_funtion} will always satisfy $x_{ik}+x_{kj}=1$. Hence the only way $x_{ik} + x_{kj} < 1$ is if 
-\end{proof}
-
-\begin{lemma} \label{prop::two_edges_augmentation}
-  Let $x$ be a feasible solution to the maximum linear relaxation defined by Equations~\eqref{eq::max_LP_x_variable}--\eqref{eq::max_objective_funtion}. Suppose there exists vertices $i$, $j$ and $k$ such that
-  \[
-  g_{ik}=1,\quad g_{kj}=1,\quad g_{ij}=0 \quad \text{and} \quad x_{ik} + x_{kj} < 1. 
-  \]
-  Then there exists another feasible solution $(x',y',z')$ satisfying $\displaystyle \sum_{u,v} x'_{uv} > \sum_{u,v} x_{uv}$.
-\end{lemma}
-\begin{proof}
+  Using Proposition~\ref{prop::local_two_edges_augmentation}, any three vertices that satisfy the maximum linear relaxation defined by Equations~\eqref{eq::max_LP_x_variable}--\eqref{eq::max_objective_funtion} will always satisfy $x_{ik}+x_{kj}=1$. Hence if there exists three vertices $i,j,k$ with a feasible solution satisfying the relationship $x_{ik} + x_{kj} = 1 - \delta$ where $\delta > 0 $, then increasing either $x_{ik}$ or $x_{kj}$ must violate a constraint
+  involving a vertex $\ell\notin\{i,j,k\}$.
+  \begin{enumerate}[label=\Alph*.]
+    \item If $\ell$ is connected to $\{i,j,k\}$ by only one vertex $i$, then can always increase $x_{kj}$ and vice versa hence can only do so via $k$. 
+    \item If $\ell$ is connected to $\{i,j,k\}$ by two vertices, then if one of $i$ or $j$ is chosen together with $k$ a triangle will be formed 
+  \end{enumerate}
 
 \end{proof}
+
 
 \begin{theorem} \label{theorem::two_edges_linear_maximization}
   Let $x$ be an optimal solution to the linear relaxation defined by Equations~\eqref{eq::max_LP_x_variable}--\eqref{eq::max_objective_funtion}.
@@ -259,7 +474,7 @@ x_{ik}+x_{kj}=1.
   \]
 \end{theorem}
 \begin{proof}
-  Using Lemma~\ref{lemma::two_edges_linear_sum} $x_{ik} + x_{kj} \leq 1$ and using Proposition~\ref{prop::two_edges_augmentation} $x_{ik} + x_{kj} \geq 1$
+  Using Lemma~\ref{lemma::two_edges_linear_sum} $x_{ik} + x_{kj} \leq 1$ and using Proposition~\ref{prop::extended_two_edges_augmentation} $x_{ik} + x_{kj} \geq 1$
   such that $x_{ik}+x_{kj}=1$ as required. 
 \end{proof}
 

@@ -131,7 +131,7 @@ Polynomial-time algorithms are important because they are generally regarded as 
 Unfortunately many important decision problems are not known to admit such polynomial-time algorithms and hence need additional classification on their ``hardness''. For these problems, despite not have an efficient algorithm for finding a solution, a proposed solution can be verified efficiently.
 
 \begin{definition}[Certificate] \label{def::certificate}
-  Let $L$ be a decision problem. A \textbf{certificate} for an instance $x$ of $L$ is a finite string $c$ that provides evidence that $x$ is a \textbf{Yes}-instance of $L$. A certificate is said to be \textbf{polynomially verifiable} if there exists a deterministic algorithm that for given input $(x,c)$, can determines whether $c$ is a valid certificate for $x$ in time polynomial in $|x|$.
+  Let $L$ be a decision problem. A \textbf{certificate} for an instance $x$ of $L$ is a finite string $c$ that provides evidence that $x$ is a \textbf{Yes}-instance of $L$. A certificate is said to be \textbf{polynomially verifiable} if there exists a deterministic algorithm that for given input $(x,c)$, can determine whether $c$ is a valid certificate for $x$ in time polynomial in $|x|$.
 \end{definition}
 
 \begin{definition}[Class $\mathbf{NP}$] \label{def::class_np}
@@ -204,20 +204,16 @@ Whether this inclusion is strict remains one of the most important open question
 
 Let the \emph{graph root} $H = (V, E_H)$ be a finite, simple, undirected graph, where $V$ is the vertex set with $|V| = n$, and $E_H \subseteq \{\{u,v\} \mid u,v \in V,\; u \neq v\}$ is the edge set. Denote by $d_H(u,v)$ the \emph{graph distance} defined as the number of edges of the shortest path between vertices $u$ and $v$ in $H$. If no such path exists, $d_H(u,v) = \infty$.
 
-For vertices $u,v\in V$, the \emph{graph distance}
-$d_H(u,v)$ is the length of a shortest path between
-$u$ and $v$ in $H$. If no such path exists, then
+For vertices $u,v\in V$, the \emph{graph distance} $d_H(u,v)$ is the length of a shortest path between $u$ and $v$ in $H$. If no such path exists, then
 $d_H(u,v)=\infty$.
 
 The \emph{square} of the graph $H$, denoted by $H^2 = (V, E_{H^2})$ is the graph on the same vertex set with edge set
 \begin{equation} \label{eq::fund_def_square}
 E_{H^2} = \{\, uv \mid u \neq v,\; 1 \leq d_H(u,v) \leq 2 \,\}.
 \end{equation}
-That is, two distinct vertices are adjacent in $H^2$ if and only if they are connected by a path of length one or two in $H$. 
-This is the standard definition of the square of a graph.
+That is, two distinct vertices are adjacent in $H^2$ if and only if they are connected by a path of length one or two in $H$. This is the standard definition of the square of a graph.
 
-Using an alternative construction, let the \emph{graph square} $G = (V, E_G)$ be an undirected graph defined on 
-the same vertex set $V$. Let $A_H \in \{0,1\}^{n \times n}$ denote the adjacency matrix of $H$, where
+Using an alternative construction, let the \emph{graph square} $G = (V, E_G)$ be an undirected graph defined on the same vertex set $V$. Let $A_H \in \{0,1\}^{n \times n}$ denote the adjacency matrix of $H$, where
 \[
 (A_H)_{ij} =
 \begin{cases}
@@ -233,8 +229,7 @@ and let $D_H \in \mathbb{R}^{n \times n}$ denote the degree matrix of $H$, where
 0 ,& \text{otherwise}.
 \end{cases}
 \]
-Let $\mathbbm{1}_{\geq 1} : \mathbb{R}^{n \times n} \to \{0,1\}^{n \times n}$ denote the 
-entrywise \emph{indicator function}, defined by
+Let $\mathbbm{1}_{\geq 1} : \mathbb{R}^{n \times n} \to \{0,1\}^{n \times n}$ denote the entrywise \emph{indicator function}, defined by
 \[
 \mathbbm{1}_{\geq 1}(M)_{ij} =
 \begin{cases}
@@ -244,24 +239,18 @@ entrywise \emph{indicator function}, defined by
 \]
 Define the adjacency matrix of $G$ using the adjacency and degree matrices of $H$
 \begin{equation} \label{eq::fund_adj_eq_undirected}
-A_G = \mathbbm{1}_{\geq 1}\!\big((A_H)^2 - D_H + A_H\big).
+  A_G = \mathbbm{1}_{\geq 1}\!\big((A_H)^2 - D_H + A_H\big).
 \end{equation}
 
 \chapter{Algorithmic Approaches} \label{chap::algorithmic_approaches}
 
-In this chapter we explore different methodologies that have been used to show certain properties of the graph root and 
-the graph square. For many restricted cases which are NP, a polynomial time reduction is given and incases which are
-polynomial, a polynomial time algorithm is given.  
+In this chapter we explore different methodologies that have been used to show certain properties of the graph root and the graph square. For many restricted cases which are NP, a polynomial time reduction is given and incases which are polynomial, a polynomial time algorithm is given.  
 
-
-We then examine the relaxed linear program which can be evaluated in polynomial time using interior point method, and 
-integrate existing literature on special root structures as a stepping-stone towards generating a true polynomial time 
-algorithm. 
+We then examine the relaxed linear program which can be evaluated in polynomial time using interior point method, and integrate existing literature on special root structures as a stepping-stone towards generating a true polynomial time algorithm. 
 
 \section{Polynomial Time Algorithm} 
 
-\citeauthor{ross_1960_square} give an algorithm for constructing a tree $T$ when given its square graph $G = T^2$ 
-using the following characterization.  
+\citeauthor{ross_1960_square} give an algorithm for constructing a tree $T$ when given its square graph $G = T^2$ using the following characterization.  
 \begin{itemize}
     \item If $G = K_p$ is complete, then $T$ must be a tree of depth 1 (result of \hyperref[lemma:1]{Lemma 1})
     \item If $G \neq K_p$ 

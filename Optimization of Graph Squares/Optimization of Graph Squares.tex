@@ -568,77 +568,54 @@ This addition gives the improved results in Figure~\ref{fig::single_triangular_d
   That is, $N_G(u)\cup\{u\}$ and $N_G(v)\cup\{v\}$ induce the same clique structure in $G$.
 \end{lemma}
 \begin{proof}
-  Since $s$ lies in a single clique in $G$, in any tree root $H$ the vertex $s$ must be a leaf, and exactly one of $u$ or $v$ is the
-  internal vertex adjacent to the remainder of the graph. Assume without loss of generality that $u$ is this internal vertex. Any vertex
-  adjacent to $v$ in $G$ other than $s$ must arise from a path of length at most two through $u$ in $H$, since $v$
-  has no other connections in the root besides $u$ and $s$. Hence
+  Since $s$ lies in a single clique in $G$, in any tree root $H$ the vertex $s$ must be a leaf, and exactly one of $u$ or $v$ is the internal vertex adjacent to the remainder of the graph. Assume without loss of generality that $u$ is this internal vertex. Any vertex adjacent to $v$ in $G$ other than $s$ must arise from a path of length at most two through $u$ in $H$, since $v$ has no other connections in the root besides $u$ and $s$. Hence
   \[
   N_G(v)\setminus\{s\}\subseteq N_G(u)\setminus\{s\}.
   \]
-  Since $\deg_G(u)=\deg_G(v)$, both neighbourhoods have equal cardinality $|N_G(v)| = |N_G(u)|$ such that via the equality 
-  criterion for finite sets
+  Since $\deg_G(u)=\deg_G(v)$, both neighbourhoods have equal cardinality $|N_G(v)| = |N_G(u)|$ such that via the equality criterion for finite sets
   \[
   N_G(v)\setminus\{s\}
   =
   N_G(u)\setminus\{s\}.
   \]
-  Hence the vertices adjacent to $u$ and $v$ outside of $s$ have identical adjacency structure in $G$, and therefore
-  $N_G(u)\cup\{u\}$ and $N_G(v)\cup\{v\}$ induce the same clique structure.
+  Hence the vertices adjacent to $u$ and $v$ outside of $s$ have identical adjacency structure in $G$, and therefore $N_G(u)\cup\{u\}$ and $N_G(v)\cup\{v\}$ induce the same clique structure.
 \end{proof}
 
 \begin{proposition} \label{prop::single_triangular_decomposition_equality}
-  Let $s,u,v$ form a triangle in square $G$ where $s$ only lies in a single clique. If $\deg_G(u)=\deg_G(v)=d\geq2$, then one can 
-  choose to assign $x_{su}=x_{uv}=1$ in the tree root $H$ without loss of generality.
+  Let $s,u,v$ form a triangle in square $G$ where $s$ only lies in a single clique. If $\deg_G(u)=\deg_G(v)=d\geq2$, then one can choose to assign $x_{su}=x_{uv}=1$ in the tree root $H$ without loss of generality.
 \end{proposition}
 \begin{proof}
-  Since $s$ lies in a single clique in $G$, in the root $H$, $s$ must be a leaf with either $u$ or $v$ being the internal
-  vertex adjacent to the remainder of the graph. Assume without loss of generality that $u$ is the internal vertex.
+  Since $s$ lies in a single clique in $G$, in the root $H$, $s$ must be a leaf with either $u$ or $v$ being the internal vertex adjacent to the remainder of the graph. Assume without loss of generality that $u$ is the internal vertex.
 
-  By Lemma~\ref{lemma::single_triangle_equal_neighbourhood}, $N_G(u)\setminus\{s\}=N_G(v)\setminus\{s\}$, such that $u$ and $v$ induce
-  identical clique structure in $G$. Therefore exchanging the roles of $u$ and $v$ preserves the square graph $G$.Hence choosing $u$ 
-  as the internal vertex and assigning
+  By Lemma~\ref{lemma::single_triangle_equal_neighbourhood}, $N_G(u)\setminus\{s\}=N_G(v)\setminus\{s\}$, such that $u$ and $v$ induce identical clique structure in $G$. Therefore exchanging the roles of $u$ and $v$ preserves the square graph $G$.Hence choosing $u$ as the internal vertex and assigning
   \[
   x_{su}=x_{uv}=1,
   \]
-  does not alter feasibility, since the alternative choice obtained by exchanging $u$ and $v$ produces an isomorphic tree root
-  with identical square graph.
+  does not alter feasibility, since the alternative choice obtained by exchanging $u$ and $v$ produces an isomorphic tree root with identical square graph.
 \end{proof}
 
 \begin{proposition} \label{prop::single_triangular_decomposition_feasibility}
-  Let $s,u,v$ form a triangle in square $G$ where $s$ only lies in a single clique. The linear program with Equation~\eqref{eq::single_triangle_fix}
-  never returns a infeasible solution for squares with tree roots. 
+  Let $s,u,v$ form a triangle in square $G$ where $s$ only lies in a single clique. The linear program with Equation~\eqref{eq::single_triangle_fix} never returns a infeasible solution for squares with tree roots. 
 \end{proposition}
 \begin{proof}
   
 \end{proof}
 
-This result is strictly weaker than Ross and Harary's since any tree with an internal vertex connected only to leaves of cardinality 
-greater than or equal to $2$, with an edge to the remaining subgraph, will always generate a clique in the maximal root. That is, 
-the maximal solution is not a tree and hence the modified linear program will not return a solution despite the input graph containing 
-a tree root.
+This result is strictly weaker than Ross and Harary's since any tree with an internal vertex connected only to leaves of cardinality greater than or equal to $2$, with an edge to the remaining subgraph, will always generate a clique in the maximal root. That is, the maximal solution is not a tree and hence the modified linear program will not return a solution despite the input graph containing a tree root.
 
 % Proof that it does not break feasibility? 
 
 \begin{proposition} \label{prop::single_triangular_fixing}
-Let $H$ be a tree and let $u$ be an internal vertex with single leaf child $s_1$ and single parent $v$. Fixing the internal vertex,
-its parent and its child uniquely determines the subtree rooted at $v$ with end vertex $s$ in the linear program.
+Let $H$ be a tree and let $u$ be an internal vertex with single leaf child $s_1$ and single parent $v$. Fixing the internal vertex, its parent and its child uniquely determines the subtree rooted at $v$ with end vertex $s$ in the linear program.
 \end{proposition}
 \begin{proof}
   
 \end{proof}
 
 \subsection{Tetrahedron Decomposition} \label{subsec::tetrahedron_decomposition}
-A natural extension of Section~\ref{subsec::single_triangular_decomposition} can be achieved by considering cliques of size greater than 
-three in order to categorize tree structure whereby an internal vertex is connected to more than one leaf. Whilst finding a clique 
-of size $\geq k$ for fixed $k$ is polynomial, with complexity of order $O(n^k)$ by simply checking all tuples of size $k$, the decision 
-problem of whether a graph $G$ contains a clique of size $k$, as well as the problem of finding a largest clique, is NP-complete. Thus,
-it is necessary to only consider cliques of fixed size $4$ which have polynomial complexity $O(n^4)$. This however is sufficient for 
-classifying any \hyperref[def::leaf_clique]{leaf clique} in the root, since any branching vertex with exactly two leaves will generate 
-a $4$-clique in the square, whilst a branching vertex with more than two leaves will generate multiple $4$-cliques of which one can be 
-chosen by arbitrarily selecting any two leaves.
+A natural extension of Section~\ref{subsec::single_triangular_decomposition} can be achieved by considering cliques of size greater than three in order to categorize tree structure whereby an internal vertex is connected to more than one leaf. Whilst finding a clique of size $\geq k$ for fixed $k$ is polynomial, with complexity of order $O(n^k)$ by simply checking all tuples of size $k$, the decision problem of whether a graph $G$ contains a clique of size $k$, as well as the problem of finding a largest clique, is NP-complete. Thus, it is necessary to only consider cliques of fixed size $4$ which have polynomial complexity $O(n^4)$. This however is sufficient for classifying any \hyperref[def::leaf_clique]{leaf clique} in the root, since any branching vertex with exactly two leaves will generate a $4$-clique in the square, whilst a branching vertex with more than two leaves will generate multiple $4$-cliques of which one can be chosen by arbitrarily selecting any two leaves.
 
-Consider vertices $s_1,s_2,u,v\in V$ such that $K_4 = \{s_1,s_2,u,v\}$ induces a $4$-clique in $G$ and for each leaf $s_1, s_2$ of $u$
-their neighbourhoods are equivalent and give the common neighbourhood $N_L = N_G(s_1)\setminus K_4 =N_G(s_2) \setminus K_4$. If
+Consider vertices $s_1,s_2,u,v\in V$ such that $K_4 = \{s_1,s_2,u,v\}$ induces a $4$-clique in $G$ and for each leaf $s_1, s_2$ of $u$ their neighbourhoods are equivalent and give the common neighbourhood $N_L = N_G(s_1)\setminus K_4 =N_G(s_2) \setminus K_4$. If
 \begin{equation} \label{eq::tetrahedron_neighbourhood_assignment}
 \big( N_G(s_1)\setminus K_4 \big)
 =
@@ -654,27 +631,16 @@ N_G(w) \subseteq K_4 \cup N_L \qquad \forall w\in N_L,
 \end{equation}
 then $u$ is designated as the internal vertex, $v$ as the external vertex, and $s_1,s_2$ as the leaf vertices of the tetrahedron.
 
+Under Equations~\eqref{eq::tetrahedron_neighbourhood_assignment} and~\eqref{eq::tetrahedron_leaf_class}, the vertices $s_1$ and $s_2$ correspond to leaves adjacent to a common internal vertex $u$, whilst $v$ acts as the connecting vertex between $u$ and the remainder of the graph. The vertices with identical minimal neighbourhood structure correspond to leaves adjacent to a common internal vertex $u$, whilst the vertex $v$, having maximal neighbourhood containment, acts as the connecting vertex between $u$ and the remainder of the graph.
 
-Under Equations~\eqref{eq::tetrahedron_neighbourhood_assignment} and~\eqref{eq::tetrahedron_leaf_class}, the vertices $s_1$ and $s_2$ 
-correspond to leaves adjacent to a common internal vertex $u$, whilst $v$ acts as the connecting vertex between $u$ and the remainder
- of the graph. The vertices with identical minimal neighbourhood structure correspond to leaves adjacent to a common 
-internal vertex $u$, whilst the vertex $v$, having maximal neighbourhood containment, acts as the connecting vertex between $u$ and the 
-remainder of the graph.
-
-For $n=4$, the vertex $u$ is a binary branching vertex contained in a unique $4$-clique. In particular, when $n=5$, the branching vertex $u$ 
-has three leaf children $s_1,s_2,s_3$, producing $\displaystyle {3 \choose 2} =3$ distinct $4$-cliques
+For $n=4$, the vertex $u$ is a binary branching vertex contained in a unique $4$-clique. In particular, when $n=5$, the branching vertex $u$ has three leaf children $s_1,s_2,s_3$, producing $\displaystyle {3 \choose 2} =3$ distinct $4$-cliques
 \[
 \{s_1,s_2,u,v\},\quad
 \{s_1,s_3,u,v\},\quad
 \{s_2,s_3,u,v\}.
 \]
 
-More generally, suppose $u$ has $k$ leaf children $s_1,\dots,s_k$, and that these vertices together with $v$ induce a $(k+2)$-clique. 
-Then every pair of leaves $(s_i,s_j)$ determines a distinct $4$-clique $\{s_i,s_j,u,v\}$ where the total number of such $4$-cliques generated 
-by this branching configuration is $ \displaystyle {k \choose 2}$. Suppose that $s_1,s_2$ are chosen without loss of generality, then 
-if the $4$-clique satisfies 
-Equation~\eqref{eq::tetrahedron_neighbourhood_assignment} and Equation~\eqref{eq::tetrahedron_leaf_class} can deterministically assign 
-values to the edges using  
+More generally, suppose $u$ has $k$ leaf children $s_1,\dots,s_k$, and that these vertices together with $v$ induce a $(k+2)$-clique. Then every pair of leaves $(s_i,s_j)$ determines a distinct $4$-clique $\{s_i,s_j,u,v\}$ where the total number of such $4$-cliques generated by this branching configuration is $ \displaystyle {k \choose 2}$. Suppose that $s_1,s_2$ are chosen without loss of generality, then if the $4$-clique satisfies Equation~\eqref{eq::tetrahedron_neighbourhood_assignment} and Equation~\eqref{eq::tetrahedron_leaf_class} can deterministically assign values to the edges using  
 \begin{equation} \label{eq:tetrahedron_fix}
 x_{s_1u}=x_{us_1} = x_{s_2u}=x_{us_2} = x_{uv}=x_{vu} = 1. 
 \end{equation}
@@ -689,88 +655,53 @@ x_{s_1u}=x_{us_1} = x_{s_2u}=x_{us_2} = x_{uv}=x_{vu} = 1.
   That is, $N_G(u)\cup\{u\}$ and $N_G(v)\cup\{v\}$ induce the same clique structure in $G$.
 \end{lemma}
 \begin{proof}
-  Let $x \in N_G(v)\setminus\{s_1,s_2\}$ be a vertex adjacent to $v$ in $G$ such that there exists a path of length
-  at most two between $x$ and $v$ in $H$. If $x$ is adjacent to either $s_1$ or $s_2$, then by the assumption
+  Let $x \in N_G(v)\setminus\{s_1,s_2\}$ be a vertex adjacent to $v$ in $G$ such that there exists a path of length at most two between $x$ and $v$ in $H$. If $x$ is adjacent to either $s_1$ or $s_2$, then by the assumption
   \[
   N_G(s_1)\setminus\{s_1,s_2,u,v\}
   =
   N_G(s_2)\setminus\{s_1,s_2,u,v\},
   \]
-  where the vertices $s_1$ and $s_2$ contribute identically outside the
-  clique. Hence any external connection from the clique through $v$
-  must also be realised through the same local structure containing
-  $u$. Consequently $x$ is also at distance at most two from $u$ in
-  $H$, and therefore
+  where the vertices $s_1$ and $s_2$ contribute identically outside the clique. Hence any external connection from the clique through $v$ must also be realised through the same local structure containing $u$. Consequently $x$ is also at distance at most two from $u$ in $H$, and therefore
   \[
   x\in N_G(u)\setminus\{s_1,s_2\},
   \]
-  which implies that $
-  N_G(v)\setminus\{s_1,s_2\}
-  \subseteq
-  N_G(u)\setminus\{s_1,s_2\}$. By symmetry, interchanging the roles of $u$ and $v$ gives
+  which implies that $N_G(v)\setminus\{s_1,s_2\} \subseteq N_G(u)\setminus\{s_1,s_2\}$. By symmetry, interchanging the roles of $u$ and $v$ gives
   \[
-  N_G(u)\setminus\{s_1,s_2\}
-  \subseteq
-  N_G(v)\setminus\{s_1,s_2\}.
+  N_G(u)\setminus\{s_1,s_2\} \subseteq N_G(v)\setminus\{s_1,s_2\} 
   \]
-  Hence
-  \[
-  N_G(u)\setminus\{s_1,s_2\}
-  =
-  N_G(v)\setminus\{s_1,s_2\}.
-  \]
-
-  Therefore the vertices adjacent to $u$ and $v$ outside of
-  $\{s_1,s_2\}$ have identical adjacency structure in $G$, and so
-  $N_G(u)\cup\{u\}$ and $N_G(v)\cup\{v\}$ induce the same clique
-  structure in $G$.
+  and hence  $N_G(u)\setminus\{s_1,s_2\} = N_G(v)\setminus\{s_1,s_2\}$. Therefore the vertices adjacent to $u$ and $v$ outside of $\{s_1,s_2\}$ have identical adjacency structure in $G$, and so $N_G(u)\cup\{u\}$ and $N_G(v)\cup\{v\}$ induce the same clique structure in $G$.
 \end{proof}
 
 \begin{proposition} \label{prop::textrahedron_decomposition_equality}
-  Let $s_1,s_2,u,v$ form a $4$-clique in square $G$. If $\deg_G(u)=\deg_G(v)=d\geq3$, then one can 
-  choose to assign $x_{s_1u}=x_{x_2u}=x_{uv}=1$ in the tree root $H$ without loss of generality.
+  Let $s_1,s_2,u,v$ form a $4$-clique in square $G$. If $\deg_G(u)=\deg_G(v)=d\geq3$, then one can choose to assign $x_{s_1u}=x_{x_2u}=x_{uv}=1$ in the tree root $H$ without loss of generality.
 \end{proposition}
 \begin{proof}
   
 \end{proof}
 
 \begin{proposition} \label{prop::tetrahedron_fixing}
-  Let $H$ be a tree and let $u$ be an internal vertex with leaf children $s_1,\dots,s_k$ and parent $v$. Fixing any two leaves together 
-  with their internal vertex and parent uniquely determines the remaining leaf children of $u$ in the linear program.
+  Let $H$ be a tree and let $u$ be an internal vertex with leaf children $s_1,\dots,s_k$ and parent $v$. Fixing any two leaves together with their internal vertex and parent uniquely determines the remaining leaf children of $u$ in the linear program.
 \end{proposition}
 \begin{proof}
-  Since any tree may be rooted at an arbitrary vertex, assume without loss of generality that $H$ is rooted. 
-  Let $s_1,\dots,s_k$ be leaf children adjacent to an internal vertex $u$, and let $v$ be the parent of $u$. Consider any pair
-  of leaves $s_i,s_j$, and suppose the internal branching vertex $u$ together with its parent $v$ have been fixed in the linear program.
-  Now consider any remaining leaf $s_\ell$ adjacent to $u$. Since $s_\ell$ is a leaf in the root, its only neighbour in the tree is
-  $u$. Furthermore, all leaf children of $u$ have identical neighbourhood structure in the square graph outside of $\{u,v,s_i,s_j\}$.
+  Since any tree may be rooted at an arbitrary vertex, assume without loss of generality that $H$ is rooted. Let $s_1,\dots,s_k$ be leaf children adjacent to an internal vertex $u$, and let $v$ be the parent of $u$. Consider any pair of leaves $s_i,s_j$, and suppose the internal branching vertex $u$ together with its parent $v$ have been fixed in the linear program. Now consider any remaining leaf $s_\ell$ adjacent to $u$. Since $s_\ell$ is a leaf in the root, its only neighbour in the tree is $u$. Furthermore, all leaf children of $u$ have identical neighbourhood structure in the square graph outside of $\{u,v,s_i,s_j\}$.
 
-  Now consider any remaining leaf $s_\ell$ adjacent to $u$. Since every leaf adjacent to $u$ lies at distance two from $s_\ell$
-  through $u$, and $v$ lies at distance two through the path $s_\ell-u-v$, the neighbourhood of $s_\ell$ in the square graph is
+  Now consider any remaining leaf $s_\ell$ adjacent to $u$. Since every leaf adjacent to $u$ lies at distance two from $s_\ell$ through $u$, and $v$ lies at distance two through the path $s_\ell-u-v$, the neighbourhood of $s_\ell$ in the square graph is
   \[
-  N_G(s_\ell)
-  =
-  \{u,v,s_1,\dots,s_{\ell-1},s_{\ell+1},\dots,s_k\}.
+  N_G(s_\ell) = \{u,v,s_1,\dots,s_{\ell-1},s_{\ell+1},\dots,s_k\}.
   \]
 
-  Suppose for contradiction that $s_\ell$ is assigned to a vertex $w$ with $w\neq u$. Since $s_\ell$ is a leaf in the rooted tree,
-  its neighbourhood in the square graph is determined by the vertices at distance at most two from $w$. Since $w\neq u$, the set of
-  vertices at distance at most two from $s_\ell$ differs from that induced through $u$, giving
+  Suppose for contradiction that $s_\ell$ is assigned to a vertex $w$ with $w\neq u$. Since $s_\ell$ is a leaf in the rooted tree, its neighbourhood in the square graph is determined by the vertices at distance at most two from $w$. Since $w\neq u$, the set of vertices at distance at most two from $s_\ell$ differs from that induced through $u$, giving
   \[
   N_G(s_\ell)
   \neq
   \{u,v,s_1,\dots,s_{\ell-1},s_{\ell+1},\dots,s_k\}.
   \]
 
-  Hence either additional adjacencies are introduced into the square graph or existing adjacencies are removed and the neighbourhood of 
-  $s_\ell$ in the resulting square graph differs from that of the original graph, contradicting feasibility of the linear program. 
-  Thus the only feasible assignment is for $s_\ell$ to be adjacent to the already identified internal vertex $u$, implying that fixing 
-  any two leaves together with their internal vertex and parent uniquely determines all remaining leaf children adjacent to $u$.
+  Hence either additional adjacencies are introduced into the square graph or existing adjacencies are removed and the neighbourhood of $s_\ell$ in the resulting square graph differs from that of the original graph, contradicting feasibility of the linear program. Thus the only feasible assignment is for $s_\ell$ to be adjacent to the already identified internal vertex $u$, implying that fixing any two leaves together with their internal vertex and parent uniquely determines all remaining leaf children adjacent to $u$.
 \end{proof}
 
 \begin{proposition} \label{prop::tetrahedron_decomposition_feasibility}
-  Let $s_1,s_2,u,v$ form a $4$-clique in square $G$. The linear program with Equation~\eqref{eq::tetrahedron_fix}
-  never returns a infeasible solution for squares with tree roots. 
+  Let $s_1,s_2,u,v$ form a $4$-clique in square $G$. The linear program with Equation~\eqref{eq::tetrahedron_fix} never returns an infeasible solution for squares with tree roots. 
 \end{proposition}
 \begin{proof}
   
@@ -783,34 +714,23 @@ x_{s_1u}=x_{us_1} = x_{s_2u}=x_{us_2} = x_{uv}=x_{vu} = 1.
 
 \subsection{Theorem} \label{sec::tree_theorem}
 
-Combining with the additional conditions that neither $s_1$ nor $s_2$ is already designated as a leaf
-vertex of another fixed structure, and $u$ is not already designated as
-an internal vertex of a triangle, a pendant structure, or another
-tetrahedron.
+Combining with the additional conditions that neither $s_1$ nor $s_2$ is already designated as a leaf vertex of another fixed structure, and $u$ is not already designated as an internal vertex of a triangle, a pendant structure, or another tetrahedron.
 
 \begin{lemma} \label{lemma::tree_pendant_leaf_clique}
   Every tree contains either a \hyperref[def::pendant]{pendant} or a \hyperref[def::leaf_clique]{leaf clique} subgraph.
 \end{lemma}
 \begin{proof} 
-  Let $T$ be a finite tree with $|V(T)|\ge 3$, and root $T$ at an arbitrary vertex. Since $T$ is finite, there exists a leaf $s$ of 
-  maximal depth where its parent is $u$. Every child of $u$ is a leaf, since if there was some child $w$ of $u$ that is not a leaf, 
-  then $w$ would have a child and hence there would exist a vertex at depth strictly greater than that of $s$, contradicting the 
-  choice of $s$.
+  Let $T$ be a finite tree with $|V(T)|\ge 3$, and root $T$ at an arbitrary vertex. Since $T$ is finite, there exists a leaf $s$ of maximal depth where its parent is $u$. Every child of $u$ is a leaf, since if there was some child $w$ of $u$ that is not a leaf, then $w$ would have a child and hence there would exist a vertex at depth strictly greater than that of $s$, contradicting the choice of $s$.
 
   If $u$ is not the root, let $v$ denote its parent such that every neighbour of $u$ other than $v$ is a leaf.
 
-  If $u$ has exactly one leaf neighbour $s$ besides $v$ (when $u$ is not
-  the root), then $u$ has exactly two neighbours, namely $s$ and $v$,
-  hence $\deg_T(u)=2$. Therefore the induced subgraph on
+  If $u$ has exactly one leaf neighbour $s$ besides $v$ (when $u$ is not the root), then $u$ has exactly two neighbours, namely $s$ and $v$, hence $\deg_T(u)=2$. Therefore the induced subgraph on
   \[
   \{s,u,v\}
   \]
   forms a pendant subgraph.
 
-  Otherwise $u$ has at least two leaf neighbours $s_1,s_2$. Choose
-  another neighbour $v$ of $u$ distinct from $s_1,s_2$; if $u$ is not the
-  root, take its parent, while if $u$ is the root choose any remaining
-  neighbour. Then
+  Otherwise $u$ has at least two leaf neighbours $s_1,s_2$. Choose another neighbour $v$ of $u$ distinct from $s_1,s_2$; if $u$ is not the root, take its parent, while if $u$ is the root choose any remaining neighbour. Then
   \[
   \{s_1,s_2,v\}\subseteq N(u),
   \]
@@ -821,58 +741,31 @@ tetrahedron.
   forms a leaf clique subgraph.
 \end{proof}
 \begin{proof}
-  Consider the smallest tree of size $3$ that is unique up to isomorphism, $s-u-v$ which is clearly a pendant. In order to form 
-  a tree without a pendant or a leaf-clique, a vertex $a$ must be added. However, without loss of generality adding $a$ to the leaf 
-  $v$ forms a new pendant $\{a,v,u\}$ whilst adding $a$ to the internal vertex $u$ forms a  $\{\}$ 
+  Consider the smallest tree of size $3$ that is unique up to isomorphism, $s-u-v$ which is clearly a pendant. In order to form a tree without a pendant or a leaf-clique, a vertex $a$ must be added. However, without loss of generality adding $a$ to the leaf $v$ forms a new pendant $\{a,v,u\}$ whilst adding $a$ to the internal vertex $u$ forms a $\{\}$ 
 \end{proof}
 
 
 
 \begin{theorem} \label{theorem::single_triangular_decomposition+tetrahedron_decomposition}
-  If a square graph $G$ has a root $H$ that is a tree, then the single triangular decomposition and tetrahedron decomposition 
-  linear program together return an integral solution. 
+  If a square graph $G$ has a root $H$ that is a tree, then the single triangular decomposition and tetrahedron decomposition linear program together return an integral solution. 
 \end{theorem} 
 \begin{proof} % Need to rewrite proof in terms of $G$ rather than $H$ 
-  Assume for contradiction that there exists a square graph $G$ with a tree root $H$ such that the linear 
-  program has an optimal, maximal solution $x^*$ that is fractional. Then there exists at least one edge 
-  $ij \in E_G$ such that $0 < x^*_{ij} < 1 $. Consider the root solution $x^*$ and the following cases. 
+  Assume for contradiction that there exists a square graph $G$ with a tree root $H$ such that the linear program has an optimal, maximal solution $x^*$ that is fractional. Then there exists at least one edge $ij \in E_G$ such that $0 < x^*_{ij} < 1 $. Consider the root solution $x^*$ and the following cases. 
 
-  Let $i$ be a leaf, $j$ be its neighbour with degree $2$ and let $k \neq i$ be the other neighbour of $j$. Let 
-  $ij$ be the fractional edge along the path $i - j - k$ which meets the rest of the graph only at $k$. In $G$, $ijk$ 
-  form a clique in $G$ which by construction is also the only triangle that $i$ can be in. As the linear program applies 
-  \eqref{eq::single_triangle_fix}, $ij$ pendant edge will be fixed and hence cannot be integral, hence this case 
-  cannot occur. 
+  Let $i$ be a leaf, $j$ be its neighbour with degree $2$ and let $k \neq i$ be the other neighbour of $j$. Let $ij$ be the fractional edge along the path $i - j - k$ which meets the rest of the graph only at $k$. In $G$, $ijk$ form a clique in $G$ which by construction is also the only triangle that $i$ can be in. As the linear program applies Equation~\eqref{eq::single_triangle_fix}, $ij$ pendant edge will be fixed and hence cannot be integral, hence this case cannot occur. 
 
-  Let $i$ be a leaf, $j$ be its neighbour with degree $\geq 2$ and let $k \neq i$ be another leaf of $j$. Let 
-  $j$ meet the rest of the graph. Then $ijk$ form a clique and solution $x^*$ can be extended by simply adding an 
-  additional edge $ik$ to form a root of larger size. This contradicts the maximality of $x^*$. 
+  Let $i$ be a leaf, $j$ be its neighbour with degree $\geq 2$ and let $k \neq i$ be another leaf of $j$. Let $j$ meet the rest of the graph. Then $ijk$ form a clique and solution $x^*$ can be extended by simply adding an additional edge $ik$ to form a root of larger size. This contradicts the maximality of $x^*$. 
 
-  The remaining case is where both $i$ and $j$ are internal vertices. Denote the subgraph of $x^*$ from $i$
-  as $H_i$ and the subgraph from $j$ as $H_j$. Since $x^*$ must be a tree, there are no cycles in $H$ and hence
-  $H_i$ and $H_j$ are disjoint with only one fractional bridge $ij$ connecting them. Consider $H_i, H_j$ and recursively
-  apply the above logic such that we are eventually left with at least two subgraphs $H_0, H_1$ that do not have 
-  fractional bridges and are comprised completely of pendant vertices and leafs. From above two cases, all edges 
-  in the roots of $H_0, H_1$ are integral, and since the situation where a vertex has multiple leaves can not occur (
-  there must be pendant 2-leaves together with leaves else would have above case), this completely categorizes the position 
-  of the node which connects to the rest of the graph such that there are no other automorisphsm which form the same square. 
-  As this holds for both $H_0$ and $H_1$, the endpoints of the bridge between them can be completely identified such that 
-  their bridge will be made integral. Applying this inductively thus means that $H_i$ and $H_j$ are completely integral 
-  such that $i$ and $j$ are identified and $ij$ is made integral. This contradicts the fractional nature of $x^*_{ij}$. 
+  The remaining case is where both $i$ and $j$ are internal vertices. Denote the subgraph of $x^*$ from $i$ as $H_i$ and the subgraph from $j$ as $H_j$. Since $x^*$ must be a tree, there are no cycles in $H$ and hence $H_i$ and $H_j$ are disjoint with only one fractional bridge $ij$ connecting them. Consider $H_i, H_j$ and recursively apply the above logic such that we are eventually left with at least two subgraphs $H_0, H_1$ that do not have fractional bridges and are comprised completely of pendant vertices and leafs. From above two cases, all edges in the roots of $H_0, H_1$ are integral, and since the situation where a vertex has multiple leaves can not occur (there must be pendant 2-leaves together with leaves else would have above case), this completely categorizes the position of the node which connects to the rest of the graph such that there are no other automorisphsm which form the same square. As this holds for both $H_0$ and $H_1$, the endpoints of the bridge between them can be completely identified such that their bridge will be made integral. Applying this inductively thus means that $H_i$ and $H_j$ are completely integral such that $i$ and $j$ are identified and $ij$ is made integral. This contradicts the fractional nature of $x^*_{ij}$. 
 
-  Since no fractional, solution exists, the optimal, maximal output of the linear program must be completely integral 
-  if it results in a tree root. 
+  Since no fractional, solution exists, the optimal, maximal output of the linear program must be completely integral if it results in a tree root. 
 \end{proof}
 
 \section{Edge Enforcement} \label{sec::edge_enforcement}
 
-Lemma~\ref{lemma::two_edges_integer_sum} and its linear relaxation equivalent Lemma~\ref{lemma::two_edges_linear_sum} give extremely 
-strong structure into how the linear program operates. Using the maximization objective function Lemma~\ref{lemma::two_edges_linear_sum},
-any two edges $ij$, $jk$ which exist in $G$ but $ki$, can be assigned the weights $a$, $b$ respectively where $x_{ij} = a$, $x_{jk} = b$ 
-and $a + b = 1$. 
+Lemma~\ref{lemma::two_edges_integer_sum} and its linear relaxation equivalent Lemma~\ref{lemma::two_edges_linear_sum} give extremely strong structure into how the linear program operates. Using the maximization objective function Lemma~\ref{lemma::two_edges_linear_sum}, any two edges $ij$, $jk$ which exist in $G$ but $ki$, can be assigned the weights $a$, $b$ respectively where $x_{ij} = a$, $x_{jk} = b$ and $a + b = 1$. 
 
-This relationship $b = 1-a$ therefore gives a methodology for tackling scenarios where the maximal fractional objective function is
-greater than the optimal integer objective function corresponding to a valid square root. By continuously iterating Lemma~\ref{lemma::two_edges_linear_sum}
-can eventually categorize and formulate equations for many of the weights on the various edges. 
+This relationship $b = 1-a$ therefore gives a methodology for tackling scenarios where the maximal fractional objective function is greater than the optimal integer objective function corresponding to a valid square root. By continuously iterating Lemma~\ref{lemma::two_edges_linear_sum} can eventually categorize and formulate equations for many of the weights on the various edges. 
 
 Consider this square graph on $6$ vertices with three different roots  
 \begin{figure}[ht]
