@@ -440,7 +440,11 @@ x_{ik}+x_{kj}=1.
           \[
           0 = \sum_{k\in\{a,b,c\}}y_{ckc}' -\sum_{k\in\{a,b,c\}}x_{ck}' = y_{cac}' + y_{cbc}' - x_{ca}' - x_{cb}'.
           \]
-          Since $x_{cb}'=x_{bc}$ and $x_{ca}' = x_{ca}$, this equation is unchanged. Hence the original values of $y_{cac}'=y_{cac}$ and $y_{cbc}'=y_{cbc}$ remain feasible and no additional constraints are needed. 
+          Since $x_{cb}'=x_{bc}$ and $x_{ca}' = x_{ca}$ by Equation~\eqref{eq::max_LP_symmetry_x}, it follows that 
+          \begin{equation} \label{eq::y_cac_cbc}
+            y_{cac}' + y_{cbc}'= x_{ac}'+x_{bc}' 
+          \end{equation}
+          is an additional constraint that is needed.
       \end{enumerate}
     \item Equation~\eqref{eq::max_LP_indicator_arg}
       \begin{enumerate}[label=(\roman*)]
@@ -460,44 +464,101 @@ x_{ik}+x_{kj}=1.
           \]
           since Equations~\eqref{eq::max_LP_product_upper_first}--\eqref{eq::max_LP_product_upper_second} together with Equation~\eqref{eq::max_LP_diagonal_x} imply $y_{aac}'=y_{acc}'=0$. As $x_{ac}'=x_{ac}$, $y_{abc}' = y_{abc}$ satisfies the new equation, no additional constraints are needed. 
       \end{enumerate}
-    \item Equations~\eqref{eq::max_LP_product_upper_first}--\eqref{eq::max_LP_product_lower}. Consider any product variable $y_{uvw}$ for which neither $x_{uv}$ nor $x_{vw}$ equals $x_{ab}$. Since these $x$-variables are unchanged, Equations~\eqref{eq::max_LP_product_upper_first}--\eqref{eq::max_LP_product_lower} remain unchanged and are therefore still satisfied. Therefore only need to consider the product variables whose constraints involve $x_{ab}'$
-    \[
-    y_{aba}',y_{abc}',y_{cab}',y_{bab}',y_{acb}',y_{bac}'. 
-    \]
-    Only three cases need to be examined $y_{aba}',y_{abc}',y_{cab}'$. However the previous equations give the constraints Equation~\eqref{eq::y_aba_aca} and Equation~\eqref{eq::y_bcb_bab} hence also need to consider $y_{aca}'$, $y_{bab}'$ and $y_{bcb}'$. 
-      \begin{enumerate}[label=(\roman*)]
-        \item Consider $y_{aba}'$ and $y_{aca}'$. By Equation~\eqref{eq::y_aba_aca}, $y_{aba}'+y_{aca}'=x_{ab}'+x_{ac}'$ which is satisfied by the selection
-          \[
-          y_{aba}'=x_{ab}',\quad y_{aca}'=x_{ac}'. 
-          \] 
-          Equation~\eqref{eq::max_LP_symmetry_x} and Equation~\eqref{eq::max_LP_x_upper_bound} giving $x_{ab}' \leq 1$, $x_{ac}' \leq 1$ gives
-          \[
-          y_{aba}'=x_{ab}' \leq x_{ba}',\quad y_{aba}'=x_{ab}'\leq x_{ab}', \quad y_{aba}'=x_{ab}' \geq x_{ab}'+x_{ba}'-1
-          \]
-          \[
-          y_{aca}'=x_{ac}' \leq x_{ac},\quad y_{aca}'=x_{ac}' \leq x_{ac}', \quad y_{aca}'=x_{ac}' \geq x_{ac}'+x_{ca}'-1
-          \]
-          Hence Equations~\eqref{eq::max_LP_product_upper_first}--\eqref{eq::max_LP_product_lower} are satisfied.
-        \item Consider $y_{bab}'$ and $y_{bcb}'$. By Equation~\eqref{eq::y_bab_bcb}, $y_{bab}'+y_{bcb}'=x_{ab}'+x_{bc}'$ which is satisfied by the selection
-          \[
-          y_{bab}'=x_{ab}',\quad y_{bcb}'=x_{bc}'. 
-          \] 
-          Equation~\eqref{eq::max_LP_symmetry_x} and Equation~\eqref{eq::max_LP_x_upper_bound} giving $x_{ab}' \leq 1$, $x_{bc}' \leq 1$ gives
-          \[
-          y_{bab}'=x_{ab}' \leq x_{ba}',\quad y_{bab}'=x_{ab}'\leq x_{ab}', \quad y_{bab}'=x_{ab}' \geq x_{ba}'+x_{ab}'-1
-          \]
-          \[
-          y_{bcb}'=x_{bc}' \leq x_{bc},\quad y_{bcb}'=x_{bc}' \leq x_{cb}', \quad y_{bcb}'=x_{bc}' \geq x_{bc}'+x_{cb}'-1
-          \]
-          Hence Equations~\eqref{eq::max_LP_product_upper_first}--\eqref{eq::max_LP_product_lower} are satisfied.
-        \item Consider $y_{abc}'$. Since $x_{ab}'=1$, Equations~\eqref{eq::max_LP_product_upper_first}--\eqref{eq::max_LP_product_lower} give
-          \[
-          y_{abc}'\ge x_{ab}'+x_{bc}'-1 = x_{bc}', \quad  y_{abc}' \leq x_{ab}', \quad  y_{abc}' \leq x_{bc}'.
-          \]
-          If $x_{bc}' < 1$, then $y_{abc}' = x_{bc}'$ satisfies all constraints and if $x_{bc}'=1$ then $y_{abc}' = 1$ satisfies all constraints.  
-        \item Consider $y_{acb}'$. Since neither $x_{ac}'$ nor $x_{cb}'$ has been modified, all three product constraints are unchanged and therefore remain
-        satisfied.
-      \end{enumerate}  
+    % \item Equations~\eqref{eq::max_LP_product_upper_first}--\eqref{eq::max_LP_product_lower}. Consider any product variable $y_{uvw}$ for which neither $x_{uv}$ nor $x_{vw}$ equals $x_{ab}$. Since these $x$-variables are unchanged, Equations~\eqref{eq::max_LP_product_upper_first}--\eqref{eq::max_LP_product_lower} remain unchanged and are therefore still satisfied. Therefore only need to consider the product variables whose constraints involve $x_{ab}'$
+    % \[
+    % y_{aba}',y_{abc}',y_{cab}',y_{bab}',y_{acb}',y_{bac}'. 
+    % \]
+    % Only three cases need to be examined $y_{aba}',y_{abc}',y_{cab}'$. However the previous equations give the constraints Equation~\eqref{eq::y_aba_aca} and Equation~\eqref{eq::y_bcb_bab} hence also need to consider $y_{aca}'$, $y_{bab}'$ and $y_{bcb}'$. 
+    %   \begin{enumerate}[label=(\roman*)]
+    %     \item Consider $y_{aba}'$ and $y_{aca}'$. By Equation~\eqref{eq::y_aba_aca}, $y_{aba}'+y_{aca}'=x_{ab}'+x_{ac}'$ which is satisfied by the selection
+    %       \[
+    %       y_{aba}'=x_{ab}',\quad y_{aca}'=x_{ac}'. 
+    %       \] 
+    %       Equation~\eqref{eq::max_LP_symmetry_x} and Equation~\eqref{eq::max_LP_x_upper_bound} giving $x_{ab}' \leq 1$, $x_{ac}' \leq 1$ gives
+    %       \[
+    %       y_{aba}'=x_{ab}' \leq x_{ba}',\quad y_{aba}'=x_{ab}'\leq x_{ab}', \quad y_{aba}'=x_{ab}' \geq x_{ab}'+x_{ba}'-1
+    %       \]
+    %       \[
+    %       y_{aca}'=x_{ac}' \leq x_{ac},\quad y_{aca}'=x_{ac}' \leq x_{ac}', \quad y_{aca}'=x_{ac}' \geq x_{ac}'+x_{ca}'-1
+    %       \]
+    %       Hence Equations~\eqref{eq::max_LP_product_upper_first}--\eqref{eq::max_LP_product_lower} are satisfied.
+    %     \item Consider $y_{bab}'$ and $y_{bcb}'$. By Equation~\eqref{eq::y_bab_bcb}, $y_{bab}'+y_{bcb}'=x_{ab}'+x_{bc}'$ which is satisfied by the selection
+    %       \[
+    %       y_{bab}'=x_{ab}',\quad y_{bcb}'=x_{bc}'. 
+    %       \] 
+    %       Equation~\eqref{eq::max_LP_symmetry_x} and Equation~\eqref{eq::max_LP_x_upper_bound} giving $x_{ab}' \leq 1$, $x_{bc}' \leq 1$ gives
+    %       \[
+    %       y_{bab}'=x_{ab}' \leq x_{ba}',\quad y_{bab}'=x_{ab}'\leq x_{ab}', \quad y_{bab}'=x_{ab}' \geq x_{ba}'+x_{ab}'-1
+    %       \]
+    %       \[
+    %       y_{bcb}'=x_{bc}' \leq x_{bc},\quad y_{bcb}'=x_{bc}' \leq x_{cb}', \quad y_{bcb}'=x_{bc}' \geq x_{bc}'+x_{cb}'-1
+    %       \]
+    %       Hence Equations~\eqref{eq::max_LP_product_upper_first}--\eqref{eq::max_LP_product_lower} are satisfied.
+    %     \item Consider $y_{abc}'$. Since $x_{ab}'=1$, Equations~\eqref{eq::max_LP_product_upper_first}--\eqref{eq::max_LP_product_lower} give
+    %       \[
+    %       y_{abc}'\ge x_{ab}'+x_{bc}'-1 = x_{bc}', \quad  y_{abc}' \leq x_{ab}', \quad  y_{abc}' \leq x_{bc}'.
+    %       \]
+    %       If $x_{bc}' < 1$, then $y_{abc}' = x_{bc}'$ satisfies all constraints and if $x_{bc}'=1$ then $y_{abc}' = 1$ satisfies all constraints.  
+    %     \item Consider $y_{acb}'$. Since neither $x_{ac}'$ nor $x_{cb}'$ has been modified, all three product constraints are unchanged and therefore remain satisfied.
+    \item Equations~\eqref{eq::max_LP_product_upper_first}--\eqref{eq::max_LP_product_lower}.
+      Only the product variables involving the modified edge variable
+      $x_{ab}'$ require verification. These are
+      \[
+      y_{aba}',\;
+      y_{abc}',\;
+      y_{cab}',\;
+      y_{bab}',\;
+      y_{acb}',\;
+      y_{bac}'.
+      \]
+      The remaining product variables satisfy exactly the same constraints as
+      before and therefore remain feasible.
+
+      The equations obtained in Parts~A(i)--A(iii),
+      \eqref{eq::y_aba_aca},
+      \eqref{eq::y_bcb_bab},
+      and
+      \eqref{eq::y_cac_cbc},
+      must also be satisfied. A feasible choice is
+      \[
+      \begin{aligned}
+      y_{aba}'&=1, &
+      y_{aca}'&=x_{ac}',\\
+      y_{bab}'&=1, &
+      y_{bcb}'&=x_{bc}',\\
+      y_{cac}'&=x_{ac}', &
+      y_{cbc}'&=x_{bc}'.
+      \end{aligned}
+      \]
+
+      These satisfy the three linear equations immediately.
+
+      It therefore remains only to verify
+      $y_{abc}',y_{cab}',y_{acb}'$ and $y_{bac}'$.
+
+      For $y_{abc}'$, since $x_{ab}'=1$, the product constraints reduce to
+      \[
+      x_{bc}'
+      \le
+      y_{abc}'
+      \le
+      x_{bc}',
+      \]
+      so necessarily
+      \[
+      y_{abc}'=x_{bc}'.
+      \]
+
+      Similarly,
+      \[
+      y_{bac}'=x_{bc}',
+      \qquad
+      y_{cab}'=x_{ac}',
+      \qquad
+      y_{acb}'=x_{ac}'.
+      \]
+
+      Hence every product constraint is satisfied.
   \end{enumerate}
   Therefore $(x',y',z')$ can be constructed as 
   \begin{align*}
