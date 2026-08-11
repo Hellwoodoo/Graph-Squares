@@ -510,12 +510,7 @@ x_{ik}+x_{kj}=1.
       Only the product variables involving the modified edge variable
       $x_{ab}'$ require verification. These are
       \[
-      y_{aba}',\;
-      y_{abc}',\;
-      y_{cab}',\;
-      y_{bab}',\;
-      y_{acb}',\;
-      y_{bac}'.
+      y_{aba}', y_{abc}', y_{cab}', y_{bab}', y_{acb}', y_{bac}'. 
       \]
       The remaining product variables satisfy exactly the same constraints as
       before and therefore remain feasible.
@@ -598,14 +593,13 @@ x_{ik}+x_{kj}=1.
 
 \begin{theorem} \label{theorem::two_edges_linear_maximization}
   Let $x$ be an optimal solution to the linear relaxation defined by Equations~\eqref{eq::max_LP_x_variable}--\eqref{eq::max_objective_funtion}.
-  If $g_{ij}=0$, then for every $k\in\{1,\dots,n\}$,
+  If $g_{ij}=0$, then for every $i,j,k\in\{1,\dots,n\}$,
   \[
-  x_{ik}+x_{kj}=1.
+  x_{ik}+x_{kj} = 1. 
   \]
 \end{theorem}
 \begin{proof}
-  Using Lemma~\ref{lemma::two_edges_linear_sum} $x_{ik} + x_{kj} \leq 1$ and using Proposition~\ref{prop::extended_two_edges_augmentation} $x_{ik} + x_{kj} \geq 1$
-  such that $x_{ik}+x_{kj}=1$ as required. 
+  
 \end{proof}
 
 
