@@ -1,0 +1,29 @@
+% !TeX root = Thesis.tex
+
+\begin{lemma} \label{lemma::tree_pendant_leaf_clique}
+  Every tree contains either a \hyperref[def::pendant]{pendant} or a \hyperref[def::leaf_clique]{leaf clique} subgraph.
+\end{lemma}
+\begin{proof} 
+  Let $T$ be a finite tree with $|V(T)|\ge 3$, and root $T$ at an arbitrary vertex. Since $T$ is finite, there exists a leaf $s$ of maximal depth where its parent is $u$. Every child of $u$ is a leaf, since if there was some child $w$ of $u$ that is not a leaf, then $w$ would have a child and hence there would exist a vertex at depth strictly greater than that of $s$, contradicting the choice of $s$.
+
+  If $u$ is not the root, let $v$ denote its parent such that every neighbour of $u$ other than $v$ is a leaf.
+
+  If $u$ has exactly one leaf neighbour $s$ besides $v$ (when $u$ is not the root), then $u$ has exactly two neighbours, namely $s$ and $v$, hence $\deg_T(u)=2$. Therefore the induced subgraph on
+  \[
+  \{s,u,v\}
+  \]
+  forms a pendant subgraph.
+
+  Otherwise $u$ has at least two leaf neighbours $s_1,s_2$. Choose another neighbour $v$ of $u$ distinct from $s_1,s_2$; if $u$ is not the root, take its parent, while if $u$ is the root choose any remaining neighbour. Then
+  \[
+  \{s_1,s_2,v\}\subseteq N(u),
+  \]
+  and $\deg_T(u)\ge3$. Hence the induced subgraph on
+  \[
+  \{s_1,s_2,u,v\}
+  \]
+  forms a leaf clique subgraph.
+\end{proof}
+\begin{proof}
+  Consider the smallest tree of size $3$ that is unique up to isomorphism, $s-u-v$ which is clearly a pendant. In order to form a tree without a pendant or a leaf-clique, a vertex $a$ must be added. However, without loss of generality adding $a$ to the leaf $v$ forms a new pendant $\{a,v,u\}$ whilst adding $a$ to the internal vertex $u$ forms a $\{\}$ 
+\end{proof}

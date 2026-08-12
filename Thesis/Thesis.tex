@@ -393,18 +393,17 @@ Let known constants $g_{ij} \in \{0, 1\}$ come from the adjacency matrix of the 
 
 \subsection{Validity} \label{subsec::integer_program_validity}
 
-\include{subfiles/IntegerProgramValidity}
-
-\subsection{Background}
-
+\input{subfiles/IntegerProgramValidityProof.tex}
 
 \section{Linear Program Relaxation}
 
-\subsection{Linear Program Formulation}
+\subsection{Formulation}
 
 \input{subfiles/LinearProgramFormulation.tex}
 
-\subsection{Maximum Linear Program Formulation}
+\section{Max Linear Program}
+
+\subsection{Formulation}
 
 \input{subfiles/MaxLinearProgramFormulation.tex}
 
@@ -414,16 +413,36 @@ Let known constants $g_{ij} \in \{0, 1\}$ come from the adjacency matrix of the 
 
 \section{Single Triangular Decomposition}
 
-\subsection{Single Triangular Decomposition Formulation}
+\subsection{Formulation}
 
 \input{subfiles/MaxSTDFormulation.tex}
 
-\subsection{Tetrahedron Decomposition Formulation}
+\subsection{Validity}
+
+\input{subfiles/STDProof.tex}
+
+\subsection{Tetrahedron Decomposition}
+
+\subsection{Formulation}
 
 \input{subfiles/MaxTDFormulation.tex}
 
+\subsection{Validity}
+
+\input{subfiles/TDProof.tex}
+
 \newpage
 
+
+
+\chapter{Symbolic Groups} \label{chap::symbolic_groups}
+
+
+
+
+\appendix
+
+\input{subfiles/Results.tex}
 
 
 

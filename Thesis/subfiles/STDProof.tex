@@ -1,0 +1,41 @@
+% !TeX root = Thesis.tex
+
+\begin{lemma} \label{lemma::single_triangle_equal_neighbourhood}
+  Let $s,u,v$ form a triangle in square $G$ where $s$ only lies in a single clique. If $\deg_G(u)=\deg_G(v)=d\geq 2$, then
+  \[
+  N_G(u)\setminus\{s\}=N_G(v)\setminus\{s\}.
+  \]
+  That is, $N_G(u)\cup\{u\}$ and $N_G(v)\cup\{v\}$ induce the same clique structure in $G$.
+\end{lemma}
+\begin{proof}
+  Since $s$ lies in a single clique in $G$, in any tree root $H$ the vertex $s$ must be a leaf, and exactly one of $u$ or $v$ is the internal vertex adjacent to the remainder of the graph. Assume without loss of generality that $u$ is this internal vertex. Any vertex adjacent to $v$ in $G$ other than $s$ must arise from a path of length at most two through $u$ in $H$, since $v$ has no other connections in the root besides $u$ and $s$. Hence
+  \[
+  N_G(v)\setminus\{s\}\subseteq N_G(u)\setminus\{s\}.
+  \]
+  Since $\deg_G(u)=\deg_G(v)$, both neighbourhoods have equal cardinality $|N_G(v)| = |N_G(u)|$ such that via the equality criterion for finite sets
+  \[
+  N_G(v)\setminus\{s\}
+  =
+  N_G(u)\setminus\{s\}.
+  \]
+  Hence the vertices adjacent to $u$ and $v$ outside of $s$ have identical adjacency structure in $G$, and therefore $N_G(u)\cup\{u\}$ and $N_G(v)\cup\{v\}$ induce the same clique structure.
+\end{proof}
+
+\begin{proposition} \label{prop::single_triangular_decomposition_equality}
+  Let $s,u,v$ form a triangle in square $G$ where $s$ only lies in a single clique. If $\deg_G(u)=\deg_G(v)=d\geq2$, then one can choose to assign $x_{su}=x_{uv}=1$ in the tree root $H$ without loss of generality.
+\end{proposition}
+\begin{proof}
+  Since $s$ lies in a single clique in $G$, in the root $H$, $s$ must be a leaf with either $u$ or $v$ being the internal vertex adjacent to the remainder of the graph. Assume without loss of generality that $u$ is the internal vertex.
+
+  By Lemma~\ref{lemma::single_triangle_equal_neighbourhood}, $N_G(u)\setminus\{s\}=N_G(v)\setminus\{s\}$, such that $u$ and $v$ induce identical clique structure in $G$. Therefore exchanging the roles of $u$ and $v$ preserves the square graph $G$.Hence choosing $u$ as the internal vertex and assigning
+  \[
+  x_{su}=x_{uv}=1,
+  \]
+  does not alter feasibility, since the alternative choice obtained by exchanging $u$ and $v$ produces an isomorphic tree root with identical square graph.
+\end{proof}
+
+\begin{proposition} \label{prop::single_triangular_decomposition_feasibility}
+  Let $s,u,v$ form a triangle in square $G$ where $s$ only lies in a single clique. The linear program with Equation~\eqref{eq::single_triangle_fix} never returns a infeasible solution for squares with tree roots. 
+\end{proposition}
+\begin{proof}
+\end{proof}
