@@ -1,0 +1,100 @@
+% !TeX root = Thesis.tex
+
+Define the edge set of $H^2$ as 
+\begin{equation} \label{eq::fund_def_square}
+E_{H^2} = \{ uv \mid u \neq v,\; 1 \leq d_H(u,v) \leq 2 \}.
+\end{equation}
+Then for 
+\begin{equation} \label{eq::fund_adj_eq_undirected}
+A_G = \mathbbm{1}_{\geq 1}\big((A_H)^2 - D_H + A_H\big).
+\end{equation}
+\begin{lemma} \label{lemma::G_equal_to_H^2}
+  The graph $G$ defined by \eqref{eq::fund_adj_eq_undirected} is equivalent to the graph square $H^2$ defined in \eqref{eq::fund_def_square} 
+  \begin{equation} \label{eq::fund_def_square_expanded}
+    ij \in E_{H^2} \text{ if and only if } 1 \leq d_H(i,j) \leq 2. 
+  \end{equation}
+\end{lemma}
+\begin{proof} 
+  \noindent
+  For $i \neq j$, since $D_H$ is diagonal, have $(D_H)_{ij} = 0$ and hence
+  \[
+  \big((A_H)^2 - D_H + A_H\big)_{ij} = (A_H)^2_{ij} + (A_H)_{ij}.
+  \]
+
+  Suppose $ij \in E_G$ such that $(A_H)^2_{ij} + (A_H)_{ij} \geq 1$. This implies that at least on of $(A_H)_{ij} = 1$ or $(A_H)^2_{ij} \geq 1$ must be true. If $(A_H)_{ij} = 1$, then $d_H(i,j) = 1$.  If $(A_H)^2_{ij} \geq 1$, then there exists a vertex $k$ such that $ik, kj \in E_H$, and hence $d_H(i,j) \leq 2$. Therefore $1 \leq d_H(i,j) \leq 2$, and thus $ij \in E_{H^2}$.
+
+  Suppose $ij \in E_{H^2}$ such that $1 \leq d_H(i,j) \leq 2$. $D_H$ is diagonal such that $(D_H)_{ij} = 0$. If $d_H(i,j) = 1$, then $(A_H)_{ij} = 1$. If $d_H(i,j) = 2$, then there exists a vertex $k$ such that $ik, kj \in E_H$, and hence $(A_H)^2_{ij} \geq 1$. In either case, $(A_H)^2_{ij} + (A_H)_{ij} \geq 1$, so $(A_G)_{ij} = 1$, and hence $ij \in E_G$.
+
+  For $i = j$, since all graphs are simple, have $(E_{\cdot})_{ii} = 0$, $(A_{\cdot})_{ii} = 0$ and hence
+  \[
+  \big((A_H)^2 - D_H + A_H\big)_{ii} = (A_H)^2_{ii} - (D_H)_{ii}.
+  \]
+  $(A_H)^2_{ii} - (D_H)_{ii} = 0$ is always true since the degree matrix of $H$ always has diagonal values $\displaystyle (D_H)_{ii} = \sum_k x_{ik}$ and each edge from vertex $i$ to its neighbour in $H$ will always create a loop to itself in the square such that $\displaystyle (A_H)^2_{ii} = 
+  \sum_{k = 1} x_{ik}x_{ki} = \sum_{k = 1} x_{ik}^2$ by the symmetry of adjacency matrix $A_H$. Since $x_{ik} \in \{0, 1\}$, the square of the boolean is identical to the boolean $x_ik$ such that $\displaystyle (A_H)^2_{ii} = \sum_k x_{ik} = (D_H)_{ii}$ and $(A_G)_{ii} = \mathbbm{1}_{\geq 1}\big((A_H)^2 - D_H + A_H\big)$ as required. 
+
+  Combining both gives that $E_G = E_{H^2}$, and so $G = H^2$.  
+\end{proof}
+
+\begin{theorem} \label{theorem::IP_gives_root}
+Let $G$ be a graph and consider the integer program whose variables $x_{ij} \in \{0,1\}$ encode a graph $H$ with adjacency matrix $A_H = (x_{ij})$. Then $G$ has a square root $H$ if and only if the integer  program has a feasible solution $x$ such that the corresponding graph $H$ satisfies $H^2 = G$.
+\end{theorem}
+\begin{proof}
+  Suppose $G$ has a square root $H$ and let $A_H$ be the adjacency matrix of $H$.  $x_{ij} = (A_H)_{ij}$. Construct the variables $x_{ij}, y_{ikj}, z_{ij}$ and the constant $g_{ij}$ as such 
+  \begin{enumerate}[label=\roman*)]
+    \item Let $x_{ij} = 1$ if $ij \in E_H$ and $=0$ otherwise. 
+    \item Let $y_{ikj} = x_{ik}x_{kj}$ for all $i,k,j$. 
+    \item Let $\displaystyle z_{ij} = \sum_{k = 1}^{n} y_{ikj} + x_{ij} $ for all $i,j$. 
+    \item Let $\displaystyle z_{ii} = \sum_{k  = 1}^{n} y_{iki} - \sum_{k = 1}^{n} x_{ik} =  \sum_{k = 1}^{n} x_{ik}^2 -  \sum_{k = 1}^{n} x_{ik} = 0 $
+    since $x_{ij} \in \{0 , 1\} \implies x_{ik}^2 = x_{ik}$. 
+    \item Let $g_{ij} = 1$ if $ij \in E_G$ and $=0$ otherwise. 
+  \end{enumerate}
+  Verifying constraints of the integer program for the variables 
+  \begin{enumerate}[label=\roman*)]
+    \item As $x_{ij} \in \{0, 1 \} \implies y_{ikj}  \in \{0, 1 \} $, Equations~\eqref{eq::IP_x_variable}-\eqref{eq::IP_z_variable}
+    and Equations~\eqref{eq::IP_x_upper_bound}-\eqref{eq::IP_y_upper_bound} are satisfied.  
+    \item As $H$ is a simple directed graph, its adjacency matrix is hallow and symmetric such that Equations~\eqref{eq::IP_symmetry_x}
+    -\eqref{eq::IP_diagonal_x} are satisfied.  
+    \item As $y_{ikj} = x_{ik}x_{kj}$ and all variables are binary, Equations~\eqref{eq::IP_product_upper_first}-
+    \eqref{eq::IP_product_lower} are satisfied. 
+    \item Equation~\eqref{eq::IP_indicator_arg} by definition is satisfied. 
+    \item As $\displaystyle z_{ii} = \sum_{k = 1}^{n} x_{ik}x_{ki} - \sum_{k = 1}^{n} x_{ik}$, Equation~\eqref{eq::IP_fund_matrix} is satisfied. 
+    \item As $\displaystyle z_{ij} \geq 1 \text{ if and only if } x_{ij} = 1 \; \text{or} \; \text{ there exists } k \text{ such that } x_{ik}=x_{kj}= 1$ and as $H^2 = G$,
+    have $g_{ij} = 1 \text{ if and only if } 1 \leq d_H(i,j) \leq 2$. Thus $g_{ij} = 1 \text{ if and only if } z_{ij}geq 1$ so the indicator 
+    constraints Equations~\eqref{eq::IP_indicator_upper}-\eqref{eq::IP_indicator_lower} hold. 
+  \end{enumerate}
+  All constraints of the integer program are satisfied by the constructed variables. Hence, the integer program is feasible.
+
+  Suppose the integer program on graph $G$ has a feasible solution $x$, and let $x_{ij}$ define a graph $H$ by 
+  \[
+  ij \in E_H \text{ if and only if } x_{ij} = 1. 
+  \]
+  As $x_{ij}$ satisfies the constraints of the integer program, 
+  \begin{enumerate}[label=\roman*)]
+    \item Equation~\eqref{eq::IP_x_variable} and Equation~\eqref{eq::IP_x_upper_bound} gives $x_{ij} \in \{0 , 1\}$ for all $i,j$,
+    \item Equation~\eqref{eq::IP_symmetry_x} and Equation~\eqref{eq::IP_diagonal_x} give $x_{ij} = x_{ji}$ and $x_{ii} = 0$,
+  \end{enumerate}
+  such that $x_{ij}$ defines a hollow, symmetric matrix with all elements being either $0$ or $1$ which is a valid adjacency matrix of a graph. 
+  Examining the auxiliary variables $y_{ikj}$ and $z_{ij}$, 
+  \begin{enumerate}[label=\roman*)]
+    \item Equations~\eqref{eq::IP_product_upper_first}-\eqref{eq::IP_product_lower} give the strict equality $y_{ikj} = x_{ik}x_{kj}$ for all $i,j,k$,
+    \item Equation~\eqref{eq::IP_indicator_arg} gives $\displaystyle z_{ij} = \sum_{k = 1}^{n}y_{ikj} + x_{ij} = \sum_{k = 1}^{n}x_{ik}x_{kj} + x_{ij}$ for all $i \neq j$,
+    \item Equation~\eqref{eq::IP_fund_matrix} gives $\displaystyle z_{ii} = \sum_{k = 1}^{n}y_{iki} + \sum_{n}^{k = 1}x_{ik} = \sum_{k = 1}^{n} x_{ik}x_{ki} - \sum_{n}^{k = 1}x_{ik} = 0$ for all $i$ since
+    \[
+    \sum_{k = 1}^{n} x_{ik}x_{ki} = \sum_{k = 1}^{n} x_{ik}^2 = \sum_{k = 1}^{n} x_{ik},
+    \]
+    by symmetry and since $x_{ij} \in \{0 , 1\}$. 
+  \end{enumerate} 
+  The indicator constraints Equations~\eqref{eq::IP_indicator_upper}-\eqref{eq::IP_indicator_lower} thus give for $i \neq j$
+  \[
+  g_{ij} = 1 \text{ if and only if } \sum_{k=1}^{n} x_{ik}x_{kj} + x_{ij} \geq 1 \; \text{and} \; g_{ij} = 0 \text{ if and only if } \sum_{k=1}^{n} x_{ik}x_{kj} + x_{ij} = 0. 
+  \]
+  Since $x_{ij} \in \{0,1\}$, this is equivalent to 
+  \[
+  g_{ij} = 1 \text{ if and only if } \Big(x_{ij} = 1 \Big) \lor \Big(\text{ there exists } k \;\text{such that}\; x_{ik}= 1 \land x_{kj}=1\Big) \; \text{and} \; g_{ij} = 0 \text{ if and only if } x_{ij} = 0. 
+  \]
+  By definition of $H$ this means that $g_{ij} = 1 \text{ if and only if } \Big( ij \in E_H \Big) \lor \Big( \text{ there exists } k \;\text{such that}\; ik,kj \in E_H\Big)$ which is equivalent to 
+  \[
+  g_{ij} = 1 \text{ if and only if } 1 \leq d_H(i,j) \leq 2. 
+  \]
+  Applying Lemma~\ref{lemma::G_equal_to_H^2} thus gives $ij \in E_G \text{ if and only if } ij \in E_H^2$ such that $G=H^2$. 
+\end{proof}

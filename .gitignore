@@ -32,3 +32,5 @@
 !Thesis/Thesis.tex
 !Thesis/Thesis.pdf
 !Thesis/references.bib
+!Thesis/subfiles/
+!Thesis/subfiles/*.tex
