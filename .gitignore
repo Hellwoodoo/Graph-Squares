@@ -34,3 +34,5 @@
 !Thesis/references.bib
 !Thesis/subfiles/
 !Thesis/subfiles/*.tex
+!Thesis/images/
+!Thesis/images/*

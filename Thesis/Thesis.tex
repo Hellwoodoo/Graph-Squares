@@ -407,38 +407,114 @@ Let known constants $g_{ij} \in \{0, 1\}$ come from the adjacency matrix of the 
 
 \input{subfiles/MaxLinearProgramFormulation.tex}
 
-
-
 \chapter{Square of A Tree using Linear Programming} \label{chap::square_of_a_tree_LP}
 
-\section{Single Triangular Decomposition}
+\section{Single Triangular Decomposition} \label{sec::single_triangular_decomposition}
 
-\subsection{Formulation}
+\subsection{Formulation} \label{subsec::STD_formulation}
 
 \input{subfiles/MaxSTDFormulation.tex}
 
-\subsection{Validity}
+\subsection{Validity} \label{subsec::STD_validity}
 
 \input{subfiles/STDProof.tex}
 
-\subsection{Tetrahedron Decomposition}
+\section{Tetrahedron Decomposition} \label{sec::tetrahedron_decomposition}
 
-\subsection{Formulation}
+\subsection{Formulation} \label{subsec::TD_formulation}
 
 \input{subfiles/MaxTDFormulation.tex}
 
-\subsection{Validity}
+\subsection{Validity} \label{subsec::TD_validity}
 
 \input{subfiles/TDProof.tex}
 
-\newpage
+\section{Tree Proof}
+
+\input{subfiles/TwoPathProof.tex}
+
+\input{subfiles/TreeProof.tex}
 
 
 
-\chapter{Symbolic Groups} \label{chap::symbolic_groups}
+\chapter{Further Work}
 
+In this chapter we discuss additional work, further concepts and interesting ideas 
+around specific structural properties that square intrinsically holds. Most of these have not been rigorously proven, with only sketch proofs given or intuitions given behind why they help improve results. 
 
+Further work would naturally be to improve many of these nascent ideas and develop formal proofs.  
 
+\section{Symbolic Groups} \label{sec::symbolic_groups}
+
+Lemma~\ref{lemma::two_edges_integer_sum} and its linear relaxation equivalent Lemma~\ref{lemma::two_edges_linear_sum} give extremely strong structure into how the linear program operates. Using the maximization objective function Lemma~\ref{lemma::two_edges_linear_sum}, any two edges $ij$, $jk$ which exist in $G$ but $ki$, can be assigned the weights $a$, $b$ respectively where $x_{ij} = a$, $x_{jk} = b$ and $a + b \leq 1$. 
+
+Under certain conditions, the relationship can hold with equality $a + b = 1$ which therefore gives a methodology for tackling scenarios where the maximal fractional objective function is greater than the optimal integer objective function corresponding to a valid square root. By continuously iterating Lemma~\ref{lemma::two_edges_linear_sum} can eventually categorize and formulate equations for many of the weights on the various edges. 
+
+Consider this square graph on $6$ vertices with three different roots  
+\begin{figure}[ht]
+    \centering
+
+    \begin{subfigure}{0.24\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Images/130_6_root_1.png}
+        \caption{The root graph $G_1$.}
+        \label{fig::130_6_root_1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.23\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Images/130_6_root_2.png}
+        \caption{The root graph $G_2$.}
+        \label{fig::130_6_root_2}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.15\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Images/130_6_root_3.png}
+        \caption{The root graph $G_3$.}
+        \label{fig::130_6_root_3}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Images/130_6_square.png}
+        \caption{The graph square $H = G_i^2$.}
+        \label{fig::130_6_square}
+    \end{subfigure}
+    \caption{Three non-isomorphic square roots of the same six-vertex graph square.}
+    \label{fig::130_6}
+\end{figure}
+
+$G_1$ is the unique maximal root. Assigning $a = x_{14}$ gives using Lemma~\eqref{lemma::two_edges_linear_maximization} that $1 - a = x_{40}$ since $01$ does not exist in $G$. The same applies such that $1 - a = x_{42}$ and $a = x_{43}$, whereby the existence of edges $13$ and $02$ prevent additional constraints being imposed upon $a$, it is internally consistent. By symmetry can likewise assign $b = x_{15} = x_{35}$ 
+and $1 - b = x_{50} = x_{52}$. Setting $a = 0$ and $b = 1$ thus gives $x_{40}$
+
+Consider this square graph on $6$ vertices with only one unique root 
+\begin{figure}[ht]
+    \centering
+
+    \begin{subfigure}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Images/115_6_root.png}
+        \caption{The root graph $G$.}
+        \label{fig::115_6_root}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.47\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Images/115_6_square.png}
+        \caption{The graph square $H=G^2$.}
+        \label{fig::115_6_square}
+    \end{subfigure}
+
+    \caption{A six-vertex graph and its square.}
+    \label{fig::115_6_example}
+\end{figure}
+
+Assigning $a = x_{03}$ gives using Lemma~\eqref{lemma::two_edges_linear_maximization} that $x_{31} = 1 - a$ since $01$ does not exist in $G$, and likewise with $12$ does not exist 
+in $G$ have $x_{32} = a$. However with the absence of $02$, must have $x_{03} + x_{32} \leq 1$ such that $\displaystyle a \leq \frac{1}{2}$. By symmetry 
+this likewise holds for $b = x_{05} = x_{15}$, $1-b = x_{52}$ and $c = x_{42} = x_{41}$, $1-c = x_{40}$ giving $\displaystyle b, c \leq \frac{1}{2}$. 
+
+In this case, rather than maximizing the objective function and giving a fractional solution, setting $a=b=c=0$ gives a valid integral solution. 
 
 \appendix
 
