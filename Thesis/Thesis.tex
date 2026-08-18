@@ -454,30 +454,30 @@ Consider this square graph on $6$ vertices with three different roots
 \begin{figure}[ht]
     \centering
 
-    \begin{subfigure}{0.24\textwidth}
+    \begin{subfigure}{0.20\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{Images/130_6_root_1.png}
+        \includegraphics[width=\linewidth]{images/130_6_root_1.png}
         \caption{The root graph $G_1$.}
         \label{fig::130_6_root_1}
     \end{subfigure}
     \hfill
-    \begin{subfigure}{0.23\textwidth}
+    \begin{subfigure}{0.19\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{Images/130_6_root_2.png}
+        \includegraphics[width=\linewidth]{images/130_6_root_2.png}
         \caption{The root graph $G_2$.}
         \label{fig::130_6_root_2}
     \end{subfigure}
     \hfill
-    \begin{subfigure}{0.15\textwidth}
+    \begin{subfigure}{0.11\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{Images/130_6_root_3.png}
+        \includegraphics[width=\linewidth]{images/130_6_root_3.png}
         \caption{The root graph $G_3$.}
         \label{fig::130_6_root_3}
     \end{subfigure}
     \hfill
-    \begin{subfigure}{0.25\textwidth}
+    \begin{subfigure}{0.21\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{Images/130_6_square.png}
+        \includegraphics[width=\linewidth]{images/130_6_square.png}
         \caption{The graph square $H = G_i^2$.}
         \label{fig::130_6_square}
     \end{subfigure}
@@ -494,14 +494,14 @@ Consider this square graph on $6$ vertices with only one unique root
 
     \begin{subfigure}{0.48\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{Images/115_6_root.png}
+        \includegraphics[width=\linewidth]{images/115_6_root.png}
         \caption{The root graph $G$.}
         \label{fig::115_6_root}
     \end{subfigure}
     \hfill
     \begin{subfigure}{0.47\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{Images/115_6_square.png}
+        \includegraphics[width=\linewidth]{images/115_6_square.png}
         \caption{The graph square $H=G^2$.}
         \label{fig::115_6_square}
     \end{subfigure}
@@ -515,6 +515,21 @@ in $G$ have $x_{32} = a$. However with the absence of $02$, must have $x_{03} + 
 this likewise holds for $b = x_{05} = x_{15}$, $1-b = x_{52}$ and $c = x_{42} = x_{41}$, $1-c = x_{40}$ giving $\displaystyle b, c \leq \frac{1}{2}$. 
 
 In this case, rather than maximizing the objective function and giving a fractional solution, setting $a=b=c=0$ gives a valid integral solution. 
+
+\section{Duality} \label{sec::duality}
+
+Consider the dual formulation of the max objective linear program defined in Formulation~\ref{eq::max_linear_program} by first restating it in canonical form.
+
+\input{subfiles/CanonicalMaxLPFormulation.tex}
+
+Its dual can be rewritten as 
+
+\input{subfiles/DualFormulation.tex}
+
+\subsection{Rounding} \label{subsec::rounding}
+
+Rounding fractional solutions such that an integral solution or the problem is deemed infeasible gives the classification in 
+Figure~\ref{fig::rounding_max_objective_function_diagram} is obtained.   
 
 \appendix
 
