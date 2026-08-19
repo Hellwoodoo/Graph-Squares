@@ -18,6 +18,7 @@ style=alphabetic]{biblatex}
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}{Lemma}
 \newtheorem{corollary}{Corollary}
+\newtheorem{conjecture}{Conjecture} 
 \newtheorem{definition}{Definition}[section] 
 
 \title{Linear Programming of Graph Squares}
@@ -67,11 +68,11 @@ This matrix $A$ can be considered as a form of an adjacency matrix, and in the p
 \end{enumerate}
 % In addition to these properties, there must exist a one-to-one correspondence between maximal cliques and multicliqual vertices where a vertex is called multicliqual if it belongs to at least two maximal cliques. If a multicliqual vertex $b$ belongs to exactly $k$ maximal cliques, then the clique corresponding to $b$ contains exactly $k$ multicliqual vertices. Furthermore, if two maximal cliques intersect at exactly one vertex $b$, then there exists a third maximal clique which contains $b$ and shares exactly one additional vertex with each of the original two cliques.
 
-Using these properties, they constructed an explicit algorithm that recovers the underlying tree for a given square graph, and their seminal paper has become the foundational reference for the study of graph squares and is universally cited in subsequent literature on the subject. 
+Using these properties, they constructed an explicit algorithm that recovers the underlying tree for a given graph square, and their seminal paper has become the foundational reference for the study of graph squares and is universally cited in subsequent literature on the subject. 
 
 Since then, the problem of finding the square root of a graph has extended beyond sociology and is a well-studied field in both mathematics and computer-science, with direct applications in distributed computing (e.g., see \cite{peres_2023_distributed}), network design and computational biology. This is in part because many structural properties of graph roots are first established in the square case before being extended to the more general $k$-th power setting (e.g., see \cite{harary_1962_planarity}). 
 
-Research in this area has primarily focused around an undirected graph $H$ and its square $G = H^2$ which is obtained by adding an edge between every pair of vertices whose distance in $H$ is at most two.This two-step undirected graph square has been studied extensively with much of the focus being on the complexity of the decision problem - given a specific square graph $G$ does there exist a root graph $H$ such that $H^2=G$. \citeauthor{motwani_sudan_1994_roots} showed that graph squares are NP-complete in general and hence subsequent studies in the area have restricted the decision problem in two ways, either by considering various properties on the root graph or by considering properties on the square graph. 
+Research in this area has primarily focused around an undirected graph $H$ and its square $G = H^2$ which is obtained by adding an edge between every pair of vertices whose distance in $H$ is at most two.This two-step undirected graph square has been studied extensively with much of the focus being on the complexity of the decision problem - given a specific graph square $G$ does there exist a root graph $H$ such that $H^2=G$. \citeauthor{motwani_sudan_1994_roots} showed that graph squares are NP-complete in general and hence subsequent studies in the area have restricted the decision problem in two ways, either by considering various properties on the root graph or by considering properties on the graph square. 
 
 
 
@@ -85,11 +86,11 @@ The first algorithm we explore is the polynomial time algorithm given by \citeau
 
 
 \section{Literature}
-Focusing first on special undirected graph classes, the aforementioned work by \citeauthor{ross_1960_square} in 1960 gives an algorithm for constructing a tree root by using characterizations of the square graph. As part of this work they proved tree square roots are unique up to isomorphism. This was the first major contribution to the study of graph roots and provided fundamental structural characteristics of square graphs, laying the groundwork for later research on graph root problems and their applications \cite{ross_1960_square}. 
+Focusing first on special undirected graph classes, the aforementioned work by \citeauthor{ross_1960_square} in 1960 gives an algorithm for constructing a tree root by using characterizations of the graph square. As part of this work they proved tree square roots are unique up to isomorphism. This was the first major contribution to the study of graph roots and provided fundamental structural characteristics of graph squares, laying the groundwork for later research on graph root problems and their applications \cite{ross_1960_square}. 
 
-\citeauthor{fleischner_1974_square} in 1974 showed that as long as a graph is 2-connected its square graph will have a Hamiltonian cycle. This established a broad condition guaranteeing Hamiltonicity in graph squares which is used in many subsequent works \cite{fleischner_1974_square}. 
+\citeauthor{fleischner_1974_square} in 1974 showed that as long as a graph is 2-connected its graph square will have a Hamiltonian cycle. This established a broad condition guaranteeing Hamiltonicity in graph squares which is used in many subsequent works \cite{fleischner_1974_square}. 
 
-Lau and Corneil in 2004 provided an algorithm for constructing square roots from an interval square graph in polynomial time, and showed that the decision problem for finding roots of chordal graphs, roots of split graphs, and chordal roots of graphs are NP-complete \cite{lau_corneil_2004_chordal_root}. Furthermore, Lau considered the construction of square roots from a bipartite graph in linear time, and showed that the existence of cube roots in bipartite square is NP-complete \cite{lau_2006_bipartite_roots}. 
+Lau and Corneil in 2004 provided an algorithm for constructing square roots from an interval square in polynomial time, and showed that the decision problem for finding roots of chordal graphs, roots of split graphs, and chordal roots of graphs are NP-complete \cite{lau_corneil_2004_chordal_root}. Furthermore, Lau considered the construction of square roots from a bipartite graph in linear time, and showed that the existence of cube roots in bipartite square is NP-complete \cite{lau_2006_bipartite_roots}. 
 
 Le and Tuy in 2007 generalized tree-root results further by giving a linear time recognition of roots of block graphs \cite{le_tuy_2007_block_square}. 
 
@@ -251,7 +252,7 @@ In this chapter we explore different methodologies that have been used to show c
 
 \section{Polynomial Time Algorithm} \label{sec::square_of_a_tree}
 
-\citeauthor{ross_1960_square} give an algorithm for constructing a tree $T$ when given its square graph $G = T^2$ using the following characterization.  
+\citeauthor{ross_1960_square} give an algorithm for constructing a tree $T$ when given its graph square $G = T^2$ using the following characterization.  
 \begin{itemize}
     \item If $G = K_p$ is complete, then $T$ must be a tree of depth 1 (result of \hyperref[lemma:1]{Lemma 1})
     \item If $G \neq K_p$ 
@@ -401,11 +402,15 @@ Let known constants $g_{ij} \in \{0, 1\}$ come from the adjacency matrix of the 
 
 \input{subfiles/LinearProgramFormulation.tex}
 
-\section{Max Linear Program}
+\section{Max Linear Program} \label{sec::max_linear_program}
 
-\subsection{Formulation}
+\subsection{Formulation} \label{subsec::max_linear_program_formulation}
 
 \input{subfiles/MaxLinearProgramFormulation.tex}
+
+\subsection{Fundamental Properties} \label{subsec::fundamental_properties}
+
+\input{subfiles/FundamentalProperties.tex}
 
 \chapter{Square of A Tree using Linear Programming} \label{chap::square_of_a_tree_LP}
 
@@ -450,7 +455,7 @@ Lemma~\ref{lemma::two_edges_integer_sum} and its linear relaxation equivalent Le
 
 Under certain conditions, the relationship can hold with equality $a + b = 1$ which therefore gives a methodology for tackling scenarios where the maximal fractional objective function is greater than the optimal integer objective function corresponding to a valid square root. By continuously iterating Lemma~\ref{lemma::two_edges_linear_sum} can eventually categorize and formulate equations for many of the weights on the various edges. 
 
-Consider this square graph on $6$ vertices with three different roots  
+Consider this graph square on $6$ vertices with three different roots  
 \begin{figure}[ht]
     \centering
 
@@ -488,7 +493,7 @@ Consider this square graph on $6$ vertices with three different roots
 $G_1$ is the unique maximal root. Assigning $a = x_{14}$ gives using Lemma~\eqref{lemma::two_edges_linear_maximization} that $1 - a = x_{40}$ since $01$ does not exist in $G$. The same applies such that $1 - a = x_{42}$ and $a = x_{43}$, whereby the existence of edges $13$ and $02$ prevent additional constraints being imposed upon $a$, it is internally consistent. By symmetry can likewise assign $b = x_{15} = x_{35}$ 
 and $1 - b = x_{50} = x_{52}$. Setting $a = 0$ and $b = 1$ thus gives $x_{40}$
 
-Consider this square graph on $6$ vertices with only one unique root 
+Consider this graph square on $6$ vertices with only one unique root 
 \begin{figure}[ht]
     \centering
 

@@ -1,15 +1,9 @@
 % !TeX root = Thesis.tex
 
-Let $x$ be an optimal solution to the linear relaxation defined by Equations~\eqref{eq::max_LP_x_variable}--\eqref{eq::max_objective_funtion}. 
-If $g_{ij}=0$, then for every $k\in\{1,\dots,n\}$,
-\[
-x_{ik}+x_{kj}=1.
-\]
-
-\subsection{Integer Program} \label{subsec::triangle_two_edges_integer_program}
+\subsection{Integer Program} \label{subsec::two_edge_path_integer_program}
 
 \begin{lemma} \label{lemma::two_edges_integer_sum}
-  Consider the triangle with three vertices $i$, $j$ and $k$ where edges $ik$ and $kj$ are present and $ij$ is absent in square $G$. Then for root $G$, the integer program defined by Equations~\eqref{eq::IP_x_variable}-\eqref{eq::IP_diagonal_x} must satisfy
+  Consider the graph square $G$ containing vertices $i$, $j$ and $k$ where edges $ik$ and $kj$ are present and $ij$ is absent in $G$ such that there exists a $P_2$. Then for root $H$, the integer program defined by Equations~\eqref{eq::IP_x_variable}-\eqref{eq::IP_diagonal_x} must satisfy
   \[
   x_{ik} + x_{kj} \leq 1. 
   \]
@@ -22,10 +16,10 @@ x_{ik}+x_{kj}=1.
   where the second equality follows from the product constraints Equations~\eqref{eq::IP_product_upper_first}--\eqref{eq::IP_product_lower} together with the integrality of $x \in \{0, 1\}$ by Equation~\eqref{eq::IP_x_variable} and Equation~\eqref{eq::IP_x_upper_bound}. Since all variables are non-negative, $0$ only holds when $x_ij = 0$ and all of$x_{ia} x_{aj}=0$ and using the integrality of $x$, this means that at most one of $x_{ia}$, $x_{aj}$ is equal to $1$ and the other must be $0$, which can be equivalently written as $x_{ia} + x_{aj} \leq 1$. Taking $a=k$ gives $x_{ik}+x_{kj} \leq 1$ as required. 
 \end{proof}
 
-\subsection{Linear Program} \label{subsec::triangle_two_edges_linear_program}
+\subsection{Linear Program} \label{subsec::two_edge_path_linear_program}
 
 \begin{lemma} \label{lemma::two_edges_linear_sum}
-  Consider the triangle with three vertices $i$, $j$ and $k$ where edges $ik$ and $kj$ are present and $ij$ is absent in square $G$. Then for root $G$, the linear program defined by Equations~\eqref{eq::LP_x_variable}-\eqref{eq::LP_diagonal_x} must satisfy 
+  Consider the graph square $G$ containing vertices $i$, $j$ and $k$ where edges $ik$ and $kj$ are present and $ij$ is absent in $G$ such that there exists a $P_2$. Then for root $H$, the linear program defined by Equations~\eqref{eq::LP_x_variable}-\eqref{eq::LP_diagonal_x} must satisfy 
   \[
   x_{ik} + x_{kj} \leq 1. 
   \]
@@ -43,6 +37,16 @@ x_{ik}+x_{kj}=1.
   and hence $x_{ik}+x_{kj} \leq 1$ as required.
 \end{proof}
 
-\begin{lemma} \label{lemma::z_ab=0}
-  Consider the square graph $G$ with edge between vertices $a$ and $b$ such that $z_{ab} = 0$. Then for all vertices $v \in V(G) \backslash \{a,b\}$, $x_{av} + x_{vb} \leq 1$. 
-\end{lemma}
+
+\subsection{Max Linear Program}
+
+\begin{conjecture} \label{conjecture::two_edge_path_maximization}
+  Let $x$ be an optimal solution to the linear relaxation defined by Equations~\eqref{eq::max_LP_x_variable}--\eqref{eq::max_objective_funtion}. 
+  If edge $ij \notin E_G$, that is $g_{ij}=0$, then for every $k\in\{1,\dots,n\}$,
+  \[
+  x_{ik}+x_{kj} \in \{0,1\}.
+  \]
+\end{conjecture}
+\begin{proof}
+  
+\end{proof}
