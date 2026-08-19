@@ -3,7 +3,7 @@
 \subsection{Integer Program} \label{subsec::two_edge_path_integer_program}
 
 \begin{lemma} \label{lemma::two_edges_integer_sum}
-  Consider the graph square $G$ containing vertices $i$, $j$ and $k$ where edges $ik$ and $kj$ are present and $ij$ is absent in $G$ such that there exists a $P_2$. Then for root $H$, the integer program defined by Equations~\eqref{eq::IP_x_variable}-\eqref{eq::IP_diagonal_x} must satisfy
+  Consider the graph square $G$ containing vertices $i$, $j$ and $k$ where edges $ik$ and $kj$ are present and $ij$ is absent in $G$ such that there exists a $P_2$. Then every feasible solution of $\mathcal{IP}(G)$ must satisfy
   \[
   x_{ik} + x_{kj} \leq 1. 
   \]
@@ -19,7 +19,7 @@
 \subsection{Linear Program} \label{subsec::two_edge_path_linear_program}
 
 \begin{lemma} \label{lemma::two_edges_linear_sum}
-  Consider the graph square $G$ containing vertices $i$, $j$ and $k$ where edges $ik$ and $kj$ are present and $ij$ is absent in $G$ such that there exists a $P_2$. Then for root $H$, the linear program defined by Equations~\eqref{eq::LP_x_variable}-\eqref{eq::LP_diagonal_x} must satisfy 
+  Consider the graph square $G$ containing vertices $i$, $j$ and $k$ where edges $ik$ and $kj$ are present and $ij$ is absent in $G$ such that there exists a $P_2$.Then every feasible solution of $\mathcal{LP}(G)$ must satisfy 
   \[
   x_{ik} + x_{kj} \leq 1. 
   \]
@@ -41,8 +41,7 @@
 \subsection{Max Linear Program}
 
 \begin{conjecture} \label{conjecture::two_edge_path_maximization}
-  Let $x$ be an optimal solution to the linear relaxation defined by Equations~\eqref{eq::max_LP_x_variable}--\eqref{eq::max_objective_funtion}. 
-  If edge $ij \notin E_G$, that is $g_{ij}=0$, then for every $k\in\{1,\dots,n\}$,
+  Let $x$ be an optimal solution to $\mathcal{MLP}(G)$. If edge $ij \notin E_G$, that is $g_{ij}=0$, then for every $k\in\{1,\dots,n\}$,
   \[
   x_{ik}+x_{kj} \in \{0,1\}.
   \]

@@ -179,26 +179,46 @@ Whether this inclusion is strict remains one of the most important open question
   
 \end{definition}
 
-\begin{definition}[Graph Distance] \label{def::graph_distance}
+\begin{definition}[Adjacency Matrix] \label{def::adjacency_matrix}
   
+\end{definition}
+
+\begin{definition}[Degree Matrix] \label{def::degree_matrix}
+  
+\end{definition}
+
+\begin{definition}[Graph Distance] \label{def::graph_distance}
+    Denote by $d_H(u,v)$ the \textbf{graph distance} defined as the number of edges of the shortest path between vertices $u$ and $v$ in $H$. If no such path exists, $d_H(u,v) = \infty$. For vertices $u,v\in V$, $d_H(u,v)$ is the length of a shortest path between $u$ and $v$ in $H$. If no such path exists, then $d_H(u,v)=\infty$.
 \end{definition}
 
 \begin{definition}[Graph Root] \label{def::graph_root}
-  
+    Let the \textbf{graph root} $H = (V, E_H)$ be a finite, simple, undirected graph, where $V$ is the vertex set with $|V| = n$, and $E_H \subseteq \{\{u,v\} \mid u,v \in V,\; u \neq v\}$ is the edge set. 
 \end{definition}
 
-\begin{definition}[Graph Square] \label{def::grapH_square}
-  
+\begin{definition}[Square of a Graph] \label{def::square_of_a_graph}
+    The \textbf{square of a graph} $H$, denoted by $H^2 = (V, E_{H^2})$ is the graph on the same vertex set with edge set
+    \begin{equation} \label{eq::fund_def_square}
+        E_{H^2} = \{\, uv \mid u \neq v,\; 1 \leq d_H(u,v) \leq 2 \,\}.
+    \end{equation}
+    That is, two distinct vertices are adjacent in $H^2$ if and only if they are connected by a path of length one or two in $H$. This is the standard definition of the square of a graph.
 \end{definition}
 
-\begin{definition}[Adjacency Matrix] \label{def::adjacency_matrix}
-  
+\begin{definition}[Graph Square] \label{def::graph_square}
+
+\end{definition}
+
+\begin{definition} \label{def::pendant}
+  A pendant subgraph is the induced subgraph on three vertices $s,u,v$ where $s$ is a leaf with unique neighbour $u$, and $u$ is a stem of degree $2$ with neighbours $s$ and $v$, where $v$ connects the subgraph to the remainder of the tree.
+\end{definition}
+
+\begin{definition} \label{def::leaf_clique}
+  A leaf clique subgraph is the induced subgraph on four vertices $s_1,s_2,u,v$ where $s_1,s_2$ are leaves with unique neighbour $u$, and $u$ is an internal vertex of degree $\geq 3$ where $\{s_1,s_2, v\} \subseteq N(u)$, where $v$ connects the subgraph to the remainder of the tree.
 \end{definition}
 
 \subsection{Mathematical Optimization}
 
 \begin{definition}[Integer Program] \label{def::integer_program}
-  
+
 \end{definition}
 
 \begin{definition}[Linear Program] \label{def::linear_program}
@@ -206,16 +226,6 @@ Whether this inclusion is strict remains one of the most important open question
 \end{definition}
 
 
-Let the \emph{graph root} $H = (V, E_H)$ be a finite, simple, undirected graph, where $V$ is the vertex set with $|V| = n$, and $E_H \subseteq \{\{u,v\} \mid u,v \in V,\; u \neq v\}$ is the edge set. Denote by $d_H(u,v)$ the \emph{graph distance} defined as the number of edges of the shortest path between vertices $u$ and $v$ in $H$. If no such path exists, $d_H(u,v) = \infty$.
-
-For vertices $u,v\in V$, the \emph{graph distance} $d_H(u,v)$ is the length of a shortest path between $u$ and $v$ in $H$. If no such path exists, then
-$d_H(u,v)=\infty$.
-
-The \emph{square} of the graph $H$, denoted by $H^2 = (V, E_{H^2})$ is the graph on the same vertex set with edge set
-\begin{equation} \label{eq::fund_def_square}
-E_{H^2} = \{\, uv \mid u \neq v,\; 1 \leq d_H(u,v) \leq 2 \,\}.
-\end{equation}
-That is, two distinct vertices are adjacent in $H^2$ if and only if they are connected by a path of length one or two in $H$. This is the standard definition of the square of a graph.
 
 Using an alternative construction, let the \emph{graph square} $G = (V, E_G)$ be an undirected graph defined on the same vertex set $V$. Let $A_H \in \{0,1\}^{n \times n}$ denote the adjacency matrix of $H$, where
 \[
@@ -245,6 +255,8 @@ Define the adjacency matrix of $G$ using the adjacency and degree matrices of $H
 \begin{equation} \label{eq::fund_adj_eq_undirected}
   A_G = \mathbbm{1}_{\geq 1}\!\big((A_H)^2 - D_H + A_H\big).
 \end{equation}
+
+
 
 \chapter{Algorithmic Approaches} \label{chap::algorithmic_approaches}
 
