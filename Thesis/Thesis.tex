@@ -41,9 +41,12 @@ style=alphabetic]{biblatex}
 \maketitle
 
 \begin{abstract}
-  In this thesis, we examine the operation of squaring a graph, adding 
-\end{abstract}
+The square of a graph is obtained by joining every pair of vertices whose distance is at most two. Given a graph $G$, the graph square root problem asks whether there exists a graph $H$ such that $G=H^2$ and, if so, whether such a root can be constructed in polynomial time. Whilst this problem admits polynomial-time algorithms for restricted classes of root graphs, the general decision problem is NP-complete.
 
+In this thesis, rather than studying the construction problem directly and utilizing reduction techniques to ascertain polynomial-time algorithms, we formulate the problem as an integer program based on the relationship between the adjacency matrices of a root $H$ and its square $G$. By constructing the corresponding linear relaxation, the problem can then be situated within polynomial time through the use of interior-point methods.
+
+The seminal result for the problem is the work by \citeauthor{ross_1960_square}, who approached the problem by restricting the root graphs to trees. By analyzing the number of cliques which each vertex in the graph square is situated in, a polynomial-time algorithm was given for finding the unique tree root up to isomorphism. In contrast, our formulation provides an optimization-based approach that can be iteratively strengthened through the addition of further constraints. These constraints progressively refine the linear relaxation, enabling tree roots to be represented by integral solutions, while graphs with no possible roots are identified through fractional or infeasible solutions. Rather than relying on heuristic such as rounding, our approach exploits structural properties of the graph square and its root to obtain a deterministic solution. 
+\end{abstract}
 
 \tableofcontents
 
@@ -51,9 +54,10 @@ style=alphabetic]{biblatex}
 
 \chapter{Introduction} \label{chap::intro}
 
-\section{Historical Background}
+\section{Background}
 
-In 1949, Leon Festinger proposed a novel method in the field of social psychology for analyzing relationships among a number of people present \cite{festinger_bahoken_beauguitte_2023}. Classically this was represented using a sociogram, a visual tool that maps out the relationships between people, however Forsyth and Katz introduced the use of a matrix to represent the sociometric pattern, with rows and columns being individuals and containing $1$s for choices and blank diagonals. Festinger noticed that the action of squaring a matrix 
+In 1949, Leon Festinger proposed a novel method in the field of social psychology for analyzing relationships among a number of people present \cite{festinger_bahoken_beauguitte_2023}. Classically, this was represented using a sociogram, a visual tool that maps out the relationships between people. However, Forsyth and Katz introduced the use of a matrix to represent the sociometric pattern, with rows and columns corresponding to individuals and containing $1$s for choices and blank diagonals.
+Festinger noticed that his structure, reminiscent of the adjacency matrix defined by \citeauthor{konig_1936} in \cite{konig_1936}, also had the remarkable property that the action of squaring a matrix 
 \[
 A_{rc}^2 = A_{1c}A_{r1} + \dots + A_{nc}A_{rn} \footnote{$A_{rc}^2$ is more naturally written as $\displaystyle \sum_{k = 1}^n A_{ck}A_{kr}$ using the commutativity of multiplication $A_{1c}A_{r1} = A_{c1}A_{1r}$, which intuitively gives the notion of paths from c to r via intermediary k}
 \]
@@ -61,32 +65,43 @@ represented the number of ``two-step'' connections, which can then be used to de
 \[
 A_{rc}^3 = A_{1c}A_{r1}^2 + \dots + A_{nc}A_{rn}^2, \footnote{$A_{rc}^3$ is more naturally written as $\displaystyle \sum_{k=1}^n A_{ck}A^2_{kr}$, which intuitively counts the number of paths from $c$ to $r$ that go through an intermediate vertex $k$, followed by any two-step path from $k$ to $r$.}
 \]
-such that higher steps can be easily generated. In this manner, higher powers of the adjacency matrix encode the number of walks of increasing length between pairs of individuals, allowing densely connected groups of people, known as cliques, to be identified. In particular, cliques between any three individuals can be done by looking at the diagonals of the cubed matrix $A^3$.  
+such that higher steps can be easily generated. In this manner, higher powers of the adjacency matrix encode the number of walks of increasing length between pairs of individuals, allowing densely connected groups of people, known as cliques, to be identified.
 
-This matrix $A$ can be considered as a form of an adjacency matrix, and in the process of improving clique detection methods, 
-\citeauthor{ross_1960_square} showed that complete graphs may be realized as squares of star trees by considering powers of such matrices \cite{ross_1960_square}. They introduced a structural characterization of the square of a graph in terms of clique intersections, ``multicliqual'' vertices, and so called "neighborly" properties, proving that a graph is the square of a tree if and only if
+\begin{figure}[ht]
+    \centering
+    \begin{subfigure}{0.38\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/K5_root_11.png}
+        \caption{One of the $15$ isomorphic graph roots of $K_5$.}
+        \label{fig::K5_11_root}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.42\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/K5.png}
+        \caption{$K_5$.}
+        \label{fig::K5_square}
+    \end{subfigure}
+
+    \caption{The star graph $K_{1,4}$ and its square $K_5$, which is a complete graph since every vertex in the root .}
+    \label{fig::K5_example}
+\end{figure}
+
+In the process of improving Festinger's clique detection methods, \citeauthor{ross_1960_square} showed that complete graphs may be realized as squares of star trees by considering powers of such matrices \cite{ross_1960_square}. They introduced a structural characterization of the square of a graph in terms of clique intersections, ``multicliqual'' vertices, and so called ``neighborly'' properties, proving that a graph is the square of a tree if and only if
 \begin{enumerate}[label=\roman*)]
-  \item every vertex is "neighborly" - is not isolated, 
+  \item every vertex is ``neighborly'' - is not isolated and has an edge to another vertex, 
   \item no two cliques intersect in more than two vertices, and
   \item the number of clique pairs intersecting in two vertices is exactly one less than the total number of cliques. 
 \end{enumerate}
-% In addition to these properties, there must exist a one-to-one correspondence between maximal cliques and multicliqual vertices where a vertex is called multicliqual if it belongs to at least two maximal cliques. If a multicliqual vertex $b$ belongs to exactly $k$ maximal cliques, then the clique corresponding to $b$ contains exactly $k$ multicliqual vertices. Furthermore, if two maximal cliques intersect at exactly one vertex $b$, then there exists a third maximal clique which contains $b$ and shares exactly one additional vertex with each of the original two cliques.
 
-Using these properties, they constructed an explicit algorithm that recovers the underlying tree for a given graph square, and their seminal paper has become the foundational reference for the study of graph squares and is universally cited in subsequent literature on the subject. 
+Using these properties, they constructed an explicit algorithm that recovers the underlying tree for a given graph square. Their seminal paper has become the foundational reference for the study of graph squares and is universally cited in subsequent literature on the subject, and will be explored in more detail later. 
 
 Since then, the problem of finding the square root of a graph has extended beyond sociology and is a well-studied field in both mathematics and computer-science, with direct applications in distributed computing (e.g., see \cite{peres_2023_distributed}), network design and computational biology. This is in part because many structural properties of graph roots are first established in the square case before being extended to the more general $k$-th power setting (e.g., see \cite{harary_1962_planarity}). 
 
 Research in this area has primarily focused around an undirected graph $H$ and its square $G = H^2$ which is obtained by adding an edge between every pair of vertices whose distance in $H$ is at most two.This two-step undirected graph square has been studied extensively with much of the focus being on the complexity of the decision problem - given a specific graph square $G$ does there exist a root graph $H$ such that $H^2=G$. \citeauthor{motwani_sudan_1994_roots} showed that graph squares are NP-complete in general and hence subsequent studies in the area have restricted the decision problem in two ways, either by considering various properties on the root graph or by considering properties on the graph square. 
 
 
-
-\section{Aims}
-
-In contrast, rather than studying the construction problem directly, in this work we analyze the relationship between the adjacency matrix $A_H$ of the root and the adjacency matrix $A_G$ of the square, and show that the problem can be completely categorized as an integer program. We then examine the relaxed linear program which can be evaluated in polynomial time using interior point method and show that by adding additional constraints, the linear program can completely classify all tree roots. 
-
-We begin by introducing the comprehensive literature surrounding the subject and provide a general overview of the research direction in this area and the major advances that have been made over the years. We then standardize the definitions that will be used for the rest of this thesis and introduce fundamental theory on the three areas of complexity theory, graph theory and mathematical optimization that are used in the various algorithmic approaches to the decision problem. 
-
-The first algorithm we explore is the polynomial time algorithm given by \citeauthor{ross_1960_square} for constructing a tree root from a given square. We then explore the proof used by \citeauthor{motwani_sudan_1994_roots} in showing that the decision problem determining whether a given graph $G$ admits a square root—is NP-complete in general \cite{motwani_sudan_1994_roots}. Before introducing the corresponding integer program and the relaxed  
+% In addition to these properties, there must exist a one-to-one correspondence between maximal cliques and multicliqual vertices where a vertex is called multicliqual if it belongs to at least two maximal cliques. If a multicliqual vertex $b$ belongs to exactly $k$ maximal cliques, then the clique corresponding to $b$ contains exactly $k$ multicliqual vertices. Furthermore, if two maximal cliques intersect at exactly one vertex $b$, then there exists a third maximal clique which contains $b$ and shares exactly one additional vertex with each of the original two cliques.
 
 
 \section{Literature}
@@ -106,8 +121,17 @@ Their work led to joint work by Farzad, Le, Tuy, Lau and Karimi in 2009 and 2012
 
 In recent years, Duffy provided a full classification for the undirected square of oriented graphs satisfying max degree $\leq 3$ and girth $\geq 4$ \cite{duffy_2025_oriented_root}. 
 
+\subsection{Overview}
 
-\section{Definitions}
+In addition to providing a general overview of the research direction in this area we first standardize the definitions that will be used for the rest of this thesis. We then introduce fundamental theory on the three areas of complexity theory, graph theory and mathematical optimization that are used in the various algorithmic approaches to the decision problem. 
+
+The first algorithm we explore is the proof used by \citeauthor{motwani_sudan_1994_roots} in showing that the decision problem determining whether a given graph $G$ admits a square root is NP-complete in general \cite{motwani_sudan_1994_roots}. We then introduce integer programming, and show that our formulation satisfies correctness and validity. Next, we introduce the polynomial time algorithm given by \citeauthor{ross_1960_square} for constructing a tree root from a given square in detail. 
+
+In Chapter $3$ we present the ideas of linear relaxation and discuss the results of each program and their classification into integral, fractional or infeasible solutions. 
+
+Finally, we introduce additional augmentations that can be added to the linear program, the structures that bound both the square and the root, and the various methods that can be used to improve the algorithm.  
+
+\section{Definitions and Notations}
 
 \subsection{Complexity Theory}
 
@@ -150,7 +174,7 @@ Since every decision problem in $\mathbf{P}$ can be solved in polynomial time, a
 \[
 \mathbf{P} \subseteq \mathbf{NP}.
 \]
-Whether this inclusion is strict remains one of the most important open questions in theoretical computer science - the $\mathbf{P}$ vs $\mathbf{NP}$ problem. As $\mathbf{NP}$ is a large space, the relative difficulty of problems in $\mathbf{NP}$ is compared by using reduction. 
+Whether this inclusion is strict remains one of the most important open questions in theoretical computer science - the $\mathbf{P}$ vs $\mathbf{NP}$ problem. As $\mathbf{NP}$ is a large class of decision problems, the relative difficulty of problems in $\mathbf{NP}$ is compared by using reduction. 
 
 \begin{definition}[Polynomial-Time Reduction] \label{def::polynomial_time_reduction}
   Let $A$ and $B$ be decision problems. A \textbf{polynomial-time reduction} from $A$ to $B$, denoted $A \leq_p B$, is a polynomial-time computable function $f$ such that, for every instance $x$ of $A$,
@@ -159,29 +183,184 @@ Whether this inclusion is strict remains one of the most important open question
   \]
 \end{definition}
 
+This notion of reduction allows the computational difficulty of problems to be compared. In particular, a problem is $\mathbf{NP}$-hard if every problem in $\mathbf{NP}$ can be reduced to it in polynomial time.
 
 \begin{definition}[Class $\mathbf{NP}$-Hard] \label{def::class_np_hard}
   A decision problem $B$ is \textbf{$\mathbf{NP}$-hard} if every problem $A \in \mathbf{NP}$ satisfies $A \leq_p B$. The collection of all $\mathbf{NP}$-hard problems is denoted by the class \textbf{$\mathbf{NP}$-hard}.
 \end{definition}
 
+Importantly, an $\mathbf{NP}$-hard problem many not necessary lie in $\mathbf{NP}$. If it does, it is classified as $\mathbf{NP}$-complete. 
+
 \begin{definition}[Class $\mathbf{NP}$-Complete] \label{def::class_np_complete}
   A decision problem $B$ is \textbf{$\mathbf{NP}$-complete} if $B \in \mathbf{NP}$, and $B$ is $\mathbf{NP}$-hard. The collection of all $\mathbf{NP}$-complete problems is denoted by the class \textbf{$\mathbf{NP}$-complete}.
 \end{definition}
 
+That is, one can establish that a problem is $\mathbf{NP}$-complete by showing that it belongs to $\mathbf{NP}$ and that a known $\mathbf{NP}$-complete problem can be reduced to it in polynomial time. 
+
+The first known $\mathbf{NP}$-complete problem was established by the Cook-Levin theorem and is the Boolean satisfiability problem, or SAT. 
+
+\begin{definition}[Boolean Satisfiability Problem] \label{def::SAT}
+  The \textbf{Boolean satisfiability problem} (\textbf{SAT}) asks whether there exists an assignment of truth values to the variables of a given Boolean formula such that the formula evaluates to true. A Boolean formula is said to be \textbf{satisfiable} if such an assignment exists.
+\end{definition}
+
+Any Boolean formula can be transformed into an equisatisfiable formula typically in linear time using the \textbf{Tseytin transformation} by introducing additional variables. This transformation preserves satisfiability while ensuring only linear growth in the size of the resulting conjunctive normal form Boolean formula.  
+
+\begin{definition}[Conjunctive Normal Form]
+\label{def::CNF}
+A Boolean formula is in \textbf{conjunctive normal form} (\textbf{CNF}) if it is expressed as a conjunction of clauses, where each clause is a disjunction of literals. That is, a CNF formula has the form
+\[
+C_1 \land C_2 \land \cdots \land C_m, \quad \text {where each clause $C_i$ is of the form} \quad
+C_i = \ell_{i1} \lor \ell_{i2} \lor \cdots \lor \ell_{ik_i}
+\]
+and each $\ell_{ij}$ is either a Boolean variable or its negation denoted with $\lnot$.
+\end{definition}
+
+A further restriction is obtained by requiring each clause in a CNF formula to contain exactly three literals, which can be done using $3$-CNF transformation, to give the following problem.
+
+\begin{definition}[3-SAT] \label{def::3SAT}
+  The \textbf{3-SAT} problem asks whether there exists an assignment of truth values to the variables of a Boolean formula in conjunctive normal form such that every clause contains exactly three literals and the formula evaluates to true.
+\end{definition}
+
+3-SAT is a $\mathbf{NP}$-complete problem and will be used as the source problem for establishing the $\mathbf{NP}$-hardness of the graph square problem. 
 
 \subsection{Graph Theory}
 
+Objects, which are represented by vertices and edges representing relationships between them can be conveniently represented using a 
+
 \begin{definition}[Graph] \label{def::graph}
-  
+  A \textbf{graph} $G$ is an ordered pair $(V,E)$, where $V$ is a set of vertices and $E$ is a set of edges between pairs of vertices in $V$.
 \end{definition}
 
-\begin{definition}[Undirected Graph] \label{def::undirected_graph}
-  
+The number of vertices and edges in a graph provide basic measures of its
+size.
+
+\begin{definition}[Order and Size] \label{def::order_size}
+  The \textbf{order} of a graph $G$, denoted by $|G|$, is the number of vertices in $G$, while the \textbf{size} of $G$ is the number of edges. Thus, if $V(G)=\{v_1,\ldots,v_n\}$ and $E(G)=\{e_1,\ldots,e_m\}$, then $|G|=n$ and $|E(G)|=m$.
+\end{definition}
+
+For a vertex $v$, the number of edges incident to it is its degree.
+
+\begin{definition}[Degree] \label{def::degree}
+  The \textbf{degree} of a vertex $v$ in a graph $G$, denoted by $\deg_G(v)$, is the number of edges incident to $v$. The minimum and maximum degrees of $G$ are denoted by
+  \[
+  \delta(G)=\min_{v\in V(G)}\deg_G(v) \quad \text{and} \quad \Delta(G)=\max_{v\in V(G)}\deg_G(v),
+  \]
+  respectively.
+\end{definition}
+
+The degree of a vertex can also be described through the vertices to which it is adjacent to.
+
+\begin{definition}[Neighbourhood] \label{def::neighbourhood}
+  For a vertex $v\in V(G)$, the \textbf{neighbourhood} of $v$ denoted by $N_G(v)$, is the set of vertices adjacent to $v$ in $G$. The \textbf{closed neighbourhood} of $v$ includes vertex $v$ and is denoted by 
+  \[
+  N_G[v]=N_G(v)\cup\{v\}.
+  \]
+\end{definition}
+
+Connections between vertices can be described using walks, paths and cycles.
+
+\begin{definition}[Walk] \label{def::walk}
+  A \textbf{walk} from a vertex $v_i$ to a vertex $v_j$ in a graph $G$ is an alternating sequence of vertices and edges
+  \[
+  W=\langle v_i,e_1,v_1,e_2,\ldots,e_k,v_j\rangle,
+  \]
+  where each edge $e_r$ has endpoints given by the vertices immediately preceding and following it in the sequence. The number of edges in $W$ is called the \textbf{length} of the walk.
+\end{definition}
+
+\begin{definition}[Path] \label{def::path}
+  A \textbf{path} is a walk in which no vertex is repeated.
+\end{definition}
+
+\begin{definition}[Cycle] \label{def::cycle}
+  A \textbf{cycle} is a closed path in which the first and last vertices are the same and all other vertices are distinct.
+\end{definition}
+
+The length of a shortest cycle is an important structural parameter.
+
+\begin{definition}[Girth] \label{def::girth}
+  The \textbf{girth} of a graph $G$, denoted by $g(G)$, is the length of the shortest cycle in $G$. If $G$ contains no cycle, its girth is $\infty$.
+\end{definition}
+
+The length of a shortest path provides a natural measure of the distance between two vertices.
+
+\begin{definition}[Graph Distance] \label{def::graph_distance}
+  Denote by $d_H(u,v)$ the \textbf{graph distance} defined as the number of edges of the shortest path between vertices $u$ and $v$ in $H$. If no such path exists, $d_H(u,v) = \infty$. For vertices $u,v\in V$, $d_H(u,v)$ is the length of a shortest path between $u$ and $v$ in $H$. If no such path exists, then $d_H(u,v)=\infty$.
+\end{definition}
+
+\begin{definition}[Diameter] \label{def::diameter}
+  The \textbf{diameter} of a graph $G$ is
+  \[
+  \operatorname{diam}(G) = \max_{u,v\in V(G)}d_G(u,v).
+  \]
+  For a disconnected graph, the diameter is $\infty$.
+\end{definition}
+
+If a graph has finite diameter it is connected. 
+
+\begin{definition}[Connected Graph] \label{def::connected_graph}
+  A graph $G$ is \textbf{connected} if there exists a path between every pair of vertices in $G$ Otherwise, $G$ is \textbf{disconnected}.
+\end{definition}
+
+A graph can be further categorized according to whether multiple edges between a vertex and itself are permitted, whether there are infinite number of vertices and edges, whether the edges represent an unordered or ordered relationship between their endpoints, and whether the vertices are labelled or unlabelled. 
+
+\begin{definition}[Simple Graph] \label{def::simple_graph}
+  A \textbf{simple graph} $G=(V,E)$ is a graph in which no two distinct edges connect the same pair of vertices and no edge connects a vertex to itself. 
+\end{definition}
+
+\begin{definition}[Finite Graph] \label{def::finite_graph}
+  A \textbf{finite graph} is a graph $G=(V,E)$ for which both $V$ and $E$ are finite sets. A graph that is not finite is called an \textbf{infinite graph}.
 \end{definition}
 
 \begin{definition}[Directed Graph] \label{def::directed_graph}
-  
+  A \textbf{directed graph} $G=(V,E)$ is a graph in which each edge $e\in E$ is an ordered pair of distinct vertices in $V$. Thus, $(u,v)$ represents an edge directed from $u$ to $v$, where 
+  $(u,v)$ may not necessarily be equal to $(v,u)$.
+
+  An \textbf{undirected graph} $G=(V,E)$ is a graph in which each edge $e\in E$ is an unordered pair of distinct vertices in $V$. Thus, $\{u,v\}=\{v,u\}$ for every edge between vertices $u$ and $v$.
 \end{definition}
+
+\begin{definition}[Labelled Graph] \label{def::labelled_graph}
+  A \textbf{labelled graph} is a graph $G=(V,E)$ together with a labelling function $\ell:V\rightarrow L$, where $L$ is a set of labels. A graph is \textbf{unlabelled} when no such vertex labels are specified. 
+\end{definition}
+
+In this thesis, we exclusively study finite, simple, undirected, unlabelled graphs. However, the constructions and algorithms may use additional structure, including labels or multiple edges, which must be analysed and restricted to their corresponding simple, unlabelled counterparts.
+
+In particular, two graphs may have different vertex sets while nevertheless having the same underlying structure. This motivates the following notion of isomorphism.
+
+\begin{definition}[Graph Isomorphism] \label{def::graph_isomorphism}
+  Let $G$ and $H$ be graphs. An \textbf{isomorphism} from $G$ to $H$ is a bijection
+  \[
+  f:V(G)\rightarrow V(H) \quad \text{such that} \quad uv\in E(G) \text{ if and only if } f(u)f(v)\in E(H).
+  \]
+  We say that $G$ is \textbf{isomorphic} to $H$, written
+  $G\cong H$, if there exists an isomorphism from $G$ to $H$.
+\end{definition}
+
+The isomorphism relation is an equivalence relation on the set of graphs, and an \textbf{isomorphism class} is an equivalence class of graphs under this relation. Thus, graphs within the same isomorphism class have the same structure up to a relabelling of their vertices.
+
+We will also consider graphs obtained by restricting the vertices and edges of another graph.
+
+\begin{definition}[Subgraph] \label{def::subgraph}
+  A graph $H=(V(H),E(H))$ is a \textbf{subgraph} of a graph $G=(V(G),E(G))$ if
+  \[
+  V(H)\subseteq V(G) \quad \text{and} \quad E(H)\subseteq E(G).
+  \]
+  For $S\subseteq V(G)$, the \textbf{induced subgraph} of $G$ on $S$, denoted by $G[S]$, is the graph with vertex set $S$ and edge set
+  \[
+  E(G[S])=\{uv\in E(G):u,v\in S\}.
+  \]
+\end{definition}
+
+One of the most important types of graphs is the complete graph, and its subgraph counterpart. 
+
+\begin{definition}[Complete Graph] \label{def::complete_graph}
+  A graph on $n$ vertices is \textbf{complete} if every pair of distinct vertices is adjacent. The complete graph on $n$ vertices is denoted by $K_n$.
+\end{definition}
+
+\begin{definition}[Clique] \label{def::clique}
+  A \textbf{clique} of a graph $G$ is a subset $S\subseteq V(G)$ such that the induced subgraph $G[S]$ is complete. The \textbf{clique number} of $G$, denoted by $\omega(G)$, is the size of a largest clique in $G$.
+\end{definition}
+
+The graph structures above can be represented algebraically using matrices.
 
 \begin{definition}[Adjacency Matrix] \label{def::adjacency_matrix}
     The \textbf{adjacency matrix} of graph $H$ is denoted by $A_H \in \{0,1\}^{n \times n}$ where
@@ -193,6 +372,8 @@ Whether this inclusion is strict remains one of the most important open question
     \end{cases}
     \]
 \end{definition}
+
+The degrees of the vertices can similarly be represented by a diagonal matrix.
 
 \begin{definition}[Degree Matrix] \label{def::degree_matrix}
     The \textbf{degree matrix} of graph $H$ is denoted by $D_H \in \mathbb{R}^{n \times n}$ where
@@ -216,9 +397,7 @@ Whether this inclusion is strict remains one of the most important open question
     \]
 \end{definition}
 
-\begin{definition}[Graph Distance] \label{def::graph_distance}
-    Denote by $d_H(u,v)$ the \textbf{graph distance} defined as the number of edges of the shortest path between vertices $u$ and $v$ in $H$. If no such path exists, $d_H(u,v) = \infty$. For vertices $u,v\in V$, $d_H(u,v)$ is the length of a shortest path between $u$ and $v$ in $H$. If no such path exists, then $d_H(u,v)=\infty$.
-\end{definition}
+We now introduce the graph-theoretic objects central to this thesis.
 
 \begin{definition}[Graph Root] \label{def::graph_root}
     Let the \textbf{graph root} $H = (V, E_H)$ be a finite, simple, undirected graph, where $V$ is the vertex set with $|V| = n$, and $E_H \subseteq \{\{u,v\} \mid u,v \in V,\; u \neq v\}$ is the edge set. 
@@ -249,113 +428,160 @@ Whether this inclusion is strict remains one of the most important open question
 
 \subsection{Mathematical Optimization}
 
-\begin{definition}[Integer Program] \label{def::integer_program}
+Mathematical optimization studies the problem of finding the best solution from all feasible solutions which are defined by a collection of constraints. An optimization problem usually consists of decision variables, an objective function to be maximized or minimized, and a set of constraints restricting the feasible values of the variables.
 
+\begin{definition}[Integer Program] \label{def::integer_program}
+  An \textbf{integer program} ($LP$) is an optimization problem of the form
+  \[
+  \begin{aligned}
+  \text{max/min}\quad & c^\top x\\
+  \text{subject to}\quad & Ax\leq b,\\
+  & x\in\mathbb{Z}^n,
+  \end{aligned}
+  \]
+  where $x\in\mathbb{Z}^n$ is the vector of decision variables, $c\in\mathbb{R}^n$ is the objective coefficient vector, $A\in\mathbb{R}^{m\times n}$ is the constraint matrix, and $b\in\mathbb{R}^m$ is the constraint vector.
+\end{definition}
+
+A linear relaxation is obtained by removing the integrality requirements from an integer program while retaining its linear objective function and constraints.
+
+\begin{definition}[Linear Relaxation] \label{def::linear_relaxation}
+  Let $IP$ be an integer program. The \textbf{linear relaxation} of $IP$ is the linear program obtained by removing the requirement that its variables take integer values.
 \end{definition}
 
 \begin{definition}[Linear Program] \label{def::linear_program}
-  
+  A \textbf{linear program} ($LP$) is an optimization problem of the form
+  \[
+  \begin{aligned}
+  \text{max/min}\quad & c^\top x\\
+  \text{subject to}\quad & Ax\leq b,\\
+  & x\in\mathbb{R}^n,
+  \end{aligned}
+  \]
+  where $x\in\mathbb{R}^n$ is the vector of decision variables, $c\in\mathbb{R}^n$ is the objective coefficient vector, $A\in\mathbb{R}^{m\times n}$ is the constraint matrix, and $b\in\mathbb{R}^m$ is the constraint vector.
 \end{definition}
 
+The set of solutions satisfying all constraints is referred to as the feasible region.
 
+\begin{definition}[Feasible Solution] \label{def::feasible_solution}
+  A \textbf{feasible solution} to an optimization problem is an assignment of values to its decision variables that satisfies all of its constraints. The set of all feasible solutions is called the \textbf{feasible region}.
+\end{definition}
 
+Among the feasible solutions, an optimal solution is one that achieves the best value of the objective function.
+
+\begin{definition}[Optimal Solution] \label{def::optimal_solution}
+  An \textbf{optimal solution} is a feasible solution that maximizes or minimizes the objective function, depending on the optimization problem. The corresponding value of the objective function is called the \textbf{optimal value}.
+\end{definition}
+
+In the case where the objective function is constant with no variables and is trivially satisfied, then all feasible solutions are optimal solutions. 
 
 \chapter{Algorithmic Approaches} \label{chap::algorithmic_approaches}
 
-In this chapter we explore different methodologies that have been used to show certain properties of the graph root and the graph square. For many restricted cases which are NP, a polynomial time reduction is given and incases which are polynomial, a polynomial time algorithm is given.  
+In this chapter we explore different methodologies that have been used to show certain properties of the graph root and the graph square. For many restricted cases which are $\mathbf{NP}$, a polynomial time reduction is given and incases which are polynomial, a polynomial time algorithm is given.  
+
+\section{NP-Completeness Proof} \label{sec::np_completeness_proof}
+
+We now establish the computational complexity of the graph square problem as was established by \citeauthor{motwani_sudan_1994_roots} in their paper \cite{motwani_sudan_1994_roots}. The decision version of the problem asks whether a given graph admits a graph root whose square is the given graph.
+
+\begin{definition}[SQUARE] \label{def::square_problem}
+\leavevmode
+
+\textbf{Instance:} A finite, simple, undirected graph $G=(V,E)$.
+\medskip
+
+\textbf{Question:} Does there exist a finite, simple, undirected graph $H$ such that
+\[
+G = H^2?
+\]
+\end{definition}
+
+To show that Definition~\ref{def::square_problem} is $\mathbf{NP}$-complete, it is necessary to show that it is in $\mathbf{NP}$ and that it is $\mathbf{NP}$-hard by reducing not-all-equal SAT (NAESAT) to the problem. 
+
+
+Given a candidate square root $H$, one can verify in polynomial time whether $G = H^2$ by computing the distances between pairs of vertices in $H$, or equivalently by constructing the square $H^2$ and comparing its edge set with that of $G$. Hence, $H$ provides a polynomially verifiable certificate for a \textbf{Yes}-instance of SQUARE and therefore
+\[
+\text{SQUARE}\in\mathbf{NP}.
+\]
 
 \section{Polynomial Time Algorithm} \label{sec::square_of_a_tree}
 
-\citeauthor{ross_1960_square} give an algorithm for constructing a tree $T$ when given its graph square $G = T^2$ using the following characterization.  
-\begin{itemize}
-    \item If $G = K_p$ is complete, then $T$ must be a tree of depth 1 (result of \hyperref[lemma:1]{Lemma 1})
-    \item If $G \neq K_p$ 
-    \begin{enumerate}[label=(\roman*)]
-        \item\label{characterization:1} Every vertex of $G$ forms a clique with its neighbours and $G$ is connected (result of \hyperref[lemma:2]{Lemma 2})
-        \item\label{characterization:2} If two cliques intersect at only one point $v$ then there is a third clique with which they share $v$ and exactly
-                one other point (result of \hyperref[lemma:3]{Lemma 3} and \hyperref[lemma:5]{Lemma 5})
-        \item\label{characterization:3} A clique $C(v)$ in $G$ corresponding to $v$ in $T$ contains exactly as many points in multiple cliques
-            as the number of cliques which include $v$ (result of \hyperref[lemma:3]{Lemma 3} and \hyperref[lemma:4]{Lemma 4})
-        \item\label{characterization:4} Every pair of cliques intersect at at most two points (result of \hyperref[lemma:5]{Lemma 5})
-        \item\label{characterization:5} The number of pairs of cliques that meet at two points is one less than the number of cliques (result of 
-            cliques formed from non-leaf nodes forming a tree structure)
-    \end{enumerate}
-\end{itemize}
+\citeauthor{ross_1960_square} give an algorithm for constructing a tree $T$ when given its graph square $G = T^2$ using the following theorem
 
-\subsubsection*{Lemma 1}\label{lemma:1}
-$G$ is complete iff $T$ has depth 1. 
+\begin{theorem}[Structural Characterization of Squares of Trees] \label{theoremm::structural_characterization_trees}
+
+Let $G$ be a finite, simple, undirected graph. Then $G=T^2$ for some tree $T$ if and only if either $G=K_p$ is complete, or the maximal cliques of $G$ satisfy the following properties:
+
+\begin{enumerate}[label=(\roman*)]
+  \item\label{characterization:1} Every vertex of $G$ forms a clique with its neighbours and $G$ is connected 
+  \item\label{characterization:2} If two cliques intersect at only one point $v$ then there is a third clique with which they share $v$ and exactly one other point 
+  \item\label{characterization:3} A clique $C(v)$ in $G$ corresponding to $v$ in $T$ contains exactly as many points in multiple cliques as the number of cliques which include $v$
+  \item\label{characterization:4} Every pair of cliques intersect at at most two points 
+  \item\label{characterization:5} The number of pairs of cliques that meet at two points is one less than the number of cliques 
+\end{enumerate}
+
+Moreover, these properties provide a polynomial-time procedure for reconstructing $T$ from $G$.
+\end{theorem}
+
+To show this, we require the following lemmas 
+
+\begin{lemma}\label{lemma::1}
+  $G$ is complete if and only if $T$ has depth 1. 
+\end{lemma}
 \begin{proof}
-$\left(\leftarrow\right)$ Let $T$ be a tree with depth 1, hence all vertices in $T$ are at most 2-distance away from 
-any other vertex since the root is a non-leaf vertex adjacent to all vertices in $T$ $\implies$ $G = T^2$ is complete since 
-edges exist between all vertices
+  Let $T$ be a tree with depth 1, hence all vertices in $T$ are at most 2-distance away from any other vertex since the root is a non-leaf vertex adjacent to all vertices in $T$ implies that$G = T^2$ is complete since edges exist between all vertices
 
-$\left(\rightarrow\right)$ Let $G = T^2$ be complete, then all vertices must have distance at most two in $T$
-and $T$ has depth at most 2. Since $T$ is a tree, there are no cycles and hence there cannot be depth 2 since this 
-would lead to a path of length 3 from the vertex in depth 2 to an alternate vertex in depth 1. Hence $T$ has exactly 
-depth 1. 
+  Let $G = T^2$ be complete, then all vertices must have distance at most two in $T$ and $T$ has depth at most 2. Since $T$ is a tree, there are no cycles and hence there cannot be depth 2 since this would lead to a path of length 3 from the vertex in depth 2 to an alternate vertex in depth 1. Hence $T$ has exactly depth 1. 
 \end{proof}
 
-\subsubsection*{Lemma 2}\label{lemma:2}
-Every vertex of $G$ forms a clique with its neighbours and $G$ is connected
+\begin{lemma} \label{lemma::2}
+  Every vertex of $G$ forms a clique with its neighbours and $G$ is connected
+\end{lemma}
 \begin{proof}
-For a vertex $v \in T$, its neighbours in $T$ are all adjacent edge in $G$ by construction 
-hence $\left\{ v \right\} \cup \Gamma \left(v\right)$ is a clique in $G$.
-$T \subseteq G$ and since $T$ is a tree which is connected, $G$ must also be connected. 
+  For a vertex $v \in T$, its neighbours in $T$ are all adjacent edge in $G$ by construction 
+  hence $\left\{ v \right\} \cup \Gamma \left(v\right)$ is a clique in $G$. $T \subseteq G$ and since $T$ is a tree which is connected, $G$ must also be connected. 
 \end{proof}
 
-\subsubsection*{Lemma 3}\label{lemma:3}
-Every maximal clique of $G$ corresponds to a closed neighbourhood of a non-leaf vertex and 
-every closed neighbourhood of a non-leaf vertex in $T$ form a clique in $G$
-
+\begin{lemma}\label{lemma::3}
+  Every maximal clique of $G$ corresponds to a closed neighbourhood of a non-leaf vertex and 
+  every closed neighbourhood of a non-leaf vertex in $T$ form a clique in $G$
+\end{lemma}
 \begin{proof}
-A set of leaves in $T$ cannot form a clique in $G$ without having at least one non-leaf since the distance between 
-every leaf is at least greater than 2 unless they share a common neighbour. 
+  A set of leaves in $T$ cannot form a clique in $G$ without having at least one non-leaf since the distance between every leaf is at least greater than 2 unless they share a common neighbour. 
 
-Consider a non-leaf vertex $v \in T$, since all vertices in neighbourhood $\Gamma\left(v\right)$ have 
-distance at most 2 in $G$, they will form a clique in $G$. This clique is maximal since all neighbours of $v$ are already 
-part of the clique and no additional vertex can be added. 
+  Consider a non-leaf vertex $v \in T$, since all vertices in neighbourhood $\Gamma\left(v\right)$ have  distance at most 2 in $G$, they will form a clique in $G$. This clique is maximal since all neighbours of $v$ are already part of the clique and no additional vertex can be added. 
 \end{proof}
 
-\subsubsection*{Lemma 4}\label{lemma:4}
-If $G$ has more than one maximal clique, then vertex $v$ is in exactly one maximal clique in $G$ iff $v$ is a leaf in $T$
-
+\begin{lemma}\label{lemma::4}
+  If $G$ has more than one maximal clique, then vertex $v$ is in exactly one maximal clique in $G$ if and only if $v$ is a leaf in $T$
+\end{lemma}
 \begin{proof}
-$\left(\leftarrow\right)$ Suppose vertices $v, w$ to be in two cliques, there must be a neighbour $x \in \Gamma\left(v\right)$ 
-that is not adjacent to $w$. If $x$ is not a leaf in $T$, will form a third clique in $G$ and being 2-distance away from
-$w$ will also be in the clique formed from $w$. 
-Hence only if this adjacent vertex is a leaf will it be in only one clique $G$.  
+  Suppose vertices $v, w$ to be in two cliques, there must be a neighbour $x \in \Gamma\left(v\right)$ that is not adjacent to $w$. If $x$ is not a leaf in $T$, will form a third clique in $G$ and being distance two away from $w$ will also be in the clique formed from $w$. Hence only if this adjacent vertex is a leaf will it be in only one clique $G$.  
 
-$\left(\rightarrow\right)$ Suppose $v$ is a leaf in $T$ whereby $v$ has exactly one neighbour $w$ with is a non-leaf. 
-The only maximal clique in $G$ that includes $v$ must also include $w$ and the neighbourhood $\Gamma\left(w\right)$.
-Since $v$ has no other neighbours it cannot appear in any other clique and hence is in exactly one clique.  
+  Suppose $v$ is a leaf in $T$ whereby $v$ has exactly one neighbour $w$ with is a non-leaf. 
+  The only maximal clique in $G$ that includes $v$ must also include $w$ and the neighbourhood $\Gamma\left(w\right)$. Since $v$ has no other neighbours it cannot appear in any other clique and hence is in exactly one clique.  
 \end{proof}
 
-\subsubsection*{Lemma 5}\label{lemma:5}
-Two non-leaves of $T$ are adjacent in $T$ iff their neighbourhoods are cliques of $G$ that intersect in exactly two points
-
+\begin{lemma}\label{lemma::5}
+  Two non-leaves of $T$ are adjacent in $T$ if and only if their neighbourhoods are cliques of $G$ that intersect in exactly two points
+\end{lemma}
 \begin{proof}
-$\left(\leftarrow\right)$ Supposes cliques in $G$ correspond to the neighbourhoods of two non-leaf neighbours $v, w$ 
-which intersect at exactly $v, w$. Then $v, w$ must be adjacent, otherwise if they were instead 2-distance away then
-they would share a common neighbour $u$ which is also in both cliques. 
+  Supposes cliques in $G$ correspond to the neighbourhoods of two non-leaf neighbours $v, w$ 
+  which intersect at exactly $v, w$. Then $v, w$ must be adjacent, otherwise if they were instead distance two away then they would share a common neighbour $u$ which is also in both cliques. 
 
-$\left(\rightarrow\right)$ Let $v, w$ be adjacent vertices that are non-leafs in $T$. Both will form cliques in $G$ and be in each clique since they 
-are neighbours. Assume to the contrary that $\exists$ vertex $k$ also in both cliques. $k$ must be adjacent to both 
-$v, w$ in $T$ but this creates a cycle since there is now two different paths between $v, w$. Hence $v, w$ are the 
-only two vertices that intersect in the two clique neighbourhoods.   
+  Let $v, w$ be adjacent vertices that are non-leafs in $T$. Both will form cliques in $G$ and be in each clique since they are neighbours. Assume to the contrary that $\exists$ vertex $k$ also in both cliques. $k$ must be adjacent to both $v, w$ in $T$ but this creates a cycle since there is now two different paths between $v, w$. Hence $v, w$ are the only two vertices that intersect in the two clique neighbourhoods.   
 \end{proof}
 
-\subsubsection*{Lemma 6}\label{lemma:6}
-$G$ is a connected graph where the removal of any edge does not result in a disconnected graph
-
+\begin{lemma}\label{lemma::6}
+  $G$ is a connected graph where the removal of any edge does not result in a disconnected graph
+\end{lemma}
 \begin{proof}
-By construction $\exists$ two paths between every pair of vertices $v, w \in G$ where one of the vertices $v$ must
-be non-leaf. Remove the existing $vw$ edge in $T \subset G$. There still exists a path by taking the 2-distance edge 
-to the neighbour $u$ of $v$ and then going from $u to w$ ($vu, uw$), hence the graph $G$ is still connected.
+  By construction $\exists$ two paths between every pair of vertices $v, w \in G$ where one of the vertices $v$ must be non-leaf. Remove the existing $vw$ edge in $T \subset G$. There still exists a path by taking the distance two edge to the neighbour $u$ of $v$ and then going from $u to w$ ($vu, uw$), hence the graph $G$ is still connected.
 \end{proof}
 
-Combining this gives the following 
+Combining this gives the following proof of Theorem~\eqref{theorem::structural_characterization_trees}
+\begin{proof}
+  
+\end{proof}
 
-\subsection*{Algorithm}
 
 \begin{algorithm}
 \begin{algorithmic}[1]
@@ -567,14 +793,14 @@ Consider this graph square on $6$ vertices with only one unique root
 \begin{figure}[ht]
     \centering
 
-    \begin{subfigure}{0.48\textwidth}
+    \begin{subfigure}{0.43\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/115_6_root.png}
         \caption{The root graph $G$.}
         \label{fig::115_6_root}
     \end{subfigure}
     \hfill
-    \begin{subfigure}{0.47\textwidth}
+    \begin{subfigure}{0.42\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/115_6_square.png}
         \caption{The graph square $H=G^2$.}
