@@ -283,8 +283,8 @@ The length of a shortest cycle is an important structural parameter.
 
 The length of a shortest path provides a natural measure of the distance between two vertices.
 
-\begin{definition}[Graph Distance] \label{def::graph_distance}
-  Denote by $d_H(u,v)$ the \textbf{graph distance} defined as the number of edges of the shortest path between vertices $u$ and $v$ in $H$. If no such path exists, $d_H(u,v) = \infty$. For vertices $u,v\in V$, $d_H(u,v)$ is the length of a shortest path between $u$ and $v$ in $H$. If no such path exists, then $d_H(u,v)=\infty$.
+\begin{definition}[Distance] \label{def::distance}
+  The \textbf{distance} between two vertices $u$ and $v$ on the graph $G$, denoted by $d_G(u,v)$, is the number of edges of the shortest path between vertices $u$ and $v$ in $G$. If no such path exists, $d_G(u,v) = \infty$. 
 \end{definition}
 
 \begin{definition}[Diameter] \label{def::diameter}
@@ -460,19 +460,42 @@ A linear relaxation is obtained by removing the integrality requirements from an
   where $x\in\mathbb{R}^n$ is the vector of decision variables, $c\in\mathbb{R}^n$ is the objective coefficient vector, $A\in\mathbb{R}^{m\times n}$ is the constraint matrix, and $b\in\mathbb{R}^m$ is the constraint vector.
 \end{definition}
 
-The set of solutions satisfying all constraints is referred to as the feasible region.
-
 \begin{definition}[Feasible Solution] \label{def::feasible_solution}
-  A \textbf{feasible solution} to an optimization problem is an assignment of values to its decision variables that satisfies all of its constraints. The set of all feasible solutions is called the \textbf{feasible region}.
+  A \textbf{feasible solution} to an optimization problem is an assignment of values to its decision variables that satisfies all of its constraints. The set of all feasible solutions is called the \textbf{feasible set} and is denoted by $\mathcal{F}$. Geometrically, $\mathcal{F}$ is the subset of the decision-variable space satisfying all of the constraints and is
+  referred to as the \textbf{feasible region}.
 \end{definition}
 
 Among the feasible solutions, an optimal solution is one that achieves the best value of the objective function.
 
 \begin{definition}[Optimal Solution] \label{def::optimal_solution}
-  An \textbf{optimal solution} is a feasible solution that maximizes or minimizes the objective function, depending on the optimization problem. The corresponding value of the objective function is called the \textbf{optimal value}.
+  An \textbf{optimal solution} is a feasible solution that maximizes or minimizes the objective function, depending on the optimization problem. The corresponding value of the objective function is called the \textbf{optimal value} and is denoted by $\operatorname{OPT}$.
 \end{definition}
 
-In the case where the objective function is constant with no variables and is trivially satisfied, then all feasible solutions are optimal solutions. 
+When an integer program is relaxed to a linear program, every feasible integer solution remains feasible for the relaxation. Consequently, if $\mathcal{F}_{IP}$ and $\mathcal{F}_{LP}$ denote the feasible sets of the integer program and its linear relaxation respectively, then
+\[
+\mathcal{F}_{IP} \subseteq \mathcal{F}_{LP}.
+\]
+Geometrically, $\mathcal{F}_{IP}$ is represented by the feasible integer points in the decision-variable space, whereas $\mathcal{F}_{LP}$ is the polyhedron defined by the relaxed constraints and may contain additional points.
+
+\input{subfiles/LinearRelaxationSetGeometry.tex}
+
+For a maximization problem, this set inclusion implies $\operatorname{OPT}_{IP} \leq \operatorname{OPT}_{LP}$, so the linear relaxation provides an upper bound on the optimal value of the integer program. For a minimization problem, $\operatorname{OPT}_{LP} \leq \operatorname{OPT}_{IP}$, so the linear relaxation provides a lower bound.
+
+\begin{definition}[Integer Hull] \label{def::integer_hull}
+  Let $\mathcal{F}_{IP}$ denote the feasible set of an integer program. The \textbf{integer hull} is the convex hull of the feasible integer solutions, denoted by $\operatorname{conv}(\mathcal{F}_{IP})$. That is, the integer hull is the set of all convex combinations of
+  points in $\mathcal{F}_{IP}$.
+\end{definition}
+
+Since the feasible region of a linear program is convex, the integer hull is contained in the feasible region of its linear relaxation. Hence,
+\[
+\mathcal{F}_{IP} \subseteq \operatorname{conv}(\mathcal{F}_{IP}) \subseteq \mathcal{F}_{LP}.
+\]
+The integer hull is the smallest convex set containing all feasible integer solutions. Thus, geometrically, the gap between the integer hull and the LP feasible region represents the additional solutions admitted by the relaxation. If
+\[
+\operatorname{conv}(\mathcal{F}_{IP}) = \mathcal{F}_{LP},
+\]
+then the linear relaxation coincides with the integer hull and is therefore an exact convex description of the feasible integer solutions.
+
 
 \chapter{Algorithmic Approaches} \label{chap::algorithmic_approaches}
 
@@ -517,37 +540,33 @@ Let $G$ be a finite, simple, undirected graph. Then $G=T^2$ for some tree $T$ if
   \item\label{characterization:4} Every pair of cliques intersect at at most two points 
   \item\label{characterization:5} The number of pairs of cliques that meet at two points is one less than the number of cliques 
 \end{enumerate}
-
-Moreover, these properties provide a polynomial-time procedure for reconstructing $T$ from $G$.
 \end{theorem}
 
 To show this, we require the following lemmas 
 
 \begin{lemma}\label{lemma::1}
-  $G$ is complete if and only if $T$ has depth 1. 
+  $G$ is complete if and only if $T$ has depth one. 
 \end{lemma}
 \begin{proof}
-  Let $T$ be a tree with depth 1, hence all vertices in $T$ are at most 2-distance away from any other vertex since the root is a non-leaf vertex adjacent to all vertices in $T$ implies that$G = T^2$ is complete since edges exist between all vertices
+  Let $T$ be a tree with depth one, hence all vertices in $T$ are at most distance two away from any other vertex since the root is a non-leaf vertex adjacent to all vertices in $T$ implies that$G = T^2$ is complete since edges exist between all vertices
 
-  Let $G = T^2$ be complete, then all vertices must have distance at most two in $T$ and $T$ has depth at most 2. Since $T$ is a tree, there are no cycles and hence there cannot be depth 2 since this would lead to a path of length 3 from the vertex in depth 2 to an alternate vertex in depth 1. Hence $T$ has exactly depth 1. 
+  Let $G = T^2$ be complete, then all vertices must have distance at most two in $T$ and $T$ has depth at most two. Since $T$ is a tree, there are no cycles and hence there cannot be depth two since this would lead to a path of length three from the vertex at depth two to an alternate vertex in depth one. Hence $T$ has exactly depth one. 
 \end{proof}
 
 \begin{lemma} \label{lemma::2}
   Every vertex of $G$ forms a clique with its neighbours and $G$ is connected
 \end{lemma}
 \begin{proof}
-  For a vertex $v \in T$, its neighbours in $T$ are all adjacent edge in $G$ by construction 
-  hence $\left\{ v \right\} \cup \Gamma \left(v\right)$ is a clique in $G$. $T \subseteq G$ and since $T$ is a tree which is connected, $G$ must also be connected. 
+  For a vertex $v \in T$, its neighbours in $T$ are all adjacent edge in $G$ by construction hence $\left\{ v \right\} \cup \Gamma \left(v\right)$ is a clique in $G$. $T \subseteq G$ and since $T$ is a tree which is connected, $G$ must also be connected. 
 \end{proof}
 
 \begin{lemma}\label{lemma::3}
-  Every maximal clique of $G$ corresponds to a closed neighbourhood of a non-leaf vertex and 
-  every closed neighbourhood of a non-leaf vertex in $T$ form a clique in $G$
+  Every maximal clique of $G$ corresponds to a closed neighbourhood of a non-leaf vertex and every closed neighbourhood of a non-leaf vertex in $T$ form a clique in $G$
 \end{lemma}
 \begin{proof}
-  A set of leaves in $T$ cannot form a clique in $G$ without having at least one non-leaf since the distance between every leaf is at least greater than 2 unless they share a common neighbour. 
+  A set of leaves in $T$ cannot form a clique in $G$ without having at least one non-leaf since the distance between every leaf is at least greater than two unless they share a common neighbour. 
 
-  Consider a non-leaf vertex $v \in T$, since all vertices in neighbourhood $\Gamma\left(v\right)$ have  distance at most 2 in $G$, they will form a clique in $G$. This clique is maximal since all neighbours of $v$ are already part of the clique and no additional vertex can be added. 
+  Consider a non-leaf vertex $v \in T$, since all vertices in neighbourhood $\Gamma\left(v\right)$ have  distance at most two in $G$, they will form a clique in $G$. This clique is maximal since all neighbours of $v$ are already part of the clique and no additional vertex can be added. 
 \end{proof}
 
 \begin{lemma}\label{lemma::4}
@@ -556,16 +575,14 @@ To show this, we require the following lemmas
 \begin{proof}
   Suppose vertices $v, w$ to be in two cliques, there must be a neighbour $x \in \Gamma\left(v\right)$ that is not adjacent to $w$. If $x$ is not a leaf in $T$, will form a third clique in $G$ and being distance two away from $w$ will also be in the clique formed from $w$. Hence only if this adjacent vertex is a leaf will it be in only one clique $G$.  
 
-  Suppose $v$ is a leaf in $T$ whereby $v$ has exactly one neighbour $w$ with is a non-leaf. 
-  The only maximal clique in $G$ that includes $v$ must also include $w$ and the neighbourhood $\Gamma\left(w\right)$. Since $v$ has no other neighbours it cannot appear in any other clique and hence is in exactly one clique.  
+  Suppose $v$ is a leaf in $T$ whereby $v$ has exactly one neighbour $w$ with is a non-leaf. The only maximal clique in $G$ that includes $v$ must also include $w$ and the neighbourhood $\Gamma\left(w\right)$. Since $v$ has no other neighbours it cannot appear in any other clique and hence is in exactly one clique.  
 \end{proof}
 
 \begin{lemma}\label{lemma::5}
   Two non-leaves of $T$ are adjacent in $T$ if and only if their neighbourhoods are cliques of $G$ that intersect in exactly two points
 \end{lemma}
 \begin{proof}
-  Supposes cliques in $G$ correspond to the neighbourhoods of two non-leaf neighbours $v, w$ 
-  which intersect at exactly $v, w$. Then $v, w$ must be adjacent, otherwise if they were instead distance two away then they would share a common neighbour $u$ which is also in both cliques. 
+  Supposes cliques in $G$ correspond to the neighbourhoods of two non-leaf neighbours $v, w$ which intersect at exactly $v, w$. Then $v, w$ must be adjacent, otherwise if they were instead distance two away then they would share a common neighbour $u$ which is also in both cliques. 
 
   Let $v, w$ be adjacent vertices that are non-leafs in $T$. Both will form cliques in $G$ and be in each clique since they are neighbours. Assume to the contrary that $\exists$ vertex $k$ also in both cliques. $k$ must be adjacent to both $v, w$ in $T$ but this creates a cycle since there is now two different paths between $v, w$. Hence $v, w$ are the only two vertices that intersect in the two clique neighbourhoods.   
 \end{proof}
@@ -582,11 +599,12 @@ Combining this gives the following proof of Theorem~\eqref{theorem::structural_c
   
 \end{proof}
 
+Theorem~\eqref{theorem::structural_characterization_trees} gives the following algorithm. Given an inputted tree square, it returns the tree root by identifying all maximal cliques, finds all points which are in multiple cliques, 
 
-\begin{algorithm}
+\begin{algorithm} \label{algo::ross_harary_tree}
 \begin{algorithmic}[1]
-\State \textbf{Input:} A graph $G$ 
-\State \textbf{Output:} A tree $T$ where $G = T^2$
+\State \textbf{Input:} A graph $G$ where $G = T^2$
+\State \textbf{Output:} A tree $T$
 \vspace{0.5em}
 
 \Statex \textbf{Step 1}
@@ -620,6 +638,10 @@ using \hyperref[characterization:1]{characterization (i)}
 \State The resulting tree $T$ has the same number of nodes as $G$ and satisfies $T^2 = G$
 \end{algorithmic}
 \end{algorithm}
+
+\begin{theorem}
+  Algorithm~\eqref{algo::ross_harary_tree} 
+\end{theorem}
 
 
 \section{NP-Completeness Proofs} 
