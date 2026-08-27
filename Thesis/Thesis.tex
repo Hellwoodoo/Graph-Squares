@@ -363,58 +363,58 @@ One of the most important types of graphs is the complete graph, and its subgrap
 The graph structures above can be represented algebraically using matrices.
 
 \begin{definition}[Adjacency Matrix] \label{def::adjacency_matrix}
-    The \textbf{adjacency matrix} of graph $H$ is denoted by $A_H \in \{0,1\}^{n \times n}$ where
-    \[
-    (A_H)_{ij} =
-    \begin{cases}
-    1 ,& \text{if } ij \in E_H, \\
-    0 ,& \text{otherwise},
-    \end{cases}
-    \]
+  The \textbf{adjacency matrix} of graph $H$ is denoted by $A_H \in \{0,1\}^{n \times n}$ where
+  \[
+  (A_H)_{ij} =
+  \begin{cases}
+  1 ,& \text{if } ij \in E_H, \\
+  0 ,& \text{otherwise},
+  \end{cases}
+  \]
 \end{definition}
 
 The degrees of the vertices can similarly be represented by a diagonal matrix.
 
 \begin{definition}[Degree Matrix] \label{def::degree_matrix}
-    The \textbf{degree matrix} of graph $H$ is denoted by $D_H \in \mathbb{R}^{n \times n}$ where
-    \[
-    (D_H)_{ij} =
-    \begin{cases}
-    \deg_H(i) ,& \text{if } i = j, \\
-    0 ,& \text{otherwise}.
-    \end{cases}
-    \]
+  The \textbf{degree matrix} of graph $H$ is denoted by $D_H \in \mathbb{R}^{n \times n}$ where
+  \[
+  (D_H)_{ij} =
+  \begin{cases}
+  \deg_H(i) ,& \text{if } i = j, \\
+  0 ,& \text{otherwise}.
+  \end{cases}
+  \]
 \end{definition}
 
 \begin{definition}[Indicator Function] \label{def::indicator_function}
-    Let $\mathbbm{1}_{\geq 1} : \mathbb{R}^{n \times n} \to \{0,1\}^{n \times n}$ denote the entrywise \textbf{indicator function}, defined by
-    \[
-    \mathbbm{1}_{\geq 1}(M)_{ij} =
-    \begin{cases}
-    1 ,& \text{if } M_{ij} \geq 1, \\
-    0 ,& \text{otherwise}.
-    \end{cases}
-    \]
+  Let $\mathbbm{1}_{\geq 1} : \mathbb{R}^{n \times n} \to \{0,1\}^{n \times n}$ denote the entrywise \textbf{indicator function}, defined by
+  \[
+  \mathbbm{1}_{\geq 1}(M)_{ij} =
+  \begin{cases}
+  1 ,& \text{if } M_{ij} \geq 1, \\
+  0 ,& \text{otherwise}.
+  \end{cases}
+  \]
 \end{definition}
 
 We now introduce the graph-theoretic objects central to this thesis.
 
 \begin{definition}[Graph Root] \label{def::graph_root}
-    Let the \textbf{graph root} $H = (V, E_H)$ be a finite, simple, undirected graph, where $V$ is the vertex set with $|V| = n$, and $E_H \subseteq \{\{u,v\} \mid u,v \in V,\; u \neq v\}$ is the edge set. 
+  Let the \textbf{graph root} $H = (V, E_H)$ be a finite, simple, undirected graph, where $V$ is the vertex set with $|V| = n$, and $E_H \subseteq \{\{u,v\} \mid u,v \in V,\; u \neq v\}$ is the edge set. 
 \end{definition}
 
 \begin{definition}[Square of a Graph] \label{def::square_of_a_graph}
-    The \textbf{square of a graph} $H$, denoted by $H^2 = (V, E_{H^2})$ is the graph on the same vertex set with edge set
-    \begin{equation} \label{eq::fund_def_square}
-        E_{H^2} = \{\, uv \mid u \neq v,\; 1 \leq d_H(u,v) \leq 2 \,\}.
-    \end{equation}
-    That is, two distinct vertices are adjacent in $H^2$ if and only if they are connected by a path of length one or two in $H$. This is the standard definition of the square of a graph. 
+  The \textbf{square of a graph} $H$, denoted by $H^2 = (V, E_{H^2})$ is the graph on the same vertex set with edge set
+  \begin{equation} \label{eq::fund_def_square}
+    E_{H^2} = \{\, uv \mid u \neq v,\; 1 \leq d_H(u,v) \leq 2 \,\}.
+  \end{equation}
+  That is, two distinct vertices are adjacent in $H^2$ if and only if they are connected by a path of length one or two in $H$. This is the standard definition of the square of a graph. 
 \end{definition}
 
 \begin{definition}[Graph Square] \label{def::graph_square}
     The \textbf{graph square} of $H$ is the undirected graph defined on the same vertex set $G = (V, E_G)$. Define the adjacency matrix of $G$ using the adjacency and degree matrices of $H$
     \begin{equation} \label{eq::fund_adj_eq_undirected}
-    A_G = \mathbbm{1}_{\geq 1}\!\big((A_H)^2 - D_H + A_H\big).
+      A_G = \mathbbm{1}_{\geq 1}\!\big((A_H)^2 - D_H + A_H\big).
     \end{equation}
 \end{definition} 
 
@@ -434,9 +434,9 @@ Mathematical optimization studies the problem of finding the best solution from 
   An \textbf{integer program} ($LP$) is an optimization problem of the form
   \[
   \begin{aligned}
-  \text{max/min}\quad & c^\top x\\
-  \text{subject to}\quad & Ax\leq b,\\
-  & x\in\mathbb{Z}^n,
+    \text{max/min}\quad & c^\top x\\
+    \text{subject to}\quad & Ax\leq b,\\
+    & x\in\mathbb{Z}^n,
   \end{aligned}
   \]
   where $x\in\mathbb{Z}^n$ is the vector of decision variables, $c\in\mathbb{R}^n$ is the objective coefficient vector, $A\in\mathbb{R}^{m\times n}$ is the constraint matrix, and $b\in\mathbb{R}^m$ is the constraint vector.
@@ -482,8 +482,7 @@ Geometrically, $\mathcal{F}_{IP}$ is represented by the feasible integer points 
 For a maximization problem, this set inclusion implies $\operatorname{OPT}_{IP} \leq \operatorname{OPT}_{LP}$, so the linear relaxation provides an upper bound on the optimal value of the integer program. For a minimization problem, $\operatorname{OPT}_{LP} \leq \operatorname{OPT}_{IP}$, so the linear relaxation provides a lower bound.
 
 \begin{definition}[Integer Hull] \label{def::integer_hull}
-  Let $\mathcal{F}_{IP}$ denote the feasible set of an integer program. The \textbf{integer hull} is the convex hull of the feasible integer solutions, denoted by $\operatorname{conv}(\mathcal{F}_{IP})$. That is, the integer hull is the set of all convex combinations of
-  points in $\mathcal{F}_{IP}$.
+  Let $\mathcal{F}_{IP}$ denote the feasible set of an integer program. The \textbf{integer hull} is the convex hull of the feasible integer solutions, denoted by $\operatorname{conv}(\mathcal{F}_{IP})$. That is, the integer hull is the set of all convex combinations of points in $\mathcal{F}_{IP}$.
 \end{definition}
 
 Since the feasible region of a linear program is convex, the integer hull is contained in the feasible region of its linear relaxation. Hence,
@@ -519,7 +518,6 @@ G = H^2?
 
 To show that Definition~\ref{def::square_problem} is $\mathbf{NP}$-complete, it is necessary to show that it is in $\mathbf{NP}$ and that it is $\mathbf{NP}$-hard by reducing not-all-equal SAT (NAESAT) to the problem. 
 
-
 Given a candidate square root $H$, one can verify in polynomial time whether $G = H^2$ by computing the distances between pairs of vertices in $H$, or equivalently by constructing the square $H^2$ and comparing its edge set with that of $G$. Hence, $H$ provides a polynomially verifiable certificate for a \textbf{Yes}-instance of SQUARE and therefore
 \[
 \text{SQUARE}\in\mathbf{NP}.
@@ -527,12 +525,11 @@ Given a candidate square root $H$, one can verify in polynomial time whether $G 
 
 \section{Polynomial Time Algorithm} \label{sec::square_of_a_tree}
 
-\citeauthor{ross_1960_square} give an algorithm for constructing a tree $T$ when given its graph square $G = T^2$ using the following theorem
+\citeauthor{ross_1960_square} give a necessary and sufficient characterization of graphs that are squares of trees, together with an algorithm for constructing the corresponding tree square root. The characterization is based on the maximal cliques of the square and the way in which these cliques intersect. We first establish the structural properties of the square of a tree that underlie the characterization, before describing the root finding algorithm.
 
 \begin{theorem}[Structural Characterization of Squares of Trees] \label{theoremm::structural_characterization_trees}
 
-Let $G$ be a finite, simple, undirected graph. Then $G=T^2$ for some tree $T$ if and only if either $G=K_p$ is complete, or the maximal cliques of $G$ satisfy the following properties:
-
+Let $G$ be a finite, simple, undirected graph. Then $G=T^2$ for some tree $T$ if and only if either $G=K_p$ is complete, or the maximal cliques $C_1, \ldots, C_n$ of $G$ satisfy the following properties:
 \begin{enumerate}[label=(\roman*)]
   \item\label{characterization:1} Every vertex of $G$ forms a clique with its neighbours and $G$ is connected 
   \item\label{characterization:2} If two cliques intersect at only one point $v$ then there is a third clique with which they share $v$ and exactly one other point 
@@ -548,58 +545,91 @@ To show this, we require the following lemmas
   $G$ is complete if and only if $T$ has depth one. 
 \end{lemma}
 \begin{proof}
-  Let $T$ be a tree with depth one, hence all vertices in $T$ are at most distance two away from any other vertex since the root is a non-leaf vertex adjacent to all vertices in $T$ implies that$G = T^2$ is complete since edges exist between all vertices
+  Suppose that $T$ has a vertex $v$ that is adjacent to every other vertex. Then every pair of vertices in $T$ is at distance at most two, since any two vertices are either adjacent or have $v$ as a common neighbour. Hence $G=T^2$ is complete.
 
-  Let $G = T^2$ be complete, then all vertices must have distance at most two in $T$ and $T$ has depth at most two. Since $T$ is a tree, there are no cycles and hence there cannot be depth two since this would lead to a path of length three from the vertex at depth two to an alternate vertex in depth one. Hence $T$ has exactly depth one. 
+  Conversely, suppose that $G=T^2$ is complete. Then every pair of vertices in $T$ has distance at most two, so $\operatorname{diam}(T)\leq 2$. Since $T$ is a tree, this implies that there is a vertex $v$ adjacent to every other vertex. Thus, choosing $v$ as the root gives a rooted tree $T$ of depth one.
 \end{proof}
 
 \begin{lemma} \label{lemma::2}
   Every vertex of $G$ forms a clique with its neighbours and $G$ is connected
 \end{lemma}
 \begin{proof}
-  For a vertex $v \in T$, its neighbours in $T$ are all adjacent edge in $G$ by construction hence $\left\{ v \right\} \cup \Gamma \left(v\right)$ is a clique in $G$. $T \subseteq G$ and since $T$ is a tree which is connected, $G$ must also be connected. 
+  Let $v\in V(T)$. Every pair of vertices in the closed neighbourhood $N_T[v]$ has distance at most two in $T$. Hence $N_T[v]$ forms a
+  clique in $G=T^2$. Every edge of $T$ is also an edge of $G$, so $T$ is a spanning subgraph of $G$. Since $T$ is connected, this implies $G$ is also connected.
 \end{proof}
 
 \begin{lemma}\label{lemma::3}
   Every maximal clique of $G$ corresponds to a closed neighbourhood of a non-leaf vertex and every closed neighbourhood of a non-leaf vertex in $T$ form a clique in $G$
 \end{lemma}
 \begin{proof}
-  A set of leaves in $T$ cannot form a clique in $G$ without having at least one non-leaf since the distance between every leaf is at least greater than two unless they share a common neighbour. 
+  Consider a non-leaf vertex $v\in V(T)$. The vertices in $N_T(v)$ are pairwise at distance two in $T$, and are therefore pairwise adjacent in $G=T^2$. Hence $C(v)=N_T[v]$ forms a clique in $G$. This clique is maximal since every vertex in $C(v)$ is either $v$ itself or a neighbour of $v$ in $T$, and any vertex outside $N_T[v]$ cannot be added while preserving adjacency to all vertices of $C(v)$.
 
-  Consider a non-leaf vertex $v \in T$, since all vertices in neighbourhood $\Gamma\left(v\right)$ have  distance at most two in $G$, they will form a clique in $G$. This clique is maximal since all neighbours of $v$ are already part of the clique and no additional vertex can be added. 
+  Conversely, let $C$ be a maximal clique of $G$. A set of leaves in $T$ cannot form a clique in $G$ unless the leaves have a common neighbour. Hence there exists a non-leaf vertex $v\in V(T)$ such that all vertices of $C$ are contained in $N_T[v]$. Since $N_T[v]$ forms a clique in $G$ and $C$ is maximal, it follows that $C=N_T[v]=C(v)$. Thus every maximal clique of $G$ corresponds to the closed neighbourhood of a non-leaf vertex of $T$.
 \end{proof}
 
 \begin{lemma}\label{lemma::4}
   If $G$ has more than one maximal clique, then vertex $v$ is in exactly one maximal clique in $G$ if and only if $v$ is a leaf in $T$
 \end{lemma}
 \begin{proof}
-  Suppose vertices $v, w$ to be in two cliques, there must be a neighbour $x \in \Gamma\left(v\right)$ that is not adjacent to $w$. If $x$ is not a leaf in $T$, will form a third clique in $G$ and being distance two away from $w$ will also be in the clique formed from $w$. Hence only if this adjacent vertex is a leaf will it be in only one clique $G$.  
+  Suppose first that $v$ is a leaf in $T$, with unique neighbour $w$. By Lemma~\ref{lemma::3}, every maximal clique of $G$ corresponds to the closed neighbourhood of a non-leaf vertex in $T$. Since $v$ has only one neighbour, the only such closed neighbourhood containing $v$ is $N_T[w]$. Hence $v$ belongs to exactly one maximal clique.
 
-  Suppose $v$ is a leaf in $T$ whereby $v$ has exactly one neighbour $w$ with is a non-leaf. The only maximal clique in $G$ that includes $v$ must also include $w$ and the neighbourhood $\Gamma\left(w\right)$. Since $v$ has no other neighbours it cannot appear in any other clique and hence is in exactly one clique.  
+  Conversely, suppose that $v$ is not a leaf. Then $v$ has at least two neighbours in $T$. By Lemma~\ref{lemma::3}, $N_T[v]$ is a maximal clique in $G$. Since $G$ has more than one maximal clique, the structure of $T$ gives another non-leaf vertex whose closed neighbourhood contains $v$. Hence $v$ belongs to more than one maximal clique.
 \end{proof}
 
 \begin{lemma}\label{lemma::5}
   Two non-leaves of $T$ are adjacent in $T$ if and only if their neighbourhoods are cliques of $G$ that intersect in exactly two points
 \end{lemma}
 \begin{proof}
-  Supposes cliques in $G$ correspond to the neighbourhoods of two non-leaf neighbours $v, w$ which intersect at exactly $v, w$. Then $v, w$ must be adjacent, otherwise if they were instead distance two away then they would share a common neighbour $u$ which is also in both cliques. 
+  Suppose that the maximal cliques corresponding to two non-leaf vertices $v,w\in V(T)$ intersect in exactly two vertices. If $v$ and $w$ were not adjacent in $T$, then they would be at distance two and would have a common neighbour $u$ in $T$. Hence $u$, together with $v$ and $w$, would belong to both maximal cliques, giving an intersection of at least three vertices, a contradiction. Therefore $v$ and $w$ are adjacent in $T$.
 
-  Let $v, w$ be adjacent vertices that are non-leafs in $T$. Both will form cliques in $G$ and be in each clique since they are neighbours. Assume to the contrary that $\exists$ vertex $k$ also in both cliques. $k$ must be adjacent to both $v, w$ in $T$ but this creates a cycle since there is now two different paths between $v, w$. Hence $v, w$ are the only two vertices that intersect in the two clique neighbourhoods.   
+  Conversely, suppose that $v$ and $w$ are adjacent non-leaf vertices of $T$. Then both $v$ and $w$ belong to the closed neighbourhood of each vertex, so they belong to both corresponding maximal cliques. Suppose that there is a third vertex $u$ in their intersection. Then $u$ is adjacent in $T$ to both $v$ and $w$. Together with the edge $vw$, this creates a cycle in $T$, contradicting that $T$ is a tree. Hence the two maximal cliques intersect in exactly $v$ and $w$, and therefore in exactly two vertices.
 \end{proof}
 
 \begin{lemma}\label{lemma::6}
   $G$ is a connected graph where the removal of any edge does not result in a disconnected graph
 \end{lemma}
 \begin{proof}
-  By construction $\exists$ two paths between every pair of vertices $v, w \in G$ where one of the vertices $v$ must be non-leaf. Remove the existing $vw$ edge in $T \subset G$. There still exists a path by taking the distance two edge to the neighbour $u$ of $v$ and then going from $u to w$ ($vu, uw$), hence the graph $G$ is still connected.
+  By construction, there exists an alternative path between every pair of vertices $v,w\in V(G)$. Consider an edge $vw\in E(G)$. If $vw\in E(T)$, then, since $G$ is not complete, at least one of $v$ and $w$ is a non-leaf vertex. Without loss of generality, let $v$ be non-leaf and let $u\in N_T(v)$ with $u\neq w$. Then $v$ and $w$ are both adjacent to $u$ in $G$, since $u$ and $w$ are at distance two in $T$.Then $vu,uw\in E(G)$, so $v-u-w$ remains a path after $vw$ is removed. Hence removing $vw$ does not disconnect $G$.
+
+  If $vw\notin E(T)$, then $vw\in E(G)$ because $v$ and $w$ are at distance two in $T$, so there already exists a path $v-u-w$ in $T$ and therefore in $G$. Thus, in either case, removing $vw$ does not disconnect $G$.
 \end{proof}
 
 Combining this gives the following proof of Theorem~\eqref{theorem::structural_characterization_trees}
 \begin{proof}
+  Suppose first that $G=T^2$ for some tree $T$. If $G$ is complete,
+  then Lemma~\ref{lemma::1} applies. Otherwise, by
+  Lemma~\ref{lemma::2}, $G$ is connected and every vertex together
+  with its neighbours in $T$ forms a clique in $G$, giving
+  \hyperref[characterization:1]{(i)}. By
+  Lemma~\ref{lemma::3}, the maximal cliques of $G$ correspond to the
+  closed neighbourhoods of the non-leaf vertices of $T$. The
+  structure of these neighbourhoods gives
+  \hyperref[characterization:2]{(ii)} and
+  \hyperref[characterization:3]{(iii)}. By
+  Lemma~\ref{lemma::5}, two such cliques intersect in exactly two
+  vertices precisely when their corresponding non-leaf vertices are
+  adjacent in $T$. Hence any two maximal cliques intersect in at most
+  two vertices, giving \hyperref[characterization:4]{(iv)}. Moreover,
+  the pairs of maximal cliques that intersect in two vertices
+  correspond exactly to the edges between the non-leaf vertices of
+  $T$. Since these vertices form a tree after the leaf vertices are
+  removed, the number of such pairs is one less than the number of
+  maximal cliques, giving \hyperref[characterization:5]{(v)}.
   
+  Conversely, suppose that $G$ is not complete and that its maximal
+  cliques $C_1,\ldots,C_n$ satisfy \hyperref[characterization:1]{(i)}
+  --\hyperref[characterization:5]{(v)}. By
+  \hyperref[characterization:3]{(iii)}, the maximal cliques can be
+  associated with their multicliqual vertices. Construct a graph
+  $T$ whose vertices initially consist of these multicliqual
+  vertices. For every pair of maximal cliques that intersect in two
+  vertices, join the corresponding multicliqual vertices by an edge.
+  By \hyperref[characterization:4]{(iv)} and
+  \hyperref[characterization:5]{(v)}, these edges form a tree on the
+  multicliqual vertices.
 \end{proof}
 
-Theorem~\eqref{theorem::structural_characterization_trees} gives the following algorithm. Given an inputted tree square, it returns the tree root by identifying all maximal cliques, finds all points which are in multiple cliques, 
+Theorem~\eqref{theorem::structural_characterization_trees} gives the following algorithm. Given an inputted tree square, by identifying all maximal cliques, finding all points which are in multiple cliques and those in only one clique, and constructing the tree  $T$ by appropriately connecting multicliqual points together as internal vertices and unicliqual points as the tree leaves. 
 
 \begin{algorithm} \label{algo::ross_harary_tree}
 \begin{algorithmic}[1]
@@ -616,7 +646,7 @@ Theorem~\eqref{theorem::structural_characterization_trees} gives the following a
 \vspace{0.5em}
 
 \Statex \textbf{Step 2}
-\State Identify all maximal cliques $C_1, \dots, C_n$ of $G$ using an algorithm such as Bron–Kerbosch where $n > 1$ 
+\State Identify all maximal cliques $C_1, \dots, C_n$ of $G$ using an algorithm such as Bron-Kerbosch where $n > 1$ 
 using \hyperref[characterization:1]{characterization (i)}
 \vspace{0.5em}
 
@@ -639,10 +669,20 @@ using \hyperref[characterization:1]{characterization (i)}
 \end{algorithmic}
 \end{algorithm}
 
-\begin{theorem}
-  Algorithm~\eqref{algo::ross_harary_tree} 
+\begin{theorem}[Tree Root Algorithm] \label{}
+  Given a square of a tree $G = T^2$, Algorithm~\eqref{algo::ross_harary_tree} will always return the unique tree root. 
 \end{theorem}
+\begin{proof}
+  
+\end{proof}
 
+\citeauthor{ross_1960_square} also showed that 
+\begin{theorem}
+  The tree root of a square is unique (up to isomorphism). 
+\end{theorem}
+\begin{proof}
+  
+\end{proof}
 
 \section{NP-Completeness Proofs} 
 
