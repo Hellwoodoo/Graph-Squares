@@ -415,13 +415,13 @@ In our discussion of graphs represented as matrices, we will find the following 
 We now introduce the graph-theoretic objects central to this thesis.
 
 \begin{definition}[Graph Root] \label{def::graph_root}
-  Let the \textbf{graph root} $H = (V, E_H)$ be a finite, simple, undirected graph, where $V$ is the vertex set with $|V| = n$, and $E_H \subseteq \{\{u,v\} \mid u,v \in V,\; u \neq v\}$ is the edge set. 
+  Let the \textbf{graph root} $H = (V, E_H)$ be a finite, simple, undirected graph, where $V$ is the vertex set with $|V| = n$, and $E_H \subseteq \{\{u,v\} \mid u,v \in V, u \neq v\}$ is the edge set. 
 \end{definition}
 
 \begin{definition}[Square of a Graph] \label{def::square_of_a_graph}
   The \textbf{square of a graph} $H$, denoted by $H^2 = (V, E_{H^2})$ is the graph on the same vertex set with edge set
   \begin{equation} \label{eq::fund_def_square}
-    E_{H^2} = \{\, uv \mid u \neq v,\; 1 \leq d_H(u,v) \leq 2 \,\}.
+    E_{H^2} = \{\, uv \mid u \neq v, 1 \leq d_H(u,v) \leq 2 \,\}.
   \end{equation}
   That is, two distinct vertices are adjacent in $H^2$ if and only if they are connected by a path of length one or two in $H$. This is the standard definition of the square of a graph. 
 \end{definition}
@@ -609,74 +609,35 @@ The following lemma, which is the central combinatorial tool for proving the cor
 \end{lemma}
 \input{subfiles/TailLemma.tex}
 \begin{proof}
-  Since $N_G(a)=\{b,c\}$, every neighbour of $a$ in $H$ is in $\{b,c\}$. Suppose, for contradiction, that $N_H(a)=\{c\}$. Then $ac\in E_H$. Because $ab\in E_G$, there is a path of length at most $2$ from $a$ to $b$ in $H$. As $a$ has only the neighbour $c$, this forces $bc\in E_H$. Now, if $cx\in E_H$ for some $x\notin\{a,b,c\}$, then $b-c-x$ is a path of length $2$, so $bx\in E_G$. By $N_G(b)=\{a,c,d\}$, this forces $x=d$. Hence
+  Since $N_G(a)=\{b,c\}$, every neighbour of $a$ in $H$ is contained in $\{b,c\}$.
+  
+  First show that $N_H(a)=\{b\}$. Suppose, for contradiction, that $N_H(a)=\{c\}$. Then $ac \in E_H$. Because $ab \in E_G=H^2$, there is a path of length at most two from $a$ to $b$ in $H$ -  as $a$ has only the neighbour $c$, this forces $bc \in E_H$. 
+
+  Now $cd\in E_G$, so $c$ and $d$ are at distance at most two in $H$. As $bc \in E_H$, the only possible path of length two from $c$ to $d$ uses $b$, and hence $bd \in E_H$. 
+
+  Let $v\notin\{a,b,c,d\}$ be the neighbour of $c$ in $G$. Since $cv \in E_G$, there is a path of length at most two from $c$ to $v$ in $H$. This path cannot go through $a$, otherwise $av \in E_G$, contradicting $N_G(a)=\{b,c\}$. Nor can it go through $b$, since that would give $bv \in E_G$, contradicting $N_G(b)=\{a,c,d\}$. Therefore the path must be $c-d-v$, giving $dv \in E_H$.
+
+  Since $bd, dv\in E_H$, have a path $b-d-v$ of length two in $H$, which implies $bv \in E_G$. This again contradicts $N_G(b)=\{a,c,d\}$. The contradiction eliminates the possibility $N_H(a)=\{c\}$, and consequently
   \begin{equation} \label{eq::tail_1}
-    N_H(c)\subseteq\{a,b,d\}
+    N_H(a)=\{b\}. 
   \end{equation}
-  Since $cd\in E_G$, vertices $c$ and $d$ are at distance at most $2$ in $H$.
-  If $cd\in E_H$, then $a-c-d$ gives $ad\in E_G$, contradicting $N_G(a)=\{b,c\}$.
-  Thus $c$ and $d$ have a common neighbour in $H$. By Equation~\eqref{eq::tail_1}, that common neighbour cannot be $a$, else $ad\in E_H$, so it must be $b$. Therefore
-  \begin{equation} \label{eq::tail_2}
-    bd\in E_H. 
+
+  Now determine the neighbourhood of $c$. Since $ab \in E_H$ as $N_H(a)=\{b\}$, and $ac\in E_G$, the edge $ac$ in $G=H^2$ must be realized by the path $a-b-c$. This gives that $bc\in E_H$. If $b$ had a neighbour $x \notin \{a,c\}$ in $H$, then $a-b-x$ would be a path of length two, forcing $ax \in E_G$, which contradicts $N_H(a)=\{b\}$. Thus \begin{equation} \label{eq::tail_2}
+    N_H(b)=\{a,c\}. 
   \end{equation}
-  Let $c$ have a neighbour $v\notin\{a,b,c,d\}$ in $G$. Since $cv\in E_G$, have $\operatorname{dist}_H(c,v)\le 2$. By Equation~\eqref{eq::tail_1}, a path of length two from $c$ to $v$ must use $a$, $b$, or $d$ as intermediate vertex. It cannot use $a$, else $av\in E_G$ contradicting $N_G(a)=\{b,c\}$, and it cannot use $b$, else $bv\in E_G$ contradicting $N_G(b)=\{a,c,d\}$. Hence the path must be $c-d-v$, so
+
+  Since $bd\in E_G$ and $N_H(b)=\{a,c\}$, the path of length two from $b$ to $d$ in $H$ must be $b-c-d$ - it cannot use $a$, as $N_H(a)=\{b\}$. Therefore $cd \in E_H$. 
+  
+  If $c$ had a neighbour $y\notin\{b,d\}$ in $H$, then $b-c-y$ would give $by \in E_G$, contradicting Equation~\eqref{eq::tail_2}. Hence
   \begin{equation} \label{eq::tail_3}
-    dv\in E_H. 
+    N_H(c)=\{b,d\}. 
   \end{equation}
-  But Equation~\eqref{eq::tail_2} gives $bd\in E_H$, so Equation~\eqref{eq::tail_3} gives the path $b-d-v$ of length two is in $H$, implying $bv\in E_G$. This contradicts $N_G(b)=\{a,c,d\}$, since $v$ is external. Therefore $N_H(a)\neq\{c\}$ and consequently
+  
+  It remains to relate the external neighbours of $c$ in $G$ to those of $d$ in $H$. Take any $v\notin\{a,b,c,d\}$. If $cv\in E_G$, then there is a path of length at most two from $c$ to $v$ in $H$. By Equation~\eqref{eq::tail_3}, such a path must use $b$ or $d$ as the intermediate vertex. It cannot use $b$, since that would imply $bv\in E_G$, contradicting $N_G(b)=\{a,c,d\}$. Hence the path is $c-d-v$, so $dv \in E_H$. Conversely, if $dv \in E_H$, then $c-d-v$ is a path of length two in $H$ since $cd \in E_H$, giving $cv \in E_G$. Have therefore established, for every $v\notin\{a,b,c,d\}$,
   \[
-  N_H(a)=\{b\}. \tag{4}
+  v\in N_G(c) \text{ if and only if } v\in N_H(d).
   \]
-  Since $ab\in E_H$ (by (4)) and $ac\in E_G$, the edge $ac$ in $G=H^2$ must be realised
-  by the path $a-b-c$; hence
-  \[
-  bc\in E_H. \tag{5}
-  \]
-
-  If $b$ had a neighbour $x\notin\{a,c\}$ in $H$, then $a-b-x$ would give $ax\in E_G$,
-  contradicting $N_G(a)=\{b,c\}$. Thus
-  \[
-  N_H(b)=\{a,c\}. \tag{6}
-  \]
-
-  Now suppose $c$ has a neighbour $x\notin\{b,d\}$ in $H$. Then $b-c-x$ is a path
-  of length $2$, giving $bx\in E_G$. If $x\notin\{a,c,d\}$, this contradicts
-  $N_G(b)=\{a,c,d\}$; if $x=a$, then $ac\in E_H$, contradicting (4).
-  Therefore
-  \[
-  N_H(c)\subseteq\{b,d\}. \tag{7}
-  \]
-
-  Since $bd\in E_G$ and $N_H(b)=\{a,c\}$, there is a path of length at most $2$
-  from $b$ to $d$ in $H$. It cannot be a direct edge (as $d\notin N_H(b)$ by (6)),
-  and it cannot go through $a$ (since $N_H(a)=\{b\}$ gives $ad\notin E_H$).
-  Hence the path must be $b-c-d$, forcing
-  \[
-  cd\in E_H. \tag{8}
-  \]
-  Combining (7) and (8), we obtain
-  \[
-  N_H(c)=\{b,d\}. \tag{9}
-  \]
-
-  Let $v\notin\{a,b,c,d\}$. Since $N_H(c)=\{b,d\}$, we have $cv\notin E_H$. Therefore
-  \[
-  cv\in E_G \text{ if and only if } c \text{ and } v \text{ have a common neighbour in } H.
-  \]
-  Such a common neighbour cannot be $b$ (else $bv\in E_G$, contradicting
-  $N_G(b)=\{a,c,d\}$), so $dv\in E_H$. Conversely, if $dv\in E_H$, then $cd\in E_H$ (by (8)), so $c-d-v$ is a path
-  of length $2$, giving $cv\in E_G$.
-
-  Hence, for every $v\notin\{a,b,c,d\}$,
-  \[
-  v\in N_G(c) \text{ if and only if } v\in N_H(d),
-  \]
-  which is precisely
-  \[
-  N_H(d)\setminus\{a,b,c,d\}
-  =
-  N_G(c)\setminus\{a,b,c,d\}.
-  \]
+  The desired equality follows immediately.
 \end{proof}
 
 \begin{lemma}
@@ -687,7 +648,7 @@ The following lemma, which is the central combinatorial tool for proving the cor
 
   The edges of $H$ consist of the edges of the tails, together with edges connecting $x$ to TRUE and FALSE. For each clause vertex $C_j$, connect $C_j$ to the three literal vertices corresponding to the literals contained in the clause, together with the edges required by its tail. Each literal vertex is connected to TRUE if its corresponding literal is assigned TRUE and to FALSE if its corresponding literal is assigned FALSE. Finally, each literal vertex is connected to the appropriate literal-pair vertices, and each literal-pair vertex is connected to both TRUE and FALSE.
 
-  Because the assignment is not-all-equal, every clause contains at least one TRUE literal and at least one FALSE literal. Consequently, the distance-two relationships in $H$ produce precisely the edges of $G_\phi$. In particular, complementary literals do not have a common neighbour in $H$, whereas every pair of non-complementary literals has a common neighbour through its corresponding literal-pair vertex. The tail construction similarly ensures that the required tail edges are obtained in $H^2$.
+  Because the assignment is not-all-equal, every clause contains at least one TRUE literal and at least one FALSE literal. Consequently, the paths in $H$ of length two produce precisely the edges of $G_\phi$. In particular, complementary literals do not have a common neighbour in $H$, whereas every pair of non-complementary literals has a common neighbour through its corresponding literal-pair vertex. The tail construction similarly ensures that the required tail edges are obtained in $H^2$.
 
   Hence, $G_\phi=H^2$, and therefore $G_\phi$ has a graph root.
 \end{proof}
@@ -991,7 +952,7 @@ g_{nn}
 \end{equation}
 The matrix $D_H$ is diagonal can be represented as $\displaystyle (D_H)_{ii} = \sum_{k} x_{ik}$ where $(D_H)_{ij} = 0$ for $i \neq j$. The known $z_{ij}$ represent the terms inside the indicator function such that
 \[
-g_{ij} = 1 \text{ if and only if } z_{ij} \geq 1 \;\text{and}\; g_{ij} = 0 \text{ if and only if } z_{ij} = 0.
+g_{ij} = 1 \text{ if and only if } z_{ij} \geq 1 \text{ and } g_{ij} = 0 \text{ if and only if } z_{ij} = 0.
 \]  
 Let $M \in \mathbb{Z}_{> 0}$ be a sufficiently large constant. In this case, $M$ is bounded by the number of edges such that it can be at most $n(n -1) = O(n^2)$. The above condition can be modelled using a standard big-$M$ formulation, and the resulting integer program is given by
 
