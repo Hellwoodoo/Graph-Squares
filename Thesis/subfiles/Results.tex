@@ -3,6 +3,103 @@
 \newpage 
 \section*{Result Diagrams}
 
+\subsection*{Integer Program}
+\begin{figure}[!htbp]
+\centering
+\begin{tikzpicture}[level distance=1cm,
+  level 1/.style={sibling distance=9cm},
+  level 2/.style={sibling distance=5cm}]
+  \node {n=3}
+    child { node {$H$ exists}
+      child { node {$\underset{\raisebox{-0.8em}{3}}{\text{LP integral solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{0}}{\text{LP fractional solution}}$} }
+    }
+    child { node {$H$ does not exist}
+      child { node {$\underset{\raisebox{-0.8em}{1}}{\text{LP infeasible}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{0}}{\text{LP fractional solution}}$} }
+    };
+\end{tikzpicture}
+
+\begin{tikzpicture}[level distance=1cm,
+  level 1/.style={sibling distance=9cm},
+  level 2/.style={sibling distance=5cm}]
+  \node {n=4}
+    child { node {$H$ exists}
+      child { node {$\underset{\raisebox{-0.8em}{6}}{\text{LP integral solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{0}}{\text{LP fractional solution}}$} }
+    }
+    child { node {$H$ does not exist}
+      child { node {$\underset{\raisebox{-0.8em}{5}}{\text{LP infeasible}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{0}}{\text{LP fractional solution}}$} }
+    };
+\end{tikzpicture}
+
+\begin{tikzpicture}[level distance=1cm,
+  level 1/.style={sibling distance=9cm},
+  level 2/.style={sibling distance=5cm}]
+  \node {n=5}
+    child { node {$H$ exists}
+      child { node {$\underset{\raisebox{-0.8em}{11}}{\text{LP integral solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{0}}{\text{LP fractional solution}}$} }
+    }
+    child { node {$H$ does not exist}
+      child { node {$\underset{\raisebox{-0.8em}{23}}{\text{LP infeasible}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{0}}{\text{LP fractional solution}}$} }
+    };
+\end{tikzpicture}
+
+\begin{tikzpicture}[level distance=1cm,
+  level 1/.style={sibling distance=9cm},
+  level 2/.style={sibling distance=5cm}]
+  \node {n=6}
+    child { node {$H$ exists}
+      child { node {$\underset{\raisebox{-0.8em}{28}}{\text{LP integral solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{0}}{\text{LP fractional solution}}$} }
+    }
+    child { node {$H$ does not exist}
+      child { node {$\underset{\raisebox{-0.8em}{128}}{\text{LP infeasible}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{0}}{\text{LP fractional solution}}$} }
+    };
+\end{tikzpicture}
+
+\begin{tikzpicture}[level distance=1cm,
+  level 1/.style={sibling distance=9cm},
+  level 2/.style={sibling distance=5cm}]
+  \node {n=7}
+    child { node {$H$ exists}
+      child { node {$\underset{\raisebox{-0.8em}{77}}{\text{LP integral solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{0}}{\text{LP fractional solution}}$} }
+    }
+    child { node {$H$ does not exist}
+      child { node {$\underset{\raisebox{-0.8em}{967}}{\text{LP infeasible}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{0}}{\text{LP fractional solution}}$} }
+    };
+\end{tikzpicture}
+
+\begin{tikzpicture}[level distance=1cm,
+  level 1/.style={sibling distance=9cm},
+  level 2/.style={sibling distance=5cm}]
+  \node {n=8}
+    child { node {$H$ exists}
+      child { node {$\underset{\raisebox{-0.8em}{307}}{\text{LP integral solution}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{0}}{\text{LP fractional solution}}$} }
+    }
+    child { node {$H$ does not exist}
+      child { node {$\underset{\raisebox{-0.8em}{12039}}{\text{LP infeasible}}$} }
+      child { node {$\underset{\raisebox{-0.8em}{0}}{\text{LP fractional solution}}$} }
+    };
+\end{tikzpicture}
+
+\caption{IP outcomes for different values of $n$ on integer program.} 
+\footnotemark 
+\label{fig::integer_program_diagram} 
+\end{figure}
+
+\footnotetext{
+The total number of simple graphs on $n=2,3,4,\dots$ unlabeled nodes is the sequence $2, 4, 11, 34, 156, 1044, 12346, \dots$ given by \href{https://oeis.org/A000088}{\texttt{A000088}}. \\
+The IP integral solution sequence is the total number of graphs which are squares is the sequence $2, 3, 6, 11, 28, 77, 307, \dots$ given by \href{https://oeis.org/A382181}{A382181}.
+}
+
 \subsection*{Linear Program}
 \begin{figure}[!htbp]
 \centering
@@ -96,9 +193,8 @@
 \end{figure}
 
 \footnotetext{
-The total number of simple graphs on $n=2,3,4,\dots$ unlabeled nodes is the sequence $2, 4, 11, 34, 156, 1044, 12346, \dots$ given by \href{https://oeis.org/A000088}{\texttt{A000088}}. \\
-The IP integral solution sequence $2, 3, 6, 10, 17, 29, 51, \dots$ is given by \href{https://oeis.org/A285665}{A285665}. \\
-The total number of graphs which are squares is the sequence $2, 3, 6, 11, 28, 77, 307, \dots$ given by \href{https://oeis.org/A382181}{A382181}.}
+The LP integral solution sequence $2, 3, 6, 10, 17, 29, 51, \dots$ is given by \href{https://oeis.org/A285665}{A285665}.
+}
 
 \newpage
 

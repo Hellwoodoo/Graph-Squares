@@ -55,7 +55,7 @@ The seminal result for the problem is the work by \citeauthor{ross_1960_square},
 
 \chapter{Introduction} \label{chap::intro}
 
-\section{Background}
+\section{Background} \label{sec::background}
 
 In 1949, Leon Festinger proposed a novel method in the field of social psychology for analyzing relationships among a number of people present \cite{festinger_bahoken_beauguitte_2023}. Classically, this was represented using a sociogram, a visual tool that maps out the relationships between people. However, Forsyth and Katz introduced the use of a matrix to represent the sociometric pattern, with rows and columns corresponding to individuals and containing $1$s for choices and blank diagonals.
 Festinger noticed that his structure, reminiscent of the adjacency matrix defined by \citeauthor{konig_1936} in \cite{konig_1936}, also had the remarkable property that the action of squaring a matrix 
@@ -102,7 +102,8 @@ Since then, the problem of finding the square root of a graph has extended beyon
 Research in this area has primarily focused around an undirected graph $H$ and its square $G = H^2$ which is obtained by adding an edge between every pair of vertices whose distance in $H$ is at most two. This two-step undirected graph square has been studied extensively with much of the focus being on the complexity of the decision problem - given a specific graph square $G$ does there exist a root graph $H$ such that $H^2=G$. \citeauthor{motwani_sudan_1994_roots} showed that deciding if a graph admits a root is $NP$-complete. Subsequent studies in the area have restricted the decision problem in two ways, either by considering various properties on the root graph or by considering properties on the graph square. 
 
 
-\section{Literature}
+\section{Literature} \label{sec::literature}
+
 Focusing first on special undirected graph classes, the aforementioned work by \citeauthor{ross_1960_square} in 1960 gives an algorithm for constructing a tree root by using characterizations of the graph square. As part of this work they proved tree square roots are unique up to isomorphism. This was the first major contribution to the study of graph roots and provided fundamental structural characteristics of graph squares, laying the groundwork for later research on graph root problems and their applications. 
 
 \citeauthor{fleischner_1974_square} in 1974 showed that as long as a graph is 2-connected its graph square will have a Hamiltonian cycle. This established a broad condition guaranteeing Hamiltonicity in graph squares which is used in many subsequent works such as \cite{brandt_muttel_rautenbach_2014}. 
@@ -111,13 +112,13 @@ Focusing first on special undirected graph classes, the aforementioned work by \
 
 Generalizing the notion of graph squares, in 1967 \citeauthor{mukhopadhyay_1967_root} provided necessary and sufficient conditions for a connected graph to have a square root \cite{mukhopadhyay_1967_root}, whilst \citeauthor{geller_1970_root} in 1970 likewise found necessary and sufficient conditions for a digraph to have a square root \cite{geller_1970_root}. 
 
-In 1994 \citeauthor{motwani_sudan_1994_roots} established the complexity of the square problem for the generalized undirected case and showed that the problem of determining if a given graph has a square root is a $NP$-complete problem via a polynomial reduction to 3-CNF Not-All-Equal SAT \cite{motwani_sudan_1994_roots}.
+In 1994 \citeauthor{motwani_sudan_1994_roots} established the complexity of the square problem for the generalized undirected case and showed that the problem of determining if a given graph has a square root is a $NP$-complete problem via a polynomial reduction to $3$-CNF Not-All-Equal SAT \cite{motwani_sudan_1994_roots}.
 
 Their work led to joint work by Farzad, Le, Tuy, Lau and Karimi in 2009 and 2012, in which they established a partial dichotomy theorem for the complexity of determining if a given undirected graph of girth $g$ has a square root \cite{farzad_2009_roots} which was informally completed under \cite{farzad_karimi_2012_root}. In 2013, \citeauthor{cochefert_et_al_2013_sparse_square_roots} gave an algorithm for constructing a square root with minimal number of edges from undirected graphs with max degree $\leq 6$ in polynomial time and an algorithm for constructing maximal edge square roots in exponential time \cite{cochefert_et_al_2013_sparse_square_roots}. 
 
 In recent years, Duffy provided a full classification for the undirected square of oriented graphs satisfying max degree $\leq 3$ and girth $\geq 4$ \cite{duffy_2025_oriented_root}. 
 
-\subsection{Overview}
+\subsection{Overview} \label{subsec::overview}
 
 In addition to providing a general overview of the research direction in this section we first standardise the definitions that will be used for the rest of this thesis. We then introduce fundamental theory on the three areas of: complexity theory, graph theory and mathematical optimization that are used in the various algorithmic approaches to the decision problem. 
 
@@ -127,9 +128,9 @@ In Chapter $3$ we present the ideas of linear relaxation and discuss the results
 
 Finally, we introduce several augmentations to the linear program, consisting of constraints that encode structural bounds on both the graph square and its underlying root. In particular, we show that by adding specific constraints to the LP, we can ensure that the square of all trees will return a feasible integer solution. This augmentation ensures that the LP returns a tree root in polynomial time, whilst ensuring that all squares with roots remain LP feasible. 
 
-\section{Definitions and Notations}
+\section{Definitions and Notations} \label{sec::definitions_and_notations}
 
-\subsection{Complexity Theory}
+\subsection{Complexity Theory} \label{subsec::complexity_theory}
 
 Complexity theory studies the classification of computational problems and explores the amount of resources required to solve these problems. Complexity Theory considers both time and space as critical resources and is standardized across various different problems. 
 
@@ -214,8 +215,8 @@ and each $\ell_{ij}$ is either a Boolean variable or its complement, denoted wit
 
 A further restriction is obtained by requiring each clause in a CNF formula to contain exactly three literals, which can be done using $3$-CNF transformation, to give the following problem.
 
-\begin{definition}[3-SAT] \label{def::3SAT}
-  The \textbf{3-SAT} problem asks whether there exists an assignment of truth values to the variables of a Boolean formula in conjunctive normal form such that every clause contains exactly three literals and the formula evaluates to true. It is formally structured as
+\begin{definition}[$3$-SAT] \label{def::3SAT}
+  The \textbf{$3$-SAT} problem asks whether there exists an assignment of truth values to the variables of a Boolean formula in conjunctive normal form such that every clause contains exactly three literals and the formula evaluates to true. It is formally structured as
   \leavevmode
 
   \textbf{Instance:} A Boolean formula $\varphi$ in conjunctive normal form in which each clause contains exactly three literals.
@@ -224,9 +225,9 @@ A further restriction is obtained by requiring each clause in a CNF formula to c
   \textbf{Question:} Does there exist an assignment of truth values to the variables of $\varphi$ such that every clause is satisfied?
 \end{definition}
 
-The decision problem \textbf{3-SAT} is a well-known $\mathbf{NP}$-complete problem. It is commonly used as a starting point for proving the $\mathbf{NP}$-completeness of other decision problems. In particular, we will reduce 3-SAT to the \textbf{SQUARE} problem to establish that the latter is $\mathbf{NP}$-complete.
+The decision problem \textbf{$3$-SAT} is a well-known $\mathbf{NP}$-complete problem. It is commonly used as a starting point for proving the $\mathbf{NP}$-completeness of other decision problems. In particular, we will reduce $3$-SAT to the \textbf{SQUARE} problem to establish that the latter is $\mathbf{NP}$-complete.
 
-\subsection{Graph Theory}
+\subsection{Graph Theory} \label{subsec::graph_theory}
 
 Informally, a graph is relational structure that captures relationships between discrete objects. 
 
@@ -432,15 +433,7 @@ We now introduce the graph-theoretic objects central to this thesis.
   \end{equation}
 \end{definition} 
 
-\begin{definition} \label{def::pendant}
-  A \textbf{pendant} subgraph is the induced subgraph on three vertices $s,u,v$ where $s$ is a leaf with unique neighbour $u$, and $u$ is a stem of degree $2$ with neighbours $s$ and $v$, where $v$ connects the subgraph to the remainder of the tree.
-\end{definition}
-
-\begin{definition} \label{def::leaf_clique}
-  A \textbf{leaf clique} subgraph is the induced subgraph on four vertices $s_1,s_2,u,v$ where $s_1,s_2$ are leaves with unique neighbour $u$, and $u$ is an internal vertex of degree $\geq 3$ where $\{s_1,s_2, v\} \subseteq N(u)$, where $v$ connects the subgraph to the remainder of the tree.
-\end{definition}
-
-\subsection{Mathematical Optimization}
+\subsection{Mathematical Optimization} \label{subsec::mathematical_optimization}
 
 Mathematical optimization studies the problem of finding the best solution from all feasible solutions which are defined by a collection of constraints. An optimization problem usually consists of decision variables, an objective function to be maximized or minimized, and a set of constraints restricting the feasible values of the variables.
 
@@ -518,7 +511,7 @@ In this chapter we explore different methodologies that have been used to show c
 
 We now establish the computational complexity of the graph square problem as was established by \citeauthor{motwani_sudan_1994_roots} in their paper \cite{motwani_sudan_1994_roots}. The decision version of the problem asks whether a given graph admits a graph root whose square is the given graph.
 
-\begin{problem}[SQUARE] \label{def::square_problem}
+\begin{problem}[SQUARE] \label{prob::square_problem}
 \leavevmode
 
 \textbf{Instance:} A finite, simple, undirected graph $G=(V,E)$.
@@ -530,16 +523,16 @@ G = H^2?
 \]
 \end{problem}
 
-To show that Definition~\ref{def::square_problem} is $\mathbf{NP}$-complete, it is necessary to show that it is in $\mathbf{NP}$ and that it is $\mathbf{NP}$-hard by reducing not-all-equal SAT (NAESAT) to the problem. 
+To show that Problem~\eqref{prob::square_problem} is $\mathbf{NP}$-complete, it is necessary to show that it is in $\mathbf{NP}$ and that it is $\mathbf{NP}$-hard by reducing not-all-equal SAT (NAESAT) to the problem. 
 
-\begin{proof}[NP Proof] 
+\begin{proof}[NP Proof] \label{proof::np_proof}
   Given a candidate square root $H$, one can verify in polynomial time whether $G = H^2$ by computing the distances between pairs of vertices in $H$, or equivalently by constructing the square $H^2$ and comparing its edge set with that of $G$. Hence, $H$ provides a polynomially verifiable certificate for a \textbf{Yes}-instance of SQUARE and therefore
   \[
   \text{SQUARE}\in\mathbf{NP}.
   \]
 \end{proof}
 
-\begin{problem}[NAESAT]
+\begin{problem}[NAESAT] \label{prob::naesat_problem}
 \leavevmode
 
 \textbf{Instance:} A $3$-CNF formula
@@ -555,11 +548,11 @@ over variables $x_1,\ldots,x_n$.
 
 Thus, an assignment satisfies the not-all-equal condition if, for every clause, its literals are not all assigned the same truth value. The problem NAESAT is known to be $\mathbf{NP}$-complete by Schaefer's dichotomy theorem \cite{schaefer_1978_complexity}. 
 
-\subsection{NP-Hard proof}
+\subsection{NP-Hard proof} \label{subsec::np_hard_proof}
 
 SQUARE is $\mathbf{NP}$-hard by giving a polynomial-time reduction from $\mathbf{NP}$-complete NAESAT and then show that $G_\phi$ has a graph root if and only if $\phi \in \mathrm{NAESAT}$. 
 
-\begin{proof}[Polynomial Reduction]
+\begin{proof}[Polynomial Reduction] \label{proof::polynomial_reduction}
   Let $\phi = C_1 \land C_2 \land \cdots \land C_m $ be an instance of NAESAT, where $\phi$ is a $3$-CNF formula on variables $x_1,\ldots,x_n$. Over variables $x_1,\dots,x_n$, construct a graph $G_\phi=(V_\phi,E_\phi)$ in polynomial time such that
   \[
   \phi \in \textsc{NAESAT} \quad\Longleftrightarrow\quad G_\phi \text{ has a square root}.
@@ -668,7 +661,7 @@ The following lemma, which is the central combinatorial tool for proving the cor
 
   Let $v\notin\{a,b,c,d\}$. Since $N_H(c)=\{b,d\}$, we have $cv\notin E_H$. Therefore
   \[
-  cv\in E_G \quad\text{if and only if}\quad c \text{ and } v \text{ have a common neighbour in } H.
+  cv\in E_G \text{ if and only if } c \text{ and } v \text{ have a common neighbour in } H.
   \]
   Such a common neighbour cannot be $b$ (else $bv\in E_G$, contradicting
   $N_G(b)=\{a,c,d\}$), so $dv\in E_H$. Conversely, if $dv\in E_H$, then $cd\in E_H$ (by (8)), so $c-d-v$ is a path
@@ -676,7 +669,7 @@ The following lemma, which is the central combinatorial tool for proving the cor
 
   Hence, for every $v\notin\{a,b,c,d\}$,
   \[
-  v\in N_G(c) \iff v\in N_H(d),
+  v\in N_G(c) \text{ if and only if } v\in N_H(d),
   \]
   which is precisely
   \[
@@ -726,7 +719,7 @@ The following lemma, which is the central combinatorial tool for proving the cor
   \] 
 \end{proof}
 
-\section{Polynomial Time Algorithm} \label{sec::square_of_a_tree}
+\section{Polynomial Time Algorithm} \label{sec::polynomial_time_algorithm}
 
 \citeauthor{ross_1960_square} give a necessary and sufficient characterization of graphs that are squares of trees, together with an algorithm for constructing the corresponding tree square root. The characterization is based on the maximal cliques of the square and the way in which these cliques intersect. We first establish the structural properties of the square of a tree that underlie the characterization, before describing the root finding algorithm.
 
@@ -855,10 +848,21 @@ The proof for Theorem~\eqref{theorem::structural_characterization_trees} gives t
   If $G$ is complete, Step 1 returns a star. By Lemma~\ref{lemma::1}, this is a tree square root of $G$. Otherwise, Lemma~\ref{lemma::3} shows that each maximal clique corresponds to a non-leaf vertex of the root. Thus the vertices $b_1,\ldots,b_n$ identified in Step 3 determine the internal vertices of $T$. By Lemma~\ref{lemma::5}, two of these internal vertices are adjacent precisely when their corresponding maximal cliques have an intersection of size two. Therefore Step 3 recovers all edges between the internal vertices. The remaining vertices belong to exactly one maximal clique and, by Lemma~\ref{lemma::4}, correspond to leaves. Step 4 therefore places each of these vertices at its unique position in the tree. Hence the algorithm reconstructs a tree $T$ satisfying $T^2=G$. Since the internal vertices, their adjacencies, and the attachment of every leaf are all determined by the maximal cliques of $G$, the resulting tree is unique up to isomorphism.
 \end{proof}
 
-\section{NP-Completeness Proofs} 
+\section{Integer Program} \label{sec::integer_progam}
 
-\section{Integer Program Foundation} 
+The two methods so far have primarily focused on the definition of a square of a graph to be paths of length smaller than two defined in Definition~\eqref{def::square_of_a_graph}. Using adjacency matrices, this definition is equivalent expressed as 
+\begin{equation} \label{eq::fund_adj_square_or}
+  A_G = (A_H)^2 \lor A_H.
+\end{equation}
+where $\lor$ is applied entrywise to the matrices. This concise interpretation with the logical operator lends itself easily to a SAT problem whereby one could introduce Boolean variables for the edges of $H$ and encode $\displaystyle (A_H)^2_{ij} = \big( (A_H)_{i1} \land (A_H)_{1j} \big) \lor \big( (A_H)_{i2} \land (A_H)_{2j} \big) \lor \cdots \lor \big( (A_H)_{in} \land (A_H)_{nj} \big)$. Thus, for each pair of distinct vertices $i,j$, the condition that $ij$ is an edge of $G$ can be expressed as
+\begin{equation} \label{eq::sat_square}
+  g_{ij} \text{ if and only if } \big( \bigwedge_k (x_{ik} \land x_{kj}) \lor x_{ij} \big). 
+\end{equation}
+The resulting Boolean formula can be converted into a standard SAT instance using auxiliary variables and a polynomial number of clauses. Hence, the logical formulation provides a polynomial-size SAT representation of the graph-square condition.
 
+However, constructing a polynomial-size SAT instance does not imply that the underlying problem can be solved in polynomial time. A general SAT instance may require exponential time to solve, since SAT is $NP$-complete. Therefore, to obtain a polynomial-time algorithm through this approach, one would additionally need to show that the SAT instances arising from Equation~\eqref{eq::sat_square} belong to a tractable subclass of SAT, such as $2$-SAT, or otherwise provide a polynomial-time algorithm for solving these particular instances. The formulation in Equation~\eqref{eq::sat_square} evidently does not belong to $2$-SAT, as each constraint involves a disjunction over all possible common neighbours $k$ and therefore contains terms involving more than two Boolean variables. More generally, one would suspect from the results in \ref{sec::np_completeness_proof} that there is no immediate polynomial-time algorithm for solving this instance and any restricted version of the graph root finding problem would necessitate significant machinery.  
+
+Instead, we aim to situate the problem completely within a polynomial-time framework by considering another equivalent representation of Equation~\eqref{eq::fund_adj_square_or} and its equivalent formulation in Definition~\eqref{def::square_of_a_graph}.
 
 \begin{lemma} \label{lemma::G_equal_to_H^2}
   The graph $G$ defined by Definition~\eqref{def::graph_square} is equivalent to the graph square $H^2$ defined in Definition~\eqref{def::square_of_a_graph} 
@@ -913,57 +917,195 @@ The formulation of the adjacency matrix of the graph square in Equation~\eqref{e
   \]
 \end{proof}
 
+We will not focus on this particular restricted class and analyze the integer program generated by Equation~\eqref{eq::fund_adj_eq_undirected_no_indicator}, but rather aim for a unified method for solving the problem in general. Nevertheless this result gives strong intuition into the results established by \citeauthor{farzad_2009_roots} in \cite{farzad_2009_roots} in constructing a polynomial time algorithm for recognizing graph roots where $H$ has girth at least $6$. 
 
+\subsection{Formulation} \label{subsec::integer_program_formulation}
 
-Let known constants $g_{ij} \in \{0, 1\}$ come from the adjacency matrix of the square $A_G$ and let $M \in \mathbb{Z}_{> 0}$ be a sufficiently large constant. The variables in the program are $x_{ij}$, $y_{ikj}$, $z_{ij}$ where $x_{ij}$ form the $ij$-th entry of the adjacency matrix of the root $A_H$.
+Let $x_{ij} \in \{0, 1\}$ be the decision variables of $A_H$, let $y_{ikj} \in \{0, 1\}$ be the decision variable for $x_{ik}x_{kj}$ in $(A_H)^2_{ij}$ and let $z_{ij} \in \mathbb{Z}_{\geq 0}$ represent the argument inside the indicator function. 
 
-\subsection{Integer Program Formulation}
+$\displaystyle 
+D_H =
+\begin{bmatrix}
+\deg_H(1) & 0      & \cdots & 0 & 0      \\
+0         & \ddots & \vdots & \ddots & \vdots \\
+\vdots    & \cdots & \deg_H(i) & \cdots & 0      \\
+0         & \ddots & \vdots & \ddots & \vdots \\
+0         & \cdots & 0      & \cdots & \deg_H(n)
+\end{bmatrix}, 
+$ 
+$\displaystyle A_H =
+\begin{bmatrix}
+x_{11} & \cdots & x_{1j} & \cdots & x_{1n} \\
+\vdots  & \ddots  & \vdots & \ddots & \vdots  \\
+x_{i1} & \cdots & x_{ij} & \cdots & x_{in} \\
+\vdots  & \ddots  & \vdots & \ddots & \vdots  \\
+x_{n1} & \cdots & x_{nj} & \cdots & x_{nn}
+\end{bmatrix}
+$ such that 
+\[
+(A_H)^2 = \begin{bmatrix}
+\displaystyle \sum_{k=1}^n x_{1k}x_{k1} & \cdots & \displaystyle \sum_{k=1}^n x_{1k}x_{kj} & \cdots & \displaystyle \sum_{k=1}^n x_{1k}x_{kn} \\
+\vdots  & \ddots  & \vdots & \ddots & \vdots  \\
+\displaystyle \sum_{k=1}^n x_{ik}x_{k1} & \cdots & \displaystyle \sum_{k=1}^n x_{ik}x_{kj} & \cdots & \displaystyle \sum_{k=1}^n x_{ik}x_{kn} \\
+\vdots  & \ddots  & \vdots & \ddots & \vdots  \\
+\displaystyle \sum_{k=1}^n x_{nk}x_{k1} & \cdots & \displaystyle \sum_{k=1}^n x_{nk}x_{kj} & \cdots & \displaystyle \sum_{k=1}^n x_{nk}x_{kn}
+\end{bmatrix}.
+\]
+Then with known constants $g_{ij} \in \{0, 1\}$ from $A_G$, can reformulating \eqref{eq::fund_adj_eq_undirected} as an integer program by equating entries of each matrix to give the following linear system of $n^2$ equations.
+\begin{equation}  \label{eq::fund_programming_equation}
+\begin{bmatrix}
+g_{11} \\
+\vdots \\
+g_{1j} \\
+\vdots \\
+g_{1n} \\
+\vdots \\
+g_{ij} \\
+\vdots \\
+g_{nn}
+\end{bmatrix} 
+=
+\begin{bmatrix}
+\mathbbm{1}_{\geq 1}\big(z_{11}\big) \\
+\vdots \\
+\mathbbm{1}_{\geq 1}\big(z_{1j}\big) \\
+\vdots \\
+\mathbbm{1}_{\geq 1}\big(z_{1n}\big) \\
+\vdots \\
+\mathbbm{1}_{\geq 1}\big(z_{ij}\big) \\
+\vdots \\
+\mathbbm{1}_{\geq 1}\big(z_{nn}\big)
+\end{bmatrix}
+=
+\begin{bmatrix} \displaystyle
+\mathbbm{1}_{\geq 1}\big(\sum_{k=1}^n x_{1k}x_{k1} - (D_H)_{11} + x_{11} \big) \\
+\vdots \\ \displaystyle
+\mathbbm{1}_{\geq 1}\big(\sum_{k=1}^n x_{1k}x_{kj} - (D_H)_{1j} + x_{1j} \big) \\
+\vdots \\ \displaystyle
+\mathbbm{1}_{\geq 1}\big(\sum_{k=1}^n x_{1k}x_{kn} - (D_H)_{1n} + x_{1n} \big)\\
+\vdots \\ \displaystyle
+\mathbbm{1}_{\geq 1}\big(\sum_{k=1}^n x_{ik}x_{kj} - (D_H)_{ij} + x_{ij} \big)\\
+\vdots \\ \displaystyle
+\mathbbm{1}_{\geq 1}\big(\sum_{k=1}^n x_{nk}x_{kn} - (D_H)_{nn} + x_{nn} \big)
+\end{bmatrix}.
+\end{equation}
+The matrix $D_H$ is diagonal can be represented as $\displaystyle (D_H)_{ii} = \sum_{k} x_{ik}$ where $(D_H)_{ij} = 0$ for $i \neq j$. The known $z_{ij}$ represent the terms inside the indicator function such that
+\[
+g_{ij} = 1 \text{ if and only if } z_{ij} \geq 1 \;\text{and}\; g_{ij} = 0 \text{ if and only if } z_{ij} = 0.
+\]  
+Let $M \in \mathbb{Z}_{> 0}$ be a sufficiently large constant. In this case, $M$ is bounded by the number of edges such that it can be at most $n(n -1) = O(n^2)$. The above condition can be modelled using a standard big-$M$ formulation, and the resulting integer program is given by
 
 \input{subfiles/IntegerProgramFormulation.tex}
+
+Additional constraints arising from symmetry and diagonality are added to the integer program which the adjacency matrix $x$ must satisfy. Although analogous constraints could also be imposed on the auxiliary variables $z$ they are omitted due to redundancy and potentially introduces artificial degeneracy in the linear program. 
 
 \subsection{Validity} \label{subsec::integer_program_validity}
 
 \input{subfiles/IntegerProgramValidityProof.tex}
 
+The correctness of the integer program is elucidated by Figure~\eqref{fig::integer_program_diagram}. 
+
+\chapter{Square of A Tree using Linear Programming} \label{chap::square_of_a_tree_LP}
+
 \section{Linear Program Relaxation}
 
-\subsection{Formulation}
+The linear relaxation of the integer program defined by Equations~\eqref{eq::IP_x_variable}--\eqref{eq::IP_diagonal_x} is constructed in order to generate a feasible weighted solution in polynomial time. It is done with identical constraints, however the decision variables \eqref{eq::IP_x_variable}, \eqref{eq::IP_y_variable} and \eqref{eq::IP_z_variable} are replaced with
+\begin{alignat}{3}
+& x_{ij} \in  \mathbb{R}_{\geq 0}, 
+&&\qquad \forall i,j \in \{1, \dots, n\}, \label{eq::LP_x_variable} \\
+& y_{ikj} \in \mathbb{R}_{\geq 0}, 
+&&\qquad \forall i,k,j \in \{1, \dots, n\}, \label{eq::LP_y_variable} \\
+& z_{ij} \in \mathbb{R}_{\geq 0}, 
+&&\qquad \forall i,j \in \{1, \dots, n\} \label{eq::LP_z_variable}. 
+\end{alignat} 
 
-\input{subfiles/LinearProgramFormulation.tex}
+The results from the linear programming can give \emph{integral solutions} and \emph{fractional solutions} when the root exists and \emph{fractional solutions} and \emph{infeasible solutions} when the root does not exist such that the results in Figure~\ref{fig::linear_program_diagram} can be generated. 
+
+The linear relaxation potentially breaks equations in the integer program which are critical to the definition. 
+
+Consider Equations~\eqref{eq::IP_product_upper_first}-\eqref{eq::IP_product_lower} which gives $y_{ikj} = x_{ik}x_{kj}$. When $x$ is binary, this construction of $y$ leads to $y$ being binary as well.  
+
+Consider Equation~\eqref{eq::IP_fund_matrix}, where $\displaystyle z_{ii} = \sum_{k = 1}^{n} y_{iki} - \sum_{k = 1}^{n} x_{ik} + x_{ii}$ can be simplified to $\displaystyle z_{ii} = \sum_{k = 1}^{n} x_{ik}^2 - \sum_{k = 1}^{n} x_{ik}$ and is equal to $0$ when $x$ is binary. In the linear relaxation this strict inequality no longer holds for fractional values of $x_{ik}$. However, when $x_{ik}$ is fractional $x_{ik}^2 \leq x_{ik}$ such that $\displaystyle z_{ii} = \sum_{k = 1}^{n} x_{ik}^2 - x_{ik} \leq 0$. As $z \in \mathbb{Z}_{\geq 0}$, this gives that $z_{ii} = 0$ as required - no additional modifications are required.
+
+Consider Equation~\eqref{eq::IP_indicator_arg}, where $\displaystyle z_{ij} = \sum_{k = 1}^{n} x_{ik}x_{kj} + x_{ij}$. When $z_{ij} = 0$, the equation follows the standard definition of graph squares such that $x_{ij} = 0 $ and for all intermediary $k$s at least one of $x_{ik},x_{kj}$ must be equal to $0$. However, when $z_{ij} \geq 1$, fractional solutions of $x_{ij}$ and $x_{ik}x_{kj}$ may satisfy the constraints without giving a valid integral path in the root. 
+
+\section{Min Linear Program} \label{sec::min_linear_program}
+
+Consider the addition of an objective function maximizing the total weights on all edges to the linear relaxation defined by Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::LP_z_variable} in Section~\ref{subsec::LP} 
+\begin{equation} \label{eq::min_obj_function}
+  \min \sum_{i=1}^{n} \sum_{j=1}^{n} x_{ij}.
+\end{equation}
+This relaxation however yields more fractional solutions, as illustrated in Figure~\ref{fig::min_objective_function_diagram}. 
+
+\begin{lemma}[Fractional Cliques in MinLP]
+Let $C\cong K_n$ be a complete subgraph. In the linear relaxation of the model Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::IP_y_upper_bound}, the minimizing solution assigns the same value to every edge of graph $G$, such that for $i \neq j$
+\[
+x_{ij}=\frac{1}{n-1}.
+\]
+In particular, $K_3$ gives $\displaystyle x_{ij}=\frac 12$, $K_4$ gives $\displaystyle x_{ij}=\frac 13$, and in general $K_n$ gives $\displaystyle x_{ij}= \frac{1}{n-1}$.
+\end{lemma}
+\begin{proof}
+  Since $C\cong K_n$ is vertex-transitive, the feasible region and the objective function Equation~\eqref{eq::min_obj_function} are invariant under every permutation of the vertices of $G$. Hence, if $x$ is optimal, then averaging $x$ over all permutations of the vertex set $V$ produces another optimal solution $\bar x$ with
+  \[
+  \bar x_{ij}=w \quad \text{for all } i\neq j \in V
+  \]
+  for some constant $w\ge 0$. Consider any vertex $i \in V$, where in the clique every pair $(i,j)$ with $j \neq i$ is present, so that $g_{ij}=1$. By the indicator constraints Equations~\eqref{eq::IP_indicator_upper}--\eqref{eq::IP_indicator_lower},
+  \[
+  z_{ij}\ge g_{ij}=1 \quad  \text{for all } j\neq i.
+  \]
+  Together with Equation~\eqref{eq::IP_indicator_arg} and the product constraints Equations~\eqref{eq::IP_product_upper_first}--\eqref{eq::IP_product_lower}, this forces each vertex $i$ to carry at least one unit of total incident $x$-mass on the clique, 
+  \[
+  \sum_{j\in V(C)\setminus\{i\}} x_{ij}\ge 1.
+  \]
+  For the symmetric solution $\bar x$, this becomes $(n-1)w \ge 1$, hence
+  \[
+  w \ge \frac{1}{n-1}.
+  \]
+  On the other hand, the objective function is
+  \[
+  \sum_{i<j,\ i,j\in V(C)} x_{ij} = \binom{n}{2}w,
+  \]
+  which is strictly increasing in $w$. Therefore the minimum is attained at the smallest feasible value of $\displaystyle w = \frac{1}{n-1}$ which every edge of $K_n$ achieves in the minimizing LP. 
+\end{proof}
 
 \section{Max Linear Program} \label{sec::max_linear_program}
 
-\subsection{Formulation} \label{subsec::max_linear_program_formulation}
+Consider the addition of an objective function maximizing the total weights on all edges to the linear relaxation defined by Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::LP_z_variable} in Section~\ref{subsec::LP} 
+\begin{equation} \label{eq::max_obj_function}
+  \max \sum_{i=1}^{n} \sum_{j=1}^{n} x_{ij}.
+\end{equation}
+This objective encourages dense solutions and therefore tends to produce relaxations that are more dense and hence more informative than trivial sparse solutions. In particular, maximizing the total edge weight pushes the variables toward values closer to $1$, which promotes direct edges and reduces the need for fractional paths of length $2$ to satisfy Equation~\eqref{eq::IP_indicator_arg}. As a result, the relaxation is more likely to yield integral solutions, as illustrated in Figure~\ref{fig::max_objective_function_diagram}.
 
-\input{subfiles/MaxLinearProgramFormulation.tex}
+This choice of objective is also useful when identifying square root solutions beyond those unique up to isomorphism. For example, the complete graph $K_3$ has four roots: itself and three path graphs of length $2$, which are isomorphic to one another. This illustrates that the maximization objective preserves consistency up to isomorphism while still distinguishing structurally meaningful solutions.
 
 \subsection{Fundamental Properties} \label{subsec::fundamental_properties}
 
 \input{subfiles/FundamentalProperties.tex}
 
-\chapter{Square of A Tree using Linear Programming} \label{chap::square_of_a_tree_LP}
+\section{Leaf Fixing} \label{sec::leaf_fixing}
 
-\section{Single Triangular Decomposition} \label{sec::single_triangular_decomposition}
 
-\subsection{Formulation} \label{subsec::STD_formulation}
-
-\input{subfiles/MaxSTDFormulation.tex}
-
-\subsection{Validity} \label{subsec::STD_validity}
-
-\input{subfiles/STDProof.tex}
-
-\section{Tetrahedron Decomposition} \label{sec::tetrahedron_decomposition}
-
-\subsection{Formulation} \label{subsec::TD_formulation}
-
-\input{subfiles/MaxTDFormulation.tex}
-
-\subsection{Validity} \label{subsec::TD_validity}
-
-\input{subfiles/TDProof.tex}
+% \subsection{Formulation} \label{subsec::STD_formulation}
+% \input{subfiles/MaxSTDFormulation.tex}
+% \subsection{Validity} \label{subsec::STD_validity}
+% \input{subfiles/STDProof.tex}
+% \section{Tetrahedron Decomposition} \label{sec::tetrahedron_decomposition}
+% \subsection{Formulation} \label{subsec::TD_formulation}
+% \input{subfiles/MaxTDFormulation.tex}
+% \subsection{Validity} \label{subsec::TD_validity}
+% \input{subfiles/TDProof.tex}
 
 \section{Tree Proof}
+
+Using adjacency matrices, we show that the modified linear program given by still gives integral or fractional solutions for graphs with roots and gives fractional or infeasible solutions for graphs without roots but always return valid integral root solution if there exists a tree root.
+
+\begin{definition} \label{def::pendant}
+  A pendant subgraph is the induced subgraph on three vertices $s,u,v$ where $s$ is a leaf with unique neighbour $u$, and $u$ is a stem of degree $2$ with neighbours $s$ and $v$, where $v$ connects the subgraph to the remainder of the tree.
+\end{definition}
+
+\begin{definition} \label{def::leaf_clique}
+  A leaf clique subgraph is the induced subgraph on four vertices $s_1,s_2,u,v$ where $s_1,s_2$ are leaves with unique neighbour $u$, and $u$ is an internal vertex of degree $\geq 3$ where $\{s_1,s_2, v\} \subseteq N(u)$, where $v$ connects the subgraph to the remainder of the tree.
+\end{definition}
 
 \input{subfiles/TwoPathProof.tex}
 
@@ -1072,9 +1214,6 @@ Rounding fractional solutions such that an integral solution or the problem is d
 
 
 \printbibliography
-
-Find a vertex whose neighbourhood is a clique. 
-
 
 
 \end{document}
