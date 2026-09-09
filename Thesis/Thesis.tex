@@ -271,7 +271,7 @@ Connections between vertices in a graph can be described using walks, paths and 
 \end{definition}
 
 \begin{definition}[Path] \label{def::path}
-  A \textbf{path} is a walk in which no vertex is repeated.
+  A \textbf{path} is a walk in which no vertex is repeated. A path containing $p$ vertices is denoted by $P_p$. 
 \end{definition}
 
 \begin{definition}[Cycle] \label{def::cycle}
@@ -525,6 +525,9 @@ G = H^2?
 
 To show that Problem~\eqref{prob::square_problem} is $\mathbf{NP}$-complete, it is necessary to show that it is in $\mathbf{NP}$ and that it is $\mathbf{NP}$-hard by reducing not-all-equal SAT (NAESAT) to the problem. 
 
+\begin{theorem}[$\mathbf{NP}$] \label{proof::np}
+  Problem~\eqref{prob::square_problem} is in $\mathbf{NP}$. 
+\end{theorem}
 \begin{proof}[NP Proof] \label{proof::np_proof}
   Given a candidate square root $H$, one can verify in polynomial time whether $G = H^2$ by computing the distances between pairs of vertices in $H$, or equivalently by constructing the square $H^2$ and comparing its edge set with that of $G$. Hence, $H$ provides a polynomially verifiable certificate for a \textbf{Yes}-instance of SQUARE and therefore
   \[
@@ -597,7 +600,7 @@ The construction is clearly polynomial in $n+m$ and depends only on the formula 
 
 The following lemma, which is the central combinatorial tool for proving the correctness of the reduction.
 
-\begin{lemma}[Tail Lemma]\label{lem:tail}
+\begin{lemma}[Tail Lemma] \label{lemma::tail}
   Let $G$ be a connected graph containing four distinct vertices $a,b,c,d$ such that
   \[
   N_G(a)=\{b,c\},\quad N_G(b)=\{a,c,d\},\quad cd\in E_G,
@@ -613,7 +616,7 @@ The following lemma, which is the central combinatorial tool for proving the cor
   
   First show that $N_H(a)=\{b\}$. Suppose, for contradiction, that $N_H(a)=\{c\}$. Then $ac \in E_H$. Because $ab \in E_G=H^2$, there is a path of length at most two from $a$ to $b$ in $H$ -  as $a$ has only the neighbour $c$, this forces $bc \in E_H$. 
 
-  Now $cd\in E_G$, so $c$ and $d$ are at distance at most two in $H$. As $bc \in E_H$, the only possible path of length two from $c$ to $d$ uses $b$, and hence $bd \in E_H$. 
+  Now $cd\in E_G$, so $c$ and $d$ are at distance at most two in $H$. As $bc \in E_H$, the only possible $P_2$ from $c$ to $d$ uses $b$, and hence $bd \in E_H$. 
 
   Let $v\notin\{a,b,c,d\}$ be the neighbour of $c$ in $G$. Since $cv \in E_G$, there is a path of length at most two from $c$ to $v$ in $H$. This path cannot go through $a$, otherwise $av \in E_G$, contradicting $N_G(a)=\{b,c\}$. Nor can it go through $b$, since that would give $bv \in E_G$, contradicting $N_G(b)=\{a,c,d\}$. Therefore the path must be $c-d-v$, giving $dv \in E_H$.
 
@@ -622,49 +625,49 @@ The following lemma, which is the central combinatorial tool for proving the cor
     N_H(a)=\{b\}. 
   \end{equation}
 
-  Now determine the neighbourhood of $c$. Since $ab \in E_H$ as $N_H(a)=\{b\}$, and $ac\in E_G$, the edge $ac$ in $G=H^2$ must be realized by the path $a-b-c$. This gives that $bc\in E_H$. If $b$ had a neighbour $x \notin \{a,c\}$ in $H$, then $a-b-x$ would be a path of length two, forcing $ax \in E_G$, which contradicts $N_H(a)=\{b\}$. Thus \begin{equation} \label{eq::tail_2}
+  Now determine the neighbourhood of $c$. Since $ab \in E_H$ as $N_H(a)=\{b\}$, and $ac\in E_G$, the edge $ac$ in $G=H^2$ must be realized by the path $a-b-c$. This gives that $bc\in E_H$. If $b$ had a neighbour $x \notin \{a,c\}$ in $H$, then $a-b-x$ would be a $P_2$, forcing $ax \in E_G$, which contradicts $N_H(a)=\{b\}$. Thus \begin{equation} \label{eq::tail_2}
     N_H(b)=\{a,c\}. 
   \end{equation}
 
-  Since $bd\in E_G$ and $N_H(b)=\{a,c\}$, the path of length two from $b$ to $d$ in $H$ must be $b-c-d$ - it cannot use $a$, as $N_H(a)=\{b\}$. Therefore $cd \in E_H$. 
+  Since $bd\in E_G$ and $N_H(b)=\{a,c\}$, the $P_2$ from $b$ to $d$ in $H$ must be $b-c-d$ - it cannot use $a$, as $N_H(a)=\{b\}$. Therefore $cd \in E_H$. 
   
   If $c$ had a neighbour $y\notin\{b,d\}$ in $H$, then $b-c-y$ would give $by \in E_G$, contradicting Equation~\eqref{eq::tail_2}. Hence
   \begin{equation} \label{eq::tail_3}
     N_H(c)=\{b,d\}. 
   \end{equation}
   
-  It remains to relate the external neighbours of $c$ in $G$ to those of $d$ in $H$. Take any $v\notin\{a,b,c,d\}$. If $cv\in E_G$, then there is a path of length at most two from $c$ to $v$ in $H$. By Equation~\eqref{eq::tail_3}, such a path must use $b$ or $d$ as the intermediate vertex. It cannot use $b$, since that would imply $bv\in E_G$, contradicting $N_G(b)=\{a,c,d\}$. Hence the path is $c-d-v$, so $dv \in E_H$. Conversely, if $dv \in E_H$, then $c-d-v$ is a path of length two in $H$ since $cd \in E_H$, giving $cv \in E_G$. Have therefore established, for every $v\notin\{a,b,c,d\}$,
+  It remains to relate the external neighbours of $c$ in $G$ to those of $d$ in $H$. Take any $v\notin\{a,b,c,d\}$. If $cv\in E_G$, then there is a path of length at most two from $c$ to $v$ in $H$. By Equation~\eqref{eq::tail_3}, such a path must use $b$ or $d$ as the intermediate vertex. It cannot use $b$, since that would imply $bv\in E_G$, contradicting $N_G(b)=\{a,c,d\}$. Hence the path is $c-d-v$, so $dv \in E_H$. Conversely, if $dv \in E_H$, then $c-d-v$ is a $P_2$ in $H$ since $cd \in E_H$, giving $cv \in E_G$. Have therefore established, for every $v\notin\{a,b,c,d\}$,
   \[
   v\in N_G(c) \text{ if and only if } v\in N_H(d).
   \]
   The desired equality follows immediately.
 \end{proof}
 
-\begin{lemma}
-  If $\phi\in\mathrm{NAESAT}$, then $G_\phi$ has a graph root
+\begin{lemma} \label{lemma::np_complete_forward}
+  If $\phi$ is a \textbf{Yes}-instance of $\mathrm{NAESAT}$, then $G_\phi$ has a graph root
 \end{lemma}
-\begin{proof}
-  Suppose that $\phi$ has a not-all-equal satisfying assignment. Construct a graph root $H=(V_\phi,E_H)$ on the same vertex set as $G_\phi$.
+\begin{proof}[Proof Sketch]
+  Suppose that $\phi$ has an assignment satisfying not-all-equal. Construct a graph root $H=(V_\phi,E_H)$ on the same vertex set as $G_\phi$.
 
   The edges of $H$ consist of the edges of the tails, together with edges connecting $x$ to TRUE and FALSE. For each clause vertex $C_j$, connect $C_j$ to the three literal vertices corresponding to the literals contained in the clause, together with the edges required by its tail. Each literal vertex is connected to TRUE if its corresponding literal is assigned TRUE and to FALSE if its corresponding literal is assigned FALSE. Finally, each literal vertex is connected to the appropriate literal-pair vertices, and each literal-pair vertex is connected to both TRUE and FALSE.
 
-  Because the assignment is not-all-equal, every clause contains at least one TRUE literal and at least one FALSE literal. Consequently, the paths in $H$ of length two produce precisely the edges of $G_\phi$. In particular, complementary literals do not have a common neighbour in $H$, whereas every pair of non-complementary literals has a common neighbour through its corresponding literal-pair vertex. The tail construction similarly ensures that the required tail edges are obtained in $H^2$.
+  Because the assignment is not-all-equal, every clause contains at least one TRUE literal and at least one FALSE literal. Consequently, the paths in $H$ of length two produce precisely the edges of $G_\phi$. In particular, complementary literals do not have a common neighbour in $H$, whereas every pair of non-complementary literals has a common neighbour through its corresponding literal-pair vertex. The tail construction similarly ensures that the required tail edges are obtained in $H^2$. 
 
   Hence, $G_\phi=H^2$, and therefore $G_\phi$ has a graph root.
 \end{proof}
-\begin{lemma}
-  If $G_\phi$ has a graph root, then $\phi\in\mathrm{NAESAT}$
+\begin{lemma} \label{lemma::np_complete_backward}
+  If $G_\phi$ has a graph root, then $\phi$ is a \textbf{Yes}-instance of $\mathrm{NAESAT}$
 \end{lemma}
-\begin{proof} 
+\begin{proof}[Proof Sketch] 
   Suppose that $G_\phi$ has a graph root $H$, so that $G_\phi=H^2$. 
   
-  Apply Lemma~\ref{lem:tail} to the tail of $x$, with $(a,b,c,d)=(t_3,t_2,t_1,x)$. Since $t_1$ has the external neighbours TRUE and FALSE in $G_\phi$, the lemma gives 
+  Apply Lemma~\ref{lemma::tail} to the tail of $x$, with $(a,b,c,d)=(t_3,t_2,t_1,x)$. Since $t_1$ has the external neighbours TRUE and FALSE in $G_\phi$, the lemma gives 
   \[ 
   N_H(x)\setminus\{t_3,t_2,t_1,x\} = \{\textsc{True},\textsc{False}\}. 
   \] 
   Thus, apart from its own tail, $x$ is adjacent in $H$ precisely to TRUE and FALSE. 
   
-  Similarly, for each clause $C_j$, apply Lemma~\ref{lem:tail} to its tail with $ (a,b,c,d)=(C_j^3,C_j^2,C_j^1,C_j)$. Since $C_j^1$ has the external neighbours $L_{j_1},L_{j_2},L_{j_3}$ in $G_\phi$, the lemma gives 
+  Similarly, for each clause $C_j$, apply Lemma~\ref{lemma::tail} to its tail with $ (a,b,c,d)=(C_j^3,C_j^2,C_j^1,C_j)$. Since $C_j^1$ has the external neighbours $L_{j_1},L_{j_2},L_{j_3}$ in $G_\phi$, the lemma gives 
   \[ 
   N_H(C_j)\setminus \{C_j^3,C_j^2,C_j^1,C_j\} = \{L_{j_1},L_{j_2},L_{j_3}\}. 
   \] 
@@ -679,6 +682,7 @@ The following lemma, which is the central combinatorial tool for proving the cor
   \phi\in\mathrm{NAESAT}. 
   \] 
 \end{proof}
+
 
 \section{Polynomial Time Algorithm} \label{sec::polynomial_time_algorithm}
 
@@ -958,6 +962,8 @@ Let $M \in \mathbb{Z}_{> 0}$ be a sufficiently large constant. In this case, $M$
 
 \input{subfiles/IntegerProgramFormulation.tex}
 
+The construction of the integer program on the arbitrary graph $G$ using Equations~\eqref{eq::IP_x_variable}--\eqref{eq::IP_diagonal_x} is denoted as $\mathcal{IP}(G)$. 
+
 Additional constraints arising from symmetry and diagonality are added to the integer program which the adjacency matrix $x$ must satisfy. Although analogous constraints could also be imposed on the auxiliary variables $z$ they are omitted due to redundancy and potentially introduces artificial degeneracy in the linear program. 
 
 \subsection{Validity} \label{subsec::integer_program_validity}
@@ -968,7 +974,7 @@ The correctness of the integer program is elucidated by Figure~\eqref{fig::integ
 
 \chapter{Square of A Tree using Linear Programming} \label{chap::square_of_a_tree_LP}
 
-\section{Linear Program Relaxation}
+\section{Linear Program Relaxation} \label{sec::linear_program_relaxation}
 
 The linear relaxation of the integer program defined by Equations~\eqref{eq::IP_x_variable}--\eqref{eq::IP_diagonal_x} is constructed in order to generate a feasible weighted solution in polynomial time. It is done with identical constraints, however the decision variables \eqref{eq::IP_x_variable}, \eqref{eq::IP_y_variable} and \eqref{eq::IP_z_variable} are replaced with
 \begin{alignat}{3}
@@ -979,6 +985,8 @@ The linear relaxation of the integer program defined by Equations~\eqref{eq::IP_
 & z_{ij} \in \mathbb{R}_{\geq 0}, 
 &&\qquad \forall i,j \in \{1, \dots, n\} \label{eq::LP_z_variable}. 
 \end{alignat} 
+
+The construction of the linear program on the arbitrary graph $G$ using Equations~\eqref{eq::LP_x_variable}--\eqref{eq::LP_z_variable} and Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::IP_diagonal_x} is denoted as $\mathcal{LP}(G)$. 
 
 The results from the linear programming can give \emph{integral solutions} and \emph{fractional solutions} when the root exists and \emph{fractional solutions} and \emph{infeasible solutions} when the root does not exist such that the results in Figure~\ref{fig::linear_program_diagram} can be generated. 
 
@@ -992,14 +1000,17 @@ Consider Equation~\eqref{eq::IP_indicator_arg}, where $\displaystyle z_{ij} = \s
 
 \section{Min Linear Program} \label{sec::min_linear_program}
 
-Consider the addition of an objective function maximizing the total weights on all edges to the linear relaxation defined by Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::LP_z_variable} in Section~\ref{subsec::LP} 
+Consider the addition of an objective function maximizing the total weights on all edges to the linear relaxation defined by Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::LP_z_variable} in Section~\ref{sec::linear_program_relaxation} 
 \begin{equation} \label{eq::min_obj_function}
   \min \sum_{i=1}^{n} \sum_{j=1}^{n} x_{ij}.
 \end{equation}
-This relaxation however yields more fractional solutions, as illustrated in Figure~\ref{fig::min_objective_function_diagram}. 
 
-\begin{lemma}[Fractional Cliques in MinLP]
-Let $C\cong K_n$ be a complete subgraph. In the linear relaxation of the model Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::IP_y_upper_bound}, the minimizing solution assigns the same value to every edge of graph $G$, such that for $i \neq j$
+The construction of the linear program on the arbitrary graph $G$ using Equations~\eqref{eq::LP_x_variable}--\eqref{eq::LP_z_variable}, Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::IP_diagonal_x} together with Equation~\eqref{eq::min_obj_function} is denoted as $\min \mathcal{LP}(G)$. 
+
+This relaxation however yields more fractional solutions, as illustrated in Figure~\ref{fig::min_objective_function_diagram}.  
+
+\begin{lemma}[Fractional Cliques in $\min \mathcal{LP}(G)$]
+Let $C\cong K_n$ be a complete subgraph. The minimizing solution of  $\min \mathcal{LP}(G)$ assigns the same value to every edge of graph $G$, such that for $i \neq j$
 \[
 x_{ij}=\frac{1}{n-1}.
 \]
@@ -1016,28 +1027,26 @@ In particular, $K_3$ gives $\displaystyle x_{ij}=\frac 12$, $K_4$ gives $\displa
   \]
   Together with Equation~\eqref{eq::IP_indicator_arg} and the product constraints Equations~\eqref{eq::IP_product_upper_first}--\eqref{eq::IP_product_lower}, this forces each vertex $i$ to carry at least one unit of total incident $x$-mass on the clique, 
   \[
-  \sum_{j\in V(C)\setminus\{i\}} x_{ij}\ge 1.
+  \sum_{j\in V(C)\setminus\{i\}} x_{ij} \ge 1.
   \]
-  For the symmetric solution $\bar x$, this becomes $(n-1)w \ge 1$, hence
-  \[
-  w \ge \frac{1}{n-1}.
-  \]
-  On the other hand, the objective function is
-  \[
-  \sum_{i<j,\ i,j\in V(C)} x_{ij} = \binom{n}{2}w,
-  \]
-  which is strictly increasing in $w$. Therefore the minimum is attained at the smallest feasible value of $\displaystyle w = \frac{1}{n-1}$ which every edge of $K_n$ achieves in the minimizing LP. 
+  For the symmetric solution $\bar x$, this becomes $(n-1)w \ge 1$, hence $ \displaystyle w \ge \frac{1}{n-1}$. On the other hand, the objective function is
+  $ \displaystyle \sum_{i<j,\ i,j\in V(C)} x_{ij} = \binom{n}{2}w$, which is strictly increasing in $w$. Therefore the minimum is attained at the smallest feasible value of $\displaystyle w = \frac{1}{n-1}$ which every edge of $K_n$ achieves in the minimizing LP. 
 \end{proof}
 
 \section{Max Linear Program} \label{sec::max_linear_program}
 
-Consider the addition of an objective function maximizing the total weights on all edges to the linear relaxation defined by Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::LP_z_variable} in Section~\ref{subsec::LP} 
+Consider the addition of an objective function maximizing the total weights on all edges to the linear relaxation defined by Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::LP_z_variable} in Section~\ref{sec::linear_program_relaxation} 
 \begin{equation} \label{eq::max_obj_function}
   \max \sum_{i=1}^{n} \sum_{j=1}^{n} x_{ij}.
 \end{equation}
-This objective encourages dense solutions and therefore tends to produce relaxations that are more dense and hence more informative than trivial sparse solutions. In particular, maximizing the total edge weight pushes the variables toward values closer to $1$, which promotes direct edges and reduces the need for fractional paths of length $2$ to satisfy Equation~\eqref{eq::IP_indicator_arg}. As a result, the relaxation is more likely to yield integral solutions, as illustrated in Figure~\ref{fig::max_objective_function_diagram}.
+
+The construction of the linear program on the arbitrary graph $G$ using Equations~\eqref{eq::LP_x_variable}--\eqref{eq::LP_z_variable}, Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::IP_diagonal_x} together with Equation~\eqref{eq::max_obj_function} is denoted as $\max \mathcal{LP}(G)$. 
+
+This objective encourages dense solutions and therefore tends to produce relaxations that are more dense and hence more informative than trivial sparse solutions. In particular, maximizing the total edge weight pushes the variables toward values closer to $1$, which promotes direct edges and reduces the need for fractional paths of length $2$ to satisfy Equation~\eqref{eq::IP_indicator_arg}. As a result, the relaxation is more likely to yield integral solutions, as illustrated in Figure~\ref{fig::max_objective_function_diagram}. 
 
 This choice of objective is also useful when identifying square root solutions beyond those unique up to isomorphism. For example, the complete graph $K_3$ has four roots: itself and three path graphs of length $2$, which are isomorphic to one another. This illustrates that the maximization objective preserves consistency up to isomorphism while still distinguishing structurally meaningful solutions.
+
+
 
 \subsection{Fundamental Properties} \label{subsec::fundamental_properties}
 
@@ -1045,28 +1054,151 @@ This choice of objective is also useful when identifying square root solutions b
 
 \section{Leaf Fixing} \label{sec::leaf_fixing}
 
+There are two important structures in a tree. 
 
-% \subsection{Formulation} \label{subsec::STD_formulation}
-% \input{subfiles/MaxSTDFormulation.tex}
-% \subsection{Validity} \label{subsec::STD_validity}
-% \input{subfiles/STDProof.tex}
-% \section{Tetrahedron Decomposition} \label{sec::tetrahedron_decomposition}
-% \subsection{Formulation} \label{subsec::TD_formulation}
-% \input{subfiles/MaxTDFormulation.tex}
-% \subsection{Validity} \label{subsec::TD_validity}
-% \input{subfiles/TDProof.tex}
+\begin{definition}[Pendant] \label{def::pendant}
+  A pendant subgraph is the induced subgraph on three vertices $s,u,v$ where $s$ is a leaf with unique neighbour $u$, and $u$ is a stem of degree $2$ with neighbours $s$ and $v$, where $v$ connects the subgraph to the remainder of the tree.
+\end{definition}
+\begin{definition}[Pendant Fork] \label{def::pendant_fork}
+  A pendant fork subgraph is the induced subgraph on four vertices $s_1,s_2,u,v$ where $s_1,s_2$ are leaves with unique neighbour $u$, and $u$ is an internal vertex of degree $\geq 3$ where $\{s_1,s_2, v\} \subseteq N(u)$, where $v$ connects the subgraph to the remainder of the tree.
+\end{definition}
+
+\begin{lemma} \label{lemma::tree_pendant_pendant_fork}
+  Every tree contains either a \hyperref[def::pendant]{pendant} or a \hyperref[def::pendant_fork]{pendant fork} subgraph.
+\end{lemma}
+\begin{proof} 
+  Let $T$ be a finite tree with $|V(T)|\ge 3$, and root $T$ at an arbitrary vertex. Since $T$ is finite, there exists a leaf $s$ of maximal depth where its parent is $u$. Every child of $u$ is a leaf, since if there was some child $w$ of $u$ that is not a leaf, then $w$ would have a child and hence there would exist a vertex at depth strictly greater than that of $s$, contradicting the choice of $s$.
+
+  If $u$ is not the root, let $v$ denote its parent such that every neighbour of $u$ other than $v$ is a leaf.
+
+  If $u$ has exactly one leaf neighbour $s$ besides $v$ (when $u$ is not the root), then $u$ has exactly two neighbours, namely $s$ and $v$, hence $\deg_T(u)=2$. Therefore the induced subgraph on
+  \[
+  \{s,u,v\}
+  \]
+  forms a pendant subgraph.
+
+  Otherwise $u$ has at least two leaf neighbours $s_1,s_2$. Choose another neighbour $v$ of $u$ distinct from $s_1,s_2$; if $u$ is not the root, take its parent, while if $u$ is the root choose any remaining neighbour. Then
+  \[
+  \{s_1,s_2,v\}\subseteq N(u),
+  \]
+  and $\deg_T(u)\ge3$. Hence the induced subgraph on
+  \[
+  \{s_1,s_2,u,v\}
+  \]
+  forms a pendant fork subgraph.
+\end{proof}
+
+Using this lemma, every tree contains either a pendant or a pendant fork subgraph. Consequently, whenever $G$ admits a tree root, at least one of these two configurations can be identified and used to derive valid fixings for the variables $x_{ij}$.
+\subsection{Single Triangular Decomposition} \label{subsec::single_triangular_decomposition}
+For a vertex $s \in V$, define
+\[
+T(s) = \bigl\{ \{u,v\} \subseteq V \setminus \{s\} \vert (s,u)\in E,\ (s,v)\in E,\ (u,v)\in E \bigr\}
+\]
+to be the set of $3$-cliques or triangles in $G$ that contain $s$. If $|T(s)| = 1$ where $T(s) = \{\{u,v\}\}$ then the vertex $s$ exists in a unique triangle of $G$. When the neighbours have different degree $\deg_G(u) \neq \deg_G(v)$, then the vertex with smaller degree must be the stem vertex in the square root. This is assigned deterministically for a single triangle $s$ using
+\begin{equation} \label{eq::single_triangle_fix}
+x_{sa} = x_{as} = x_{ab} = x_{ba} = 1,
+\quad
+\text{where }
+(a,b) =
+\begin{cases}
+(u,v), & \deg_G(u) \leq \deg_G(v), \\
+(v,u), & \deg_G(u) > \deg_G(v).
+\end{cases}
+\end{equation}
+
+If $\deg_G(u) = \deg_G(v)$, then either $u,v$ can be chosen since they are connected to a clique.
+
+\begin{lemma} \label{lemma::single_triangle_equal_neighbourhood}
+  Let $s,u,v$ form a triangle in square $G$ where $s$ only lies in a single clique. If $\deg_G(u)=\deg_G(v)=d\geq 2$, then
+  \[
+  N_G(u)\setminus\{s\}=N_G(v)\setminus\{s\}.
+  \]
+  That is, $N_G(u)\cup\{u\}$ and $N_G(v)\cup\{v\}$ induce the same clique structure in $G$.
+\end{lemma}
+\begin{proof}
+  Since $s$ lies in a single clique in $G$, in any tree root $H$ the vertex $s$ must be a leaf, and exactly one of $u$ or $v$ is the internal vertex adjacent to the remainder of the graph. Assume without loss of generality that $u$ is this internal vertex. Any vertex adjacent to $v$ in $G$ other than $s$ must arise from a path of length at most two through $u$ in $H$, since $v$ has no other connections in the root besides $u$ and $s$. Hence
+  \[
+  N_G(v)\setminus\{s\}\subseteq N_G(u)\setminus\{s\}.
+  \]
+  Since $\deg_G(u)=\deg_G(v)$, both neighbourhoods have equal cardinality $|N_G(v)| = |N_G(u)|$ such that via the equality criterion for finite sets
+  \[
+  N_G(v)\setminus\{s\}
+  =
+  N_G(u)\setminus\{s\}.
+  \]
+  Hence the vertices adjacent to $u$ and $v$ outside of $s$ have identical adjacency structure in $G$, and therefore $N_G(u)\cup\{u\}$ and $N_G(v)\cup\{v\}$ induce the same clique structure.
+\end{proof}
+
+\begin{proposition} \label{prop::single_triangular_decomposition_equality}
+  Let $s,u,v$ form a triangle in square $G$ where $s$ only lies in a single clique. If $\deg_G(u)=\deg_G(v)=d\geq2$, then one can choose to assign $x_{su}=x_{uv}=1$ in the tree root $H$ without loss of generality.
+\end{proposition}
+\begin{proof}
+  Since $s$ lies in a single clique in $G$, in the root $H$, $s$ must be a leaf with either $u$ or $v$ being the internal vertex adjacent to the remainder of the graph. Assume without loss of generality that $u$ is the internal vertex.
+
+  By Lemma~\ref{lemma::single_triangle_equal_neighbourhood}, $N_G(u)\setminus\{s\}=N_G(v)\setminus\{s\}$, such that $u$ and $v$ induce identical clique structure in $G$. Therefore exchanging the roles of $u$ and $v$ preserves the square graph $G$.Hence choosing $u$ as the internal vertex and assigning
+  \[
+  x_{su}=x_{uv}=1,
+  \]
+  does not alter feasibility, since the alternative choice obtained by exchanging $u$ and $v$ produces an isomorphic tree root with identical square graph.
+\end{proof}
+
+\subsection{Tetrahedron Decomposition} \label{subsec::tetrahedron_decomposition}
+A natural extension of Section~\ref{subsec::single_triangular_decomposition} can be achieved by considering cliques of size greater than three in order to categorize tree structure whereby an internal vertex is connected to more than one leaf. Whilst finding a clique of size $\geq k$ for fixed $k$ is polynomial, with complexity of order $O(n^k)$ by simply checking all tuples of size $k$, the decision problem of whether a graph $G$ contains a clique of size $k$, as well as the problem of finding a largest clique, is NP-complete. Thus, it is necessary to only consider cliques of fixed size $4$ which have polynomial complexity $O(n^4)$. This however is sufficient for classifying any \hyperref[def::pendant_fork]{pendant fork}, since any branching vertex with exactly two leaves will generate a $4$-clique in the square, whilst a branching vertex with more than two leaves will generate multiple $4$-cliques of which one can be chosen by arbitrarily selecting any two leaves.
+
+Consider vertices $s_1,s_2,u,v\in V$ such that $K_4 = \{s_1,s_2,u,v\}$ induces a $4$-clique in $G$ and for each leaf $s_1, s_2$ of $u$ their neighbourhoods are equivalent and give the common neighbourhood $N_L = N_G(s_1)\setminus K_4 =N_G(s_2) \setminus K_4$. If
+\begin{equation} \label{eq::tetrahedron_neighbourhood_assignment}
+\big( N_G(s_1)\setminus K_4 \big) = \big( N_G(s_2)\setminus K_4 \big) \subset \big( N_G(u)\setminus K_4 \big) \subseteq \big( N_G(v)\setminus K_4 \big),
+\end{equation}
+and if every vertex in the common neighbourhood of each leaf has no neighbours outside the tetrahedron and that neighbourhood itself,
+\begin{equation} \label{eq::tetrahedron_leaf_class}
+N_G(w) \subseteq K_4 \cup N_L \quad \forall w\in N_L,
+\end{equation}
+then $u$ is designated as the internal vertex, $v$ as the external vertex, and $s_1,s_2$ as the leaf vertices of the tetrahedron.
+
+Under Equations~\eqref{eq::tetrahedron_neighbourhood_assignment} and~\eqref{eq::tetrahedron_leaf_class}, the vertices $s_1$ and $s_2$ correspond to leaves adjacent to a common internal vertex $u$, whilst $v$ acts as the connecting vertex between $u$ and the remainder of the graph. The vertices with identical minimal neighbourhood structure correspond to leaves adjacent to a common internal vertex $u$, whilst the vertex $v$, having maximal neighbourhood containment, acts as the connecting vertex between $u$ and the remainder of the graph.
+
+For $n=4$, the vertex $u$ is a binary branching vertex contained in a unique $4$-clique. In particular, when $n=5$, the branching vertex $u$ has three leaf children $s_1,s_2,s_3$, producing $\displaystyle {3 \choose 2} =3$ distinct $4$-cliques
+\[
+\{s_1,s_2,u,v\},\quad \{s_1,s_3,u,v\},\quad \{s_2,s_3,u,v\}.
+\]
+
+More generally, suppose $u$ has $k$ leaf children $s_1,\dots,s_k$, and that these vertices together with $v$ induce a $(k+2)$-clique. Then every pair of leaves $(s_i,s_j)$ determines a distinct $4$-clique $\{s_i,s_j,u,v\}$ where the total number of such $4$-cliques generated by this branching configuration is $ \displaystyle {k \choose 2}$. Suppose that $s_1,s_2$ are chosen without loss of generality, then if the $4$-clique satisfies Equation~\eqref{eq::tetrahedron_neighbourhood_assignment} and Equation~\eqref{eq::tetrahedron_leaf_class} can deterministically assign values to the edges using  
+\begin{equation} \label{eq:tetrahedron_fix}
+x_{s_1u}=x_{us_1} = x_{s_2u}=x_{us_2} = x_{uv}=x_{vu} = 1. 
+\end{equation}
+
+
+\begin{lemma} \label{lemma::tetrahedron_subset_neighbourhood}
+  Let $s_1,s_2,u,v$ form a $4$-clique in square $G$. If $N_G(s_1)\setminus\{s_1,s_2,u,v\}=N_G(s_2)\setminus\{s_1,s_2,u,v\}$, then
+  \[
+  N_G(u)\setminus\{s_1, s_2\}=N_G(v)\setminus\{s_1, s_2\}.
+  \]
+  That is, $N_G(u)\cup\{u\}$ and $N_G(v)\cup\{v\}$ induce the same clique structure in $G$.
+\end{lemma}
+\begin{proof}
+  Let $x \in N_G(v)\setminus\{s_1,s_2\}$ be a vertex adjacent to $v$ in $G$ such that there exists a path of length at most two between $x$ and $v$ in $H$. If $x$ is adjacent to either $s_1$ or $s_2$, then by the assumption
+  \[
+  N_G(s_1)\setminus\{s_1,s_2,u,v\}
+  =
+  N_G(s_2)\setminus\{s_1,s_2,u,v\},
+  \]
+  where the vertices $s_1$ and $s_2$ contribute identically outside the clique. Hence any external connection from the clique through $v$ must also be realised through the same local structure containing $u$. Consequently $x$ is also at distance at most two from $u$ in $H$, and therefore
+  \[
+  x\in N_G(u)\setminus\{s_1,s_2\},
+  \]
+  which implies that $N_G(v)\setminus\{s_1,s_2\} \subseteq N_G(u)\setminus\{s_1,s_2\}$. By symmetry, interchanging the roles of $u$ and $v$ gives
+  \[
+  N_G(u)\setminus\{s_1,s_2\} \subseteq N_G(v)\setminus\{s_1,s_2\} 
+  \]
+  and hence  $N_G(u)\setminus\{s_1,s_2\} = N_G(v)\setminus\{s_1,s_2\}$. Therefore the vertices adjacent to $u$ and $v$ outside of $\{s_1,s_2\}$ have identical adjacency structure in $G$, and so $N_G(u)\cup\{u\}$ and $N_G(v)\cup\{v\}$ induce the same clique structure in $G$.
+\end{proof}
+
 
 \section{Tree Proof}
 
 Using adjacency matrices, we show that the modified linear program given by still gives integral or fractional solutions for graphs with roots and gives fractional or infeasible solutions for graphs without roots but always return valid integral root solution if there exists a tree root.
 
-\begin{definition} \label{def::pendant}
-  A pendant subgraph is the induced subgraph on three vertices $s,u,v$ where $s$ is a leaf with unique neighbour $u$, and $u$ is a stem of degree $2$ with neighbours $s$ and $v$, where $v$ connects the subgraph to the remainder of the tree.
-\end{definition}
 
-\begin{definition} \label{def::leaf_clique}
-  A leaf clique subgraph is the induced subgraph on four vertices $s_1,s_2,u,v$ where $s_1,s_2$ are leaves with unique neighbour $u$, and $u$ is an internal vertex of degree $\geq 3$ where $\{s_1,s_2, v\} \subseteq N(u)$, where $v$ connects the subgraph to the remainder of the tree.
-\end{definition}
 
 \input{subfiles/TwoPathProof.tex}
 
@@ -1169,9 +1301,9 @@ $H_-$ from $H^-$ by considering the following scenarios for vertex $v$
   \item $v$ is connected to the subgraph $V^-$ by two edges to $u, w \in V^-$ where 
   $uw \in E_{H_-}$
   \item $v$ is connected to the subgraph $G'$ by two edges to vertices $u, w \in G'$ where 
-  $uw \notin E_H$ and there is no path of length two between $u,w$ in $G'$. 
+  $uw \notin E_H$ and there is no $P_2$ between $u,w$ in $G'$. 
   \item $v$ is connected to the subgraph $G'$ by two edges to vertices $u, w \in G'$ where 
-  $uw \notin E_H$ and there is a path of length two between $u,w$ in $G'$. 
+  $uw \notin E_H$ and there is a $P_2$ between $u,w$ in $G'$. 
 \end{enumerate}
 where the remaining possibilities have the above sub-cases. 
 \begin{enumerate}[label=\roman*)]
@@ -1211,7 +1343,7 @@ and hence remains polynomial in $n$.
 
 \section{Duality} \label{sec::duality}
 
-Consider the dual formulation of the max objective linear program defined in Formulation~\ref{eq::max_linear_program} by first restating it in canonical form.
+Consider the dual formulation of the max objective linear program defined in Section~\ref{sec::max_linear_program} by first restating it in canonical form.
 
 \input{subfiles/CanonicalMaxLPFormulation.tex}
 

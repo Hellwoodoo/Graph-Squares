@@ -13,7 +13,7 @@
   \[
   0 = \sum_{a=1}^{n}y_{iaj}+x_{ij} = \sum_{a=1}^{n}x_{ia}x_{aj}+x_{ij},
   \]
-  where the second equality follows from the product constraints Equations~\eqref{eq::IP_product_upper_first}--\eqref{eq::IP_product_lower} together with the integrality of $x \in \{0, 1\}$ by Equation~\eqref{eq::IP_x_variable} and Equation~\eqref{eq::IP_x_upper_bound}. Since all variables are non-negative, $0$ only holds when $x_ij = 0$ and all of$x_{ia} x_{aj}=0$ and using the integrality of $x$, this means that at most one of $x_{ia}$, $x_{aj}$ is equal to $1$ and the other must be $0$, which can be equivalently written as $x_{ia} + x_{aj} \leq 1$. Taking $a=k$ gives $x_{ik}+x_{kj} \leq 1$ as required. 
+  where the second equality follows from the product constraints Equations~\eqref{eq::IP_product_upper_first}--\eqref{eq::IP_product_lower} together with the integrality of $x \in \{0, 1\}$ by Equation~\eqref{eq::IP_x_variable} and Equation~\eqref{eq::IP_x_upper_bound}. Since all variables are non-negative, $0$ only holds when $x_ij = 0$ and all of $x_{ia} x_{aj}=0$ and using the integrality of $x$, this means that at most one of $x_{ia}$, $x_{aj}$ is equal to $1$ and the other must be $0$, which can be equivalently written as $x_{ia} + x_{aj} \leq 1$. Taking $a=k$ gives $x_{ik}+x_{kj} \leq 1$ as required. 
 \end{proof}
 
 \subsection{Linear Program} \label{subsec::two_edge_path_linear_program}
