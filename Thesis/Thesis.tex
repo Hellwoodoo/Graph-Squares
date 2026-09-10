@@ -990,6 +990,34 @@ The construction of the linear program on the arbitrary graph $G$ using Equation
 
 The results from the linear programming can give \emph{integral solutions} and \emph{fractional solutions} when the root exists and \emph{fractional solutions} and \emph{infeasible solutions} when the root does not exist such that the results in Figure~\ref{fig::linear_program_diagram} can be generated. 
 
+\begin{definition}[Integral Solutions]
+  A feasible solution to the linear program is an \emph{integral solution} if
+  \[
+  x_{ij} \in \{0,1\} \quad \forall i,j \in V.
+  \]
+  In this case, the variables $x_{ij}$ define a graph root $H$ through
+  \[
+  E_H = \{(i,j) \in V \times V : x_{ij}=1\}.
+  \]
+\end{definition}
+
+\begin{definition}[Fractional Solutions]
+  A feasible solution to the linear program is a \emph{fractional solution}
+  if
+  \[
+  x_{ij} \in [0,1] \quad \forall i,j \in V,
+  \]
+  and there exists at least one pair $(i,j)$ such that $0 < x_{ij} < 1$. In this case, the variables $x_{ij}$ do not directly define a graph root.
+\end{definition}
+
+\input{subfiles/LinearRelaxationSetGeometry.tex}
+
+In Figure~\ref{fig::ip_lp_set_geometric}, solutions which are $LP$ feasible may be integral or fractional 
+
+
+
+The correctness of the integer program is elucidated by Figure~\eqref{fig::linear_program_diagram}. 
+
 The linear relaxation potentially breaks equations in the integer program which are critical to the definition. 
 
 Consider Equations~\eqref{eq::IP_product_upper_first}-\eqref{eq::IP_product_lower} which gives $y_{ikj} = x_{ik}x_{kj}$. When $x$ is binary, this construction of $y$ leads to $y$ being binary as well.  
@@ -997,6 +1025,10 @@ Consider Equations~\eqref{eq::IP_product_upper_first}-\eqref{eq::IP_product_lowe
 Consider Equation~\eqref{eq::IP_fund_matrix}, where $\displaystyle z_{ii} = \sum_{k = 1}^{n} y_{iki} - \sum_{k = 1}^{n} x_{ik} + x_{ii}$ can be simplified to $\displaystyle z_{ii} = \sum_{k = 1}^{n} x_{ik}^2 - \sum_{k = 1}^{n} x_{ik}$ and is equal to $0$ when $x$ is binary. In the linear relaxation this strict inequality no longer holds for fractional values of $x_{ik}$. However, when $x_{ik}$ is fractional $x_{ik}^2 \leq x_{ik}$ such that $\displaystyle z_{ii} = \sum_{k = 1}^{n} x_{ik}^2 - x_{ik} \leq 0$. As $z \in \mathbb{Z}_{\geq 0}$, this gives that $z_{ii} = 0$ as required - no additional modifications are required.
 
 Consider Equation~\eqref{eq::IP_indicator_arg}, where $\displaystyle z_{ij} = \sum_{k = 1}^{n} x_{ik}x_{kj} + x_{ij}$. When $z_{ij} = 0$, the equation follows the standard definition of graph squares such that $x_{ij} = 0 $ and for all intermediary $k$s at least one of $x_{ik},x_{kj}$ must be equal to $0$. However, when $z_{ij} \geq 1$, fractional solutions of $x_{ij}$ and $x_{ik}x_{kj}$ may satisfy the constraints without giving a valid integral path in the root. 
+
+\begin{proposition} \label{prop::linear_relaxation_feasibility}
+  $\mathcal{LP}(G)$ 
+\end{proposition}
 
 \section{Min Linear Program} \label{sec::min_linear_program}
 
@@ -1145,7 +1177,7 @@ If $\deg_G(u) = \deg_G(v)$, then either $u,v$ can be chosen since they are conne
 It remains to verify that whenever a root $H$ of $G$ exists, the addition of the constraint Equation~\eqref{eq::single_triangle_fix}  preserves the feasibility of the linear program.
 
 \begin{proposition} \label{prop::single_triangular_decomposition_feasibility}
-  Let $s,u,v$ form a triangle in square $G$ where $s$ only lies in a single clique. The linear program with Equation~\eqref{eq::single_triangle_fix} never returns a infeasible solution for squares with tree roots. 
+  Let $s,u,v$ form a triangle in square $G$ where $s$ only lies in a single clique. The linear program with Equation~\eqref{eq::single_triangle_fix} never returns a infeasible solution for squares with roots. 
 \end{proposition}
 \begin{proof}
   
@@ -1205,11 +1237,14 @@ More generally, suppose $u$ has $k$ leaf children $s_1,\dots,s_k$, and that thes
 It remains to verify that whenever a root $H$ of $G$ exists and the conditions in Equation~\eqref{eq::tetrahedron_neighbourhood_assignment} and Equation~\eqref{eq::tetrahedron_leaf_class} are satisfied, imposing the assignment in Equation~\eqref{eq::tetrahedron_fix} preserves the feasibility of the linear program.
 
 \begin{proposition} \label{prop::tetrahedron_decomposition_feasibility}
-  Let $s_1,s_2,u,v$ form a $4$-clique in square $G$. The linear program with Equation~\eqref{eq::tetrahedron_fix} never returns an infeasible solution for squares with tree roots. 
+  Let $s_1,s_2,u,v$ form a $4$-clique in square $G$ and Equations~\eqref{eq::tetrahedron_neighbourhood_assignment}-\eqref{eq::tetrahedron_leaf_class} be satisfied. The linear program with Equation~\eqref{eq::tetrahedron_fix}  never returns an infeasible solution for squares with roots. 
 \end{proposition}
 \begin{proof}
   
 \end{proof}
+
+\subsection{Single Tree Linear Program}
+
 
 
 \section{Tree Proof}
