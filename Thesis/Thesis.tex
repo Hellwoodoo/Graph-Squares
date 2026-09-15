@@ -7,6 +7,8 @@
 \usepackage{geometry}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+\usepackage{listings}
+\usepackage{xcolor}
 \usepackage[backend=biber,
     maxnames=10,
     minnames=1,
@@ -523,13 +525,24 @@ G = H^2?
 \]
 \end{problem}
 
-To show that Problem~\eqref{prob::square_problem} is $\mathbf{NP}$-complete, it is necessary to show that it is in $\mathbf{NP}$ and that it is $\mathbf{NP}$-hard by reducing not-all-equal SAT (NAESAT) to the problem. 
+\begin{lemma}[$\mathbf{NP}$-complete] \label{proof::np_complete}
+  Problem~\eqref{prob::square_problem} is $\mathbf{NP}$-complete. 
+\end{lemma}
+\begin{proof}
+  To show that Problem~\eqref{prob::square_problem} is $\mathbf{NP}$-complete, it is necessary to show that it is in $\mathbf{NP}$ and that it is $\mathbf{NP}$-hard. We show that it is NP-hard via polynomial reduction from not-all-equal SAT (NAESAT). 
+\end{proof}
 
 \begin{theorem}[$\mathbf{NP}$] \label{proof::np}
   Problem~\eqref{prob::square_problem} is in $\mathbf{NP}$. 
 \end{theorem}
-\begin{proof}[NP Proof] \label{proof::np_proof}
-  Given a candidate square root $H$, one can verify in polynomial time whether $G = H^2$ by computing the distances between pairs of vertices in $H$, or equivalently by constructing the square $H^2$ and comparing its edge set with that of $G$. Hence, $H$ provides a polynomially verifiable certificate for a \textbf{Yes}-instance of SQUARE and therefore
+\begin{proof}[NP Proof]
+  Given a candidate square root $H$ on $n$ vertices, it is sufficient to verify that $G=H^2$. For each pair of distinct vertices $u,v\in V(H)$, check whether $u$ and $v$ are adjacent in $H$ or have a common neighbour in $H$. This determines whether $d_H(u,v)\leq 2$ and therefore whether $uv\in E(H^2)$.
+
+  There are $\displaystyle \binom{n}{2}=\frac{n(n-1)}{2}$ unordered pairs of vertices. For each pair, determining whether the vertices have a common neighbour requires at most $O(n)$ operations. Hence, the total verification time is
+  \[
+  O(n^2)\cdot O(n)=O(n^3).
+  \]
+  By the definition of Big-$O$ notation in Definition~\ref{def::big_O_notation}, this is polynomial in $n$. Therefore, the certificate $H$ can be verified in polynomial time, and consequently
   \[
   \text{SQUARE}\in\mathbf{NP}.
   \]
@@ -553,7 +566,7 @@ Thus, an assignment satisfies the not-all-equal condition if, for every clause, 
 
 \subsection{NP-Hard proof} \label{subsec::np_hard_proof}
 
-SQUARE is $\mathbf{NP}$-hard by giving a polynomial-time reduction from $\mathbf{NP}$-complete NAESAT and then show that $G_\phi$ has a graph root if and only if $\phi \in \mathrm{NAESAT}$. 
+Following \cite{motwani_sudan_1994_roots}, we show SQUARE is $\mathbf{NP}$-hard by giving a polynomial-time reduction from $\mathbf{NP}$-complete NAESAT and then show that $G_\phi$ has a graph root if and only if $\phi \in \mathrm{NAESAT}$. 
 
 \begin{proof}[Polynomial Reduction] \label{proof::polynomial_reduction}
   Let $\phi = C_1 \land C_2 \land \cdots \land C_m $ be an instance of NAESAT, where $\phi$ is a $3$-CNF formula on variables $x_1,\ldots,x_n$. Over variables $x_1,\dots,x_n$, construct a graph $G_\phi=(V_\phi,E_\phi)$ in polynomial time such that
@@ -596,7 +609,7 @@ SQUARE is $\mathbf{NP}$-hard by giving a polynomial-time reduction from $\mathbf
 
 \input{subfiles/NPHardConstruction.tex}
 
-The construction is clearly polynomial in $n+m$ and depends only on the formula $\phi$. Therefore can be carried out without knowing whether $\phi$ has a not-all-equal satisfying assignment. Moreover, the number of vertices and edges introduced is polynomial in the size of $\phi$.
+The construction is polynomial in $n+m$ and depends only on the formula $\phi$. Therefore can be carried out without knowing whether $\phi$ has a not-all-equal satisfying assignment. Moreover, the number of vertices and edges introduced is polynomial in the size of $\phi$.
 
 The following lemma, which is the central combinatorial tool for proving the correctness of the reduction.
 
@@ -625,7 +638,7 @@ The following lemma, which is the central combinatorial tool for proving the cor
     N_H(a)=\{b\}. 
   \end{equation}
 
-  Now determine the neighbourhood of $c$. Since $ab \in E_H$ as $N_H(a)=\{b\}$, and $ac\in E_G$, the edge $ac$ in $G=H^2$ must be realized by the path $a-b-c$. This gives that $bc\in E_H$. If $b$ had a neighbour $x \notin \{a,c\}$ in $H$, then $a-b-x$ would be a $P_2$, forcing $ax \in E_G$, which contradicts $N_H(a)=\{b\}$. Thus \begin{equation} \label{eq::tail_2}
+  Now we determine the neighbourhood of $c$. Since $ab \in E_H$ as $N_H(a)=\{b\}$, and $ac\in E_G$, the edge $ac$ in $G=H^2$ must be realized by the path $a-b-c$. This gives that $bc\in E_H$. If $b$ had a neighbour $x \notin \{a,c\}$ in $H$, then $a-b-x$ would be a $P_2$, forcing $ax \in E_G$, which contradicts $N_H(a)=\{b\}$. Thus \begin{equation} \label{eq::tail_2}
     N_H(b)=\{a,c\}. 
   \end{equation}
 
@@ -647,7 +660,7 @@ The following lemma, which is the central combinatorial tool for proving the cor
   If $\phi$ is a \textbf{Yes}-instance of $\mathrm{NAESAT}$, then $G_\phi$ has a graph root
 \end{lemma}
 \begin{proof}[Proof Sketch]
-  Suppose that $\phi$ has an assignment satisfying not-all-equal. Construct a graph root $H=(V_\phi,E_H)$ on the same vertex set as $G_\phi$.
+  Suppose that $\phi$ has an assignment satisfying not-all-equal. We construct a graph root $H=(V_\phi,E_H)$ on the same vertex set as $G_\phi$ as follows.
 
   The edges of $H$ consist of the edges of the tails, together with edges connecting $x$ to TRUE and FALSE. For each clause vertex $C_j$, connect $C_j$ to the three literal vertices corresponding to the literals contained in the clause, together with the edges required by its tail. Each literal vertex is connected to TRUE if its corresponding literal is assigned TRUE and to FALSE if its corresponding literal is assigned FALSE. Finally, each literal vertex is connected to the appropriate literal-pair vertices, and each literal-pair vertex is connected to both TRUE and FALSE.
 
@@ -677,20 +690,20 @@ The following lemma, which is the central combinatorial tool for proving the cor
   
   We may therefore define an assignment by declaring a literal $\ell_i$ to be TRUE precisely when $L_i\textsc{True}\in E_H$. Consider any clause $ C_j=\{\ell_{j_1},\ell_{j_2},\ell_{j_3}\}$. By construction, $C_j$ is adjacent in $G_\phi$ to both TRUE and FALSE. Since, apart from its own tail, $C_j$ is adjacent in $H$ only to $L_{j_1},L_{j_2},L_{j_3}$, these three literal vertices must include one adjacent to TRUE and one adjacent to FALSE. 
   
-  Thus every clause contains at least one TRUE literal and at least one FALSE literal Therefore the assignment is a not-all-equal satisfying assignment of $\phi$, and hence 
+  Thus every clause contains at least one TRUE literal and at least one FALSE literal. Therefore the assignment is a not-all-equal satisfying assignment of $\phi$, and hence 
   \[ 
   \phi\in\mathrm{NAESAT}. 
   \] 
 \end{proof}
 
 
-\section{Polynomial Time Algorithm} \label{sec::polynomial_time_algorithm}
+\section{Polynomial Time Algorithm for Tree Roots} \label{sec::polynomial_time_algorithm}
 
-\citeauthor{ross_1960_square} give a necessary and sufficient characterization of graphs that are squares of trees, together with an algorithm for constructing the corresponding tree square root. The characterization is based on the maximal cliques of the square and the way in which these cliques intersect. We first establish the structural properties of the square of a tree that underlie the characterization, before describing the root finding algorithm.
+\citeauthor{ross_1960_square} give a necessary and sufficient characterization of graphs that are squares of trees, together with an algorithm for constructing the corresponding tree square root \cite{ross_1960_square}. The characterization is based on the maximal cliques of the square and the way in which these cliques intersect. We first establish the structural properties of the square of a tree that underlie the characterization, before describing the root finding algorithm.
 
 \begin{theorem}[Structural Characterization of Squares of Trees] \label{theorem::structural_characterization_trees}
 
-Let $G$ be a finite, simple, undirected graph. Then $G=T^2$ for some tree $T$ if and only if either $G=K_p$ is complete, or the maximal cliques $C_1,\ldots,C_n$ of $G$ satisfy the following conditions:
+Let $G$ be a finite, simple, undirected graph. Then $G=T^2$ for some tree $T$ if and only if either $G$ is a complete graph, or the maximal cliques $C_1,\ldots,C_n$ of $G$ satisfy the following conditions:
 \begin{enumerate}[label=(\roman*)]
   \item\label{characterization:1} $G$ is connected and the closed neighbourhood of every vertex of $T$ forms a clique in $G$.
   \item\label{characterization:2} If two maximal cliques have exactly one common vertex $v$, then there is another maximal clique containing $v$ and one additional vertex from each of the two cliques.
@@ -701,10 +714,10 @@ Let $G$ be a finite, simple, undirected graph. Then $G=T^2$ for some tree $T$ if
 
 \end{theorem}
 
-To establish this characterization, we first consider several properties of the square of a tree.
+To establish this characterization, let $G$ be the square of a tree $T$ and first consider several properties.
 
 \begin{lemma}\label{lemma::1}
-  $G$ is complete if and only if $T$ is a star with depth one
+  $G$ is complete if and only if $T$ is a star
 \end{lemma}
 \begin{proof}
   Suppose that $T$ has a vertex $v$ that is adjacent to every other vertex. Then every pair of vertices in $T$ is at distance at most two, since any two vertices are either adjacent or have $v$ as a common neighbour. Hence $G=T^2$ is complete.
@@ -720,7 +733,7 @@ To establish this characterization, we first consider several properties of the 
 \end{proof}
 
 \begin{lemma}\label{lemma::3}
-  Let $G=T^2$ and suppose that $G$ is not complete. Then the maximal cliques of $G$ are precisely the closed neighbourhoods of the non-leaf vertices of $T$.
+  If $G$ is not complete, then the maximal cliques of $G$ are precisely the closed neighbourhoods of the non-leaf vertices of $T$.
 \end{lemma}
 \begin{proof}
   Let $v$ be a non-leaf vertex of $T$. Since $v$ has at least two neighbours, every pair of vertices in $N_T(v)$ is at distance two through $v$. Hence $C(v)=N_T[v]$ is a clique in $G$. Now consider a vertex $u \notin N_T[v]$. The unique path from $u$ to $v$ in $T$ has length at least two. If this path has length greater than two, then $u$ is not adjacent in $G$ to $v$. If the path has length two, then $u$ can only be adjacent in $G$ to the vertices along the corresponding part of the path. In either case, $u$ cannot be added to $N_T[v]$ while maintaining a clique. Therefore $N_T[v]$ is a maximal clique.
@@ -730,7 +743,7 @@ To establish this characterization, we first consider several properties of the 
 \end{proof}
 
 \begin{lemma}\label{lemma::4}
-  If $G=T^2$ is not complete, then a vertex of $G$ belongs to exactly one maximal clique if and only if it is a leaf of $T$.
+  If $G$ is not complete, then a vertex $v \in V(G)$ belongs to exactly one maximal clique if and only if $v$ is a leaf of $T$.
 \end{lemma}
 \begin{proof}
   Let $v$ be a leaf of $T$, and let $u$ be its unique neighbour. By Lemma~\ref{lemma::3}, every maximal clique corresponds to the closed neighbourhood of a non-leaf vertex. Since $v$ has only one neighbour, the only maximal clique containing $v$ is $N_T[u]$.Thus $v$ belongs to exactly one maximal clique.
@@ -749,24 +762,34 @@ To establish this characterization, we first consider several properties of the 
 \end{proof}
 
 \begin{lemma}\label{lemma::6}
-  $G$ is a connected graph where the removal of any edge does not result in a disconnected graph
+  $G$ is a $2$-edge-connected graph where the removal of any edge does not result in a disconnected graph
 \end{lemma}
 \begin{proof}
-  Let $v\in V_G$. Consider two vertices $x,y\in V_G\setminus\{v\}$ that lie in different components of $T-v$. Since $T$ is a tree, the vertices in each component that are closest to $v$ are neighbours of $v$ in $T$. These vertices are therefore adjacent in $G=T^2$. Thus the different components of $T-v$ are connected through vertices that remain in $G-v$.
+  Let $uv\in E_G$. Consider the edge $uv$ and the graph $G-uv$. Since $G=T^2$, either $uv\in E_T$, or there exists a vertex $w\in V_T$ such that $uw,vw\in E_T$. In the latter case, $u$ and $v$ are connected by the path $u-w-v$ in $G-uv$.
 
-  Consequently, removing $v$ from $G$ does not disconnect the graph. Hence $G$ has no cut vertex.
+  If $uv\in E_T$, then the vertices closest to $u$ and $v$ along the remaining components of $T-uv$ are adjacent in $G$. Thus, the two components of $T-uv$ remain connected through vertices that are joined by edges in $G-uv$.
+
+  Consequently, removing $uv$ from $G$ does not disconnect the graph. Hence $G$ has no bridges and is $2$-edge-connected.
 \end{proof}
+
 Combining gives the following proof of Theorem~\eqref{theorem::structural_characterization_trees}
+
 \begin{proof}
   Suppose first that $G=T^2$ for some tree $T$. If $G$ is complete, then Lemma~\ref{lemma::1} shows that $T$ is a star.
 
-  Now suppose that $G$ is not complete. By Lemma~\ref{lemma::2}, $G$ is connected and every closed neighbourhood in $T$ forms a clique in $G$, giving \hyperref[characterization:1]{(i)}. By Lemma~\ref{lemma::3}, each maximal clique corresponds to a non-leaf vertex of $T$. The way in which these closed neighbourhoods overlap gives \hyperref[characterization:2]{(ii)} and \hyperref[characterization:3]{(iii)}. By Lemma~\ref{lemma::5}, two maximal cliques intersect in two vertices exactly when their corresponding non-leaf vertices are adjacent in $T$. Since $T$ contains no cycles, two such closed neighbourhoods cannot have more than two vertices in common. This gives \hyperref[characterization:4]{(iv)}. Finally, the non-leaf vertices of $T$, together with the edges between them, form a tree. If there are $n$ such vertices, there are exactly $n-1$ edges between them. By Lemma~\ref{lemma::5}, each such edge corresponds to a pair of maximal cliques with an intersection containing exactly two vertices. Hence \hyperref[characterization:5]{(v)} holds.
+  Now suppose that $G$ is not complete. By Lemma~\ref{lemma::2}, $G$ is connected and every closed neighbourhood in $T$ forms a clique in $G$, giving \hyperref[characterization:1]{(i)}. 
 
-  Conversely, suppose that $G$ is not complete and that its maximal cliques $C_1,\ldots,C_n$ satisfy \hyperref[characterization:1]{(i)}--\hyperref[characterization:5]{(v)}. By \hyperref[characterization:3]{(iii)}, associate each maximal clique $C_i$ with a unique vertex $b_i$ that belongs to multiple maximal cliques. These vertices will form the internal vertices of the tree root. Construct a graph $T$ with vertex set $V_T=\{b_1,\ldots,b_n\}$. For every pair of maximal cliques satisfying $|C_i\cap C_j|=2$,
+  By Lemma~\ref{lemma::3}, each maximal clique of $G$ is the closed neighbourhood of a non-leaf vertex of $T$. Suppose that two maximal cliques $N_T[u]$ and $N_T[v]$ have exactly one common vertex $x$. Since $T$ is a tree, $u$ and $v$ cannot be adjacent, and hence $x$ lies on the unique path between $u$ and $v$. Thus, $x$ is adjacent in $T$ to both $u$ and $v$, so $N_T[x]$ forms a maximal clique containing $x$, together with the additional vertices $u$ and $v$ from the two original cliques. This gives \hyperref[characterization:2]{(ii)}.
+
+  For a maximal clique $C_i=N_T[b_i]$, the associated vertex $b_i$ is the corresponding non-leaf vertex of $T$. Every non-leaf neighbour of $b_i$ in $T$ gives another maximal clique containing $b_i$, while each such neighbour is itself also a multicliqual vertex contained in $C_i$. Consequently, the number of multicliqual vertices contained in $C_i$ is equal to the number of maximal cliques containing $b_i$, giving \hyperref[characterization:3]{(iii)}.
+  
+  By Lemma~\ref{lemma::5}, two maximal cliques intersect in two vertices exactly when their corresponding non-leaf vertices are adjacent in $T$. Since $T$ contains no cycles, two such closed neighbourhoods cannot have more than two vertices in common. This gives \hyperref[characterization:4]{(iv)}. Finally, the non-leaf vertices of $T$, together with the edges between them, form a tree. If there are $n$ such vertices, there are exactly $n-1$ edges between them. By Lemma~\ref{lemma::5}, each such edge corresponds to a pair of maximal cliques with an intersection containing exactly two vertices. Hence \hyperref[characterization:5]{(v)} holds.
+
+  Conversely, suppose that $G$ is not complete and that its maximal cliques $C_1,\ldots,C_n$ satisfy \hyperref[characterization:1]{(i)}--\hyperref[characterization:5]{(v)}. By \hyperref[characterization:3]{(iii)}, we may associate each maximal clique $C_i$ with a unique vertex $b_i$ that belongs to multiple maximal cliques. These vertices will form the internal vertices of the tree root. Construct $T$ with vertex set $V_T=\{b_1,\ldots,b_n\}$. For every pair of maximal cliques satisfying $|C_i\cap C_j|=2$, 
   add the edge $b_i b_j$ to $T$. By \hyperref[characterization:5]{(v)}, $T$ contains exactly $n-1$ edges, and the intersection structure given by the characterization ensures that these edges connect all vertices without forming a cycle. Thus $T$ is a tree. It remains to add the unicliqual vertices. By \hyperref[characterization:3]{(iii)}, these vertices correspond to leaves of the root. For each clique $C_i$, attach all vertices of $C_i$ that occur in no other maximal clique as leaves adjacent to $b_i$. The resulting graph is a tree $T$. Each maximal clique $C_i$ is represented by the closed neighbourhood of $b_i$ in $T$, while the remaining vertices are attached as leaves to their corresponding internal vertices. Therefore every edge of $G$ is represented by two vertices at distance at most two in $T$, and no additional edges are introduced. Hence $T^2=G$ and $G$ is the square of a tree.
 \end{proof}
 
-The proof for Theorem~\eqref{theorem::structural_characterization_trees} gives the following algorithm. Given an inputted tree square, by identifying all maximal cliques, finding all points which are in multiple cliques and those in only one clique, and constructing the tree  $T$ by appropriately connecting multicliqual points together as internal vertices and unicliqual points as the tree leaves. 
+The proof of Theorem~\eqref{theorem::structural_characterization_trees} gives the following algorithm. Given a graph known to be the square of a tree, identify all maximal cliques, classify the vertices as multicliqual or unicliqual according to the number of maximal cliques in which they occur, and construct the tree $T$ by connecting the multicliqual vertices to form the internal structure of $T$ and attaching the unicliqual vertices as leaves to their corresponding multicliqual vertices.
 
 \begin{algorithm} \caption{Ross-Harary Tree Construction}  \label{algo::ross_harary_tree} 
 \begin{algorithmic}[1] 
@@ -783,7 +806,7 @@ The proof for Theorem~\eqref{theorem::structural_characterization_trees} gives t
 \vspace{0.5em}
 
 \Statex \textbf{Step 2}
-\State Identify all maximal cliques $C_1, \dots, C_n$ of $G$ using an algorithm such as Bron-Kerbosch where $n > 1$ from \hyperref[characterization:1]{characterization (i)}
+\State Identify all maximal cliques $C_1, \dots, C_n$ of $G$ using an algorithm such as Bron-Kerbosch \cite{bron_kerbosch_1973_maximal_cliques} where $n > 1$ from \hyperref[characterization:1]{characterization (i)}
 \vspace{0.5em}
 
 \Statex \textbf{Step 3}
@@ -813,7 +836,7 @@ The proof for Theorem~\eqref{theorem::structural_characterization_trees} gives t
   If $G$ is complete, Step 1 returns a star. By Lemma~\ref{lemma::1}, this is a tree square root of $G$. Otherwise, Lemma~\ref{lemma::3} shows that each maximal clique corresponds to a non-leaf vertex of the root. Thus the vertices $b_1,\ldots,b_n$ identified in Step 3 determine the internal vertices of $T$. By Lemma~\ref{lemma::5}, two of these internal vertices are adjacent precisely when their corresponding maximal cliques have an intersection of size two. Therefore Step 3 recovers all edges between the internal vertices. The remaining vertices belong to exactly one maximal clique and, by Lemma~\ref{lemma::4}, correspond to leaves. Step 4 therefore places each of these vertices at its unique position in the tree. Hence the algorithm reconstructs a tree $T$ satisfying $T^2=G$. Since the internal vertices, their adjacencies, and the attachment of every leaf are all determined by the maximal cliques of $G$, the resulting tree is unique up to isomorphism.
 \end{proof}
 
-\section{Integer Program} \label{sec::integer_progam}
+\section{Mathematical Optimization Approach} \label{sec::mathematical_optimization_approach}
 
 The two methods so far have primarily focused on the definition of a square of a graph to be paths of length smaller than two defined in Definition~\eqref{def::square_of_a_graph}. Using adjacency matrices, this definition is equivalent expressed as 
 \begin{equation} \label{eq::fund_adj_square_or}
@@ -825,7 +848,7 @@ where $\lor$ is applied entrywise to the matrices. This concise interpretation w
 \end{equation}
 The resulting Boolean formula can be converted into a standard SAT instance using auxiliary variables and a polynomial number of clauses. Hence, the logical formulation provides a polynomial-size SAT representation of the graph-square condition.
 
-However, constructing a polynomial-size SAT instance does not imply that the underlying problem can be solved in polynomial time. A general SAT instance may require exponential time to solve, since SAT is $NP$-complete. Therefore, to obtain a polynomial-time algorithm through this approach, one would additionally need to show that the SAT instances arising from Equation~\eqref{eq::sat_square} belong to a tractable subclass of SAT, such as $2$-SAT, or otherwise provide a polynomial-time algorithm for solving these particular instances. The formulation in Equation~\eqref{eq::sat_square} evidently does not belong to $2$-SAT, as each constraint involves a disjunction over all possible common neighbours $k$ and therefore contains terms involving more than two Boolean variables. More generally, one would suspect from the results in \ref{sec::np_completeness_proof} that there is no immediate polynomial-time algorithm for solving this instance and any restricted version of the graph root finding problem would necessitate significant machinery.  
+However, constructing a polynomial-size SAT instance does not imply that the underlying problem can be solved in polynomial time. A general SAT instance may require exponential time to solve, since SAT is $NP$-complete. Therefore, to obtain a polynomial-time algorithm through this approach, one would additionally need to show that the SAT instances arising from Equation~\eqref{eq::sat_square} belongs to a tractable subclass of SAT, such as $2$-SAT, or otherwise provide a polynomial-time algorithm for solving these particular instances. The formulation in Equation~\eqref{eq::sat_square} evidently does not belong to $2$-SAT, as each constraint involves a disjunction over all possible common neighbours $k$ and therefore contains terms involving more than two Boolean variables. More generally, one would suspect from the results in \ref{sec::np_completeness_proof} that there is no immediate polynomial-time algorithm for solving this instance and any restricted version of the graph root finding problem would necessitate significant machinery.  
 
 Instead, we aim to situate the problem completely within a polynomial-time framework by considering another equivalent representation of Equation~\eqref{eq::fund_adj_square_or} and its equivalent formulation in Definition~\eqref{def::square_of_a_graph}.
 
@@ -858,19 +881,19 @@ Instead, we aim to situate the problem completely within a polynomial-time frame
 The formulation of the adjacency matrix of the graph square in Equation~\eqref{eq::fund_adj_eq_undirected} is very powerful. However, the presence of the indicator function introduces a nonlinearity that prevents the problem from being expressed as a purely quadratic form, thereby limiting the direct applicability of existing results from the quadratic optimization literature.
 
 \begin{lemma} \label{lemma::no_indicator_girth_5}
-  If there are no $K_3$ triangle subgraphs or any $C_4$ square subgraphs in the graph root such that $H$ has girth of length $5$, then Equation~\eqref{eq::fund_adj_eq_undirected} can be simplified to become 
+  If $H$ has girth $5$, then Equation~\eqref{eq::fund_adj_eq_undirected} can be simplified to become 
   \begin{equation} \label{eq::fund_adj_eq_undirected_no_indicator}
     A_G = \big((A_H)^2 - D_H + A_H\big).
   \end{equation}
 \end{lemma}
 \begin{proof}
-  Since the graph root has girth $5$ there are no cycles of length $3$ or $4$ in $H$. Thus for every pair of vertices $i \neq j \in V$ there is either no cycle that connects $i,j$ or there is a cycle of at least length $5$ between them. In all cases $(D_H)_{ij} = 0$. If there is no cycle, then there is at most one path between $i,j$
+  Since the graph root has girth $5$ there are no cycles of length $3$ or $4$ in $H$. Thus for every pair of vertices $i \neq j \in V$ there is either no cycle that contains both $i$ and $j$ or $i$ and $j$ lay on a common cycle of length at least $5$. In all cases $(D_H)_{ij} = 0$. If there is no cycle, then there is at most one path between $i,j$
   \begin{enumerate}[label=\roman*)]
-    \item If the path is of length $1$, then $(A_H)_{ij} = 1, (A_H)^2_{ij} = 0 \implies (A_G)_{ij} = 0 - 0 + 1 = 1$.
-    \item If the path is of length $2$, then $(A_H)_{ij} = 0, (A_H)^2_{ij} = 1 \implies (A_G)_{ij} = 1 - 0 - 0 = 1$.
+    \item If the path is of length $1$, then $(A_H)_{ij} = 1, (A_H)^2_{ij} = 0$ and so $(A_G)_{ij} = 0 - 0 + 1 = 1$.
+    \item If the path is of length $2$, then $(A_H)_{ij} = 0, (A_H)^2_{ij} = 1$ and so $(A_G)_{ij} = 1 - 0 - 0 = 1$.
     \item If the path is of length $\geq 3$ or a path does not exist, then $(A_H)_{ij} = 0, (A_H)^2_{ij} = 0 \implies (A_G)_{ij} = 0$.
   \end{enumerate}
-  If there is a cycle of length $\geq 5$ between $i,j$ such that there are two paths between $i,j$
+  If $i$ and $j$ lay on a common cycle of length at least five then there are two paths between $i,j$
   \begin{enumerate}[label=\roman*)]
     \item If one path is of length $1$, then the other is of length $\geq 4$ and hence $(A_H)_{ij} = 1, (A_H)^2_{ij} = 0 \implies (A_G)_{ij} = 0 - 0 + 1 = 1$.
     \item If one path is of length $2$, then the other is of length $\geq 3$ and hence $(A_H)_{ij} = 0, (A_H)^2_{ij} = 1 \implies (A_G)_{ij} = 1 - 0 - 0 = 1$.
@@ -886,7 +909,13 @@ We will not focus on this particular restricted class and analyze the integer pr
 
 \subsection{Formulation} \label{subsec::integer_program_formulation}
 
-Let $x_{ij} \in \{0, 1\}$ be the decision variables of $A_H$, let $y_{ikj} \in \{0, 1\}$ be the decision variable for $x_{ik}x_{kj}$ in $(A_H)^2_{ij}$ and let $z_{ij} \in \mathbb{Z}_{\geq 0}$ represent the argument inside the indicator function. 
+Using Lemma~\eqref{lemma::G_equal_to_H^2}, we construct an integer program to solve instances of SQUARE. The set of decision variables is
+\[
+X=\{x_{ij}\mid i,j\in V(G)\},
+\]
+where $x_{ij}\in\{0,1\}$ denotes the corresponding entry of the adjacency matrix $A_H$. In a feasible solution, $x_{ij}=1$ if and only if $ij\in E(H)$. The variables $y_{ikj}\in\{0,1\}$ represent the products $x_{ik}x_{kj}$ in $(A_H)^2_{ij}$, while $z_{ij}\in\mathbb{Z}_{\geq0}$ represents the argument of the indicator function.
+
+Given an input $G$ to SQUARE, our goal is the contruct the following matrices, where $g_{ij}$ is the corresponding entry of the adjacency matrix of $G$.
 
 $\displaystyle 
 D_H =
@@ -964,13 +993,34 @@ Let $M \in \mathbb{Z}_{> 0}$ be a sufficiently large constant. In this case, $M$
 
 The construction of the integer program on the arbitrary graph $G$ using Equations~\eqref{eq::IP_x_variable}--\eqref{eq::IP_diagonal_x} is denoted as $\mathcal{IP}(G)$. 
 
-Additional constraints arising from symmetry and diagonality are added to the integer program which the adjacency matrix $x$ must satisfy. Although analogous constraints could also be imposed on the auxiliary variables $z$ they are omitted due to redundancy and potentially introduces artificial degeneracy in the linear program. 
+The constraints in Equations~\eqref{eq::IP_symmetry_x}--\eqref{eq::IP_diagonal_x} impose the required symmetry and diagonal structure on the adjacency matrix $A_H$. Although analogous constraints could also be imposed on the auxiliary variables $z$, they are omitted as they are redundant and may introduce artificial degeneracy into the linear program.
 
 \subsection{Validity} \label{subsec::integer_program_validity}
 
 \input{subfiles/IntegerProgramValidityProof.tex}
 
-The correctness of the integer program is elucidated by Figure~\eqref{fig::integer_program_diagram}. 
+\begin{table}[!htbp]
+  \centering
+  \begin{tabular}{c|cc}
+  \hline
+  $n$ 
+  & $H$ exists
+  & $H$ does not exist \\
+  \hline
+  3 & 3   & 1    \\
+  4 & 6   & 5    \\
+  5 & 11  & 23   \\
+  6 & 28  & 128  \\
+  7 & 77  & 967  \\
+  8 & 307 & 12039 \\
+  \hline
+  \end{tabular}
+  \caption{Outcomes of the integer program for graphs of different orders $n$.}
+  \label{tab::integer_program_outcomes}
+\end{table}
+
+The correctness of the integer program is elucidated by Table~\eqref{tab::integer_program_outcomes}. The total number of simple graphs on $n=2,3,4,\dots$ unlabeled nodes is the sequence $2,4,11,34,156,1044,12346,\dots$ given by \href{https://oeis.org/A000088}{\texttt{A000088}}. The number of graphs which are squares is the sequence
+$2,3,6,11,28,77,307,\dots$ given by \href{https://oeis.org/A382181}{\texttt{A382181}}.
 
 \chapter{Square of A Tree using Linear Programming} \label{chap::square_of_a_tree_LP}
 
@@ -988,7 +1038,7 @@ The linear relaxation of the integer program defined by Equations~\eqref{eq::IP_
 
 The construction of the linear program on the arbitrary graph $G$ using Equations~\eqref{eq::LP_x_variable}--\eqref{eq::LP_z_variable} and Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::IP_diagonal_x} is denoted as $\mathcal{LP}(G)$. 
 
-The results from the linear programming can give \emph{integral solutions} and \emph{fractional solutions} when the root exists and \emph{fractional solutions} and \emph{infeasible solutions} when the root does not exist such that the results in Figure~\ref{fig::linear_program_diagram} can be generated. 
+The results from the linear programming can give \emph{integral solutions} and \emph{fractional solutions} when the root exists and \emph{fractional solutions} and \emph{infeasible solutions} when the root does not exist such that the results in Figure~\eqref{fig::linear_program_diagram} can be generated. 
 
 \begin{definition}[Integral Solutions]
   A feasible solution to the linear program is an \emph{integral solution} if
@@ -1010,13 +1060,37 @@ The results from the linear programming can give \emph{integral solutions} and \
   and there exists at least one pair $(i,j)$ such that $0 < x_{ij} < 1$. In this case, the variables $x_{ij}$ do not directly define a graph root.
 \end{definition}
 
+\input{subfiles/LinearRelaxationResults.tex}
+
+Figure~\eqref{fig::linear_program_diagram} can be equivalently represented in the more compact Table~\eqref{tab::linear_program_outcomes} 
+
+\begin{table}[!htbp]
+  \centering
+  \begin{tabular}{c|cc|cc}
+  \hline
+  $n$ & \multicolumn{2}{c|}{$H$ exists} & \multicolumn{2}{c}{$H$ does not exist} \\
+  & \text{LP integral solution} & \text{LP fractional solution}
+  & \text{LP infeasible} & \text{LP fractional solution} \\
+  \hline
+  3 & 3  & 0   & 1    & 0    \\
+  4 & 6  & 0   & 5    & 0    \\
+  5 & 9 & 2   & 20   & 3    \\
+  6 & 15 & 13  & 107  & 21   \\
+  7 & 25 & 52  & 767  & 200  \\
+  8 & 47 & 360 & 9380 & 2659 \\
+  \hline
+  \end{tabular}
+  \caption{Outcomes of the LP relaxation for graphs of different orders $n$, classified according to whether a square root $H$ exists.}
+  \label{tab::linear_program_outcomes}
+\end{table}
+
+
 \input{subfiles/LinearRelaxationSetGeometry.tex}
 
-In Figure~\ref{fig::ip_lp_set_geometric}, solutions which are $LP$ feasible may be integral or fractional 
+In Figure~\ref{fig::ip_lp_set_geometric} solutions which are $LP$ feasible may be integral or fractional. The results in Table~\ref{tab::linear_program_outcomes} demonstrate both cases. When $H$ exists, an integral $LP$ solution corresponds to a feasible point in $\mathcal{F}*{IP}$, while a fractional $LP$ solution lies in $\mathcal{F}*{LP}\setminus\mathcal{F}_{IP}$. For $n=3$ and $n=4$, all instances for which $H$ exists have integral $LP$ solutions. From $n=5$ onwards, fractional solutions begin to occur, with their number increasing as $n$ increases.
 
+When $H$ does not exist, two outcomes are observed. An $LP$-infeasible instance has no point in $\mathcal{F}*{LP}$, and therefore cannot contain a feasible integer solution. Alternatively, the $LP$ may remain feasible but return a fractional solution, placing the solution in $\mathcal{F}*{LP}\setminus\mathcal{F}*{IP}$. The number of such fractional solutions also increases with $n$. Thus, the results illustrate that $LP$ feasibility alone is insufficient to determine whether a square root exists: both integral and fractional solutions may occur within $\mathcal{F}*{LP}$.
 
-
-The correctness of the integer program is elucidated by Figure~\eqref{fig::linear_program_diagram}. 
 
 The linear relaxation potentially breaks equations in the integer program which are critical to the definition. 
 
@@ -1027,19 +1101,43 @@ Consider Equation~\eqref{eq::IP_fund_matrix}, where $\displaystyle z_{ii} = \sum
 Consider Equation~\eqref{eq::IP_indicator_arg}, where $\displaystyle z_{ij} = \sum_{k = 1}^{n} x_{ik}x_{kj} + x_{ij}$. When $z_{ij} = 0$, the equation follows the standard definition of graph squares such that $x_{ij} = 0 $ and for all intermediary $k$s at least one of $x_{ik},x_{kj}$ must be equal to $0$. However, when $z_{ij} \geq 1$, fractional solutions of $x_{ij}$ and $x_{ik}x_{kj}$ may satisfy the constraints without giving a valid integral path in the root. 
 
 \begin{proposition} \label{prop::linear_relaxation_feasibility}
-  $\mathcal{LP}(G)$ 
+  If $G$ has a square root $H$, then $\mathcal{LP}(G)$ is feasible. 
 \end{proposition}
+
+\begin{proof}
+  Suppose that $G$ has a square root $H$. By Theorem~\ref{theorem::IP_gives_root}, the adjacency matrix $A_H$ gives a feasible solution to $\mathcal{IP}(G)$. Since $\mathcal{LP}(G)$ is obtained by relaxing the integrality constraints of $\mathcal{IP}(G)$, every feasible solution of $\mathcal{IP}(G)$ is also feasible for $\mathcal{LP}(G)$. Hence $\mathcal{LP}(G)$ is feasible.
+\end{proof}
 
 \section{Min Linear Program} \label{sec::min_linear_program}
 
-Consider the addition of an objective function maximizing the total weights on all edges to the linear relaxation defined by Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::LP_z_variable} in Section~\ref{sec::linear_program_relaxation} 
+Consider the addition of an objective function maximizing the total weights on all edges to the linear relaxation defined in Section~\ref{sec::linear_program_relaxation} 
 \begin{equation} \label{eq::min_obj_function}
   \min \sum_{i=1}^{n} \sum_{j=1}^{n} x_{ij}.
 \end{equation}
 
 The construction of the linear program on the arbitrary graph $G$ using Equations~\eqref{eq::LP_x_variable}--\eqref{eq::LP_z_variable}, Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::IP_diagonal_x} together with Equation~\eqref{eq::min_obj_function} is denoted as $\min \mathcal{LP}(G)$. 
 
-This relaxation however yields more fractional solutions, as illustrated in Figure~\ref{fig::min_objective_function_diagram}.  
+This relaxation however yields more fractional solutions, as illustrated in Table~\ref{tab::min_objective_function_outcomes}.  
+
+\begin{table}[!htbp]
+  \centering
+  \begin{tabular}{c|cc|cc}
+  \hline
+  $n$ & \multicolumn{2}{c|}{$H$ exists} & \multicolumn{2}{c}{$H$ does not exist} \\
+  & \text{LP integral solution} & \text{LP fractional solution}
+  & \text{LP infeasible} & \text{LP fractional solution} \\
+  \hline
+  3 & 2  & 1   & 1    & 0    \\
+  4 & 3  & 3   & 5    & 0    \\
+  5 & 3  & 8   & 20   & 3    \\
+  6 & 4  & 24  & 107  & 21   \\
+  7 & 5  & 72  & 767  & 200  \\
+  8 & 7  & 300 & 9380 & 2659 \\
+  \hline
+  \end{tabular}
+  \caption{LP outcomes for different values of $n$ on the linear program with min objective function.}
+  \label{tab::min_objective_function_outcomes}
+\end{table}
 
 \begin{lemma}[Fractional Cliques in $\min \mathcal{LP}(G)$]
 Let $C\cong K_n$ be a complete subgraph. The minimizing solution of  $\min \mathcal{LP}(G)$ assigns the same value to every edge of graph $G$, such that for $i \neq j$
@@ -1074,9 +1172,54 @@ Consider the addition of an objective function maximizing the total weights on a
 
 The construction of the linear program on the arbitrary graph $G$ using Equations~\eqref{eq::LP_x_variable}--\eqref{eq::LP_z_variable}, Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::IP_diagonal_x} together with Equation~\eqref{eq::max_obj_function} is denoted as $\max \mathcal{LP}(G)$. 
 
-This objective encourages dense solutions and therefore tends to produce relaxations that are more dense and hence more informative than trivial sparse solutions. In particular, maximizing the total edge weight pushes the variables toward values closer to $1$, which promotes direct edges and reduces the need for fractional paths of length $2$ to satisfy Equation~\eqref{eq::IP_indicator_arg}. As a result, the relaxation is more likely to yield integral solutions, as illustrated in Figure~\ref{fig::max_objective_function_diagram}. 
+This objective encourages dense solutions and therefore tends to produce relaxations that are more dense and hence more informative than trivial sparse solutions. In particular, maximizing the total edge weight pushes the variables toward values closer to $1$, which promotes direct edges and reduces the need for fractional paths of length $2$ to satisfy Equation~\eqref{eq::IP_indicator_arg}. As a result, the relaxation is more likely to yield integral solutions, as illustrated in Table~\ref{tab::max_objective_function_outcomes}.  
 
-This choice of objective is also useful when identifying square root solutions beyond those unique up to isomorphism. For example, the complete graph $K_3$ has four roots: itself and three path graphs of length $2$, which are isomorphic to one another. This illustrates that the maximization objective preserves consistency up to isomorphism while still distinguishing structurally meaningful solutions.
+\begin{table}[!htbp]
+  \centering
+  \begin{tabular}{c|cc|cc}
+  \hline
+  $n$ & \multicolumn{2}{c|}{$H$ exists} & \multicolumn{2}{c}{$H$ does not exist} \\
+  & \text{LP integral solution} & \text{LP fractional solution}
+  & \text{LP infeasible} & \text{LP fractional solution} \\
+  \hline
+  3 & 3   & 0   & 1    & 0    \\
+  4 & 6   & 0   & 5    & 0    \\
+  5 & 11  & 0   & 20   & 3    \\
+  6 & 24  & 4   & 107  & 21   \\
+  7 & 43  & 34  & 767  & 200  \\
+  8 & 100 & 207 & 9380 & 2659 \\
+  \hline
+  \end{tabular}
+  \caption{LP outcomes for different values of $n$ on the linear program with max objective function.}
+  \label{tab::max_objective_function_outcomes}
+\end{table}
+
+This choice of objective is also useful when identifying square root solutions beyond those unique up to isomorphism. For example, the complete graph $K_3$ has four roots: itself and three path graphs of length two, which are isomorphic to one another. Figure~\eqref{fig::K3_example} illustrates that the maximization objective preserves consistency up to isomorphism while still distinguishing structurally meaningful solutions.
+
+\begin{figure}[ht]
+    \centering
+    \begin{subfigure}{0.38\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/K3.png}
+        \caption{$K_3$.}
+        \label{fig::K3}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.42\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/K3_root_1.png}
+        \caption{$K_3$ is a root of itself.}
+        \label{fig::K3_root_1}
+    \end{subfigure}
+    \begin{subfigure}{0.42\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/K3_root_2.png}
+        \caption{Path, which is one of the three isomorphic graphs }
+        \label{fig::K3_root_1}
+    \end{subfigure}
+    \caption{The star graph $K_{1,4}$ and its square $K_5$, which is a complete graph since every vertex in the root .}
+    \label{fig::K3_example}
+\end{figure}
 
 
 
@@ -1121,6 +1264,7 @@ There are two important structures in a tree.
 \end{proof}
 
 Using this lemma, every tree contains either a pendant or a pendant fork subgraph. Consequently, whenever $G$ admits a tree root, at least one of these two configurations can be identified and used to derive valid fixings for the variables $x_{ij}$.
+
 \subsection{Single Triangular Decomposition} \label{subsec::single_triangular_decomposition}
 For a vertex $s \in V$, define
 \[
@@ -1140,47 +1284,27 @@ x_{sa} = x_{as} = x_{ab} = x_{ba} = 1,
 
 If $\deg_G(u) = \deg_G(v)$, then either $u,v$ can be chosen since they are connected to a clique.
 
-\begin{lemma} \label{lemma::single_triangle_equal_neighbourhood}
-  Let $s,u,v$ form a triangle in square $G$ where $s$ only lies in a single clique. If $\deg_G(u)=\deg_G(v)=d\geq 2$, then
+\begin{proposition}[Single Triangle Decomposition Interchangeability] \label{prop::single_triangular_decomposition_equality}
+  Let $s,u,v$ form a triangle in square $G$ where $s$ only lies in a single clique. If $\deg_G(u)=\deg_G(v)=d\geq2$, then one can choose to assign
   \[
-  N_G(u)\setminus\{s\}=N_G(v)\setminus\{s\}.
+  x_{su}=x_{us}=x_{uv}=x_{vu}=1
   \]
-  That is, $N_G(u)\cup\{u\}$ and $N_G(v)\cup\{v\}$ induce the same clique structure in $G$.
-\end{lemma}
+  in the tree root $H$ without loss of generality.
+\end{proposition}
 \begin{proof}
-  Since $s$ lies in a single clique in $G$, in any tree root $H$ the vertex $s$ must be a leaf, and exactly one of $u$ or $v$ is the internal vertex adjacent to the remainder of the graph. Assume without loss of generality that $u$ is this internal vertex. Any vertex adjacent to $v$ in $G$ other than $s$ must arise from a path of length at most two through $u$ in $H$, since $v$ has no other connections in the root besides $u$ and $s$. Hence
+  Since $s$ lies in a single clique in $G$, in any tree root $H$, the vertex $s$ must be a leaf, with exactly one of $u$ or $v$ being the internal vertex adjacent to the remainder of the graph. Assume without loss of generality that $u$ is this internal vertex. Since $v$ has no other connections in $H$ besides $s$ and $u$, any vertex adjacent to $v$ in $G$ other than $s$ must also be adjacent to $u$ in $G$. Hence
   \[
   N_G(v)\setminus\{s\}\subseteq N_G(u)\setminus\{s\}.
   \]
-  Since $\deg_G(u)=\deg_G(v)$, both neighbourhoods have equal cardinality $|N_G(v)| = |N_G(u)|$ such that via the equality criterion for finite sets
+  Since $\deg_G(u)=\deg_G(v)$, the two sets have equal cardinality, and therefore
   \[
-  N_G(v)\setminus\{s\}
-  =
-  N_G(u)\setminus\{s\}.
+  N_G(u)\setminus\{s\}=N_G(v)\setminus\{s\}.
   \]
-  Hence the vertices adjacent to $u$ and $v$ outside of $s$ have identical adjacency structure in $G$, and therefore $N_G(u)\cup\{u\}$ and $N_G(v)\cup\{v\}$ induce the same clique structure.
-\end{proof}
-
-\begin{proposition} \label{prop::single_triangular_decomposition_equality}
-  Let $s,u,v$ form a triangle in square $G$ where $s$ only lies in a single clique. If $\deg_G(u)=\deg_G(v)=d\geq2$, then one can choose to assign $x_{su}=x_{uv}=1$ in the tree root $H$ without loss of generality.
-\end{proposition}
-\begin{proof}
-  Since $s$ lies in a single clique in $G$, in the root $H$, $s$ must be a leaf with either $u$ or $v$ being the internal vertex adjacent to the remainder of the graph. Assume without loss of generality that $u$ is the internal vertex.
-
-  By Lemma~\ref{lemma::single_triangle_equal_neighbourhood}, $N_G(u)\setminus\{s\}=N_G(v)\setminus\{s\}$, such that $u$ and $v$ induce identical clique structure in $G$. Therefore exchanging the roles of $u$ and $v$ preserves the square graph $G$. Hence choosing $u$ as the internal vertex and assigning
+  Thus $u$ and $v$ have identical neighbourhoods outside $s$ and may be interchanged without changing the square graph $G$. Consequently, we may choose $u$ as the internal vertex and assign
   \[
-  x_{su}=x_{uv}=1,
+  x_{su}=x_{us}=x_{uv}=x_{vu}=1
   \]
-  does not alter feasibility, since the alternative choice obtained by exchanging $u$ and $v$ produces an isomorphic tree root with identical square graph.
-\end{proof}
-
-It remains to verify that whenever a root $H$ of $G$ exists, the addition of the constraint Equation~\eqref{eq::single_triangle_fix}  preserves the feasibility of the linear program.
-
-\begin{proposition} \label{prop::single_triangular_decomposition_feasibility}
-  Let $s,u,v$ form a triangle in square $G$ where $s$ only lies in a single clique. The linear program with Equation~\eqref{eq::single_triangle_fix} never returns a infeasible solution for squares with roots. 
-\end{proposition}
-\begin{proof}
-  
+  without loss of generality.
 \end{proof}
 
 \subsection{Tetrahedron Decomposition} \label{subsec::tetrahedron_decomposition}
@@ -1208,7 +1332,7 @@ More generally, suppose $u$ has $k$ leaf children $s_1,\dots,s_k$, and that thes
   x_{s_1u}=x_{us_1} = x_{s_2u}=x_{us_2} = x_{uv} = x_{vu} = 1. 
 \end{equation}
 
-\begin{proposition} \label{prop::textrahedron_decomposition_equality}
+\begin{proposition}[Tetrahedron Decomposition Interchangeability] \label{prop::textrahedron_decomposition_equality}
   Let $s_1,s_2,u,v$ form a $K_4$ in square $G$. If Equation~\eqref{eq::tetrahedron_neighbourhood_assignment} and Equation~\eqref{eq::tetrahedron_leaf_class} are satisfied and
   \[
   N_G(u)\setminus K_4=N_G(v)\setminus K_4,
@@ -1234,18 +1358,66 @@ More generally, suppose $u$ has $k$ leaf children $s_1,\dots,s_k$, and that thes
   \]
 \end{proof}
 
-It remains to verify that whenever a root $H$ of $G$ exists and the conditions in Equation~\eqref{eq::tetrahedron_neighbourhood_assignment} and Equation~\eqref{eq::tetrahedron_leaf_class} are satisfied, imposing the assignment in Equation~\eqref{eq::tetrahedron_fix} preserves the feasibility of the linear program.
+\subsection{Unicliqual Vertex Linear Program} \label{subsec::unicliqual_vertex_linear_program}
 
-\begin{proposition} \label{prop::tetrahedron_decomposition_feasibility}
-  Let $s_1,s_2,u,v$ form a $4$-clique in square $G$ and Equations~\eqref{eq::tetrahedron_neighbourhood_assignment}-\eqref{eq::tetrahedron_leaf_class} be satisfied. The linear program with Equation~\eqref{eq::tetrahedron_fix}  never returns an infeasible solution for squares with roots. 
+Using, Lemma~\eqref{lemma::tree_pendant_pendant_fork}, the formulation done in Subsection~\ref{subsec::single_triangular_decomposition}--\ref{subsec::tetrahedron_decomposition} can be combined into one succinct linear program by first identifying a leaf-steam structure involving three vertices $s, u, v$.  If $s$ is a leaf, $u$ is its corresponding stem, and there exists $v\in N_G[u]\setminus\{u\}$ such that
+\[
+N_G[s]\subset N_G[u]\subseteq N_G[v],
+\]
+with all vertices in $N_G[s]\setminus\{u,v\}$ having the same closed
+neighbourhood as $s$, then impose the fixing
+\begin{equation} \label{eq::unicliqual_vertex_fix}
+  x_{su}=x_{us}=1.
+\end{equation}
+The construction of the linear program on the arbitrary graph $G$ using $\max \mathcal{LP}(G)$  together with the additional constraint Equation~\eqref{eq::unicliqual_vertex_fix} is denoted as $\max \mathcal{UVLP}(G)$.  
+
+
+\begin{proposition}[Unicliqual Vertex Interchangeability] \label{prop::unicliqual_decomposition_equality}
+  Let $s,u,v$ form a triangle in square $G$, where $s$ is unicliqual. If $N_G[u]=N_G[v]$ then $u$ and $v$ may be chosen arbitrarily as the corresponding vertex in the tree root $H$ without loss of generality.
 \end{proposition}
 \begin{proof}
-  
+  Since $s$ is unicliqual, the maximal clique containing $s$ is uniquely determined. If this clique satisfies the conditions of Proposition~\ref{prop::single_triangular_decomposition_equality}, then that proposition permits either $u$ or $v$ to be chosen as the corresponding vertex, since $N_G[u]=N_G[v]$ gives $\deg_G(u)=\deg_G(v)$. If the configuration instead satisfies the conditions of Proposition~\ref{prop::textrahedron_decomposition_equality}, then the equality $N_G[u]=N_G[v]$ gives
+  \[
+  N_G(u)\setminus K_4=N_G(v)\setminus K_4,
+  \]
+  so either $u$ or $v$ may be chosen in the tetrahedron fixing. Hence, in either case, $u$ and $v$ are interchangeable, and either may be chosen without loss of generality.
 \end{proof}
 
-\subsection{Single Tree Linear Program}
+It remains to verify that whenever a root $H$ of $G$ exists, the addition of the constraint Equation~\eqref{eq::unicliqual_vertex_fix} preserves the feasibility of the linear program.
+
+\begin{proposition}[Validity of Unicliqual Vertex Fix] \label{prop::unicliqual_vertex_fix_feasibility}
+  If a root $H$ of $G$ exists, then $\max\mathcal{UVLP}(G)$ is feasible.
+\end{proposition}
+\begin{proof}
+  Suppose that a root $H$ of $G$ exists. By Proposition~\ref{prop::linear_relaxation_feasibility}, $\mathcal{LP}(G)$ is feasible. It remains to show that there exists a root whose adjacency matrix satisfies Equation~\eqref{eq::unicliqual_vertex_fix}.
+
+  Let $s,u,v$ be the vertices identified by the unicliqual vertex fixing. By Proposition~\ref{prop::unicliqual_decomposition_equality}, if $s,u,v$ form the corresponding triangle and $N_G[u]=N_G[v]$, then $u$ and $v$ may be chosen arbitrarily as the corresponding vertex in the tree root without loss of generality. Thus, if the given root $H$ does not satisfy Equation~\eqref{eq::unicliqual_vertex_fix}, the roles of $u$ and $v$ may be interchanged to obtain another root $H'$ of $G$ for which
+  \[
+  x_{su}=x_{us}=x_{uv}=x_{vu}=1.
+  \]
+  Hence the adjacency matrix of $H'$ is a feasible solution of $\mathcal{IP}(G)$ that satisfies Equation~\eqref{eq::unicliqual_vertex_fix}. Since every feasible solution of $\mathcal{IP}(G)$ is feasible for $\mathcal{LP}(G)$, this solution is also feasible for $\max\mathcal{UVLP}(G)$. Therefore, $\max\mathcal{UVLP}(G)$ is feasible whenever a root $H$ of $G$ exists.
+\end{proof}
 
 
+\begin{table}[!htbp]
+  \centering
+  \begin{tabular}{c|cc|cc}
+  \hline
+  $n$ & \multicolumn{2}{c|}{$H$ exists} & \multicolumn{2}{c}{$H$ does not exist} \\
+  & \text{LP integral solution} & \text{LP fractional solution}
+  & \text{LP infeasible} & \text{LP fractional solution} \\
+  \hline
+  3 & 3   & 0   & 1     & 0    \\
+  4 & 6   & 0   & 5     & 0    \\
+  5 & 11  & 0   & 21    & 2    \\
+  6 & 25  & 3   & 117   & 11   \\
+  7 & 55  & 25  & 852   & 115  \\
+  8 & 154 & 153 & 10271 & 1768 \\
+  \hline
+  \end{tabular}
+  \caption{Outcomes of the unicliqual vertex linear program for graphs of different orders $n$.}
+  \label{tab::unicliqual_vertex_linear_program_outcomes}
+\end{table}
 
 \section{Tree Proof}
 
@@ -1259,12 +1431,44 @@ Using adjacency matrices, we show that the modified linear program given by stil
 
 
 
+
 \chapter{Further Work}
 
-In this chapter we discuss additional work, further concepts and interesting ideas 
-around specific structural properties that square intrinsically holds. Most of these have not been rigorously proven, with only sketch proofs given or intuitions given behind why they help improve results. 
+In this chapter we discuss additional work, further concepts and interesting ideas around specific structural properties that square intrinsically holds. Most of these have not been rigorously proven, with only sketch proofs or intuitions given behind why they may help improve results. 
 
-Further work would naturally be to improve many of these nascent ideas and develop formal proofs.  
+Prior methods for solving specific roots have been done by augmenting the linear program framework with additional constraints and objective functions that have been drawn from existing properties. 
+
+
+
+\section{Vertex Deletion} \label{sec::vertex_deletion}
+
+\subsection{Formulation} \label{sec::vertex_deletion_formulation}
+
+Let $G^-$ be the subgraph of $G$ defined by $\displaystyle (V^- = V - {v}, E_{G^-} = E_G \backslash {uv \mid u \in V^-})$. If $G^-$ has a valid square root, denote it by $H^-$. Let $H$ be a square root of $G$ satisfying $H^2=G$, and let $H_-$ be the subgraph of $H$ obtained by deleting $v$, defined by $\displaystyle (V^-, E_H \backslash {uv \mid u \in V^-})$. 
+
+In general, $H_-$ need not be a square root of $G^-$, since the deletion of $v$ from $H$ may remove $P_2$s between vertices in $V^-$ which results in $\left(H_-\right)^2\neq G^-$. Nevertheless, an integral solution of the LP for $G^-$ provides a candidate set of root edges on $V^-$ which can be used to refine the LP for $G$. 
+
+The algorithm works as follows.
+\begin{enumerate}[label=\roman*)]
+  \item Solve $\mathcal{LP}(G)$. If the LP is infeasible, the procedure terminates. If the LP is integral, the corresponding graph is retained as a candidate square root and the procedure terminates. Otherwise, let $\displaystyle F\subseteq\binom{V}{2}$ denote the set of unordered vertex pairs for which the solution satisfies $x_{ab}=x_{ba}=1$.
+  \item For each $u\in V$, define its unfixed degree with respect to $F$ by $d_F(u)=|{w\in N_G(u):{u,w}\notin F}|$. Choose a vertex $v\in\arg\min_{u\in V}d_F(u)$ and construct $G^-=G-v$ by deleting $v$ and all edges incident to $v$. Let $V^-=V\setminus{v}$ and let
+  $F^-={{a,b}\in F,b\in V^-}$ denote the fixing inherited by $G^-$.
+  \item Solve $\mathcal{LP}(G^-) + F^-$, which is $G^-$ with the additional fixing $F^-$.
+    \begin{enumerate}
+      \item If $\mathcal{LP}(G^-) + F^-$ is fractional, let $H^-$ denote the corresponding root of $F^-$.
+      \item If $\mathcal{LP}(G^-) + F^-$ is infeasible, the candidate $H^-$ is discarded. 
+      \item If $\mathcal{LP}(G^-) + F^-$ is fractional, recursively apply the vertex deletion algorithm to solve $\mathcal{G^-}$. If the recursive deletion produces an integral solution, let $H^-$ denote the corresponding root of $G^-$.  
+    \end{enumerate}
+  \item If an integral candidate $H^-$ has been obtained, construct $\mathcal{LP}(G\mid F,H^-)$ by taking $\mathcal{LP}(G)$ and imposing $x_{ab}=x_{ba}=1$ for every ${a,b}\in F$ and every pair $ \displaystyle {a,b}\in\binom{V^-}{2}$ such that $ab\in E(H^-)$. No additional constraint is imposed on pairs for which $ab\notin E(H^-)$, and the variables corresponding to pairs involving $v$ remain unrestricted apart from the fixing induced by $F$.
+  \item Solve $\mathcal{LP}(G\mid F,H^-)$.
+    \begin{enumerate}
+      \item If $\mathcal{LP}(G\mid F,H^-)$ is feasible, the fixing obtained from $H^-$ is consistent with the LP formulation for $G$, and the resulting solution is retained.
+      \item If $\mathcal{LP}(G\mid F,H^-)$ is infeasible, the candidate $H^-$ is discarded. This does not imply that $\mathcal{LP}(G)$ is infeasible; it only shows that the candidate root structure $H^-$ is incompatible with the current fixing for $G$.
+    \end{enumerate}
+  \item If the candidate $H^-$ is discarded, consider the remaining square roots of $G^-$, taking one representative from each isomorphism class. For each such root $H'$, construct $\mathcal{LP}(G\mid F,H')$ by imposing $x_{ab}=x_{ba}=1$ for every ${a,b}\in\binom{V^-}{2}$ such that $ab\in E(H')$, in addition to the fixing induced by $F$. If the resulting LP is feasible, the corresponding solution is retained.
+  \item If no candidate root of $G^-$ yields a feasible fixing, then the vertex-deletion step provides no further refinement of the LP. The current feasible solution is retained, and the procedure terminates without concluding that $G$ has no square root.
+\end{enumerate}
+
 
 \section{Symbolic Groups} \label{sec::symbolic_groups}
 
@@ -1332,9 +1536,7 @@ Consider this graph square on $6$ vertices with only one unique root
     \label{fig::115_6_example}
 \end{figure}
 
-Assigning $a = x_{03}$ gives using Lemma~\eqref{lemma::two_edges_linear_maximization} that $x_{31} = 1 - a$ since $01$ does not exist in $G$, and likewise with $12$ does not exist 
-in $G$ have $x_{32} = a$. However with the absence of $02$, must have $x_{03} + x_{32} \leq 1$ such that $\displaystyle a \leq \frac{1}{2}$. By symmetry 
-this likewise holds for $b = x_{05} = x_{15}$, $1-b = x_{52}$ and $c = x_{42} = x_{41}$, $1-c = x_{40}$ giving $\displaystyle b, c \leq \frac{1}{2}$. 
+Assigning $a = x_{03}$ gives using Lemma~\eqref{lemma::two_edges_linear_maximization} that $x_{31} = 1 - a$ since $01$ does not exist in $G$, and likewise with $12$ does not exist in $G$ have $x_{32} = a$. However with the absence of $02$, must have $x_{03} + x_{32} \leq 1$ such that $\displaystyle a \leq \frac{1}{2}$. By symmetry  this likewise holds for $b = x_{05} = x_{15}$, $1-b = x_{52}$ and $c = x_{42} = x_{41}$, $1-c = x_{40}$ giving $\displaystyle b, c \leq \frac{1}{2}$. 
 
 In this case, rather than maximizing the objective function and giving a fractional solution, setting $a=b=c=0$ gives a valid integral solution. 
 
@@ -1344,10 +1546,10 @@ As single triangular decomposition gives perfect characterizations of the root u
 for up to $n=5$, a further refinement is obtained by analyzing fractional solutions through vertex deletion
 and by considering the subgraphs after this process. 
 
-Let $G^-$ be the subgraph of $G$ defined by $\displaystyle (V^- = V - \{v\}, E_{G^-} = E_G \;\backslash\; \{uv \mid u \in V^-\})$ 
+Let $G^-$ be the subgraph of $G$ defined by $\displaystyle (V^- = V - \{v\}, E_{G^-} = E_G \backslash \{uv \mid u \in V^-\})$ 
 and if it has a valid square root denote it by $H^-$. 
 Let $H_-$ be the subgraph of the root graph $H$ satisfying the relationship $H^2 = G$ defined by $(V^-, 
-E_H \;\backslash\; \{uv \mid u \in V^-\})$. The idea is that if $G^-$ has a valid square root, can construct 
+E_H \backslash \{uv \mid u \in V^-\})$. The idea is that if $G^-$ has a valid square root, can construct 
 $H_-$ from $H^-$ by considering the following scenarios for vertex $v$
 \begin{enumerate}[label=\roman*)]
   \item $v$ is connected to the subgraph $V^-$ by only one edge to $u \in V^-$
@@ -1406,11 +1608,13 @@ Its dual can be rewritten as
 
 \section{Rounding} \label{sec::rounding}
 
-Rounding fractional solutions such that an integral solution or the problem is deemed infeasible gives the classification in  Figure~\ref{fig::rounding_max_objective_function_diagram} is obtained.   
+Rounding fractional solutions such that an integral solution or the problem is deemed infeasible gives the classification in Table~\ref{fig::rounding_max_objective_function_diagram} are obtained.   
+
+\input{subfiles/MaxRoundingResults.tex}
 
 \appendix
 
-\input{subfiles/Results.tex}
+\input{subfiles/Code.tex}
 
 
 

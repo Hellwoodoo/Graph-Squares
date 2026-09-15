@@ -1,0 +1,339 @@
+\lstdefinestyle{python}{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    numbers=left,
+    numberstyle=\tiny,
+    stepnumber=1,
+    numbersep=8pt,
+    frame=single,
+    breaklines=true,
+    showstringspaces=false
+}
+
+\begin{lstlisting}[style=python, caption={Integer Program.}, label={lst::integer_program}]
+def integer_program(G):
+    m = MixedIntegerLinearProgram(solver = 'GLPK', maximization=False)
+    m.solver_parameter("simplex_or_intopt", "intopt_only")
+
+    x = m.new_variable(integer=True, nonnegative=True)
+    y = m.new_variable(integer=True, nonnegative=True)
+    z = m.new_variable(integer=True, nonnegative=True)
+
+    A_G = G.adjacency_matrix()
+    n = A_G.nrows()
+    M = n**2
+
+    # Indicator argument
+    for i in range(n):
+        for j in range(n):
+            if i == j:
+                m.add_constraint(z[i,j] - (sum(y[i,k,j] for k in range(n)) - sum(x[i,k] for k in range(n)) + x[i,j]) == 0)
+            else:
+                m.add_constraint(z[i,j] - (sum(y[i,k,j] for k in range(n)) + x[i,j]) == 0)
+
+    # Indicator function
+    for i in range(n):
+        for j in range(n):
+            m.add_constraint(z[i,j] - M * A_G[i][j] <= 0)
+            m.add_constraint(-z[i,j] + A_G[i][j] <= 0)
+
+    # Product
+    for i in range(n):
+        for j in range(n):
+            for k in range(n):
+                m.add_constraint(y[i,k,j] - x[i,k] <= 0)
+                m.add_constraint(y[i,k,j] - x[k,j] <= 0)
+                m.add_constraint(- y[i,k,j] + x[i,k] + x[k,j] - 1 <= 0)
+
+    # Symmetry
+    for i in range(n):
+        for j in range(n):
+            m.add_constraint(x[i,j] == x[j,i])
+
+    # Diagonal
+    for i in range(n):
+        m.add_constraint(x[i,i] == 0)
+
+    # Variables
+    for i in range(n):
+        for j in range(n):
+            m.add_constraint(x[i,j] - 1 <= 0)
+            for k in range(n):
+                m.add_constraint(y[i,k,j] - 1 <= 0)
+
+    return m, x
+\end{lstlisting}
+
+\begin{lstlisting}[style=python, caption={Linear Program.}, label={lst::linear_program}]
+def linear_program(G):
+    m = MixedIntegerLinearProgram(solver = 'GLPK', maximization=False)
+    m.solver_parameter("simplex_or_intopt", "intopt_only")
+
+    x = m.new_variable(real=True, nonnegative=True)
+    y = m.new_variable(real=True, nonnegative=True)
+    z = m.new_variable(real=True, nonnegative=True)
+
+    A_G = G.adjacency_matrix()
+    n = A_G.nrows()
+    M = n**2
+
+    # Indicator argument
+    for i in range(n):
+        for j in range(n):
+            if i == j:
+                m.add_constraint(z[i,j] - (sum(y[i,k,j] for k in range(n)) - sum(x[i,k] for k in range(n)) + x[i,j]) == 0)
+            else:
+                m.add_constraint(z[i,j] - (sum(y[i,k,j] for k in range(n)) + x[i,j]) == 0)
+
+    # Indicator function
+    for i in range(n):
+        for j in range(n):
+            m.add_constraint(z[i,j] - M * A_G[i][j] <= 0)
+            m.add_constraint(-z[i,j] + A_G[i][j] <= 0)
+
+    # Product
+    for i in range(n):
+        for j in range(n):
+            for k in range(n):
+                m.add_constraint(y[i,k,j] - x[i,k] <= 0)
+                m.add_constraint(y[i,k,j] - x[k,j] <= 0)
+                m.add_constraint(- y[i,k,j] + x[i,k] + x[k,j] - 1 <= 0)
+
+    # Symmetry
+    for i in range(n):
+        for j in range(n):
+            m.add_constraint(x[i,j] == x[j,i])
+
+    # Diagonal
+    for i in range(n):
+        m.add_constraint(x[i,i] == 0)
+
+    # Variables
+    for i in range(n):
+        for j in range(n):
+            m.add_constraint(x[i,j] - 1 <= 0)
+            for k in range(n):
+                m.add_constraint(y[i,k,j] - 1 <= 0)
+    return m, x
+\end{lstlisting}
+
+\begin{lstlisting}[style=python, caption={Max Linear Program.}, label={lst::max_linear_program}]
+def max_linear_program(G):
+    m = MixedIntegerLinearProgram(solver = 'GLPK', maximization=False)
+    m.solver_parameter("simplex_or_intopt", "intopt_only")
+
+    x = m.new_variable(real=True, nonnegative=True)
+    y = m.new_variable(real=True, nonnegative=True)
+    z = m.new_variable(real=True, nonnegative=True)
+
+    A_G = G.adjacency_matrix()
+    n = A_G.nrows()
+    M = n**2
+
+    # Indicator argument
+    for i in range(n):
+        for j in range(n):
+            if i == j:
+                m.add_constraint(z[i,j] - (sum(y[i,k,j] for k in range(n)) - sum(x[i,k] for k in range(n)) + x[i,j]) == 0)
+            else:
+                m.add_constraint(z[i,j] - (sum(y[i,k,j] for k in range(n)) + x[i,j]) == 0)
+
+    # Indicator function
+    for i in range(n):
+        for j in range(n):
+            m.add_constraint(z[i,j] - M * A_G[i][j] <= 0)
+            m.add_constraint(-z[i,j] + A_G[i][j] <= 0)
+
+    # Product
+    for i in range(n):
+        for j in range(n):
+            for k in range(n):
+                m.add_constraint(y[i,k,j] - x[i,k] <= 0)
+                m.add_constraint(y[i,k,j] - x[k,j] <= 0)
+                m.add_constraint(- y[i,k,j] + x[i,k] + x[k,j] - 1 <= 0)
+
+    # Symmetry
+    for i in range(n):
+        for j in range(n):
+            m.add_constraint(x[i,j] == x[j,i])
+
+    # Diagonal
+    for i in range(n):
+        m.add_constraint(x[i,i] == 0)
+
+    # Variables
+    for i in range(n):
+        for j in range(n):
+            m.add_constraint(x[i,j] - 1 <= 0)
+            for k in range(n):
+                m.add_constraint(y[i,k,j] - 1 <= 0)
+
+    m.set_objective(- m.sum(x[i,j] for i in range(n) for j in range(n)))
+    return m, x
+\end{lstlisting}
+
+\begin{lstlisting}[style=python, caption={Min Linear Program.}, label={lst::min_linear_program}]
+def min_linear_program(G):
+    m = MixedIntegerLinearProgram(solver = 'GLPK', maximization=False)
+    m.solver_parameter("simplex_or_intopt", "intopt_only")
+
+    x = m.new_variable(real=True, nonnegative=True)
+    y = m.new_variable(real=True, nonnegative=True)
+    z = m.new_variable(real=True, nonnegative=True)
+
+    A_G = G.adjacency_matrix()
+    n = A_G.nrows()
+    M = n**2
+
+    # Indicator argument
+    for i in range(n):
+        for j in range(n):
+            if i == j:
+                m.add_constraint(z[i,j] - (sum(y[i,k,j] for k in range(n)) - sum(x[i,k] for k in range(n)) + x[i,j]) == 0)
+            else:
+                m.add_constraint(z[i,j] - (sum(y[i,k,j] for k in range(n)) + x[i,j]) == 0)
+
+    # Indicator function
+    for i in range(n):
+        for j in range(n):
+            m.add_constraint(z[i,j] - M * A_G[i][j] <= 0)
+            m.add_constraint(-z[i,j] + A_G[i][j] <= 0)
+
+    # Product
+    for i in range(n):
+        for j in range(n):
+            for k in range(n):
+                m.add_constraint(y[i,k,j] - x[i,k] <= 0)
+                m.add_constraint(y[i,k,j] - x[k,j] <= 0)
+                m.add_constraint(- y[i,k,j] + x[i,k] + x[k,j] - 1 <= 0)
+
+    # Symmetry
+    for i in range(n):
+        for j in range(n):
+            m.add_constraint(x[i,j] == x[j,i])
+
+    # Diagonal
+    for i in range(n):
+        m.add_constraint(x[i,i] == 0)
+
+    # Variables
+    for i in range(n):
+        for j in range(n):
+            m.add_constraint(x[i,j] - 1 <= 0)
+            for k in range(n):
+                m.add_constraint(y[i,k,j] - 1 <= 0)
+
+    m.set_objective(m.sum(x[i,j] for i in range(n) for j in range(n)))
+    return m, x
+\end{lstlisting}
+
+\begin{lstlisting}[style=python, caption={Unicliqual Vertex Linear Program.}, label={lst::unicliqaul_vertex_linear_program}]
+def find_leaf_stem(G, verbose=False):
+    n = G.order()
+    N = {v: set(G.neighbors(v)) | {v} for v in range(n)}
+    signature = {v: frozenset(N[v]) for v in range(n)}
+
+    contained = [[False] * n for _ in range(n)]
+    proper = [[False] * n for _ in range(n)]
+
+    for u in range(n):
+        for v in range(n):
+            if N[u] <= N[v]:
+                contained[u][v] = True
+                proper[u][v] = N[u] != N[v]
+
+    for s in range(n):
+        for u in N[s] - {s}:
+            if not proper[s][u]:
+                continue
+
+            for v in N[u] - {u}:
+                if not contained[u][v]:
+                    continue
+
+                leaves = N[s] - {u, v}
+
+                if all(signature[w] == signature[s] for w in leaves):
+                    if verbose:
+                        print(f"Leaf found: leaf={s}, stem={u}, vertex={v}, leaves={leaves}")
+
+                    return {
+                        "leaf": s,
+                        "stem": u,
+                        "vertex": v,
+                        "leaves": leaves
+                    }
+
+    return None
+
+# LP with unicliqual vertex fixing in largest clique
+def unicliqual_vertex_linear_program(G, verbose=False):
+    m = MixedIntegerLinearProgram(solver = 'GLPK', maximization=False)
+    m.solver_parameter("simplex_or_intopt", "intopt_only")
+
+    x = m.new_variable(real=True, nonnegative=True)
+    y = m.new_variable(real=True, nonnegative=True)
+    z = m.new_variable(real=True, nonnegative=True)
+
+    A_G = G.adjacency_matrix()
+    n = A_G.nrows()
+    M = n**2
+
+    # Indicator argument
+    for i in range(n):
+        for j in range(n):
+            if i == j:
+                m.add_constraint(z[i,j] - (sum(y[i,k,j] for k in range(n)) - sum(x[i,k] for k in range(n)) + x[i,j]) == 0)
+            else:
+                m.add_constraint(z[i,j] - (sum(y[i,k,j] for k in range(n)) + x[i,j]) == 0)
+
+    # Indicator function
+    for i in range(n):
+        for j in range(n):
+            m.add_constraint(z[i,j] - M * A_G[i][j] <= 0)
+            m.add_constraint(-z[i,j] + A_G[i][j] <= 0)
+
+    # Product
+    for i in range(n):
+        for j in range(n):
+            for k in range(n):
+                m.add_constraint(y[i,k,j] - x[i,k] <= 0)
+                m.add_constraint(y[i,k,j] - x[k,j] <= 0)
+                m.add_constraint(- y[i,k,j] + x[i,k] + x[k,j] - 1 <= 0)
+
+    # Symmetry
+    for i in range(n):
+        for j in range(n):
+            m.add_constraint(x[i,j] == x[j,i])
+
+    # Diagonal
+    for i in range(n):
+        m.add_constraint(x[i,i] == 0)
+
+    # Variables
+    for i in range(n):
+        for j in range(n):
+            m.add_constraint(x[i,j] - 1 <= 0)
+            for k in range(n):
+                m.add_constraint(y[i,k,j] - 1 <= 0)
+
+    m.set_objective(-m .sum(x[i, j] for i in range(n) for j in range(n)))
+
+    # Find a leaf-stem structure using the largest closed neighbourhood clique
+    structure = find_leaf_stem(G, verbose=verbose)
+
+    if structure is None:
+        
+        return m, x
+
+    s = structure["leaf"]
+    u = structure["stem"]
+
+    m.add_constraint(x[s, u] == 1)
+    m.add_constraint(x[u, s] == 1)
+
+    if verbose:
+        print(f"Fixed root edge: ({s}, {u})")
+
+    return m, x
+\end{lstlisting}
