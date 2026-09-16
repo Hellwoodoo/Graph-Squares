@@ -1,15 +1,5 @@
 % !TeX root = Thesis.tex
 
-\begin{lemma}[Path Propagation] \label{lemma::path_propagation}
-  Let $G$ and $T$ be graphs such that $G = T^2$ and $T$ is a tree. Let $a,i,j,b \in V_G$ such that $a,i,j,b$ form a path in $H$. For every feasible solution $x$ of
-  $\mathcal{LP}(G)$,
-  \[
-  x_{ai}=1 \implies x_{ib}=0, \quad x_{ia}=1 \implies x_{bi}=0, \quad x_{jb}=1 \implies x_{aj}=0, \quad x_{bj}=1 \implies x_{ja}=0.
-  \]
-\end{lemma}
-\begin{proof}
-  Since $a,i,j,b$ form a path in $H$, we have $d_H(a,b)=3$ and therefore $ab \notin E_G$. By Lemma~\eqref{lemma::g_ab=0,x_av=1}, setting  $x_{ai}=1$ gives $x_{ib}=0.$ Similarly, setting $x_{jb}=1$ gives $ x_{aj}=0$. The remaining two implications follow by symmetry.
-\end{proof}
 
 \begin{lemma}
   
