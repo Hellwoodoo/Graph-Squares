@@ -1,15 +1,34 @@
 % !TeX root = Thesis.tex
 
-\begin{proposition} \label{prop::g_ab=0}
-  Consider the graph square $G$ where the edge between vertices $a$ and $b$ is missing, $ab \notin E_G$ such that $g_{ab} = 0$. Then every feasible solution of $\mathcal{LP}(G)$ satisfies $x_{ab} = 0$ and $y_{avb} = 0$ for all vertices $v \in V \backslash \{a,b\}$. 
-\end{proposition}
+\begin{lemma}[Zero Variables] \label{lemma::g_ab=0}
+  Let $G$ and $H$ be graphs such that $G = H^2$. Let $a,b \in V_G$ such that $ab \notin E_G$. For every feasible solution $x$ of $\mathcal{LP}(G)$ and every $v \in V_G$ with $v \neq a,b$ we have $x_{ab} = y_{avb} = 0$. 
+\end{lemma}
 \begin{proof}
   Using Equations~\eqref{eq::IP_indicator_upper}--\eqref{eq::IP_indicator_lower} if $g_{ab} = 0$ then $z_{ab} \leq 0$ and $z_{ab} \geq = 0$ such that $z_{ab} = 0$. Then Equation~\eqref{eq::IP_indicator_arg} gives that $\displaystyle 0 = \sum_{v = 1}^{n}y_{avb} + x_{ab}$. Since each $x,y$ variable are non-negative, this only holds when each variable is equal to $0$ which gives that $x_{ab} = 0$ and $y_{avb} = 0$ for all vertices $v \in V \backslash \{a,b\}$. 
 \end{proof}
 
-\begin{proposition} \label{prop::g_ab=0,two_edge_sum}
-  Consider the graph square $G$ where the edge between vertices $a$ and $b$ is missing, $ab \notin E_G$ such that $g_{ab} = 0$. Then every feasible solution of $\mathcal{LP}(G)$ satisfies that for all vertices $v \in V \backslash \{a,b\}$, $x_{av} + x_{vb} \leq 1$. 
-\end{proposition}
+\begin{lemma}[Two-Edge Bound] \label{lemma::g_ab=0,two_edge_sum}
+  Let $G$ and $H$ be graphs such that $G = H^2$. Let $a,b \in V_G$ such that
+  $ab \notin E_G$. For every feasible solution $x$ of $\mathcal{LP}(G)$ and
+  every $v \in V_G$ with $v \neq a,b$ we have
+  \[
+  x_{av} + x_{vb} \leq 1.
+  \]
+\end{lemma}
 \begin{proof}
-  Since Proposition~\eqref{prop::g_ab=0} gives $y_{avb}=0$, using Equation~\eqref{eq::IP_indicator_lower} gives that $0 = y_{avb} \geq x_{av} + x_{vb} - 1$ which after rearranging gives $x_{av} + x_{vb} \leq 1$ as required. 
+  Since Lemma~\eqref{lemma::g_ab=0} gives $y_{avb}=0$, using Equation~\eqref{eq::IP_indicator_lower} gives that $0 = y_{avb} \geq x_{av} + x_{vb} - 1$ which after rearranging gives $x_{av} + x_{vb} \leq 1$ as required. 
+\end{proof}
+
+\begin{lemma}[Zero Edge] \label{lemma::g_ab=0,x_av=1}
+  Let $G$ and $H$ be graphs such that $G = H^2$. Let $a,b,v \in V_G$ such that $ab \notin E_G$. If a feasible solution $x$ of $\mathcal{LP}(G)$ satisfies $x_{av}=1$, then $x_{vb}=0$.
+\end{lemma}
+\begin{proof}
+  Since $ab \notin E_G$, Proposition~\eqref{lemma::g_ab=0,two_edge_sum} gives $x_{av}+x_{vb} \leq 1$. Since $x_{av}=1$, it follows that $1+x_{vb} \leq 1$, and hence $x_{vb} \leq 0$. By the non-negativity of the LP variable Equation~\eqref{eq::LP_x_variable}, $x_{vb} \geq 0$, and therefore $x_{vb}=0$.
+\end{proof}
+
+\begin{lemma}[Zero Edge] \label{lemma::g_ab=0,x_av=1}
+  Let $G$ and $H$ be graphs such that $G = H^2$. Let $a,b \in V_G$ such that $ab \in E_G$ but $x_{ab} = 0$. If a feasible solution $x$ of $\mathcal{LP}(G)$ satisfies $x_{av}=1$, then $x_{vb}=0$.
+\end{lemma}
+\begin{proof}
+  Since $ab \notin E_G$, Proposition~\eqref{lemma::g_ab=0,two_edge_sum} gives $x_{av}+x_{vb} \leq 1$. Since $x_{av}=1$, it follows that $1+x_{vb} \leq 1$, and hence $x_{vb} \leq 0$. By the non-negativity of the LP variable Equation~\eqref{eq::LP_x_variable}, $x_{vb} \geq 0$, and therefore $x_{vb}=0$.
 \end{proof}

@@ -114,7 +114,7 @@ Focusing first on special undirected graph classes, the aforementioned work by \
 
 Generalizing the notion of graph squares, in 1967 \citeauthor{mukhopadhyay_1967_root} provided necessary and sufficient conditions for a connected graph to have a square root \cite{mukhopadhyay_1967_root}, whilst \citeauthor{geller_1970_root} in 1970 likewise found necessary and sufficient conditions for a digraph to have a square root \cite{geller_1970_root}. 
 
-In 1994 \citeauthor{motwani_sudan_1994_roots} established the complexity of the square problem for the generalized undirected case and showed that the problem of determining if a given graph has a square root is a $NP$-complete problem via a polynomial reduction to $3$-CNF Not-All-Equal SAT \cite{motwani_sudan_1994_roots}.
+In 1994 \citeauthor{motwani_sudan_1994_roots} established the complexity of the square problem for the generalized undirected case and showed that the problem of determining if a given graph has a square root is a $NP$-complete problem via a polynomial reduction to $3$-CNF not-all-equal SAT \cite{motwani_sudan_1994_roots}.
 
 Their work led to joint work by Farzad, Le, Tuy, Lau and Karimi in 2009 and 2012, in which they established a partial dichotomy theorem for the complexity of determining if a given undirected graph of girth $g$ has a square root \cite{farzad_2009_roots} which was informally completed under \cite{farzad_karimi_2012_root}. In 2013, \citeauthor{cochefert_et_al_2013_sparse_square_roots} gave an algorithm for constructing a square root with minimal number of edges from undirected graphs with max degree $\leq 6$ in polynomial time and an algorithm for constructing maximal edge square roots in exponential time \cite{cochefert_et_al_2013_sparse_square_roots}. 
 
@@ -180,7 +180,7 @@ Whether this inclusion is strict remains one of the most important open question
 \begin{definition}[Polynomial-Time Reduction] \label{def::polynomial_time_reduction}
   Let $A$ and $B$ be decision problems. A \textbf{polynomial-time reduction} from $A$ to $B$, denoted $A \leq_p B$, is a polynomial-time computable function $f$ such that, for every instance $x$ of $A$,
   \[
-  x \in A \Longleftrightarrow f(x) \in B.
+  x \in A \quad \text{if and only if} \quad f(x) \in B.
   \]
 \end{definition}
 
@@ -511,28 +511,21 @@ In this chapter we explore different methodologies that have been used to show c
 
 \section{NP-Completeness Proof} \label{sec::np_completeness_proof}
 
-We now establish the computational complexity of the graph square problem as was established by \citeauthor{motwani_sudan_1994_roots} in their paper \cite{motwani_sudan_1994_roots}. The decision version of the problem asks whether a given graph admits a graph root whose square is the given graph.
+We now establish the computational complexity of the graph square problem as was done by \citeauthor{motwani_sudan_1994_roots} in their paper \cite{motwani_sudan_1994_roots}. The decision version of the problem asks whether a given graph admits a graph root whose square is the given graph.
 
 \begin{problem}[SQUARE] \label{prob::square_problem}
-\leavevmode
+  \leavevmode
 
-\textbf{Instance:} A finite, simple, undirected graph $G=(V,E)$.
-\medskip
+  \textbf{Instance:} A finite, simple, undirected graph $G=(V,E)$.
+  \medskip
 
-\textbf{Question:} Does there exist a finite, simple, undirected graph $H$ such that
-\[
-G = H^2?
-\]
+  \textbf{Question:} Does there exist a finite, simple, undirected graph $H$ such that
+  \[
+  G = H^2?
+  \]
 \end{problem}
 
-\begin{lemma}[$\mathbf{NP}$-complete] \label{proof::np_complete}
-  Problem~\eqref{prob::square_problem} is $\mathbf{NP}$-complete. 
-\end{lemma}
-\begin{proof}
-  To show that Problem~\eqref{prob::square_problem} is $\mathbf{NP}$-complete, it is necessary to show that it is in $\mathbf{NP}$ and that it is $\mathbf{NP}$-hard. We show that it is NP-hard via polynomial reduction from not-all-equal SAT (NAESAT). 
-\end{proof}
-
-\begin{theorem}[$\mathbf{NP}$] \label{proof::np}
+\begin{theorem}[$\mathbf{NP}$] \label{theorem::np}
   Problem~\eqref{prob::square_problem} is in $\mathbf{NP}$. 
 \end{theorem}
 \begin{proof}[NP Proof]
@@ -555,7 +548,7 @@ G = H^2?
 \[
 \phi = C_1 \land C_2 \land \cdots \land C_m
 \]
-over variables $x_1,\ldots,x_n$.
+where each clause $C_i$ is over variables $x_1,\ldots,x_n$.
 
 \medskip
 
@@ -571,19 +564,18 @@ Following \cite{motwani_sudan_1994_roots}, we show SQUARE is $\mathbf{NP}$-hard 
 \begin{proof}[Polynomial Reduction] \label{proof::polynomial_reduction}
   Let $\phi = C_1 \land C_2 \land \cdots \land C_m $ be an instance of NAESAT, where $\phi$ is a $3$-CNF formula on variables $x_1,\ldots,x_n$. Over variables $x_1,\dots,x_n$, construct a graph $G_\phi=(V_\phi,E_\phi)$ in polynomial time such that
   \[
-  \phi \in \textsc{NAESAT} \quad\Longleftrightarrow\quad G_\phi \text{ has a square root}.
+  \phi \in \textsc{NAESAT} \quad \text{if and only if} \quad G_\phi \text{ has a square root}.
   \]
 
   The vertex set $V_\phi$ consists of
   \begin{enumerate}[label=(\roman*)]
-  \item Two constant vertices TRUE and FALSE, plus a vertex $x$ and three tail vertices $t_1,t_2,t_3$ for $x$.
-  \item For each of the $2n$ literals $\ell_1,\dots,\ell_{2n}$, where $\ell_{i+n}=\overline{\ell_i}$, a literal vertex $L_i$. 
-  \item For every pair of literals $\ell_i,\ell_k$ that are not complements of each other, a literal-pair vertex $A_{ik}$.
-  \item For each clause $C_j=\{\ell_{j_1},\ell_{j_2},\ell_{j_3}\}$, a clause vertex $C_j$ together with three tail vertices $C_j^1,C_j^2,C_j^3$.
+    \item Two constant vertices TRUE and FALSE, plus a vertex $x$ and three tail vertices $t_1,t_2,t_3$ for $x$.
+    \item For each of the $2n$ literals $\ell_1,\dots,\ell_{2n}$, where $\ell_{i+n}=\overline{\ell_i}$, a literal vertex $L_i$. 
+    \item For every pair of literals $\ell_i,\ell_k$ that are not complements of each other, a literal-pair vertex $A_{ik}$.
+    \item For each clause $C_j=\{\ell_{j_1},\ell_{j_2},\ell_{j_3}\}$, a clause vertex $C_j$ together with three tail vertices $C_j^1,C_j^2,C_j^3$.
   \end{enumerate}
 
   The edge set $E_\phi$ defined as
-
   \begin{enumerate}[label=\roman*)]
     \item \textbf{Tail of $x$.} The tail of $x$ consists of the edges
     \[
@@ -602,16 +594,15 @@ Following \cite{motwani_sudan_1994_roots}, we show SQUARE is $\mathbf{NP}$-hard 
     \[
     \{L_i:1\leq i\leq 2n\} \cup \{A_{ik}: \ell_i\neq\overline{\ell_k}\} \cup \{\text{TRUE},\text{FALSE},x\}
     \]
-    are adjacent to one another, except for pairs of complementary literals. Thus, $L_iL_k\in E_\phi$ whenever $\ell_i$ and $\ell_k$ are not complementary, while $
-    L_iL_k\notin E_\phi$ whenever $\ell_i$ and $\ell_k$ are complementary.
+    are adjacent to one another, except for pairs of complementary literals. Thus, $L_iL_k\in E_\phi$ whenever $\ell_i$ and $\ell_k$ are not complementary, while $L_iL_k \notin E_\phi$ whenever $\ell_i$ and $\ell_k$ are complementary.
   \end{enumerate}
 \end{proof}
 
 \input{subfiles/NPHardConstruction.tex}
 
-The construction is polynomial in $n+m$ and depends only on the formula $\phi$. Therefore can be carried out without knowing whether $\phi$ has a not-all-equal satisfying assignment. Moreover, the number of vertices and edges introduced is polynomial in the size of $\phi$.
+The construction is polynomial in $n+m$ and depends only on the formula $\phi$. Therefore it can be carried out without knowing whether $\phi$ has a not-all-equal satisfying assignment. Moreover, the number of vertices and edges introduced is polynomial in the size of $\phi$.
 
-The following lemma, which is the central combinatorial tool for proving the correctness of the reduction.
+The following lemma is the central combinatorial tool for proving the correctness of the reduction.
 
 \begin{lemma}[Tail Lemma] \label{lemma::tail}
   Let $G$ be a connected graph containing four distinct vertices $a,b,c,d$ such that
@@ -624,21 +615,22 @@ The following lemma, which is the central combinatorial tool for proving the cor
   \]
 \end{lemma}
 \input{subfiles/TailLemma.tex}
+
 \begin{proof}
   Since $N_G(a)=\{b,c\}$, every neighbour of $a$ in $H$ is contained in $\{b,c\}$.
   
-  First show that $N_H(a)=\{b\}$. Suppose, for contradiction, that $N_H(a)=\{c\}$. Then $ac \in E_H$. Because $ab \in E_G=H^2$, there is a path of length at most two from $a$ to $b$ in $H$ -  as $a$ has only the neighbour $c$, this forces $bc \in E_H$. 
+  First show that $N_H(a)=\{b\}$. Suppose, for contradiction, that $N_H(a)=\{c\}$. Then $ac \in E_H$. Because $ab \in E_G=E_{H^2}$, there is a path of length at most two from $a$ to $b$ in $H$. As $a$  only has the neighbour $c$, this forces $bc \in E_H$. 
 
-  Now $cd\in E_G$, so $c$ and $d$ are at distance at most two in $H$. As $bc \in E_H$, the only possible $P_2$ from $c$ to $d$ uses $b$, and hence $bd \in E_H$. 
+  Now $cd \in E_G$, so $c$ and $d$ are at distance at most two in $H$. As $bc \in E_H$, the only possible $P_2$ from $c$ to $d$ uses $b$, and hence $bd \in E_H$. 
 
-  Let $v\notin\{a,b,c,d\}$ be the neighbour of $c$ in $G$. Since $cv \in E_G$, there is a path of length at most two from $c$ to $v$ in $H$. This path cannot go through $a$, otherwise $av \in E_G$, contradicting $N_G(a)=\{b,c\}$. Nor can it go through $b$, since that would give $bv \in E_G$, contradicting $N_G(b)=\{a,c,d\}$. Therefore the path must be $c-d-v$, giving $dv \in E_H$.
+  Let $v \notin \{a,b,c,d\}$ be the neighbour of $c$ in $G$. Since $cv \in E_G$, there is a path of length at most two from $c$ to $v$ in $H$. This path cannot go through $a$, otherwise $av \in E_G$, contradicting $N_G(a)=\{b,c\}$. Nor can it go through $b$, since that would give $bv \in E_G$, contradicting $N_G(b)=\{a,c,d\}$. Therefore the path must be $c-d-v$, giving $dv \in E_H$.
 
-  Since $bd, dv\in E_H$, have a path $b-d-v$ of length two in $H$, which implies $bv \in E_G$. This again contradicts $N_G(b)=\{a,c,d\}$. The contradiction eliminates the possibility $N_H(a)=\{c\}$, and consequently
+  Since $bd, dv \in E_H$, have a path $b-d-v$ of length two in $H$, which implies $bv \in E_G$. This again contradicts $N_G(b)=\{a,c,d\}$. The contradiction eliminates the possibility $N_H(a)=\{c\}$, and consequently
   \begin{equation} \label{eq::tail_1}
     N_H(a)=\{b\}. 
   \end{equation}
 
-  Now we determine the neighbourhood of $c$. Since $ab \in E_H$ as $N_H(a)=\{b\}$, and $ac\in E_G$, the edge $ac$ in $G=H^2$ must be realized by the path $a-b-c$. This gives that $bc\in E_H$. If $b$ had a neighbour $x \notin \{a,c\}$ in $H$, then $a-b-x$ would be a $P_2$, forcing $ax \in E_G$, which contradicts $N_H(a)=\{b\}$. Thus \begin{equation} \label{eq::tail_2}
+  Now we determine the neighbourhood of $c$. Since $ab \in E_H$ as $N_H(a)=\{b\}$, and $ac\in E_G$, the edge $ac$ in $G=H^2$ must be realized by the path $a-b-c$. This gives that $bc \in E_H$. If $b$ had a neighbour $x \notin \{a,c\}$ in $H$, then $a-b-x$ would be a $P_2$, forcing $ax \in E_G$, which contradicts $N_H(a)=\{b\}$. Thus \begin{equation} \label{eq::tail_2}
     N_H(b)=\{a,c\}. 
   \end{equation}
 
@@ -649,15 +641,19 @@ The following lemma, which is the central combinatorial tool for proving the cor
     N_H(c)=\{b,d\}. 
   \end{equation}
   
-  It remains to relate the external neighbours of $c$ in $G$ to those of $d$ in $H$. Take any $v\notin\{a,b,c,d\}$. If $cv\in E_G$, then there is a path of length at most two from $c$ to $v$ in $H$. By Equation~\eqref{eq::tail_3}, such a path must use $b$ or $d$ as the intermediate vertex. It cannot use $b$, since that would imply $bv\in E_G$, contradicting $N_G(b)=\{a,c,d\}$. Hence the path is $c-d-v$, so $dv \in E_H$. Conversely, if $dv \in E_H$, then $c-d-v$ is a $P_2$ in $H$ since $cd \in E_H$, giving $cv \in E_G$. Have therefore established, for every $v\notin\{a,b,c,d\}$,
+  It remains to relate the external neighbours of $c$ in $G$ to those of $d$ in $H$. Take any $v\notin\{a,b,c,d\}$. If $cv\in E_G$, then there is a path of length at most two from $c$ to $v$ in $H$. By Equation~\eqref{eq::tail_3}, such a path must use $b$ or $d$ as the intermediate vertex. It cannot use $b$, since that would imply $bv \in E_G$, contradicting $N_G(b)=\{a,c,d\}$. Hence the path is $c-d-v$, so $dv \in E_H$. Conversely, if $dv \in E_H$, then $c-d-v$ is a $P_2$ in $H$ since $cd \in E_H$, giving $cv \in E_G$. 
+  
+  Therefore have established that for every $v\notin\{a,b,c,d\}$,
   \[
-  v\in N_G(c) \text{ if and only if } v\in N_H(d).
+  v \in N_G(c) \text{ if and only if } v \in N_H(d).
   \]
-  The desired equality follows immediately.
+  The desired set equality follows immediately.
 \end{proof}
 
+We now establish the two directions required for the validity of the reduction.
+
 \begin{lemma} \label{lemma::np_complete_forward}
-  If $\phi$ is a \textbf{Yes}-instance of $\mathrm{NAESAT}$, then $G_\phi$ has a graph root
+  If $\phi$ is a \textbf{Yes}-instance of $\mathrm{NAESAT}$, then $G_\phi$ has a graph root.
 \end{lemma}
 \begin{proof}[Proof Sketch]
   Suppose that $\phi$ has an assignment satisfying not-all-equal. We construct a graph root $H=(V_\phi,E_H)$ on the same vertex set as $G_\phi$ as follows.
@@ -668,6 +664,7 @@ The following lemma, which is the central combinatorial tool for proving the cor
 
   Hence, $G_\phi=H^2$, and therefore $G_\phi$ has a graph root.
 \end{proof}
+
 \begin{lemma} \label{lemma::np_complete_backward}
   If $G_\phi$ has a graph root, then $\phi$ is a \textbf{Yes}-instance of $\mathrm{NAESAT}$
 \end{lemma}
@@ -688,7 +685,7 @@ The following lemma, which is the central combinatorial tool for proving the cor
   
   On the other hand, complementary literal vertices are non-adjacent in $G_\phi$. Therefore they cannot have a common neighbour in $H$, and hence a literal and its complement cannot both be adjacent to the same one of TRUE and FALSE. It follows that every literal vertex is adjacent to exactly one of TRUE and FALSE, and complementary literals are adjacent to opposite constant vertices. 
   
-  We may therefore define an assignment by declaring a literal $\ell_i$ to be TRUE precisely when $L_i\textsc{True}\in E_H$. Consider any clause $ C_j=\{\ell_{j_1},\ell_{j_2},\ell_{j_3}\}$. By construction, $C_j$ is adjacent in $G_\phi$ to both TRUE and FALSE. Since, apart from its own tail, $C_j$ is adjacent in $H$ only to $L_{j_1},L_{j_2},L_{j_3}$, these three literal vertices must include one adjacent to TRUE and one adjacent to FALSE. 
+  We may therefore define an assignment by declaring a literal $\ell_i$ to be TRUE only when $L_i\textsc{True}\in E_H$. Consider any clause $ C_j=\{\ell_{j_1},\ell_{j_2},\ell_{j_3}\}$. By construction, $C_j$ is adjacent in $G_\phi$ to both TRUE and FALSE. Since, apart from its own tail, $C_j$ is adjacent in $H$ only to $L_{j_1},L_{j_2},L_{j_3}$, these three literal vertices must include one adjacent to TRUE and one adjacent to FALSE. 
   
   Thus every clause contains at least one TRUE literal and at least one FALSE literal. Therefore the assignment is a not-all-equal satisfying assignment of $\phi$, and hence 
   \[ 
@@ -697,21 +694,31 @@ The following lemma, which is the central combinatorial tool for proving the cor
 \end{proof}
 
 
+
+\begin{theorem}[$\mathbf{NP}$-complete] \label{theorem::np_complete}
+  Problem~\eqref{prob::square_problem} is $\mathbf{NP}$-complete.
+\end{theorem}
+\begin{proof}
+  Theorem~\eqref{theorem::np} shows that Problem~\eqref{prob::square_problem} belongs to $\mathbf{NP}$. For $\mathbf{NP}$-hardness, consider the
+  polynomial reduction from $\mathrm{NAESAT}$ to SQUARE given in Proof~\eqref{proof::polynomial_reduction}. By Lemma~\eqref{lemma::np_complete_forward}, every \textbf{Yes}-instance
+  $\phi$ of $\mathrm{NAESAT}$ produces a graph $G_\phi$ with a graph root. Together with Lemma~\eqref{lemma::np_complete_backward}, this gives that $\mathrm{NAESAT}\leq_p\mathrm{SQUARE}$, so Problem~\eqref{prob::square_problem} is $\mathbf{NP}$-hard.
+
+  Since Problem~\eqref{prob::square_problem} belongs to $\mathbf{NP}$ and is $\mathbf{NP}$-hard, it is $\mathbf{NP}$-complete.
+\end{proof}
+
 \section{Polynomial Time Algorithm for Tree Roots} \label{sec::polynomial_time_algorithm}
 
 \citeauthor{ross_1960_square} give a necessary and sufficient characterization of graphs that are squares of trees, together with an algorithm for constructing the corresponding tree square root \cite{ross_1960_square}. The characterization is based on the maximal cliques of the square and the way in which these cliques intersect. We first establish the structural properties of the square of a tree that underlie the characterization, before describing the root finding algorithm.
 
 \begin{theorem}[Structural Characterization of Squares of Trees] \label{theorem::structural_characterization_trees}
-
-Let $G$ be a finite, simple, undirected graph. Then $G=T^2$ for some tree $T$ if and only if either $G$ is a complete graph, or the maximal cliques $C_1,\ldots,C_n$ of $G$ satisfy the following conditions:
-\begin{enumerate}[label=(\roman*)]
-  \item\label{characterization:1} $G$ is connected and the closed neighbourhood of every vertex of $T$ forms a clique in $G$.
-  \item\label{characterization:2} If two maximal cliques have exactly one common vertex $v$, then there is another maximal clique containing $v$ and one additional vertex from each of the two cliques.
-  \item\label{characterization:3} Each maximal clique $C_i$ can be associated with a unique multicliqual vertex $b_i$. The number of multicliqual vertices contained in $C_i$ is equal to the number of maximal cliques containing $b_i$.
-  \item\label{characterization:4} For any two maximal cliques $C_i$ and $C_j$, $|C_i\cap C_j|\leq 2$, that is their intersection contains at most two points 
-  \item\label{characterization:5} The number of pairs of maximal cliques whose intersection contains two vertices is $n-1$.
-\end{enumerate}
-
+  Let $G$ be a finite, simple, undirected graph. Then $G=T^2$ for some tree $T$ if and only if either $G$ is a complete graph, or the maximal cliques $C_1,\ldots,C_n$ of $G$ satisfy the following conditions:
+  \begin{enumerate}[label=(\roman*)]
+    \item\label{characterization:1} $G$ is connected and the closed neighbourhood of every vertex of $T$ forms a clique in $G$.
+    \item\label{characterization:2} If two maximal cliques have exactly one common vertex $v$, then there is another maximal clique containing $v$ and one additional vertex from each of the two cliques.
+    \item\label{characterization:3} Each maximal clique $C_i$ can be associated with a unique multicliqual vertex $b_i$. The number of multicliqual vertices contained in $C_i$ is equal to the number of maximal cliques containing $b_i$.
+    \item\label{characterization:4} For any two maximal cliques $C_i$ and $C_j$, $|C_i\cap C_j|\leq 2$, that is their intersection contains at most two points 
+    \item\label{characterization:5} The number of pairs of maximal cliques whose intersection contains two vertices is $n-1$.
+  \end{enumerate}
 \end{theorem}
 
 To establish this characterization, let $G$ be the square of a tree $T$ and first consider several properties.
@@ -1074,7 +1081,7 @@ Figure~\eqref{fig::linear_program_diagram} can be equivalently represented in th
   \hline
   3 & 3  & 0   & 1    & 0    \\
   4 & 6  & 0   & 5    & 0    \\
-  5 & 9 & 2   & 20   & 3    \\
+  5 & 9  & 2   & 20   & 3    \\
   6 & 15 & 13  & 107  & 21   \\
   7 & 25 & 52  & 767  & 200  \\
   8 & 47 & 360 & 9380 & 2659 \\
@@ -1087,18 +1094,20 @@ Figure~\eqref{fig::linear_program_diagram} can be equivalently represented in th
 
 \input{subfiles/LinearRelaxationSetGeometry.tex}
 
-In Figure~\ref{fig::ip_lp_set_geometric} solutions which are $LP$ feasible may be integral or fractional. The results in Table~\ref{tab::linear_program_outcomes} demonstrate both cases. When $H$ exists, an integral $LP$ solution corresponds to a feasible point in $\mathcal{F}*{IP}$, while a fractional $LP$ solution lies in $\mathcal{F}*{LP}\setminus\mathcal{F}_{IP}$. For $n=3$ and $n=4$, all instances for which $H$ exists have integral $LP$ solutions. From $n=5$ onwards, fractional solutions begin to occur, with their number increasing as $n$ increases.
+In Figure~\ref{fig::ip_lp_set_geometric} solutions which are $LP$ feasible may be integral or fractional. The results in Table~\ref{tab::linear_program_outcomes} demonstrate both cases. When $H$ exists, an integral $LP$ solution corresponds to a feasible point in $\mathcal{F}*{IP}$, while a fractional $LP$ solution lies in $\mathcal{F}*{LP} \setminus \mathcal{F}_{IP}$. For $n=3$ and $n=4$, all instances for which $H$ exists have integral $LP$ solutions. From $n=5$ onwards, fractional solutions begin to occur, with their number increasing as $n$ increases.
 
-When $H$ does not exist, two outcomes are observed. An $LP$-infeasible instance has no point in $\mathcal{F}*{LP}$, and therefore cannot contain a feasible integer solution. Alternatively, the $LP$ may remain feasible but return a fractional solution, placing the solution in $\mathcal{F}*{LP}\setminus\mathcal{F}*{IP}$. The number of such fractional solutions also increases with $n$. Thus, the results illustrate that $LP$ feasibility alone is insufficient to determine whether a square root exists: both integral and fractional solutions may occur within $\mathcal{F}*{LP}$.
+When $H$ does not exist, two outcomes are observed. An $LP$-infeasible instance has no point in $\mathcal{F}*{LP}$, and therefore cannot contain a feasible integer solution. Alternatively, the $LP$ may remain feasible but return a fractional solution, placing the solution in $\mathcal{F}*{LP} \setminus \mathcal{F}*{IP}$. The number of such fractional solutions also increases with $n$. 
 
-
-The linear relaxation potentially breaks equations in the integer program which are critical to the definition. 
+These results demonstrate that $LP$ feasibility alone is insufficient to establish the existence of a graph root, since $\mathcal{F}_{LP}$ may contain both integral and fractional solutions. Fractional solutions arise because the linear relaxation weakens the integrality restrictions of the integer program, allowing variables that are
+binary in the integer formulation to take values in the continuous interval $[0,1]$.
 
 Consider Equations~\eqref{eq::IP_product_upper_first}-\eqref{eq::IP_product_lower} which gives $y_{ikj} = x_{ik}x_{kj}$. When $x$ is binary, this construction of $y$ leads to $y$ being binary as well.  
 
 Consider Equation~\eqref{eq::IP_fund_matrix}, where $\displaystyle z_{ii} = \sum_{k = 1}^{n} y_{iki} - \sum_{k = 1}^{n} x_{ik} + x_{ii}$ can be simplified to $\displaystyle z_{ii} = \sum_{k = 1}^{n} x_{ik}^2 - \sum_{k = 1}^{n} x_{ik}$ and is equal to $0$ when $x$ is binary. In the linear relaxation this strict inequality no longer holds for fractional values of $x_{ik}$. However, when $x_{ik}$ is fractional $x_{ik}^2 \leq x_{ik}$ such that $\displaystyle z_{ii} = \sum_{k = 1}^{n} x_{ik}^2 - x_{ik} \leq 0$. As $z \in \mathbb{Z}_{\geq 0}$, this gives that $z_{ii} = 0$ as required - no additional modifications are required.
 
-Consider Equation~\eqref{eq::IP_indicator_arg}, where $\displaystyle z_{ij} = \sum_{k = 1}^{n} x_{ik}x_{kj} + x_{ij}$. When $z_{ij} = 0$, the equation follows the standard definition of graph squares such that $x_{ij} = 0 $ and for all intermediary $k$s at least one of $x_{ik},x_{kj}$ must be equal to $0$. However, when $z_{ij} \geq 1$, fractional solutions of $x_{ij}$ and $x_{ik}x_{kj}$ may satisfy the constraints without giving a valid integral path in the root. 
+Consider Equation~\eqref{eq::IP_indicator_arg}, where $\displaystyle z_{ij} = \sum_{k = 1}^{n} x_{ik}x_{kj} + x_{ij}$. When $z_{ij} = 0$, the equation follows the standard definition of graph squares such that $x_{ij} = 0 $ and for all intermediary $k$s at least one of $x_{ik},x_{kj}$ must be equal to $0$. However, when $z_{ij} \geq 1$, fractional solutions of $x_{ij}$ and $x_{ik}x_{kj}$ may satisfy the constraints without giving a valid integral path in the root. Thus, the linear relaxation may remain feasible even when no graph root exists.
+
+The following proposition establishes the complementary case - whenever a graph root exists, the linear relaxation will never return an infeasible solution. 
 
 \begin{proposition} \label{prop::linear_relaxation_feasibility}
   If $G$ has a square root $H$, then $\mathcal{LP}(G)$ is feasible. 
@@ -1139,13 +1148,14 @@ This relaxation however yields more fractional solutions, as illustrated in Tabl
   \label{tab::min_objective_function_outcomes}
 \end{table}
 
-\begin{lemma}[Fractional Cliques in $\min \mathcal{LP}(G)$]
-Let $C\cong K_n$ be a complete subgraph. The minimizing solution of  $\min \mathcal{LP}(G)$ assigns the same value to every edge of graph $G$, such that for $i \neq j$
-\[
-x_{ij}=\frac{1}{n-1}.
-\]
-In particular, $K_3$ gives $\displaystyle x_{ij}=\frac 12$, $K_4$ gives $\displaystyle x_{ij}=\frac 13$, and in general $K_n$ gives $\displaystyle x_{ij}= \frac{1}{n-1}$.
-\end{lemma}
+% Put example for fractional cliques
+
+\begin{proposition}[Fractional Cliques in $\min \mathcal{LP}(G)$]
+  Let $G$ be a graph with $n \geq 3$ and let $C \cong K_k$ be a maximal complete subgraph of $G$. Let $x$ be a feasible solution of $\min \mathcal{LP}(G)$. For every $i,j \in V_G$ with $ij \in E_G$
+  \[
+  x_{ij}=\frac{1}{k-1}.
+  \]
+\end{proposition}
 \begin{proof}
   Since $C\cong K_n$ is vertex-transitive, the feasible region and the objective function Equation~\eqref{eq::min_obj_function} are invariant under every permutation of the vertices of $G$. Hence, if $x$ is optimal, then averaging $x$ over all permutations of the vertex set $V$ produces another optimal solution $\bar x$ with
   \[
@@ -1221,9 +1231,9 @@ This choice of objective is also useful when identifying square root solutions b
     \label{fig::K3_example}
 \end{figure}
 
-
-
 \subsection{Fundamental Properties} \label{subsec::fundamental_properties}
+
+We now establish several fundamental properties of feasible solutions to $\mathcal{LP}(G)$ that follow directly from the formulation. These properties will be used throughout the subsequent analysis of the linear relaxation.
 
 \input{subfiles/FundamentalProperties.tex}
 
@@ -1358,9 +1368,9 @@ More generally, suppose $u$ has $k$ leaf children $s_1,\dots,s_k$, and that thes
   \]
 \end{proof}
 
-\subsection{Unicliqual Vertex Linear Program} \label{subsec::unicliqual_vertex_linear_program}
+\section{Unicliqual Vertex Linear Program} \label{sec::unicliqual_vertex_linear_program}
 
-Using, Lemma~\eqref{lemma::tree_pendant_pendant_fork}, the formulation done in Subsection~\ref{subsec::single_triangular_decomposition}--\ref{subsec::tetrahedron_decomposition} can be combined into one succinct linear program by first identifying a leaf-steam structure involving three vertices $s, u, v$.  If $s$ is a leaf, $u$ is its corresponding stem, and there exists $v\in N_G[u]\setminus\{u\}$ such that
+Using, Lemma~\eqref{lemma::tree_pendant_pendant_fork}, the formulation done in Subsection~\ref{subsec::single_triangular_decomposition}--\ref{subsec::tetrahedron_decomposition} can be combined into one succinct linear program by first identifying a leaf-steam structure involving three vertices $s, u, v$. If $s$ is a leaf, $u$ is its corresponding stem, and there exists $v\in N_G[u]\setminus\{u\}$ such that
 \[
 N_G[s]\subset N_G[u]\subseteq N_G[v],
 \]
@@ -1425,7 +1435,7 @@ Using adjacency matrices, we show that the modified linear program given by stil
 
 
 
-\input{subfiles/TwoPathProof.tex}
+\input{subfiles/PathProof.tex}
 
 \input{subfiles/TreeProof.tex}
 
