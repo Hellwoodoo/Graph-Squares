@@ -292,6 +292,17 @@ A connected graph with infinite girth is called a tree.
   A \textbf{tree} is a connected graph that contains no cycles.
 \end{definition}
 
+The vertices of a tree can be classified according to their degree. 
+
+\begin{definition}[Leaf] \label{def::leaf}
+  A \textbf{leaf} of a tree $T$ is a vertex of degree one.
+\end{definition}
+
+\begin{definition}[Stem] \label{def::stem}
+  A \textbf{stem} of a tree $T$ is the vertex adjacent to a leaf of
+  $T$.
+\end{definition}
+
 The length of a shortest path provides a natural measure of the distance between two vertices.
 
 \begin{definition}[Distance] \label{def::distance}
@@ -1377,10 +1388,8 @@ N_G[s]\subset N_G[u]\subseteq N_G[v],
 with all vertices in $N_G[s]\setminus\{u,v\}$ having the same closed
 neighbourhood as $s$, then impose the fixing
 \begin{equation} \label{eq::unicliqual_vertex_fix}
-  x_{su}=x_{us}=1.
+  x_{su}=x_{us}=x_{uv}=x_{vu}=1.
 \end{equation}
-The construction of the linear program on the arbitrary graph $G$ using $\max \mathcal{LP}(G)$  together with the additional constraint Equation~\eqref{eq::unicliqual_vertex_fix} is denoted as $\max \mathcal{UVLP}(G)$.  
-
 
 \begin{proposition}[Unicliqual Vertex Interchangeability] \label{prop::unicliqual_decomposition_equality}
   Let $s,u,v$ form a triangle in square $G$, where $s$ is unicliqual. If $N_G[u]=N_G[v]$ then $u$ and $v$ may be chosen arbitrarily as the corresponding vertex in the tree root $H$ without loss of generality.
@@ -1408,7 +1417,6 @@ It remains to verify that whenever a root $H$ of $G$ exists, the addition of the
   Hence the adjacency matrix of $H'$ is a feasible solution of $\mathcal{IP}(G)$ that satisfies Equation~\eqref{eq::unicliqual_vertex_fix}. Since every feasible solution of $\mathcal{IP}(G)$ is feasible for $\mathcal{LP}(G)$, this solution is also feasible for $\max\mathcal{UVLP}(G)$. Therefore, $\max\mathcal{UVLP}(G)$ is feasible whenever a root $H$ of $G$ exists.
 \end{proof}
 
-
 \begin{table}[!htbp]
   \centering
   \begin{tabular}{c|cc|cc}
@@ -1431,11 +1439,28 @@ It remains to verify that whenever a root $H$ of $G$ exists, the addition of the
 
 \section{Tree Proof}
 
-Using adjacency matrices, we show that the modified linear program given by still gives integral or fractional solutions for graphs with roots and gives fractional or infeasible solutions for graphs without roots but always return valid integral root solution if there exists a tree root.
+We first show that the unicliqual vertex linear program will always fix a pendant or pendant fork. 
 
+\begin{lemma} \label{lemma::unicliqual_vertex_fix}
+  Let $G$ and $T$ be graphs such that $G=T^2$ and $T$ is a tree. $\max\mathcal{UVLP}(G)$ always fixes an edge corresponding to a pendant or pendant fork subgraph of $T$.
+\end{lemma}
+\begin{proof}
+  By Lemma~\ref{lemma::tree_pendant_pendant_fork}, $T$ either contains pendant or a pendant fork subgraph. Let $s$ be a leaf of this subgraph and let $u$ be its stem. Since $s$ is a leaf of $T$, every vertex of  $N_G[s]$ is either $s$, $u$, the neighbours of $u$ in $T$, or a vertex at distance two from $s$ through $u$. Hence
+  \[
+  N_G[s] \subset N_G[u].
+  \]
+  Moreover, if $v$ is the neighbour of $u$ in $T$ that connects the pendant or pendant fork to the remainder of $T$, then every vertex adjacent to $u$ in $T$ is also within distance two of $v$ in $T$.
+  This gives 
+  \[
+  N_G[u] \subseteq N_G[v].
+  \]
+  In the pendant fork case, the other leaf $s'$ of the fork satisfies $N_G[s']=N_G[s]$, since both $s$ and $s'$ are leaves adjacent to the same vertex $u$. Thus the vertices in $N_G[s]\setminus\{u,v\}$ have the same closed neighbourhood as $s$.
 
-
-\input{subfiles/PathProof.tex}
+  Therefore the vertices $s,u,v$ satisfy the conditions for  Equation~\eqref{eq::unicliqual_vertex_fix}, which imposes
+  \[
+  x_{su}=x_{us}=x_{uv}=x_{vu}=1.
+  \]
+\end{proof}
 
 \input{subfiles/TreeProof.tex}
 

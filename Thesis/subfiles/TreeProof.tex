@@ -1,17 +1,66 @@
 % !TeX root = Thesis.tex
 
+\begin{lemma}[Propagation] \label{lemma::propagation}
+  Let $G$ and $T$ be graphs such that $G=T^2$ and $T$ is a tree. Let $s,u,v \in V_G$ be identified such that $s$ is a leaf, $u$ is its stem, and $v$ is the external vertex, with
+  \[
+  x_{su}=x_{us}=x_{uv}=x_{vu}=1.
+  \]
+  Then repeated application of path propagation assigns the integral edge assignments throughout $T$, recovering the tree root uniquely up to isomorphism.
+\end{lemma}
+
+\begin{proof}
+  Since $s$ is a leaf and $u$ is a stem of $T$, the path $s-u-v$ is contained in $T$. Let $A=\{a_1,\ldots,a_r\}$ denote the vertices adjacent to $v$ in $T$ other than $u$, and let $B=\{b_1,\ldots,b_s\}$ denote the vertices adjacent to a vertex in $A$ other than $v$. For each $a_i\in A$, the vertices $s,u,v,a_i$ form a $P_4$ in $T$. Since $x_{su}=1$, Lemma~\eqref{lemma::0_path_propagation} gives
+  \[
+  x_{ua_i}=0 \quad \text{ for all } a_i \in A.
+  \]
+  Without loss of generality consider $a_1\in A$. Since $ua_1\in E_G$, have $g_{ua_1}=1$, and hence Equation~\eqref{eq::IP_indicator_lower} gives $z_{ua_1}\geq1$. Since $x_{ua_1}=0$, Equation~\eqref{eq::IP_indicator_arg} gives
+  \[
+  1 \leq z_{ua_1} = x_{ua_1}+\sum_{k\in V_G}y_{uka_1} = \sum_{k\in V_G}y_{uka_1}.
+  \]
+  The terms corresponding to $k=s$ and $k=u$ are zero since $g_{sa_1}=g_{uu}=0$, and hence Lemma~\eqref{lemma::g_ab=0} gives $x_{sa_1}=x_{uu}=0$. Therefore, by Equations~\eqref{eq::IP_product_upper_first}--\eqref{eq::IP_product_lower},
+  \[
+  y_{usa_1}=y_{uua_1}=0.
+  \]
+  For every $m\in A$, we have $x_{um}=0$, and hence Equation~\eqref{eq::IP_product_upper_first} gives
+  \[
+  y_{uma_1}=0.
+  \]
+  Similarly, for every $n\in B$, we have $g_{un}=0$, and therefore Lemma~\eqref{lemma::g_ab=0} gives $x_{un}=0$. Thus Equation~\eqref{eq::IP_product_upper_first} gives
+  \[
+  y_{una_1}=0.
+  \]
+  Thus all terms in the sum are zero except possibly $y_{uva_1}$, giving
+  \[
+  1 \leq y_{uva_1}.
+  \]
+  Since $x_{uv}=1$, Equation~\eqref{eq::IP_product_upper_first} gives
+  $y_{uva_1}\leq x_{uv}=1$, while Equation~\eqref{eq::IP_product_upper_second} gives $y_{uva_1} \leq x_{va_1}$. Hence
+  $1 \leq y_{uva_1} \leq x_{va_1} \leq 1$, and therefore
+  \[
+  x_{va_1}=1.
+  \]
+  This process can be repeated for each $a_i\in A$, giving $x_{va_i}=1$ for all $i\in\{1,\ldots,r\}$. Thus the edges $uv, va_1,\ldots,va_r$ are identified in the root, with $u$ acting as a leaf, $v$ as its stem, and each $a_i$ as the next vertex along the tree.
+  
+  For each $a_i$, the same argument can then be applied to the vertices adjacent to $a_i$ that have not yet been identified. In particular, by the definition of a tree any vertex $b_j$ adjacent
+  to $a_i$ that lies outside the vertices already identified, extends the current path without creating a cycle. Therefore, path propagation applied to
+  \[
+  u-v-a_i-b_j
+  \]
+  identifies the edge $a_i b_j$. Hence, once an edge of $T$ has been identified, propagation can be continued from its newly identified endpoint to identify all previously unassigned edges incident with that vertex.
+
+  Since $T$ is finite, this process terminates after finitely many applications, at which point every edge of $T$ has been assigned an integral value. The resulting integral solution therefore corresponds to the tree root $T$. Any choices made during propagation only interchange vertices with identical roles in the square, and hence produce isomorphic tree roots. Thus the propagation process recovers the tree root uniquely up to isomorphism.
+\end{proof}
 
 \begin{theorem} \label{theorem::unicliqual_vertex}
-  If a square graph $G$ has a tree root $T$, $\max \mathcal{UVLP}(G)$ returns an integral solution. 
+  Let $G$ and $T$ be graphs such that $G=T^2$ and $T$ is a tree. $\max \mathcal{UVLP}(G)$ returns an integral solution. 
 \end{theorem} 
-\begin{proof} 
-    Assume for contradiction that there exists a square graph $G$ with a tree root $H$ such that the linear program has an optimal, maximal solution $x^*$ that is fractional. Then there exists at least one edge $ij \in E_G$ such that $0 < x^*_{ij} < 1 $. Consider the root solution $x^*$ and the following cases. 
+\begin{proof}
+  Suppose that $G=T^2$ for some tree $T$. By
+  Lemma~\ref{lemma::unicliqual_vertex_fix}, the unicliqual vertex fixing identifies a leaf $s$, its stem $u$, and a vertex $v$ connecting the corresponding pendant or pendant fork to the remainder of $T$. Equation~\eqref{eq::unicliqual_vertex_fix} therefore imposes
+  \[
+  x_{su}=x_{us}=x_{uv}=x_{vu}=1.
+  \]
+  Thus the initial assignments required by Lemma~\ref{lemma::propagation} are satisfied and repeated application of path propagation therefore assigns the remaining edges of $T$ integrally and produces an integral feasible solution corresponding to a tree root of $G$.
 
-    Let $i$ be a leaf, $j$ be its neighbour with degree $2$ and let $k \neq i$ be the other neighbour of $j$. Let $ij$ be the fractional edge along the path $i - j - k$ which meets the rest of the graph only at $k$. In $G$, $ijk$ form a clique in $G$ which by construction is also the only triangle that $i$ can be in. As the linear program applies Equation~\eqref{eq::single_triangle_fix}, $ij$ pendant edge will be fixed and hence cannot be integral, hence this case cannot occur. 
-
-    Let $i$ be a leaf, $j$ be its neighbour with degree $\geq 2$ and let $k \neq i$ be another leaf of $j$. Let $j$ meet the rest of the graph. Then $ijk$ form a clique and solution $x^*$ can be extended by simply adding an additional edge $ik$ to form a root of larger size. This contradicts the maximality of $x^*$. 
-
-    The remaining case is where both $i$ and $j$ are internal vertices. Denote the subgraph of $x^*$ from $i$ as $H_i$ and the subgraph from $j$ as $H_j$. Since $x^*$ must be a tree, there are no cycles in $H$ and hence $H_i$ and $H_j$ are disjoint with only one fractional bridge $ij$ connecting them. Consider $H_i, H_j$ and recursively apply the above logic such that we are eventually left with at least two subgraphs $H_0, H_1$ that do not have fractional bridges and are comprised completely of pendant vertices and leafs. From above two cases, all edges in the roots of $H_0, H_1$ are integral, and since the situation where a vertex has multiple leaves can not occur (there must be pendant 2-leaves together with leaves else would have above case), this completely categorizes the position of the node which connects to the rest of the graph such that there are no other automorisphsm which form the same square. As this holds for both $H_0$ and $H_1$, the endpoints of the bridge between them can be completely identified such that their bridge will be made integral. Applying this inductively thus means that $H_i$ and $H_j$ are completely integral such that $i$ and $j$ are identified and $ij$ is made integral. This contradicts the fractional nature of $x^*_{ij}$. 
-
-    Since no fractional, solution exists, the optimal, maximal output of the linear program must be completely integral if it results in a tree root. 
+  Thus, whenever $G$ has a tree root, $\max\mathcal{UVLP}(G)$ admits an integral solution.
 \end{proof}
