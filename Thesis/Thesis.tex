@@ -44,11 +44,11 @@ style=alphabetic]{biblatex}
 \maketitle
 
 \begin{abstract}
-The square of a graph is obtained by joining every pair of vertices whose distance is at most two. Given a graph $G$, the graph square root problem asks whether there exists a graph $H$ such that $G=H^2$. Whilst this problem admits polynomial-time algorithms for restricted classes of root graphs, the general decision problem is $NP$-complete.
+  The square of a graph is obtained by joining every pair of vertices whose distance is at most two. Given a graph $G$, the graph square root problem asks whether there exists a graph $H$ such that $G=H^2$. Whilst this problem admits polynomial-time algorithms for restricted classes of root graphs, the general decision problem is $\mathbf{NP}$-complete.
 
-In this thesis, rather than studying the construction problem directly and using reduction techniques to ascertain polynomial-time algorithms, we formulate the problem as an integer program based on the relationship between the adjacency matrices of a root $H$ and its square $G$. By constructing the corresponding linear relaxation, the problem can then be situated within polynomial time through the use of interior-point methods.
+  In this thesis, rather than studying the construction problem directly and using reduction techniques to ascertain polynomial-time algorithms, we formulate the problem as an integer program based on the relationship between the adjacency matrices of a root $H$ and its square $G$. By constructing the corresponding linear relaxation, the problem can then be situated within polynomial time through the use of interior-point methods.
 
-The seminal result for the problem is the work by \citeauthor{ross_1960_square}, who approached the problem by restricting the root graphs to trees. By analyzing the number of cliques which each vertex in the graph square is situated in, they gave a polynomial-time algorithm for finding the unique tree root up to isomorphism. In contrast, our formulation provides an optimization-based approach that can be iteratively strengthened through the addition of further constraints. These constraints refine the linear relaxation, enabling tree roots to be represented by integral solutions to the linear program, while graphs with no possible roots are identified through fractional or infeasible solutions. Rather than relying on heuristic such as rounding, our approach exploits structural properties of the graph square and its root to obtain an exact solution. 
+  The seminal result for the problem is the work by \citeauthor{ross_1960_square}, who approached the problem by restricting the root graphs to trees. By analyzing the number of cliques which each vertex in the graph square is situated in, they gave an algorithm for finding the unique tree root up to isomorphism. In contrast, our formulation provides an optimization-based approach that can be iteratively strengthened through the addition of further constraints. These constraints refine the linear relaxation, enabling tree roots to be represented by integral solutions to the linear program, while graphs with no possible roots are identified through fractional or infeasible solutions. Rather than relying on heuristic such as rounding, our approach exploits structural properties of the graph square and its root to obtain an exact solution. 
 \end{abstract}
 
 \tableofcontents
@@ -101,20 +101,20 @@ Using these properties, they constructed an explicit algorithm that recovers the
 
 Since then, the problem of finding the square root of a graph has extended beyond sociology and is a well-studied field in both mathematics and computer-science, with direct applications in distributed computing (e.g., see \cite{peres_2023_distributed}), network design and computational biology (e.g., see \cite{zhou_2025_biology}). This is in part because many structural properties of graph roots are first established in the square case before being extended to the more general $k$-th power setting (e.g., see \cite{harary_1962_planarity}). 
 
-Research in this area has primarily focused around an undirected graph $H$ and its square $G = H^2$ which is obtained by adding an edge between every pair of vertices whose distance in $H$ is at most two. This two-step undirected graph square has been studied extensively with much of the focus being on the complexity of the decision problem - given a specific graph square $G$ does there exist a root graph $H$ such that $H^2=G$. \citeauthor{motwani_sudan_1994_roots} showed that deciding if a graph admits a root is $NP$-complete. Subsequent studies in the area have restricted the decision problem in two ways, either by considering various properties on the root graph or by considering properties on the graph square. 
+Research in this area has primarily focused around an undirected graph $H$ and its square $G = H^2$ which is obtained by adding an edge between every pair of vertices whose distance in $H$ is at most two. This two-step undirected graph square has been studied extensively with much of the focus being on the complexity of the decision problem - given a specific graph square $G$ does there exist a root graph $H$ such that $H^2=G$. \citeauthor{motwani_sudan_1994_roots} showed that deciding if a graph admits a root is $\mathbf{NP}$-complete. Subsequent studies in the area have restricted the decision problem in two ways, either by considering various properties on the root graph or by considering properties on the graph square. 
 
 
 \section{Literature} \label{sec::literature}
 
-Focusing first on special undirected graph classes, the aforementioned work by \citeauthor{ross_1960_square} in 1960 gives an algorithm for constructing a tree root by using characterizations of the graph square. As part of this work they proved tree square roots are unique up to isomorphism. This was the first major contribution to the study of graph roots and provided fundamental structural characteristics of graph squares, laying the groundwork for later research on graph root problems and their applications. 
+Focusing first on special undirected graph classes, the aforementioned work by \citeauthor{ross_1960_square} in 1960 gives an algorithm for constructing a tree root by using characterizations of the graph square. As part of this work they proved tree square roots are unique up to isomorphism. This was the first major contribution to the study of graph roots and provided fundamental structural characteristics of graph squares, laying the groundwork for later research on graph root problems and their applications. Building upon these insights, \citeauthor{lin_1995_square_roots} bypassed the exponential bottleneck of general maximal clique enumeration present in Ross and Harary's approach, by developing an optimal $\mathcal{O}(\vert{}V\vert{} + \vert{}E\vert{})$ linear time algorithm to recognize tree squares and reconstruct their unique tree roots\cite{lin_1995_square_roots}.
 
 \citeauthor{fleischner_1974_square} in 1974 showed that as long as a graph is 2-connected its graph square will have a Hamiltonian cycle. This established a broad condition guaranteeing Hamiltonicity in graph squares which is used in many subsequent works such as \cite{brandt_muttel_rautenbach_2014}. 
 
-\citeauthor{lau_corneil_2004_chordal_root} in 2004 provided an algorithm for constructing square roots from an interval square in polynomial time, and showed that the decision problem for finding roots of chordal graphs, roots of split graphs, and chordal roots of graphs are $NP$-complete \cite{lau_corneil_2004_chordal_root}. Furthermore, Lau gave a linear-time algorithm for constructing square roots of bipartite graphs, and proved that deciding whether a bipartite graph has a cube root is $NP$-complete \cite{lau_2006_bipartite_roots}. \citeauthor{le_tuy_2007_block_square} in 2007 generalized tree-root results further by giving a linear time recognition of roots of block graphs \cite{le_tuy_2007_block_square}. 
+\citeauthor{lau_corneil_2004_chordal_root} in 2004 provided an algorithm for constructing square roots from an interval square in polynomial time, and showed that the decision problem for finding roots of chordal graphs, roots of split graphs, and chordal roots of graphs are $\mathbf{NP}$-complete \cite{lau_corneil_2004_chordal_root}. Furthermore, Lau gave a linear-time algorithm for constructing square roots of bipartite graphs, and proved that deciding whether a bipartite graph has a cube root is $\mathbf{NP}$-complete \cite{lau_2006_bipartite_roots}. \citeauthor{le_tuy_2007_block_square} in 2007 generalized tree-root results further by giving a linear time recognition of roots of block graphs \cite{le_tuy_2007_block_square}. 
 
 Generalizing the notion of graph squares, in 1967 \citeauthor{mukhopadhyay_1967_root} provided necessary and sufficient conditions for a connected graph to have a square root \cite{mukhopadhyay_1967_root}, whilst \citeauthor{geller_1970_root} in 1970 likewise found necessary and sufficient conditions for a digraph to have a square root \cite{geller_1970_root}. 
 
-In 1994 \citeauthor{motwani_sudan_1994_roots} established the complexity of the square problem for the generalized undirected case and showed that the problem of determining if a given graph has a square root is a $NP$-complete problem via a polynomial reduction to $3$-CNF not-all-equal SAT \cite{motwani_sudan_1994_roots}.
+In 1994 \citeauthor{motwani_sudan_1994_roots} established the complexity of the square problem for the generalized undirected case and showed that the problem of determining if a given graph has a square root is an $\mathbf{NP}$-complete problem via a polynomial reduction to $3$-CNF not-all-equal SAT \cite{motwani_sudan_1994_roots}.
 
 Their work led to joint work by Farzad, Le, Tuy, Lau and Karimi in 2009 and 2012, in which they established a partial dichotomy theorem for the complexity of determining if a given undirected graph of girth $g$ has a square root \cite{farzad_2009_roots} which was informally completed under \cite{farzad_karimi_2012_root}. In 2013, \citeauthor{cochefert_et_al_2013_sparse_square_roots} gave an algorithm for constructing a square root with minimal number of edges from undirected graphs with max degree $\leq 6$ in polynomial time and an algorithm for constructing maximal edge square roots in exponential time \cite{cochefert_et_al_2013_sparse_square_roots}. 
 
@@ -124,7 +124,7 @@ In recent years, Duffy provided a full classification for the undirected square 
 
 In addition to providing a general overview of the research direction in this section we first standardise the definitions that will be used for the rest of this thesis. We then introduce fundamental theory on the three areas of: complexity theory, graph theory and mathematical optimization that are used in the various algorithmic approaches to the decision problem. 
 
-The first construction we examine is the reduction used by \citeauthor{motwani_sudan_1994_roots} in showing that the decision problem determining whether a given graph $G$ admits a square root is $NP$-complete \cite{motwani_sudan_1994_roots}. Next, we introduce the polynomial time algorithm given by \citeauthor{ross_1960_square} for constructing a tree root from a given square in detail. Finally, we formulate the problem as an integer program. 
+The first construction we examine is the reduction used by \citeauthor{motwani_sudan_1994_roots} in showing that the decision problem determining whether a given graph $G$ admits a square root is $\mathbf{NP}$-complete \cite{motwani_sudan_1994_roots}. Next, we introduce the polynomial time algorithm given by \citeauthor{ross_1960_square} for constructing a tree root from a given square in detail. Finally, we formulate the problem as an integer program. 
 
 In Chapter $3$ we present the ideas of linear relaxation and discuss the results of each program and their validity. To obtain these results, we conducted an exhaustive enumeration on all non-isomorphic connected graphs up to $n=8$ vertices. For each such graph, we formulated the corresponding linear program and solved it using a standard LP solver using interior point method. The outcomes of these computations are categorized as integral, fractional, or infeasible and are analyzed. 
 
@@ -717,7 +717,7 @@ We now establish the two directions required for the validity of the reduction.
   Since Problem~\eqref{prob::square_problem} belongs to $\mathbf{NP}$ and is $\mathbf{NP}$-hard, it is $\mathbf{NP}$-complete.
 \end{proof}
 
-\section{Polynomial Time Algorithm for Tree Roots} \label{sec::polynomial_time_algorithm}
+\section{Algorithm for Tree Roots} \label{sec::time_algorithm}
 
 \citeauthor{ross_1960_square} give a necessary and sufficient characterization of graphs that are squares of trees, together with an algorithm for constructing the corresponding tree square root \cite{ross_1960_square}. The characterization is based on the maximal cliques of the square and the way in which these cliques intersect. We first establish the structural properties of the square of a tree that underlie the characterization, before describing the root finding algorithm.
 
@@ -832,7 +832,7 @@ The proof of Theorem~\eqref{theorem::structural_characterization_trees} gives th
 \hyperref[characterization:3]{characterization (iii)} 
 \State Construct a graph $T$ with vertex set $\{b_1, \dots, b_n\}$
 \For{each pair $(C_i, C_j)$ satisfying $|C_i \cap C_j| = 2$  }
-    \State Add edge between $b_i$ and $b_j$ in $S$
+    \State Add edge between $b_i$ and $b_j$ in $T$
 \EndFor
 \State By \hyperref[characterization:5]{characterization (v)}, $T$ is a tree
 
@@ -853,6 +853,10 @@ The proof of Theorem~\eqref{theorem::structural_characterization_trees} gives th
 \begin{proof}
   If $G$ is complete, Step 1 returns a star. By Lemma~\ref{lemma::1}, this is a tree square root of $G$. Otherwise, Lemma~\ref{lemma::3} shows that each maximal clique corresponds to a non-leaf vertex of the root. Thus the vertices $b_1,\ldots,b_n$ identified in Step 3 determine the internal vertices of $T$. By Lemma~\ref{lemma::5}, two of these internal vertices are adjacent precisely when their corresponding maximal cliques have an intersection of size two. Therefore Step 3 recovers all edges between the internal vertices. The remaining vertices belong to exactly one maximal clique and, by Lemma~\ref{lemma::4}, correspond to leaves. Step 4 therefore places each of these vertices at its unique position in the tree. Hence the algorithm reconstructs a tree $T$ satisfying $T^2=G$. Since the internal vertices, their adjacencies, and the attachment of every leaf are all determined by the maximal cliques of $G$, the resulting tree is unique up to isomorphism.
 \end{proof}
+
+While Algorithm~\ref{algo::ross_harary_tree} formalizes the original $1960$ constructive proof by \citeauthor{ross_1960_square}, it predates the formalization of computational complexity classes $\mathcal{P}$ vs. $\mathcal{NP}$ established in the early $1970$s. From a modern perspective, Ross and Harary's strategy relies on global maximal clique enumeration to group vertices into local star subgraphs. If implemented using general-purpose clique algorithms such as Bron--Kerbosch, this approach suffers from exponential worst-case execution time.
+
+In contrast, \citeauthor{lin_1995_square_roots} bypass clique enumeration entirely by shifting to a local, bottom-up leaf-trimming strategy to give a polynomial algorithm \cite{lin_1995_square_roots}. Rather than searching for global subgraphs, they identify leaves of $T$ directly as simplicial vertices with minimal degree, partition their closed neighborhoods into leaf and non-leaf sets, and use the structural properties of these local neighborhoods to reconstruct parent-child adjacencies directly. By repeatedly trimming identified leaves, they reduce the problem to smaller tree squares until the tree structure is fully recovered.
 
 \section{Mathematical Optimization Approach} \label{sec::mathematical_optimization_approach}
 
@@ -1040,7 +1044,7 @@ The constraints in Equations~\eqref{eq::IP_symmetry_x}--\eqref{eq::IP_diagonal_x
 The correctness of the integer program is elucidated by Table~\eqref{tab::integer_program_outcomes}. The total number of simple graphs on $n=2,3,4,\dots$ unlabeled nodes is the sequence $2,4,11,34,156,1044,12346,\dots$ given by \href{https://oeis.org/A000088}{\texttt{A000088}}. The number of graphs which are squares is the sequence
 $2,3,6,11,28,77,307,\dots$ given by \href{https://oeis.org/A382181}{\texttt{A382181}}.
 
-\chapter{Square of A Tree using Linear Programming} \label{chap::square_of_a_tree_LP}
+\chapter{Square of a Tree using Linear Programming} \label{chap::square_of_a_tree_LP}
 
 \section{Linear Program Relaxation} \label{sec::linear_program_relaxation}
 
@@ -1219,26 +1223,28 @@ This choice of objective is also useful when identifying square root solutions b
 
 \begin{figure}[ht]
     \centering
-    \begin{subfigure}{0.38\textwidth}
+    \begin{subfigure}{0.28\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/K3.png}
         \caption{$K_3$.}
         \label{fig::K3}
     \end{subfigure}
     \hfill
-    \begin{subfigure}{0.42\textwidth}
+    \begin{subfigure}{0.28\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/K3_root_1.png}
-        \caption{$K_3$ is a root of itself.}
+        \caption{$K_3$.}
         \label{fig::K3_root_1}
     \end{subfigure}
-    \begin{subfigure}{0.42\textwidth}
+    \hfill
+    \begin{subfigure}{0.28\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/K3_root_2.png}
-        \caption{Path, which is one of the three isomorphic graphs }
-        \label{fig::K3_root_1}
+        \caption{A path root of $K_3$.}
+        \label{fig::K3_root_2}
     \end{subfigure}
-    \caption{The star graph $K_{1,4}$ and its square $K_5$, which is a complete graph since every vertex in the root .}
+
+    \caption{The graph $K_3$ and two of its square roots.}
     \label{fig::K3_example}
 \end{figure}
 
@@ -1442,7 +1448,7 @@ It remains to verify that whenever a root $H$ of $G$ exists, the addition of the
 We first show that the unicliqual vertex linear program will always fix a pendant or pendant fork. 
 
 \begin{lemma} \label{lemma::unicliqual_vertex_fix}
-  Let $G$ and $T$ be graphs such that $G=T^2$ and $T$ is a tree. $\max\mathcal{UVLP}(G)$ always fixes an edge corresponding to a pendant or pendant fork subgraph of $T$.
+  Let $G$ and $T$ be graphs such that $G=T^2$ and $T$ is a tree. $\max\mathcal{UVLP}(G)$ always a pendant or pendant fork subgraph of $T$.
 \end{lemma}
 \begin{proof}
   By Lemma~\ref{lemma::tree_pendant_pendant_fork}, $T$ either contains pendant or a pendant fork subgraph. Let $s$ be a leaf of this subgraph and let $u$ be its stem. Since $s$ is a leaf of $T$, every vertex of  $N_G[s]$ is either $s$, $u$, the neighbours of $u$ in $T$, or a vertex at distance two from $s$ through $u$. Hence
@@ -1464,6 +1470,78 @@ We first show that the unicliqual vertex linear program will always fix a pendan
 
 \input{subfiles/TreeProof.tex}
 
+\chapter{Square of a Bipartite Graph using Linear Programming}
+
+Every tree is a bipartite graph. 
+Let $G$ and $B$ be graphs such that $G=B^2$ and $B$ is bipartite but not a tree. Thus, $B$ contains an even cycle.
+
+\begin{conjecture}
+
+  Let $G$ and $B$ be graphs such that $G=B^2$. 
+
+  If $B$ is an even cycle of size $4$, then every vertex of $G$ is unicliqual. If $B$ is an even cycle of size $6$ or greater, then no vertex of $G$ is unicliqual.
+
+  If $B$ contains an even cycle as a subgraph, then there exist vertices $v\in V(B)$ that are unicliqual in $G$. If the even cycle has size $4$, then a unicliqual vertex can be cyclic only when it is opposite a vertex attached to the cycle. If the even cycle has size $6$ or greater, then every unicliqual vertex is non-cyclic.
+
+  Define a sequence of vertex sets by $V_0=V(G)$ and, for each $i\geq 1$,
+  \[
+  U_i=\{v\in V_{i-1}:v\text{ is unicliqual in }G[V_{i-1}]\}, \quad V_i=V_{i-1}\setminus U_i.
+  \]
+  The vertices in $U_i$ are removed simultaneously to form the $i$th deletion layer. The process terminates either when $V_i=\varnothing$ or when every vertex of $V_i$ is unicliqual. In the latter case, the remaining vertices form the cyclic set.
+
+  For each $v\in U_i$, let $N_i(v)=N_G(v)\cap V_{i-1}$ denote its neighbourhood at the time of removal, and let $N_i^+(v)=N_G(v)\cap V_i$ denote its neighbourhood after the vertices of the current deletion layer have been removed. The latter is the non-unicliqual neighbourhood used for reconstruction.
+
+  The vertices are reconstructed in reverse order of the deletion layers. A unicliqual vertex $v$ is attached to a vertex of its non-unicliqual neighbourhood, and the remaining two vertices in that neighbourhood determine the two neighbouring positions of $v$ in the root. An attachment may be chosen arbitrarily provided that it is consistent with all previously fixed attachments and orderings.
+\end{conjecture}
+
+\begin{conjecture}
+  Let $G$ be a graph with square root $B$, and repeatedly remove all unicliqual vertices, recording the removed vertices in layers. Let $C$ denote the remaining cyclic core, consisting entirely of multicliqual vertices. Then the following hold.
+
+  \begin{enumerate}[label=\roman*)]
+    \item The graph $G[C]$ is either the square of a cycle or the square of an amalgamation of cycles.
+
+    \item In $G[C]$, a vertex belonging to a single cycle has degree $3$ if and only if is in a cycle with length $4$, and degree $4$ if and only if it is in a cycle with length $5$ or greater.
+
+    \item Consequently, vertices of $G[C]$ whose degree exceeds the corresponding degree of a vertex in a single cycle identify the vertices involved in an amalgamation: such a vertex either belongs to two or more cycle pieces, or is adjacent to a vertex belonging to two or more cycle pieces.
+
+    \item The degree pattern of $G[C]$, together with the adjacencies between vertices of the same degree class, determines the possible amalgamation structure. A candidate cyclic root $B_C$ can then be constructed and verified by checking
+    \[
+    B_C^2=G[C].
+    \]
+
+    \item Once a cyclic root $B_C$ has been determined, the unicliqual vertices can be added back layer by layer. The vertices in each layer may be processed in arbitrary order, but their attachments to $B_C$ determine an orientation of the relevant cycle piece. Every subsequent layer must be consistent with the orientations fixed by the previously reconstructed layers.
+
+    \item Hence, after the cyclic core and the final deletion layer have been reconstructed consistently, the attachments of all earlier unicliqual layers are forced.
+  \end{enumerate}
+\end{conjecture}
+
+The degree pattern of the cyclic core can distinguish several possible cycle structures. For example, suppose $|V(C)|=6$. Then the following structures give the indicated degree sequences in $G[C]$:
+\begin{enumerate}[label=\roman*)]
+  \item If $B_C=C_6$, then
+  \[
+  \deg_{G[C]}(v)=4 \quad \text{for every }v\in V(C),
+  \]
+  and hence
+  \[
+  \bigl(\deg_{G[C]}(v)\in V(C)\bigr) =(4,4,4,4,4,4).
+  \]
+  \item If $B_C$ is the amalgamation of two $5$-cycles sharing four vertices, then every vertex belongs to at least one of the two cycle pieces and
+  \[
+    \deg_{G[C]}(v)=5 \quad \text{for every }v\in V(C),
+  \]
+  giving
+  \[
+  \bigl(\deg_{G[C]}(v):v\in V(C)\bigr) =(5,5,5,5,5,5).
+  \]
+  \item If $B_C$ is the amalgamation of two $4$-cycles sharing an edge $uv$, then the shared vertices $u$ and $v$ have degree $5$ in $G[C]$, while the remaining four vertices have degree $4$. Thus
+  \[
+  \deg_{G[C]}(u)=\deg_{G[C]}(v)=5, quad \deg_{G[C]}(w)=4 \quad \text{ for }w\in V(C)\setminus\{u,v\},
+  \]
+  and therefore
+  \[
+  \bigl(\deg_{G[C]}(v):v\in V(C)\bigr)=(5,5,4,4,4,4).
+  \]
+\end{enumerate}
 
 
 
@@ -1477,7 +1555,7 @@ Prior methods for solving specific roots have been done by augmenting the linear
 
 \section{Vertex Deletion} \label{sec::vertex_deletion}
 
-\subsection{Formulation} \label{sec::vertex_deletion_formulation}
+\subsection{Formulation} \label{subsec::vertex_deletion_formulation}
 
 Let $G^-$ be the subgraph of $G$ defined by $\displaystyle (V^- = V - {v}, E_{G^-} = E_G \backslash {uv \mid u \in V^-})$. If $G^-$ has a valid square root, denote it by $H^-$. Let $H$ be a square root of $G$ satisfying $H^2=G$, and let $H_-$ be the subgraph of $H$ obtained by deleting $v$, defined by $\displaystyle (V^-, E_H \backslash {uv \mid u \in V^-})$. 
 
@@ -1574,62 +1652,6 @@ Consider this graph square on $6$ vertices with only one unique root
 Assigning $a = x_{03}$ gives using Lemma~\eqref{lemma::two_edges_linear_maximization} that $x_{31} = 1 - a$ since $01$ does not exist in $G$, and likewise with $12$ does not exist in $G$ have $x_{32} = a$. However with the absence of $02$, must have $x_{03} + x_{32} \leq 1$ such that $\displaystyle a \leq \frac{1}{2}$. By symmetry  this likewise holds for $b = x_{05} = x_{15}$, $1-b = x_{52}$ and $c = x_{42} = x_{41}$, $1-c = x_{40}$ giving $\displaystyle b, c \leq \frac{1}{2}$. 
 
 In this case, rather than maximizing the objective function and giving a fractional solution, setting $a=b=c=0$ gives a valid integral solution. 
-
-\section{Vertex Deletion} \label{sec::vertex_deletion}
-
-As single triangular decomposition gives perfect characterizations of the root using the linear program
-for up to $n=5$, a further refinement is obtained by analyzing fractional solutions through vertex deletion
-and by considering the subgraphs after this process. 
-
-Let $G^-$ be the subgraph of $G$ defined by $\displaystyle (V^- = V - \{v\}, E_{G^-} = E_G \backslash \{uv \mid u \in V^-\})$ 
-and if it has a valid square root denote it by $H^-$. 
-Let $H_-$ be the subgraph of the root graph $H$ satisfying the relationship $H^2 = G$ defined by $(V^-, 
-E_H \backslash \{uv \mid u \in V^-\})$. The idea is that if $G^-$ has a valid square root, can construct 
-$H_-$ from $H^-$ by considering the following scenarios for vertex $v$
-\begin{enumerate}[label=\roman*)]
-  \item $v$ is connected to the subgraph $V^-$ by only one edge to $u \in V^-$
-  \item $v$ is connected to the subgraph $V^-$ by two edges to $u, w \in V^-$ where 
-  $uw \in E_{H_-}$
-  \item $v$ is connected to the subgraph $G'$ by two edges to vertices $u, w \in G'$ where 
-  $uw \notin E_H$ and there is no $P_2$ between $u,w$ in $G'$. 
-  \item $v$ is connected to the subgraph $G'$ by two edges to vertices $u, w \in G'$ where 
-  $uw \notin E_H$ and there is a $P_2$ between $u,w$ in $G'$. 
-\end{enumerate}
-where the remaining possibilities have the above sub-cases. 
-\begin{enumerate}[label=\roman*)]
-  \item If $G^-$ has a valid square root $H'$, then $H = H' + \{v\}$ where $E_H = E_H' \cup vu$. 
-  \item If $G'$ has a valid square root $H'$, then $H = H' + \{v\}$ where $E_H = E_H' \cup vu$ or
-  $E_H = E_H' \cup vw$ ($E_H = E_H' \cup vu, vw$ also satisfies but is not necessary) 
-  \item 
-\end{enumerate}
-
-If the solution of the original linear program is fractional, starting from the vertex $v \in V$ with the smallest 
-degree, the linear program is ran on the induced subgraph $G' = V - \{v\}$. If the resulting solution is integral, then the 
-fractional behaviour of $G$ is localized at $v$ and the algorithm attempts to lift the integral structure of 
-$G'$ back to $G$ by enforcing that $v$ is attached to one of its neighbours. For each 
-$u \in N_G(v)$, the constraint
-\begin{equation}
-x_{vu} = 1, \quad x_{uv} = 1,
-\label{eq:recursive_attachment}
-\end{equation}
-is added. If the resulting solution is integral, then $v$ is identified as a leaf vertex adjacent 
-to $u$ in the square root, and the solution is accepted.
-
-
-If no such $u$ yields an integral solution, the process is repeated over all vertices. This technique runs in polynomial 
-time, as it performs at most $n$ vertex-deletion checks and, for each such vertex $v$, at most $\deg_G(v) \leq n-1$ constrained 
-linear program solves. Since each linear program has $O(n^2)$ variables and constraints and can be solved in polynomial 
-time $T_{\mathrm{LP}}(n)$, the overall procedure requires at most $O(n^2 \cdot T_{\mathrm{LP}}(n))$ time, 
-and hence remains polynomial in $n$.
-
-\begin{proposition}
-  Vertex deletion completely categorizes all proper interval roots in polynomial time. 
-\end{proposition}
-\begin{proof}
-  % If removing a vertex from the square means that if the subgraph of size $n-1$ does not have a root then vertex had two edges and no loop between problematic 
-  % $i,j$
-\end{proof}
-
 
 \section{Duality} \label{sec::duality}
 
