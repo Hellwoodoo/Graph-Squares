@@ -79,7 +79,7 @@ such that higher steps can be easily generated. In this manner, higher powers of
         \label{fig::K5_11_root}
     \end{subfigure}
     \hfill
-    \begin{subfigure}{0.42\textwidth}
+    \begin{subfigure}{0.38\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/K5.png}
         \caption{$K_5$.}
@@ -1107,7 +1107,7 @@ Figure~\eqref{fig::linear_program_diagram} can be equivalently represented in th
 \end{table}
 
 
-\input{subfiles/LinearRelaxationSetGeometry.tex}
+\input{subfiles/LinearRelaxationSet.tex}
 
 In Figure~\ref{fig::ip_lp_set_geometric} solutions which are $LP$ feasible may be integral or fractional. The results in Table~\ref{tab::linear_program_outcomes} demonstrate both cases. When $H$ exists, an integral $LP$ solution corresponds to a feasible point in $\mathcal{F}*{IP}$, while a fractional $LP$ solution lies in $\mathcal{F}*{LP} \setminus \mathcal{F}_{IP}$. For $n=3$ and $n=4$, all instances for which $H$ exists have integral $LP$ solutions. From $n=5$ onwards, fractional solutions begin to occur, with their number increasing as $n$ increases.
 
@@ -1515,45 +1515,51 @@ Let $G$ and $B$ be graphs such that $G=B^2$ and $B$ is bipartite but not a tree.
   \end{enumerate}
 \end{conjecture}
 
-The degree pattern of the cyclic core can distinguish several possible cycle structures. For example, suppose $|V(C)|=6$. Then the following structures give the indicated degree sequences in $G[C]$:
+\begin{definition}[Cycle Amalgamation] \label{def::cycle_amalgamation}
+  A \textbf{cycle amalgamation} or an \textbf{amalgamation of cycles} is a graph whereby every vertex is cyclic, but there exists more than one cycle. An amalagmation on $n$ vertices can be denoted symbolically by
+  \[
+  C_aC_{b-i}C_{c-j}C_{d-k} \ldots
+  \]
+  where $n = a + (b - i) + (c - j) + (d - k) + \ldots $ and $C_aC_bC_cC_d \ldots$ denote that there are subcycles of length $a,b,c,d \ldots$ and that $C_b$ shares $i$ vertices with $C_a$ and $C_c$ shares $j$ vertices with $C_aC_{b-i}$ and so on. 
+\end{definition}
+
+The degree pattern of the cyclic core can distinguish several possible cycle structures. For example, suppose $n = |V_C| = 6$. Then the following structures give the indicated degree sequences.:
 \begin{enumerate}[label=\roman*)]
-  \item If $B_C=C_6$, then
+  \item If the root subgraph is the amalgamation of two $5$-cycles sharing four vertices $C_5C_{5-4}$ or is the amalgamation of three $4$-cycles sharing three vertices $C_4C_{4-3}C_{4-3}$, then the square subgraph has
   \[
-  \deg_{G[C]}(v)=4 \quad \text{for every }v\in V(C),
+  \deg_{G[C]}(v)=5 \text{ for every } v \in V_C,
   \]
-  and hence
+  \item If the subgraph of the root is $C_6$, then the subgraph of the square $G[C]$ has
   \[
-  \bigl(\deg_{G[C]}(v)\in V(C)\bigr) =(4,4,4,4,4,4).
+  \deg_{G[C]}(v)=4 \text{ for every } v \in V_C,
   \]
-  \item If $B_C$ is the amalgamation of two $5$-cycles sharing four vertices, then every vertex belongs to at least one of the two cycle pieces and
+  \item If the root subgraph is the amalgamation of two $4$-cycles sharing an edge $uv$ with two vertices $C_4C_{4-2}$, then the shared vertices $u$ and $v$ have degree $5$, while the remaining four vertices have degree $4$. Thus
   \[
-    \deg_{G[C]}(v)=5 \quad \text{for every }v\in V(C),
-  \]
-  giving
-  \[
-  \bigl(\deg_{G[C]}(v):v\in V(C)\bigr) =(5,5,5,5,5,5).
-  \]
-  \item If $B_C$ is the amalgamation of two $4$-cycles sharing an edge $uv$, then the shared vertices $u$ and $v$ have degree $5$ in $G[C]$, while the remaining four vertices have degree $4$. Thus
-  \[
-  \deg_{G[C]}(u)=\deg_{G[C]}(v)=5, quad \deg_{G[C]}(w)=4 \quad \text{ for }w\in V(C)\setminus\{u,v\},
-  \]
-  and therefore
-  \[
-  \bigl(\deg_{G[C]}(v):v\in V(C)\bigr)=(5,5,4,4,4,4).
+  \deg_{G[C]}(u)=\deg_{G[C]}(v)=5, \deg_{G[C]}(w)=4 \text{ for } w \in V_C \setminus\{u,v\},
   \]
 \end{enumerate}
 
-
+Importantly, the symbol definition is not unique and there can be many different graphs dependening on which vertices and edges are chosen to be shared between cycles. 
 
 \chapter{Further Work}
 
-In this chapter we discuss additional work, further concepts and interesting ideas around specific structural properties that square intrinsically holds. Most of these have not been rigorously proven, with only sketch proofs or intuitions given behind why they may help improve results. 
+In this chapter, we discuss additional work, further concepts, and interesting ideas arising from structural properties that the square intrinsically possesses. Most of these ideas have not been rigorously proven and are instead presented through proof sketches or intuition for why they may help improve the results obtained by the linear programming framework. The purpose is to identify structural relationships that may provide further ways of strengthening the framework developed in this thesis.
 
-Prior methods for solving specific roots have been done by augmenting the linear program framework with additional constraints and objective functions that have been drawn from existing properties. 
+Previous methods for solving specific classes of roots have been developed by augmenting the linear programming framework with additional constraints and objective functions. Nevertheless, integrating known polynomial-time solutions for trees into an overall framework, while maintaining the internal consistency that valid square graphs must always correspond to feasible instances, does not appear to justify the use of a comparatively complex polynomial-time framework such as the interior-point method. More importantly, the linear program provides a common foundation on which additional structural information can be imposed without requiring these properties to be captured simultaneously within a single formulation.
 
+It is, however, relatively straightforward to construct stronger exact algorithms by performing a polynomial number of runs of the linear program. Each run can be used to identify additional structural information, fix variables, or further restrict the possible roots before solving the resulting instance again. This provides a useful mechanism through which improvements to the base linear program can have a much greater effect than the improvement obtained from a single LP solution alone. In particular, a stronger base program can provide more integral variables and structural information, which can then be propagated through subsequent runs of the program.
 
+The following sections illustrate several directions in which this can be explored. Rather than treating each structural property as an isolated addition to the formulation, these examples demonstrate how improvements to the base linear program can be repeatedly exploited to obtain substantially stronger results.
 
 \section{Vertex Deletion} \label{sec::vertex_deletion}
+
+From Table~\eqref{tab::unicliqual_vertex_linear_program_outcomes}, we can already see that for small $n$, all square graphs can be completely categorized such that, whenever a root $H$ exists, an integral solution is obtained, while whenever no root $H$ exists, the linear program is infeasible. This suggests that the behaviour of the linear program may be closely related not only to the structure of the graph itself, but also to the structure of its subgraphs.
+
+In particular, consider arbitrarily removing a vertex from $G$ and applying the same linear program to the resulting subgraph. If the subgraph has an integral solution, this provides structural information about a possible root on the reduced vertex set. The natural question is whether this information can subsequently be used to constrain the original graph when the deleted vertex is reintroduced.
+
+More specifically, if deleting a vertex produces a graph for which the linear program has an integral solution, it is worth investigating whether the corresponding solution can be extended to the original graph and, if so, whether the possible extensions can be restricted to a small number of cases. If such extensions can be characterized, vertex deletion provides a mechanism through which information obtained from smaller instances can be propagated back to the original graph.
+
+This is particularly interesting in the context of the preceding framework. A structural property that only produces a modest improvement in the base linear program may become substantially more useful when its consequences can be propagated through several subsequent LP runs. Thus, vertex deletion provides one example of how strengthening the base program may translate into stronger exact results beyond those obtained from a single application of the program.
 
 \subsection{Formulation} \label{subsec::vertex_deletion_formulation}
 

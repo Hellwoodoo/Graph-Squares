@@ -27,7 +27,7 @@
 \end{proof}
 
 \begin{lemma}[$0$ Path Propagation] \label{lemma::0_path_propagation}
-  Let $G$ and $T$ be graphs such that $G = T^2$ and $T$ is a tree. Let $a,i,j,b \in V_G$ such that $a,i,j,b$ form a path in $H$. For every feasible solution $x$ of $\mathcal{LP}(G)$,
+  Let $G$ and $H$ be graphs such that $G = H^2$. Let $a,i,j,b \in V_G$ such that $a,i,j,b$ form the shortest induced path in $H$ between $a$ and $b$. For every feasible solution $x$ of $\mathcal{LP}(G)$,
   \[
   x_{ai}=1 \implies x_{ib}=0, \quad x_{ia}=1 \implies x_{bi}=0, \quad x_{jb}=1 \implies x_{aj}=0, \quad x_{bj}=1 \implies x_{ja}=0.
   \]

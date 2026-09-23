@@ -5,9 +5,8 @@
   \[
   x_{su}=x_{us}=x_{uv}=x_{vu}=1.
   \]
-  Then repeated application of path propagation assigns the integral edge assignments throughout $T$, recovering the tree root uniquely up to isomorphism.
+  Then repeated application of path propagation assigns the integral edge assignments throughout $T$, recovering the tree root uniquely up to isomorphism.   REMOVE AND INSTEAD DO INDUCTIVE PROOF 
 \end{lemma}
-
 \begin{proof}
   Since $s$ is a leaf and $u$ is a stem of $T$, the path $s-u-v$ is contained in $T$. Let $A=\{a_1,\ldots,a_r\}$ denote the vertices adjacent to $v$ in $T$ other than $u$, and let $B=\{b_1,\ldots,b_s\}$ denote the vertices adjacent to a vertex in $A$ other than $v$. For each $a_i\in A$, the vertices $s,u,v,a_i$ form a $P_4$ in $T$. Since $x_{su}=1$, Lemma~\eqref{lemma::0_path_propagation} gives
   \[
@@ -52,7 +51,7 @@
 \end{proof}
 
 \begin{theorem} \label{theorem::unicliqual_vertex}
-  Let $G$ and $T$ be graphs such that $G=T^2$ and $T$ is a tree. $\max \mathcal{UVLP}(G)$ returns an integral solution. 
+  Let $G$ and $T$ be graphs such that $G=T^2$ and $T$ is a tree. $\max \mathcal{UVLP}(G)$ returns an integral solution.   USE INDUCTIVE PROOF HERE 
 \end{theorem} 
 \begin{proof}
   Suppose that $G=T^2$ for some tree $T$. By
@@ -64,3 +63,6 @@
 
   Thus, whenever $G$ has a tree root, $\max\mathcal{UVLP}(G)$ admits an integral solution.
 \end{proof}
+
+
+ALTERNATIVE PROOF: every path can be propogated, tree is just a collection of paths 
