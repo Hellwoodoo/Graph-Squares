@@ -17,6 +17,7 @@ style=alphabetic]{biblatex}
 \newtheorem{proposition}{Proposition}
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}{Lemma}
+\newtheorem{conjecture}{Conjecture} 
 \newtheorem{corollary}{Corollary}
 \newtheorem{definition}{Definition}[section] 
 
@@ -760,6 +761,198 @@ Combining with the additional conditions that neither $s_1$ nor $s_2$ is already
 
   Since no fractional, solution exists, the optimal, maximal output of the linear program must be completely integral if it results in a tree root. 
 \end{proof}
+
+\section{Square of a Bipartite Graph using Linear Programming}
+
+Every tree is a bipartite graph. 
+Let $G$ and $B$ be graphs such that $G=B^2$ and $B$ is bipartite but not a tree. Thus, $B$ contains an even cycle.
+
+\begin{conjecture}
+
+  Let $G$ and $B$ be graphs such that $G=B^2$. 
+
+  If $B$ is an even cycle of size $4$, then every vertex of $G$ is unicliqual. If $B$ is an even cycle of size $6$ or greater, then no vertex of $G$ is unicliqual.
+
+  If $B$ contains an even cycle as a subgraph, then there exist vertices $v\in V(B)$ that are unicliqual in $G$. If the even cycle has size $4$, then a unicliqual vertex can be cyclic only when it is opposite a vertex attached to the cycle. If the even cycle has size $6$ or greater, then every unicliqual vertex is non-cyclic.
+
+  Define a sequence of vertex sets by $V_0=V(G)$ and, for each $i\geq 1$,
+  \[
+  U_i=\{v\in V_{i-1}:v\text{ is unicliqual in }G[V_{i-1}]\}, \quad V_i=V_{i-1}\setminus U_i.
+  \]
+  The vertices in $U_i$ are removed simultaneously to form the $i$th deletion layer. The process terminates either when $V_i=\varnothing$ or when every vertex of $V_i$ is unicliqual. In the latter case, the remaining vertices form the cyclic set.
+
+  For each $v\in U_i$, let $N_i(v)=N_G(v)\cap V_{i-1}$ denote its neighbourhood at the time of removal, and let $N_i^+(v)=N_G(v)\cap V_i$ denote its neighbourhood after the vertices of the current deletion layer have been removed. The latter is the non-unicliqual neighbourhood used for reconstruction.
+
+  The vertices are reconstructed in reverse order of the deletion layers. A unicliqual vertex $v$ is attached to a vertex of its non-unicliqual neighbourhood, and the remaining two vertices in that neighbourhood determine the two neighbouring positions of $v$ in the root. An attachment may be chosen arbitrarily provided that it is consistent with all previously fixed attachments and orderings.
+\end{conjecture}
+
+\begin{conjecture}
+  Let $G$ be a graph with square root $B$, and repeatedly remove all unicliqual vertices, recording the removed vertices in layers. Let $C$ denote the remaining cyclic core, consisting entirely of multicliqual vertices. Then the following hold.
+
+  \begin{enumerate}[label=\roman*)]
+    \item The graph $G[C]$ is either the square of a cycle or the square of an amalgamation of cycles.
+
+    \item In $G[C]$, a vertex belonging to a single cycle has degree $3$ if and only if is in a cycle with length $4$, and degree $4$ if and only if it is in a cycle with length $5$ or greater.
+
+    \item Consequently, vertices of $G[C]$ whose degree exceeds the corresponding degree of a vertex in a single cycle identify the vertices involved in an amalgamation: such a vertex either belongs to two or more cycle pieces, or is adjacent to a vertex belonging to two or more cycle pieces.
+
+    \item The degree pattern of $G[C]$, together with the adjacencies between vertices of the same degree class, determines the possible amalgamation structure. A candidate cyclic root $B_C$ can then be constructed and verified by checking
+    \[
+    B_C^2=G[C].
+    \]
+
+    \item Once a cyclic root $B_C$ has been determined, the unicliqual vertices can be added back layer by layer. The vertices in each layer may be processed in arbitrary order, but their attachments to $B_C$ determine an orientation of the relevant cycle piece. Every subsequent layer must be consistent with the orientations fixed by the previously reconstructed layers.
+
+    \item Hence, after the cyclic core and the final deletion layer have been reconstructed consistently, the attachments of all earlier unicliqual layers are forced.
+  \end{enumerate}
+\end{conjecture}
+
+\begin{definition}[Cycle Amalgamation] \label{def::cycle_amalgamation}
+  A \textbf{cycle amalgamation} or an \textbf{amalgamation of cycles} is a graph whereby every vertex is cyclic, but there exists more than one cycle. An amalagmation on $n$ vertices can be denoted symbolically by
+  \[
+  C_aC_{b-i}C_{c-j}C_{d-k} \ldots
+  \]
+  where $n = a + (b - i) + (c - j) + (d - k) + \ldots $ and $C_aC_bC_cC_d \ldots$ denote that there are subcycles of length $a,b,c,d \ldots$ and that $C_b$ shares $i$ vertices with $C_a$ and $C_c$ shares $j$ vertices with $C_aC_{b-i}$ and so on. 
+\end{definition}
+
+The degree pattern of the cyclic core can distinguish several possible cycle structures. For example, suppose $n = |V_C| = 6$. Then the following structures give the indicated degree sequences.:
+\begin{enumerate}[label=\roman*)]
+  \item If the root subgraph is the amalgamation of two $5$-cycles sharing four vertices $C_5C_{5-4}$ or is the amalgamation of three $4$-cycles sharing three vertices $C_4C_{4-3}C_{4-3}$, then the square subgraph has
+  \[
+  \deg_{G[C]}(v)=5 \text{ for every } v \in V_C,
+  \]
+  \item If the subgraph of the root is $C_6$, then the subgraph of the square $G[C]$ has
+  \[
+  \deg_{G[C]}(v)=4 \text{ for every } v \in V_C,
+  \]
+  \item If the root subgraph is the amalgamation of two $4$-cycles sharing an edge $uv$ with two vertices $C_4C_{4-2}$, then the shared vertices $u$ and $v$ have degree $5$, while the remaining four vertices have degree $4$. Thus
+  \[
+  \deg_{G[C]}(u)=\deg_{G[C]}(v)=5, \deg_{G[C]}(w)=4 \text{ for } w \in V_C \setminus\{u,v\},
+  \]
+\end{enumerate}
+
+\begin{algorithm}\caption{Cyclic-Core Root Reconstruction} \label{algo::cyclic_core_reconstruction_1}
+  \begin{algorithmic}[1]
+    \State \textbf{Input:} A graph $G$
+    \State \textbf{Output:} Set of edges $F$ to fix
+
+    \vspace{0.5em}
+
+    \Statex \textbf{Step 1: Iterative unicliqual vertex removal}
+    \State Set $V_0 = V(G)$, $i=1$, and initialize $\mathcal{L}=\emptyset$
+    \While{$V_{i-1}\neq\emptyset$}
+      \State Let $G_i=G[V_{i-1}]$. 
+      \State Identify when $U_i=\{v\in V_{i-1}: \text{v is unicliqual} \}$ or $U_i=\{v\in V_{i-1}: G_i[N_{G_i}(v)]\text{ is complete}\}$.
+      \If{there are no unicliqual vertices, $U_i=\emptyset$}
+          \State Set $C=V_{i-1}$ and $\mathsf{AUQ}=$ FALSE and \textbf{break}
+      \ElsIf{every vertex is unicliqual, $U_i=V_{i-1}$}
+          \State Set $C=V_{i-1}$ and $\mathsf{AUQ}=$ TRUE \textbf{break}
+      \Else
+          \State Add $U_i$ to the ordered collection $\mathcal{L}$
+          \State Set $V_i=V_{i-1}\setminus U_i$
+          \State For each $v\in U_i$, record $N_i(v)=N_G(v) \cap V_i$
+          \State Set $i\leftarrow i+1$
+      \EndIf
+    \EndWhile
+    \State $C$ is the \emph{cyclic core} and $\mathcal{L}$ contains the successive unicliqual \emph{layers} $U_i$.
+
+    \vspace{0.5em}
+
+    \Statex \textbf{Step 2: Construct the core graph}
+
+    \State Let $H=G[C]$.
+    \State Compute the degree $d_C(v)=d_H(v)$ for every $v\in C$.
+    \State Let $U_k$ be the last removed unicliqual layer, if one exists.
+    \If{$U_k$ exists}
+        \State For each $u\in U_k$, compute the recorded core neighbourhood $N_k(u)\cap C$.
+        \If{there exists $u\in U_k$ such that $|N_k(u)\cap C|\geq4$}
+            \State \textbf{Cycle amalgamation with $U_k$}
+        \Else
+            \State \textbf{Cyclic core with $U_k$}
+        \EndIf
+    \Else
+        \If{all vertices of $C$ have the same degree $d\leq4$}
+            \State \textbf{Uniform cyclic core without $U_k$}
+        \Else
+            \State \textbf{Cycle amalgamation without $U_k$}
+        \EndIf
+    \EndIf
+    \algstore{P1}
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm} \ContinuedFloat \caption{Cyclic-Core Root Reconstruction (continued)} \label{algo::cyclic_core_reconstruction_2}
+  \begin{algorithmic}[1]
+
+  \algrestore{P1}
+
+  \Statex \textbf{Step 3: Cycle amalgamation with $U_k$}
+  \If{$U_k$ exists and $\displaystyle\max_{u\in U_k}|N_k(u)\cap C|\geq4$}
+      \State Partition $U_k$ by $u\sim v\iff N_k(u)\cap C=N_k(v)\cap C$.
+      \State Initialize $B_C$ with $E(B_C)=\emptyset$.
+      \State Process the groups in non-increasing order of $|N_k(u)\cap C|$, ties by vertex label.
+      \For{each group $S$}
+          \State Let $N_S=N_k(u)\cap C$ for any $u\in S$ and decompose $S$ into $G$-components $S_1,\ldots,S_m$.
+          \State Process $S_1,\ldots,S_m$ greedily in non-increasing order of the degree of their admissible attachment vertices in $H$.
+          \State For $S_1$, choose an attachment $c_1\in N_S$ by the degree rule, choosing a maximum-degree attachment when $|N_S|\geq4$ and the appropriate minimum-degree attachment when $|N_S|\leq3$, and choose the corresponding cyclic orientation arbitrarily.
+          \State Fix $uc_1\in E(B_C)$ for every $u\in S_1$ and extend $B_C$ according to this orientation.
+          \For{$j=2,\ldots,m$}
+              \State Choose $c_j\in N_S$ greedily so that $c_j$ and the induced cyclic orientation are consistent with the orientation already fixed and $B_C^2\subseteq H$.
+              \State Fix $uc_j\in E(B_C)$ for every $u\in S_j$ and extend the existing orientation.
+          \EndFor
+      \EndFor
+      \State Add $E(B_C)$ to $F$.
+  \EndIf
+
+  \Statex \textbf{Step 4: Cyclic core with $U_k$}
+  \If{$U_k$ exists and $\displaystyle\max_{u\in U_k}|N_k(u)\cap C|\leq3$}
+      \State Partition $U_k$ by $u\sim v\iff N_k(u)\cap C=N_k(v)\cap C$ and initialize $B_C$ with $E(B_C)=\emptyset$.
+      \For{each group $S$}
+          \State Let $N_S=N_k(u)\cap C$ for any $u\in S$ and decompose $S$ into $G$-components $S_1,\ldots,S_m$.
+          \If{$|N_S|=3$}
+              \State Assign distinct attachments $c_1,\ldots,c_m\in N_S$ to $S_1,\ldots,S_m$.
+              \For{$j=1,\ldots,m$}
+                  \State Fix $uc_j\in E(B_C)$ for every $u\in S_j$ and add the corresponding cycle edges on $N_S$ through $c_j$ to $B_C$.
+              \EndFor
+          \EndIf
+      \EndFor
+      \State Add $E(B_C)$ to $F$.
+  \EndIf
+
+  \algstore{P2}
+  \end{algorithmic}
+\end{algorithm}
+\begin{algorithm} \ContinuedFloat \caption{Cyclic-Core Root Reconstruction (continued)} \label{algo::cyclic_core_reconstruction_3}
+  \begin{algorithmic}[1]
+
+  \algrestore{P2}
+
+  \Statex \textbf{Step 5: Uniform cyclic core without $U_k$}
+  \If{$U_k$ does not exist and all vertices of $C$ have the same degree $d\leq4$}
+      \State Select arbitrary $v\in C$ and initialize $B_C$ with $E(B_C)=\emptyset$.
+      \If{$d\leq3$}
+          \State Select arbitrary $c_1\in N_H(v)$, fix $vc_1\in E(B_C)$, and propagate the reconstruction subject to $B_C^2=H$.
+      \ElsIf{$d=4$}
+          \State Let $N_H(v)=\{c_1,c_2,c_3,c_4\}$ and arbitrarily fix $vc_1,vc_2\in E(B_C)$.
+          \State Use $c_3,c_4$ and $B_C^2=H$ to determine the remaining root edges incident with $v$.
+          \State Propagate the reconstruction through every unresolved vertex of $C$.
+      \EndIf
+      \State Add $E(B_C)$ to $F$.
+  \EndIf
+
+  \Statex \textbf{Step 6: Cycle amalgamation without $U_k$}
+  \If{$U_k$ does not exist and the vertices of $C$ do not all have the same degree $d\leq4$}
+      \State Let $v,u\in C$ be adjacent vertices with $d_H(v)=d_H(u)=\Delta=\max_{x\in C}d_H(x)$.
+      \State Fix $vu\in E(B_C)$.
+      \State Choose distinct $a,b\in N_H(v)\setminus\{u\}$ and distinct $c,d\in N_H(u)\setminus\{v\}$ such that $\{a,b,c,d\}$ are pairwise distinct and $(B_C\cup\{va,vb,uc,ud\})^2\subseteq H$.
+      \State Fix $va,vb,uc,ud\in E(B_C)$ and add these forced edges to $F$.
+  \EndIf
+
+  \Statex \textbf{Step 7: Output}
+  \State \textbf{Return} $F$.
+
+  \end{algorithmic}
+\end{algorithm}
 
 \section{Edge Enforcement} \label{sec::edge_enforcement}
 

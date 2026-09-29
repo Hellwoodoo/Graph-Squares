@@ -6,6 +6,7 @@
 \usepackage{enumitem}
 \usepackage{geometry}
 \usepackage{algorithm}
+\usepackage{caption}
 \usepackage{algpseudocode}
 \usepackage{listings}
 \usepackage{xcolor}
@@ -368,7 +369,7 @@ We will also consider graphs obtained by restricting the vertices and edges of a
   \]
   For $S\subseteq V_G$, the \textbf{induced subgraph} of $G$ on $S$, denoted by $G[S]$, is the graph with vertex set $S$ and edge set
   \[
-  E(G[S])=\{uv\in E_G:u,v\in S\}.
+  E_{G[S]}=\{uv\in E_G:u,v\in S\}.
   \]
 \end{definition}
 
@@ -540,7 +541,7 @@ We now establish the computational complexity of the graph square problem as was
   Problem~\eqref{prob::square_problem} is in $\mathbf{NP}$. 
 \end{theorem}
 \begin{proof}[NP Proof]
-  Given a candidate square root $H$ on $n$ vertices, it is sufficient to verify that $G=H^2$. For each pair of distinct vertices $u,v\in V(H)$, check whether $u$ and $v$ are adjacent in $H$ or have a common neighbour in $H$. This determines whether $d_H(u,v)\leq 2$ and therefore whether $uv\in E(H^2)$.
+  Given a candidate square root $H$ on $n$ vertices, it is sufficient to verify that $G=H^2$. For each pair of distinct vertices $u,v\in V_H$, check whether $u$ and $v$ are adjacent in $H$ or have a common neighbour in $H$. This determines whether $d_H(u,v)\leq 2$ and therefore whether $uv\in E_{H^2}$.
 
   There are $\displaystyle \binom{n}{2}=\frac{n(n-1)}{2}$ unordered pairs of vertices. For each pair, determining whether the vertices have a common neighbour requires at most $O(n)$ operations. Hence, the total verification time is
   \[
@@ -761,7 +762,7 @@ To establish this characterization, let $G$ be the square of a tree $T$ and firs
 \end{proof}
 
 \begin{lemma}\label{lemma::4}
-  If $G$ is not complete, then a vertex $v \in V(G)$ belongs to exactly one maximal clique if and only if $v$ is a leaf of $T$.
+  If $G$ is not complete, then a vertex $v \in V_G$ belongs to exactly one maximal clique if and only if $v$ is a leaf of $T$.
 \end{lemma}
 \begin{proof}
   Let $v$ be a leaf of $T$, and let $u$ be its unique neighbour. By Lemma~\ref{lemma::3}, every maximal clique corresponds to the closed neighbourhood of a non-leaf vertex. Since $v$ has only one neighbour, the only maximal clique containing $v$ is $N_T[u]$.Thus $v$ belongs to exactly one maximal clique.
@@ -933,9 +934,9 @@ We will not focus on this particular restricted class and analyze the integer pr
 
 Using Lemma~\eqref{lemma::G_equal_to_H^2}, we construct an integer program to solve instances of SQUARE. The set of decision variables is
 \[
-X=\{x_{ij}\mid i,j\in V(G)\},
+X=\{x_{ij}\mid i,j\in V_G\},
 \]
-where $x_{ij}\in\{0,1\}$ denotes the corresponding entry of the adjacency matrix $A_H$. In a feasible solution, $x_{ij}=1$ if and only if $ij\in E(H)$. The variables $y_{ikj}\in\{0,1\}$ represent the products $x_{ik}x_{kj}$ in $(A_H)^2_{ij}$, while $z_{ij}\in\mathbb{Z}_{\geq0}$ represents the argument of the indicator function.
+where $x_{ij}\in\{0,1\}$ denotes the corresponding entry of the adjacency matrix $A_H$. In a feasible solution, $x_{ij}=1$ if and only if $ij\in E_H$. The variables $y_{ikj}\in\{0,1\}$ represent the products $x_{ik}x_{kj}$ in $(A_H)^2_{ij}$, while $z_{ij}\in\mathbb{Z}_{\geq0}$ represents the argument of the indicator function.
 
 Given an input $G$ to SQUARE, our goal is the contruct the following matrices, where $g_{ij}$ is the corresponding entry of the adjacency matrix of $G$.
 
@@ -1037,7 +1038,7 @@ The constraints in Equations~\eqref{eq::IP_symmetry_x}--\eqref{eq::IP_diagonal_x
   8 & 307 & 12039 \\
   \hline
   \end{tabular}
-  \caption{Outcomes of the integer program for graphs of different orders $n$.}
+  \caption{Outcomes of the integer program for graphs of different orders of $n$.}
   \label{tab::integer_program_outcomes}
 \end{table}
 
@@ -1099,13 +1100,16 @@ Figure~\eqref{fig::linear_program_diagram} can be equivalently represented in th
   5 & 9  & 2   & 20   & 3    \\
   6 & 15 & 13  & 107  & 21   \\
   7 & 25 & 52  & 767  & 200  \\
-  8 & 47 & 360 & 9380 & 2659 \\
+  8 & 47 & 260 & 9380 & 2659 \\
   \hline
   \end{tabular}
-  \caption{Outcomes of the LP relaxation for graphs of different orders $n$, classified according to whether a square root $H$ exists.}
+  \caption{Outcomes of the LP relaxation for graphs of different orders of $n$, classified according to whether a square root $H$ exists.}
+  \footnotemark
   \label{tab::linear_program_outcomes}
 \end{table}
-
+\footnotetext{
+The LP integral solution sequence $2, 3, 6, 10, 17, 29, 51, \dots$ seems to be given by \href{https://oeis.org/A285665}{A285665}.
+}
 
 \input{subfiles/LinearRelaxationSet.tex}
 
@@ -1182,10 +1186,10 @@ This relaxation however yields more fractional solutions, as illustrated in Tabl
   \]
   Together with Equation~\eqref{eq::IP_indicator_arg} and the product constraints Equations~\eqref{eq::IP_product_upper_first}--\eqref{eq::IP_product_lower}, this forces each vertex $i$ to carry at least one unit of total incident $x$-mass on the clique, 
   \[
-  \sum_{j\in V(C)\setminus\{i\}} x_{ij} \ge 1.
+  \sum_{j\in V_C \setminus\{i\}} x_{ij} \ge 1.
   \]
   For the symmetric solution $\bar x$, this becomes $(n-1)w \ge 1$, hence $ \displaystyle w \ge \frac{1}{n-1}$. On the other hand, the objective function is
-  $ \displaystyle \sum_{i<j,\ i,j\in V(C)} x_{ij} = \binom{n}{2}w$, which is strictly increasing in $w$. Therefore the minimum is attained at the smallest feasible value of $\displaystyle w = \frac{1}{n-1}$ which every edge of $K_n$ achieves in the minimizing LP. 
+  $ \displaystyle \sum_{i<j,\ i,j\in V_C} x_{ij} = \binom{n}{2}w$, which is strictly increasing in $w$. Therefore the minimum is attained at the smallest feasible value of $\displaystyle w = \frac{1}{n-1}$ which every edge of $K_n$ achieves in the minimizing LP. 
 \end{proof}
 
 \section{Max Linear Program} \label{sec::max_linear_program}
@@ -1197,7 +1201,7 @@ Consider the addition of an objective function maximizing the total weights on a
 
 The construction of the linear program on the arbitrary graph $G$ using Equations~\eqref{eq::LP_x_variable}--\eqref{eq::LP_z_variable}, Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::IP_diagonal_x} together with Equation~\eqref{eq::max_obj_function} is denoted as $\max \mathcal{LP}(G)$. 
 
-This objective encourages dense solutions and therefore tends to produce relaxations that are more dense and hence more informative than trivial sparse solutions. In particular, maximizing the total edge weight pushes the variables toward values closer to $1$, which promotes direct edges and reduces the need for fractional paths of length $2$ to satisfy Equation~\eqref{eq::IP_indicator_arg}. As a result, the relaxation is more likely to yield integral solutions, as illustrated in Table~\ref{tab::max_objective_function_outcomes}.  
+This objective encourages solutions that have fewer fractional edges and therefore tends to produce relaxations that are integral and hence are more informative. In particular, maximizing the total edge weight pushes the variables toward values closer to $1$, which promotes direct edges and reduces the need for fractional paths of length $2$ to satisfy Equation~\eqref{eq::IP_indicator_arg}. As a result, the relaxation is more likely to yield integral solutions, as illustrated in Table~\ref{tab::max_objective_function_outcomes}.  
 
 \begin{table}[!htbp]
   \centering
@@ -1269,7 +1273,7 @@ There are two important structures in a tree.
   Every tree contains either a \hyperref[def::pendant]{pendant} or a \hyperref[def::pendant_fork]{pendant fork} subgraph.
 \end{lemma}
 \begin{proof} 
-  Let $T$ be a finite tree with $|V(T)|\ge 3$, and root $T$ at an arbitrary vertex. Since $T$ is finite, there exists a leaf $s$ of maximal depth where its parent is $u$. Every child of $u$ is a leaf, since if there was some child $w$ of $u$ that is not a leaf, then $w$ would have a child and hence there would exist a vertex at depth strictly greater than that of $s$, contradicting the choice of $s$.
+  Let $T$ be a finite tree with $|V_T|\ge 3$, and root $T$ at an arbitrary vertex. Since $T$ is finite, there exists a leaf $s$ of maximal depth where its parent is $u$. Every child of $u$ is a leaf, since if there was some child $w$ of $u$ that is not a leaf, then $w$ would have a child and hence there would exist a vertex at depth strictly greater than that of $s$, contradicting the choice of $s$.
 
   If $u$ is not the root, let $v$ denote its parent such that every neighbour of $u$ other than $v$ is a leaf.
 
@@ -1435,11 +1439,11 @@ It remains to verify that whenever a root $H$ of $G$ exists, the addition of the
   4 & 6   & 0   & 5     & 0    \\
   5 & 11  & 0   & 21    & 2    \\
   6 & 25  & 3   & 117   & 11   \\
-  7 & 55  & 25  & 852   & 115  \\
+  7 & 55  & 22  & 852   & 115  \\
   8 & 154 & 153 & 10271 & 1768 \\
   \hline
   \end{tabular}
-  \caption{Outcomes of the unicliqual vertex linear program for graphs of different orders $n$.}
+  \caption{Outcomes of the unicliqual vertex linear program for graphs of different orders of $n$.}
   \label{tab::unicliqual_vertex_linear_program_outcomes}
 \end{table}
 
@@ -1470,82 +1474,11 @@ We first show that the unicliqual vertex linear program will always fix a pendan
 
 \input{subfiles/TreeProof.tex}
 
-\chapter{Square of a Bipartite Graph using Linear Programming}
-
-Every tree is a bipartite graph. 
-Let $G$ and $B$ be graphs such that $G=B^2$ and $B$ is bipartite but not a tree. Thus, $B$ contains an even cycle.
-
-\begin{conjecture}
-
-  Let $G$ and $B$ be graphs such that $G=B^2$. 
-
-  If $B$ is an even cycle of size $4$, then every vertex of $G$ is unicliqual. If $B$ is an even cycle of size $6$ or greater, then no vertex of $G$ is unicliqual.
-
-  If $B$ contains an even cycle as a subgraph, then there exist vertices $v\in V(B)$ that are unicliqual in $G$. If the even cycle has size $4$, then a unicliqual vertex can be cyclic only when it is opposite a vertex attached to the cycle. If the even cycle has size $6$ or greater, then every unicliqual vertex is non-cyclic.
-
-  Define a sequence of vertex sets by $V_0=V(G)$ and, for each $i\geq 1$,
-  \[
-  U_i=\{v\in V_{i-1}:v\text{ is unicliqual in }G[V_{i-1}]\}, \quad V_i=V_{i-1}\setminus U_i.
-  \]
-  The vertices in $U_i$ are removed simultaneously to form the $i$th deletion layer. The process terminates either when $V_i=\varnothing$ or when every vertex of $V_i$ is unicliqual. In the latter case, the remaining vertices form the cyclic set.
-
-  For each $v\in U_i$, let $N_i(v)=N_G(v)\cap V_{i-1}$ denote its neighbourhood at the time of removal, and let $N_i^+(v)=N_G(v)\cap V_i$ denote its neighbourhood after the vertices of the current deletion layer have been removed. The latter is the non-unicliqual neighbourhood used for reconstruction.
-
-  The vertices are reconstructed in reverse order of the deletion layers. A unicliqual vertex $v$ is attached to a vertex of its non-unicliqual neighbourhood, and the remaining two vertices in that neighbourhood determine the two neighbouring positions of $v$ in the root. An attachment may be chosen arbitrarily provided that it is consistent with all previously fixed attachments and orderings.
-\end{conjecture}
-
-\begin{conjecture}
-  Let $G$ be a graph with square root $B$, and repeatedly remove all unicliqual vertices, recording the removed vertices in layers. Let $C$ denote the remaining cyclic core, consisting entirely of multicliqual vertices. Then the following hold.
-
-  \begin{enumerate}[label=\roman*)]
-    \item The graph $G[C]$ is either the square of a cycle or the square of an amalgamation of cycles.
-
-    \item In $G[C]$, a vertex belonging to a single cycle has degree $3$ if and only if is in a cycle with length $4$, and degree $4$ if and only if it is in a cycle with length $5$ or greater.
-
-    \item Consequently, vertices of $G[C]$ whose degree exceeds the corresponding degree of a vertex in a single cycle identify the vertices involved in an amalgamation: such a vertex either belongs to two or more cycle pieces, or is adjacent to a vertex belonging to two or more cycle pieces.
-
-    \item The degree pattern of $G[C]$, together with the adjacencies between vertices of the same degree class, determines the possible amalgamation structure. A candidate cyclic root $B_C$ can then be constructed and verified by checking
-    \[
-    B_C^2=G[C].
-    \]
-
-    \item Once a cyclic root $B_C$ has been determined, the unicliqual vertices can be added back layer by layer. The vertices in each layer may be processed in arbitrary order, but their attachments to $B_C$ determine an orientation of the relevant cycle piece. Every subsequent layer must be consistent with the orientations fixed by the previously reconstructed layers.
-
-    \item Hence, after the cyclic core and the final deletion layer have been reconstructed consistently, the attachments of all earlier unicliqual layers are forced.
-  \end{enumerate}
-\end{conjecture}
-
-\begin{definition}[Cycle Amalgamation] \label{def::cycle_amalgamation}
-  A \textbf{cycle amalgamation} or an \textbf{amalgamation of cycles} is a graph whereby every vertex is cyclic, but there exists more than one cycle. An amalagmation on $n$ vertices can be denoted symbolically by
-  \[
-  C_aC_{b-i}C_{c-j}C_{d-k} \ldots
-  \]
-  where $n = a + (b - i) + (c - j) + (d - k) + \ldots $ and $C_aC_bC_cC_d \ldots$ denote that there are subcycles of length $a,b,c,d \ldots$ and that $C_b$ shares $i$ vertices with $C_a$ and $C_c$ shares $j$ vertices with $C_aC_{b-i}$ and so on. 
-\end{definition}
-
-The degree pattern of the cyclic core can distinguish several possible cycle structures. For example, suppose $n = |V_C| = 6$. Then the following structures give the indicated degree sequences.:
-\begin{enumerate}[label=\roman*)]
-  \item If the root subgraph is the amalgamation of two $5$-cycles sharing four vertices $C_5C_{5-4}$ or is the amalgamation of three $4$-cycles sharing three vertices $C_4C_{4-3}C_{4-3}$, then the square subgraph has
-  \[
-  \deg_{G[C]}(v)=5 \text{ for every } v \in V_C,
-  \]
-  \item If the subgraph of the root is $C_6$, then the subgraph of the square $G[C]$ has
-  \[
-  \deg_{G[C]}(v)=4 \text{ for every } v \in V_C,
-  \]
-  \item If the root subgraph is the amalgamation of two $4$-cycles sharing an edge $uv$ with two vertices $C_4C_{4-2}$, then the shared vertices $u$ and $v$ have degree $5$, while the remaining four vertices have degree $4$. Thus
-  \[
-  \deg_{G[C]}(u)=\deg_{G[C]}(v)=5, \deg_{G[C]}(w)=4 \text{ for } w \in V_C \setminus\{u,v\},
-  \]
-\end{enumerate}
-
-Importantly, the symbol definition is not unique and there can be many different graphs dependening on which vertices and edges are chosen to be shared between cycles. 
-
 \chapter{Further Work}
 
-In this chapter, we discuss additional work, further concepts, and interesting ideas arising from structural properties that the square intrinsically possesses. Most of these ideas have not been rigorously proven and are instead presented through proof sketches or intuition for why they may help improve the results obtained by the linear programming framework. The purpose is to identify structural relationships that may provide further ways of strengthening the framework developed in this thesis.
+In this chapter, we discuss additional work, further concepts, and interesting ideas arising from structural properties that the square graph intrinsically possesses. Most of these ideas have not been rigorously proven and are instead presented through proof sketches or intuition for why they may help improve the results obtained by the linear programming framework. 
 
-Previous methods for solving specific classes of roots have been developed by augmenting the linear programming framework with additional constraints and objective functions. Nevertheless, integrating known polynomial-time solutions for trees into an overall framework, while maintaining the internal consistency that valid square graphs must always correspond to feasible instances, does not appear to justify the use of a comparatively complex polynomial-time framework such as the interior-point method. More importantly, the linear program provides a common foundation on which additional structural information can be imposed without requiring these properties to be captured simultaneously within a single formulation.
+Previous methods for solving specific classes of roots have been developed by augmenting the linear programming framework with additional constraints and objective functions. Nevertheless, integrating known polynomial-time solutions for trees into an overall framework, while maintaining the internal consistency that valid square graphs must always correspond to feasible instances, does not appear to justify the use of a comparatively complex polynomial-time framework such as the interior-point method. 
 
 It is, however, relatively straightforward to construct stronger exact algorithms by performing a polynomial number of runs of the linear program. Each run can be used to identify additional structural information, fix variables, or further restrict the possible roots before solving the resulting instance again. This provides a useful mechanism through which improvements to the base linear program can have a much greater effect than the improvement obtained from a single LP solution alone. In particular, a stronger base program can provide more integral variables and structural information, which can then be propagated through subsequent runs of the program.
 
@@ -1559,15 +1492,61 @@ In particular, consider arbitrarily removing a vertex from $G$ and applying the 
 
 More specifically, if deleting a vertex produces a graph for which the linear program has an integral solution, it is worth investigating whether the corresponding solution can be extended to the original graph and, if so, whether the possible extensions can be restricted to a small number of cases. If such extensions can be characterized, vertex deletion provides a mechanism through which information obtained from smaller instances can be propagated back to the original graph.
 
-This is particularly interesting in the context of the preceding framework. A structural property that only produces a modest improvement in the base linear program may become substantially more useful when its consequences can be propagated through several subsequent LP runs. Thus, vertex deletion provides one example of how strengthening the base program may translate into stronger exact results beyond those obtained from a single application of the program.
-
-\subsection{Formulation} \label{subsec::vertex_deletion_formulation}
-
 Let $G^-$ be the subgraph of $G$ defined by $\displaystyle (V^- = V - {v}, E_{G^-} = E_G \backslash {uv \mid u \in V^-})$. If $G^-$ has a valid square root, denote it by $H^-$. Let $H$ be a square root of $G$ satisfying $H^2=G$, and let $H_-$ be the subgraph of $H$ obtained by deleting $v$, defined by $\displaystyle (V^-, E_H \backslash {uv \mid u \in V^-})$. 
 
 In general, $H_-$ need not be a square root of $G^-$, since the deletion of $v$ from $H$ may remove $P_2$s between vertices in $V^-$ which results in $\left(H_-\right)^2\neq G^-$. Nevertheless, an integral solution of the LP for $G^-$ provides a candidate set of root edges on $V^-$ which can be used to refine the LP for $G$. 
 
-The algorithm works as follows.
+\begin{algorithm} \caption{Vertex-Deletion Linear Program} \label{algo:vertex_deletion}
+  \begin{algorithmic}[1]
+    \State \textbf{Input:} A graph $G$
+    \State \textbf{Output:} LP model $(m,x)$
+    \State Construct and solve $\mathcal{LP}(G)$.
+    \If{$\mathcal{LP}(G)$ is integral}
+        \State \Return $(m,x)$
+    \EndIf
+    \State Set $ \displaystyle F=\left\{\{a,b\}\in\binom{V_G}{2}:x_{ab}=x_{ba}=1\right\}$.
+    \State Compute $ \displaystyle d_F(u)=\left|\left\{w\in N_G(u):\{u,w\}\notin F\right\}\right|$ for each $u\in V_G$.
+    \State Choose $v\in\arg\min_{u\in V_G}d_F(u)$ and set $V^-=V_G \setminus\{v\}$.
+    \State Construct $G^-=G[V^-]$ and inherit the fixing $ \displaystyle 
+    F^-=\left\{\{a,b\}\in F:a,b\in V^-\right\}$.
+    \State Construct and solve $\mathcal{LP}(G^-)+F^-$.
+    \If{$\mathcal{LP}(G^-)+F^-$ is integral}
+        \State Construct $H^-$ from its integral solution.
+    \Else
+        \State \Return $(m,x)$
+    \EndIf
+    \State Construct a new copy of $\mathcal{LP}(G)$ and impose $x_{ab}=x_{ba}=1$ for every $\{a,b\}\in F$ and every $ab\in E_{H^-}$.
+    \State Solve the modified LP.
+    \If{the modified LP is infeasible}
+        \State \Return $(m,x)$
+    \Else
+        \State \Return the modified LP solution $(m,x)$
+    \EndIf
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{table}[!htbp]
+  \centering
+  \begin{tabular}{c|cc|cc}
+  \hline
+  $n$ & \multicolumn{2}{c|}{$H$ exists} & \multicolumn{2}{c}{$H$ does not exist} \\
+  & \text{LP integral solution} & \text{LP fractional solution}
+  & \text{LP infeasible} & \text{LP fractional solution} \\
+  \hline
+  3 & 3   & 0   & 1     & 0    \\
+  4 & 6   & 0   & 5     & 0    \\
+  5 & 11  & 0   & 21    & 2    \\
+  6 & 25  & 3   & 117   & 11   \\
+  7 & 62  & 15  & 852   & 115  \\
+  8 & 175 & 132 & 10271 & 1768 \\
+  \hline
+  \end{tabular}
+  \caption{Outcomes of the vertex deletion linear program using unicliqual vertex as the base for graphs of different orders of $n$.}
+  \label{tab::vertex_deletion_program_outcomes}
+\end{table}
+
+
+The recursive algorithm works as follows.
 \begin{enumerate}[label=\roman*)]
   \item Solve $\mathcal{LP}(G)$. If the LP is infeasible, the procedure terminates. If the LP is integral, the corresponding graph is retained as a candidate square root and the procedure terminates. Otherwise, let $\displaystyle F\subseteq\binom{V}{2}$ denote the set of unordered vertex pairs for which the solution satisfies $x_{ab}=x_{ba}=1$.
   \item For each $u\in V$, define its unfixed degree with respect to $F$ by $d_F(u)=|{w\in N_G(u):{u,w}\notin F}|$. Choose a vertex $v\in\arg\min_{u\in V}d_F(u)$ and construct $G^-=G-v$ by deleting $v$ and all edges incident to $v$. Let $V^-=V\setminus{v}$ and let
@@ -1578,22 +1557,88 @@ The algorithm works as follows.
       \item If $\mathcal{LP}(G^-) + F^-$ is infeasible, the candidate $H^-$ is discarded. 
       \item If $\mathcal{LP}(G^-) + F^-$ is fractional, recursively apply the vertex deletion algorithm to solve $\mathcal{G^-}$. If the recursive deletion produces an integral solution, let $H^-$ denote the corresponding root of $G^-$.  
     \end{enumerate}
-  \item If an integral candidate $H^-$ has been obtained, construct $\mathcal{LP}(G\mid F,H^-)$ by taking $\mathcal{LP}(G)$ and imposing $x_{ab}=x_{ba}=1$ for every ${a,b}\in F$ and every pair $ \displaystyle {a,b}\in\binom{V^-}{2}$ such that $ab\in E(H^-)$. No additional constraint is imposed on pairs for which $ab\notin E(H^-)$, and the variables corresponding to pairs involving $v$ remain unrestricted apart from the fixing induced by $F$.
+  \item If an integral candidate $H^-$ has been obtained, construct $\mathcal{LP}(G\mid F,H^-)$ by taking $\mathcal{LP}(G)$ and imposing $x_{ab}=x_{ba}=1$ for every ${a,b}\in F$ and every pair $ \displaystyle {a,b}\in\binom{V^-}{2}$ such that $ab\in E_{H^-}$. No additional constraint is imposed on pairs for which $ab\notin E_{H^-}$, and the variables corresponding to pairs involving $v$ remain unrestricted apart from the fixing induced by $F$.
   \item Solve $\mathcal{LP}(G\mid F,H^-)$.
     \begin{enumerate}
       \item If $\mathcal{LP}(G\mid F,H^-)$ is feasible, the fixing obtained from $H^-$ is consistent with the LP formulation for $G$, and the resulting solution is retained.
       \item If $\mathcal{LP}(G\mid F,H^-)$ is infeasible, the candidate $H^-$ is discarded. This does not imply that $\mathcal{LP}(G)$ is infeasible; it only shows that the candidate root structure $H^-$ is incompatible with the current fixing for $G$.
     \end{enumerate}
-  \item If the candidate $H^-$ is discarded, consider the remaining square roots of $G^-$, taking one representative from each isomorphism class. For each such root $H'$, construct $\mathcal{LP}(G\mid F,H')$ by imposing $x_{ab}=x_{ba}=1$ for every ${a,b}\in\binom{V^-}{2}$ such that $ab\in E(H')$, in addition to the fixing induced by $F$. If the resulting LP is feasible, the corresponding solution is retained.
-  \item If no candidate root of $G^-$ yields a feasible fixing, then the vertex-deletion step provides no further refinement of the LP. The current feasible solution is retained, and the procedure terminates without concluding that $G$ has no square root.
+  \item \label{step:no_integral_hminus} If no integral candidate $H^-$ is obtained from $\mathcal{LP}(G^-)+F^-$ or from the recursive application to $G^-$, then no further fixing is obtained from the vertex deletion step. The current feasible solution of $\mathcal{LP}(G)$ is retained, and the procedure terminates.
+  \item If an integral candidate $H^-$ is obtained but $\mathcal{LP}(G\mid F,H^-)$ is infeasible, the fixing induced by $H^-$ is discarded. The current feasible solution of $\mathcal{LP}(G)$ is retained, and the procedure terminates. This does not imply that $\mathcal{LP}(G)$ is infeasible; it only shows that the candidate root structure $H^-$ is incompatible with the current fixing.
 \end{enumerate}
+
+\begin{table}[!htbp]
+  \centering
+  \begin{tabular}{c|cc|cc}
+  \hline
+  $n$ & \multicolumn{2}{c|}{$H$ exists} & \multicolumn{2}{c}{$H$ does not exist} \\
+  & \text{LP integral solution} & \text{LP fractional solution}
+  & \text{LP infeasible} & \text{LP fractional solution} \\
+  \hline
+  3 & 3   & 0   & 1     & 0    \\
+  4 & 6   & 0   & 5     & 0    \\
+  5 & 11  & 0   & 21    & 2    \\
+  6 & 25  & 3   & 117   & 11   \\
+  7 & 65  & 12  & 852   & 115  \\
+  8 & 199 & 108 & 10271 & 1768 \\
+  \hline
+  \end{tabular}
+  \caption{Outcomes of the recursive vertex deletion linear program using unicliqual vertex as the base for graphs of different orders of $n$.}
+  \label{tab::vertex_deletion_recursive_program_outcomes}
+\end{table}
+
+If the candidate $H^-$ is discarded, instead of applying Step~\ref{step:no_integral_hminus}, consider the remaining square roots of $G^-$, taking one representative from each isomorphism class. For each such root $H'$, construct $\mathcal{LP}(G\mid F,H')$ by imposing $x_{ab}=x_{ba}=1$ for every ${a,b}\in\binom{V^-}{2}$ such that $ab\in E_{H'}$, in addition to the fixing induced by $F$. If the resulting LP is feasible, the corresponding solution is retained.
+
+The intuition behind this step is that the linear program only finds a solution up to isomorphism, while there may be many distinct solutions that are non-isomorphic. Hence, although fixing a subgraph obtained from the LP can often be useful, the particular subgraph generated by the LP may not correspond to the required subgraph of a square root. If finding an appropriate isomorphism of a known root could be done in polynomial time, then such an algorithm would be polynomial. However, the current implementation does not provide this, and is therefore not polynomial. Nevertheless, the approach shows very strong improvements in practice.
+
+\begin{table}[!htbp]
+  \centering
+  \begin{tabular}{c|cc|cc}
+  \hline
+  $n$ & \multicolumn{2}{c|}{$H$ exists} & \multicolumn{2}{c}{$H$ does not exist} \\
+  & \text{LP integral solution} & \text{LP fractional solution}
+  & \text{LP infeasible} & \text{LP fractional solution} \\
+  \hline
+  3 & 3   & 0   & 1     & 0    \\
+  4 & 6   & 0   & 5     & 0    \\
+  5 & 11  & 0   & 21    & 2    \\
+  6 & 28  & 0   & 117   & 11   \\
+  7 & 72  & 5   & 852   & 115  \\
+  8 & 254 & 53  & 10271 & 1768 \\
+  \hline
+  \end{tabular}
+  \caption{Outcomes of the vertex deletion linear program using unicliqual vertex as the base and enumerating all possible $H^-$ roots for graphs of different orders of $n$.}
+  \label{tab::vertex_deletion_enumerate_subgraphs_program_outcomes}
+\end{table}
+
+
+\begin{table}[!htbp]
+  \centering
+  \begin{tabular}{c|cc|cc}
+  \hline
+  $n$ & \multicolumn{2}{c|}{$H$ exists} & \multicolumn{2}{c}{$H$ does not exist} \\
+  & \text{LP integral solution} & \text{LP fractional solution}
+  & \text{LP infeasible} & \text{LP fractional solution} \\
+  \hline
+  3 & 3   & 0   & 1     & 0    \\
+  4 & 6   & 0   & 5     & 0    \\
+  5 & 11  & 0   & 21    & 2    \\
+  6 & 28  & 0   & 117   & 11   \\
+  7 & 74  & 3   & 852   & 115  \\
+  8 & 256 & 51  & 10271 & 1768 \\
+  \hline
+  \end{tabular}
+  \caption{Outcomes of the recursive vertex deletion linear program using unicliqual vertex as the base and enumerating all possible $H^-$ roots for graphs of different orders of $n$.}
+  \label{tab::vertex_deletion_recursive_enumerate_subgraphs_program_outcomes}
+\end{table}
 
 
 \section{Symbolic Groups} \label{sec::symbolic_groups}
 
-Lemma~\ref{lemma::two_edges_integer_sum} and its linear relaxation equivalent Lemma~\ref{lemma::two_edges_linear_sum} give extremely strong structure into how the linear program operates. Using the maximization objective function Lemma~\ref{lemma::two_edges_linear_sum}, any two edges $ij$, $jk$ which exist in $G$ but $ki$, can be assigned the weights $a$, $b$ respectively where $x_{ij} = a$, $x_{jk} = b$ and $a + b \leq 1$. 
+Lemma~\ref{lemma::g_ab=0,two_edge_sum} give extremely strong structure into how the linear program operates. Using the maximization objective function Lemma~\ref{lemma::g_ab=0,two_edge_sum}, any two edges $ij$, $jk$ which exist in $G$ but $ki$, can be assigned the weights $a$, $b$ respectively where $x_{ij} = a$, $x_{jk} = b$ and $a + b \leq 1$. 
 
-Under certain conditions, the relationship can hold with equality $a + b = 1$ which therefore gives a methodology for tackling scenarios where the maximal fractional objective function is greater than the optimal integer objective function corresponding to a valid square root. By continuously iterating Lemma~\ref{lemma::two_edges_linear_sum} can eventually categorize and formulate equations for many of the weights on the various edges. 
+If under certain conditions the relationship holds with equality $a + b = 1$,  one would be able to eventually categorize and formulate equations for many of the weights on the various edges. In particular, this is of great important in resolving scenarios where the maximal fractional objective function is greater than the optimal integer objective function corresponding to a valid square root. 
+
 
 Consider this graph square on $6$ vertices with three different roots  
 \begin{figure}[ht]
@@ -1637,14 +1682,14 @@ Consider this graph square on $6$ vertices with only one unique root
 \begin{figure}[ht]
     \centering
 
-    \begin{subfigure}{0.43\textwidth}
+    \begin{subfigure}{0.40\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/115_6_root.png}
         \caption{The root graph $G$.}
         \label{fig::115_6_root}
     \end{subfigure}
     \hfill
-    \begin{subfigure}{0.42\textwidth}
+    \begin{subfigure}{0.39\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/115_6_square.png}
         \caption{The graph square $H=G^2$.}
@@ -1661,19 +1706,117 @@ In this case, rather than maximizing the objective function and giving a fractio
 
 \section{Duality} \label{sec::duality}
 
+One of the strengths of a linear program in solving problems is the ability to leverage duality. The Karush-Kuhn-Tucker (KKT) conditions provide the optimality conditions for a constrained optimization problem. For a linear program, these conditions reduce to primal feasibility, dual feasibility, and complementary slackness. In particular, when both the primal and dual are feasible, strong duality implies that their optimal objective values are equal.
+
 Consider the dual formulation of the max objective linear program defined in Section~\ref{sec::max_linear_program} by first restating it in canonical form.
 
 \input{subfiles/CanonicalMaxLPFormulation.tex}
 
-Its dual can be rewritten as 
+Its dual can be rewritten as
 
 \input{subfiles/DualFormulation.tex}
 
+In this scenario, the dual is tight and gives exactly the same objective function value as $\max \mathcal{LP}(G)$, consistent with the strong duality theorem. The results in Table~\ref{tab::primal_dual_outcomes} show that every primal-feasible instance has a feasible dual, including both integral and fractional primal solutions, while the instances for which the primal is infeasible also have an infeasible dual. The KKT conditions, through complementary slackness, further characterize these optimal solutions by identifying which primal and dual constraints are tight. In particular, positive dual variables correspond to tight primal constraints, providing a potential means of identifying the constraints that determine the optimal objective value and of investigating the structure of fractional solutions.
+
+\begin{table}[!htbp]
+    \centering
+    \begin{tabular}{c|c|c|c|c}
+        \hline
+        $n$ & $H$ & \text{Primal} & \text{Dual} & \text{Count} \\
+        \hline
+        5 & \text{Exists}     & \text{Integer}    & \text{Feasible}   & 11  \\
+        5 & \text{Does not exist} & \text{Fractional} & \text{Feasible} & 3 \\
+        5 & \text{Does not exist} & \text{Infeasible} & \text{Infeasible} & 20 \\
+        \hline
+        6 & \text{Exists}     & \text{Integer}    & \text{Feasible}   & 25  \\
+        6 & \text{Exists}     & \text{Fractional} & \text{Feasible}   & 3   \\
+        6 & \text{Does not exist} & \text{Fractional} & \text{Feasible} & 21 \\
+        6 & \text{Does not exist} & \text{Infeasible} & \text{Infeasible} & 107 \\
+        \hline
+        7 & \text{Exists}     & \text{Integer}    & \text{Feasible}   & 44  \\
+        7 & \text{Exists}     & \text{Fractional} & \text{Feasible}   & 33  \\
+        7 & \text{Does not exist} & \text{Fractional} & \text{Feasible} & 200 \\
+        7 & \text{Does not exist} & \text{Infeasible} & \text{Infeasible} & 767 \\
+        \hline
+    \end{tabular}
+    \caption{Primal and dual LP outcomes for graphs of different orders $n$.}
+    \label{tab::primal_dual_outcomes}
+\end{table}
+
+It remains to explore this more by investigating the structure of the optimal dual solutions, the relationship between positive dual variables and fractional primal variables, and whether dual information can be used to derive additional valid constraints for the square-root recognition problem.
+
 \section{Rounding} \label{sec::rounding}
 
-Rounding fractional solutions such that an integral solution or the problem is deemed infeasible gives the classification in Table~\ref{fig::rounding_max_objective_function_diagram} are obtained.   
+Finally, we consider a simple heuristic for further refining fractional LP solutions - rounding. Since each edge variable takes a value in $[0,1]$,  many strategies are possible, ranging from probabilistic rounding to systematically fixing each fractional edge in both possible ways. Because every edge variable must ultimately be $0$ or $1$, a more exhaustive approach could branch on each fractional variable to produce a binary search tree. 
 
-\input{subfiles/MaxRoundingResults.tex}
+This yields another polynomial-time algorithm, provided the number of fractional variables is bounded by $O(\log n)$, so that the tree has only polynomially many leaves. Classical techniques such as pruning, bounding, and depth-first or breadth-first search can then be leveraged to evaluate all end nodes efficiently: pruning discards branches whose LP bound exceeds the incumbent, bounding limits the depth of exploration, and the search order determines how quickly an integral solution is found. 
+
+In this example, we use only a simple greedy rounding procedure. At each iteration, the current fractional LP solution is examined and a single fractional edge is selected. The selection is based on the distance of its value from $0.5$, so that fractional values closer to $0$ or $1$ are considered first. The selected edge is then fixed to $0$ if its value is below $0.5$ and to $1$ otherwise. The LP is subsequently resolved with all previous fixings retained.
+
+If the resulting LP is infeasible, the rounding procedure terminates and the previous feasible fractional solution is retained. If the resulting LP remains fractional, another fractional edge is selected and the process continues. The procedure terminates when an integral solution is obtained or when no further feasible fixing can be made.
+
+\begin{algorithm} \caption{Greedy LP Rounding} \label{algo::greedy_rounding}
+  \begin{algorithmic}[1]
+    \State \textbf{Input:} A graph $G$
+    \State \textbf{Output:} A LP solution $(m,x)$
+
+    \vspace{0.5em}
+
+    \State Initialize $F=\emptyset$ and construct $\mathcal{UVLP}(G)$.
+    \State Solve $\mathcal{UVLP}(G)$.
+    \While{the current LP solution is fractional}
+      \State For each fractional edge $ab$, compute its rounding score $ s_{ab}=|x_{ab}-0.5|$.
+      \State Select a fractional edge $ab$ with maximum score.
+      \State Set
+      \[
+      \widehat{x}_{ab}=\widehat{x}_{ba}=
+      \begin{cases}
+      0, & x_{ab} < 0.5,\\
+      1, & x_{ab} \geq 0.5.
+      \end{cases}
+      \]
+      \State Add $ab$ with its assigned value to $F$.
+      \State Reconstruct $\mathcal{UVLP}(G)$ with all fixings in $F$.
+      \State Solve $\mathcal{UVLP}(G) + F$.
+      \If{$\mathcal{UVLP}(G) + F$ is infeasible}
+          \State \textbf{return} the previous feasible solution $(m,x)$.
+      \EndIf
+      \If{$\mathcal{UVLP}(G) + F$ is integral}
+          \State \textbf{return} the integral solution $(m,x)$.
+      \EndIf
+    \EndWhile
+    \State \textbf{return} $(m,x)$.
+  \end{algorithmic}
+\end{algorithm}
+
+The procedure is greedy because only one fixing is selected at each iteration and no alternative fixing is explored. Thus, unlike exhaustive rounding or branch-and-bound approaches, it does not construct a binary search tree of possible fixings. Since there are at most $\binom{|V_G|}{2}$ edge variables to fix and each iteration requires one LP solve, the rounding procedure requires at most $O(n^2)$ LP solves. Consequently, as $\mathcal{UVLP}(G)$ can be solved in polynomial time, the greedy rounding procedure is polynomial-time.
+
+Rounding fractional solutions in this manner either produces an integral solution or reaches a point at which the selected fixing makes the LP infeasible. These outcomes give the classifications reported in Table~\ref{tab::unicliqual_rounding_program_outcomes}.
+
+\begin{table}[!htbp]
+    \centering
+    \begin{tabular}{c|cc|cc|c}
+        \hline
+        $n$ & \multicolumn{2}{c|}{$H$ exists} 
+            & \multicolumn{2}{c|}{$H$ does not exist}
+            & \multicolumn{1}{c}{$\text{Integral}\leftarrow\text{Fractional}$} \\
+        & \text{LP integral} & \text{LP fractional}
+        & \text{LP infeasible} & \text{LP fractional}
+        & \\
+        \hline
+        3 & 3   & 0   & 1     & 0    & 0   \\
+        4 & 6   & 0   & 5     & 0    & 0   \\
+        5 & 11  & 0   & 21    & 2    & 0   \\
+        6 & 27  & 1   & 117   & 11   & 2   \\
+        7 & 75  & 2   & 852   & 115  & 20  \\
+        8 & 262 & 45  & 10271 & 1768 & 108 \\
+        \hline
+    \end{tabular}
+    \caption{Outcomes of the greedy rounding linear program using the unicliqual vertex linear program as the base for graphs of different orders of $n$.}
+    \label{tab::unicliqual_rounding_program_outcomes}
+\end{table}
+
+\newpage
 
 \appendix
 
