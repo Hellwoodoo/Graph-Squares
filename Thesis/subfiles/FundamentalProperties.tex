@@ -8,9 +8,7 @@
 \end{proof}
 
 \begin{lemma} \label{lemma::g_ab=0,two_edge_sum}
-  Let $G$ and $H$ be graphs such that $G = H^2$. Let $a,b \in V_G$ such that
-  $ab \notin E_G$. For every feasible solution $x$ of $\mathcal{LP}(G)$ and
-  every $v \in V_G$ with $v \neq a,b$ we have
+  Let $G$ and $H$ be graphs such that $G = H^2$. Let $a,b \in V_G$ such that $ab \notin E_G$. For every feasible solution $x$ of $\mathcal{LP}(G)$ and every $v \in V_G$ with $v \neq a,b$ we have
   \[
   x_{av} + x_{vb} \leq 1.
   \]
@@ -39,8 +37,7 @@
 \begin{lemma}[$1$ Path Propogation] \label{lemma::1_path_propogation}
   Let $G$ and $H$ be graphs such that $G = H^2$. Let $a,b \in V_G$ such that $ab \in E_G$. If a feasible solution $x$ of $\mathcal{LP}(G)$ satisfies $x_{ab} = 0$, then 
   \[
-  \sum_{\substack{k\in V_G \\ g_{ak}>0, g_{kb}>0 \\ x_{ak}>0, x_{kb}>0}}
-  y_{akb} \geq 1,
+  \sum_{\substack{k\in V_G \\ g_{ak}>0, g_{kb}>0 \\ x_{ak}>0, x_{kb}>0}} y_{akb} \geq 1,
   \]
 \end{lemma}
 \begin{proof}
@@ -48,18 +45,12 @@
   \[
   z_{ab} = \sum_{k=1}^{n} y_{akb}+x_{ab} = \sum_{k=1}^{n} y_{akb} \geq 1. 
   \]
-  It remains to restrict the sum to the stated vertices. If
-  $g_{ak}=0$, then Equations~\eqref{eq::IP_indicator_upper} and
-  \eqref{eq::IP_indicator_lower} imply $z_{ak}=0$. By
-  Equation~\eqref{eq::IP_indicator_arg},
+  It remains to restrict the sum to the stated vertices. If $g_{ak}=0$, then Equations~\eqref{eq::IP_indicator_upper} and \eqref{eq::IP_indicator_lower} imply $z_{ak}=0$. By Equation~\eqref{eq::IP_indicator_arg},
   \[
   0 = z_{ak} = \sum_{r=1}^{n} y_{ark}+x_{ak},
   \]
-  and since all variables are non-negative, $x_{ak}=0$. Similarly, $g_{kb}=0$ implies $x_{kb}=0$. Moreover, if $x_{ak}=0$, then Equation~\eqref{eq::IP_product_upper_first} gives $y_{akb}=0$, while if $x_{kb}=0$, Equation~\eqref{eq::IP_product_upper_second}
-  gives $y_{akb}=0$. Thus every term $y_{akb}$ excluded from the
-  restricted sum is zero, giving
+  and since all variables are non-negative, $x_{ak}=0$. Similarly, $g_{kb}=0$ implies $x_{kb}=0$. Moreover, if $x_{ak}=0$, then Equation~\eqref{eq::IP_product_upper_first} gives $y_{akb}=0$, while if $x_{kb}=0$, Equation~\eqref{eq::IP_product_upper_second} gives $y_{akb}=0$. Thus every term $y_{akb}$ excluded from the restricted sum is zero, giving
   \[
-  \sum_{\substack{k\in V_G \\ g_{ak}>0, g_{kb}>0 \\ x_{ak}>0, x_{kb}>0}}
-  y_{akb} \geq 1,
+  \sum_{\substack{k\in V_G \\ g_{ak}>0, g_{kb}>0 \\ x_{ak}>0, x_{kb}>0}} y_{akb} \geq 1,
   \]
 \end{proof}

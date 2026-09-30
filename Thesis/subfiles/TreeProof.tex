@@ -5,9 +5,9 @@
   \[
   x_{su}=x_{us}=x_{uv}=x_{vu}=1.
   \]
-  Let $N_T(v)\setminus{u} = \{a_1,\ldots,a_r\}$ be the set of all other neighbours of $v$ in $T$. Then path propagation fixes
+  Let $N_T(v)\setminus\{u\} = \{a_1,\ldots,a_r\}$ be the set of all other neighbours of $v$ in $T$. Then path propagation fixes
   \[
-  x_{va_i}=x_{a_iv}=1 \text{ for every } i \in \{1,\ldots\}. 
+  x_{va_i}=x_{a_iv}=1 \text{ for every } i \in \{1,\ldots,r\}. 
   \]
 \end{lemma}
 \begin{proof}
@@ -49,33 +49,30 @@
 \end{theorem}
 
 \begin{proof}
-
-  Suppose that $G=T^2$ for some tree $T$. By Lemma~\ref{lemma::unicliqual_vertex_fix}, the unicliqual vertex fixing
-  identifies a leaf $s$, its stem $u$, and the external vertex $v$, and Equation~\eqref{eq::unicliqual_vertex_fix} imposes
+  Suppose that $G=T^2$ for some tree $T$. By Lemma~\ref{lemma::unicliqual_vertex_fix}, the unicliqual vertex fixing identifies a leaf $s$, its stem $u$, and the external vertex $v$, and Equation~\eqref{eq::unicliqual_vertex_fix} imposes
   \[
   x_{su}=x_{us}=x_{uv}=x_{vu}=1.
   \]
-  Hence the hypotheses of Lemma~\ref{lemma::propagation} are satisfied.
-
-  We prove by induction on the number of edges of the reconstructed subtree that repeated application of path propagation assigns an integral value to every edge of $T$.
-
-  For the base case, the reconstructed subtree consists of the edges initially identified by the unicliqual vertex fixing. These edges have integral assignment by Equation~\eqref{eq::unicliqual_vertex_fix}.
-
-  For the inductive step, suppose that a connected subtree $T'$ of $T$ containing the fixed path $s-u-v$ has been reconstructed and that every edge of $T'$ has been assigned its integral value. If $T'\neq T$, then, since $T$ is connected, there exists an edge
+  Hence the hypotheses of Lemma~\ref{lemma::propagation} are satisfied and path propagation fixes $N_T(v)\setminus\{u\} = \{a_1,\ldots,a_r\}$ such that 
   \[
-  ab \in E_T\setminus E_{T'}
+  x_{va_i}=x_{a_iv}=1 \text{ for every } i \in \{1,\ldots,r\}. 
   \]
-  such that $a\in V_{T'}$ and $b\notin V_{T'}$.
 
-  Since $T$ is a tree, the edge $ab$ extends $T'$ without creating a cycle. Moreover, the unique path in $T$ from the fixed path $s-u-v$ to $b$ consists of edges already reconstructed up to $a$, followed by the edge $ab$. Thus path propagation can be applied to this extended path, and fixes
-  \[
-  x_{ab}=x_{ba}=1.
-  \]
-  Consequently, $T'$ can be extended to the larger connected subtree $T''=T'+ab$, whose edges all have integral assignments.
-
-  Therefore, whenever the reconstructed subtree is a proper subtree of $T$, path propagation identifies at least one additional edge of $T$. Since $T$ is finite, repeated application of this argument eventually reconstructs all of $T$ and assigns an integral value to every edge.
-
-  Hence the resulting solution is integral and corresponds to the tree root $T$ of $G$. Therefore $\max\mathcal{UVLP}(G)$ returns an integral solution.
+  We prove by induction on the number of edges of the reconstructed subtree that repeated application of path propagation assigns an integral value to every edge of $T$. 
+  
+  For the base case, the reconstructed subtree consists of the edges initially identified by the unicliqual vertex fixing and the first application of path propagation. These edges have integral assignments by Equation~\eqref{eq::unicliqual_vertex_fix} and Lemma~\ref{lemma::propagation}. 
+  
+  For the inductive step, suppose that a connected subtree $T'$ of $T$ has been reconstructed and that every edge of $T'$ has been assigned its integral value. If $T'\neq T$, since $T$ is connected, there exists an edge 
+  \[ 
+  ab \in E_T \setminus E_{T'} 
+  \] 
+  with $a \in V_{T'}$ and $b \notin V_{T'}$. Since $T'$ contains at least one path of length two, we may arbitrarily label three consecutive vertices of such a path as $s,u,v$. The vertex $a$ is then the already reconstructed vertex adjacent to the unlabelled vertex $b$. Relabelling the vertices in this local configuration in this way, the hypotheses of Lemma~\ref{lemma::propagation} are satisfied. Hence path propagation fixes 
+  \[ 
+  x_{ab}=x_{ba}=1. 
+  \] 
+  Thus $T'$ can be extended to the larger connected subtree $T''=T'+ab$, whose edges all have integral assignments. 
+  
+  Thus, by the inductive argument, whenever the reconstructed subtree is a proper subtree of $T$, it can be extended by at least one additional edge of $T$, with all edges of the resulting subtree assigned integral values. Since $T$ is finite, the induction eventually reconstructs all of $T$ and assigns an integral value to every edge. Hence the resulting solution is integral and corresponds to the tree root $T$ of $G$. Therefore, $\max\mathcal{UVLP}(G)$ returns an integral solution.
 \end{proof}
 
 \begin{theorem}[Path Proof] \label{theorem::unicliqual_vertex_path}
@@ -86,23 +83,21 @@
   \[
   x_{su}=x_{us}=x_{uv}=x_{vu}=1.
   \]
-  Hence the hypotheses of Lemma~\ref{lemma::propagation} are satisfied.
+  Hence the hypotheses of Lemma~\ref{lemma::propagation} are satisfied and path propagation fixes $N_T(v)\setminus\{u\} = \{a_1,\ldots,a_r\}$ such that 
+  \[
+  x_{va_i}=x_{a_iv}=1 \text{ for every } i \in \{1,\ldots,r\}. 
+  \]
+  The same argument can then be applied at each newly identified vertex. More generally, let $w \in V_{T}$ be arbitrary. Since $T$ is connected, there is a path from $v$ to $w$. Therefore, together with the fixed path $s-u-v$, there is a path
+  \[
+  s-u-v-a-\cdots-w
+  \]
+  in $T$. Starting from the fixed edges $su$ and $uv$, path propagation already fixes $va$ and can be applied successively along this path. Hence every edge on the path from $v$ to $w$ is assigned an integral value.
 
-  In particular letting $N_T(v)\setminus\{u\}=\{a_1,\ldots,a_r\}$ Lemma~\ref{lemma::propagation} fixes
+  Since $w$ was arbitrary, every vertex of $T$ is reached by such a path. Now let $wx \in E_T$ be arbitrary. Since $T$ is connected, there is a path from $v$ to $w$, and appending the edge $wx$ gives a path
   \[
-  x_{va_i}=x_{a_iv}=1 \text{ for every }i\in\{1,\ldots,r\}.
+  s-u-v-a-\cdots-w-x
   \]
-  The same argument can then be applied at each newly identified vertex. More generally, let $w\in V(T)$ be arbitrary. Since $T$ is connected, there is a path from $v$ to $w$. Therefore, together with the fixed path $s-u-v$, there is a path
-  \[
-  s-u-v-\cdots-w
-  \]
-  in $T$. Starting from the fixed edges $su$ and $uv$, path propagation can be applied successively along this path. Hence every edge on the path from $v$ to $w$ is assigned an integral value.
-
-  Since $w$ was arbitrary, every vertex of $T$ is reached by such a path. Now let $ab\in E_T$ be arbitrary. Since $T$ is connected, there is a path from $v$ to $a$, and appending the edge $ab$ gives a path
-  \[
-  s-u-v-\cdots-a-b
-  \]
-  containing $ab$. Thus path propagation assigns an integral value to $ab$.
+  containing $wx$. Thus path propagation assigns an integral value to $wx$.
 
   Therefore every edge of $T$ is assigned an integral value. Hence the resulting assignment is integral and corresponds to the tree root $T$ of $G$. Therefore $\max\mathcal{UVLP}(G)$ returns an integral solution.
 \end{proof}

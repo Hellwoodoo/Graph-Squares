@@ -25,7 +25,7 @@ style=alphabetic]{biblatex}
 \newtheorem{definition}{Definition}[section] 
 \newtheorem{problem}{Problem}[section] 
 
-\title{\fontsize{30}{36}\selectfont Linear Programming of Graph Squares}
+\title{\fontsize{30}{36}\selectfont Linear Programming Approach to the Graph Square Problem}
 
 \author{
     Eddie Xu \\[2em]
@@ -1611,7 +1611,6 @@ The intuition behind this step is that the linear program only finds a solution 
   \label{tab::vertex_deletion_enumerate_subgraphs_program_outcomes}
 \end{table}
 
-
 \begin{table}[!htbp]
   \centering
   \begin{tabular}{c|cc|cc}
@@ -1632,15 +1631,19 @@ The intuition behind this step is that the linear program only finds a solution 
   \label{tab::vertex_deletion_recursive_enumerate_subgraphs_program_outcomes}
 \end{table}
 
-
-\section{Symbolic Groups} \label{sec::symbolic_groups}
+\section{Symbolic Sets} \label{sec::symbolic_sets}
 
 Lemma~\ref{lemma::g_ab=0,two_edge_sum} give extremely strong structure into how the linear program operates. Using the maximization objective function Lemma~\ref{lemma::g_ab=0,two_edge_sum}, any two edges $ij$, $jk$ which exist in $G$ but $ki$, can be assigned the weights $a$, $b$ respectively where $x_{ij} = a$, $x_{jk} = b$ and $a + b \leq 1$. 
 
-If under certain conditions the relationship holds with equality $a + b = 1$,  one would be able to eventually categorize and formulate equations for many of the weights on the various edges. In particular, this is of great important in resolving scenarios where the maximal fractional objective function is greater than the optimal integer objective function corresponding to a valid square root. 
+If under certain conditions the relationship holds with equality $a + b = 1$, one would be able to eventually categorize and formulate equations for many of the weights on the various edges. In particular, this is of great importance in resolving scenarios where the maximal fractional objective function is greater than the optimal integer objective function corresponding to a valid square root. 
 
+\begin{conjecture} \label{conjecture::two_edges_linear_maximization}
+  Let $G$ and $H$ be graphs such that $G = H^2$. Let $a,b \in V_G$ such that $ab \notin E_G$. For every feasible solution $x$ of $\max \mathcal{LP}(G)$ and every $v \in V_G$ with $v \neq a,b$ we have
+  \[
+  x_{av} + x_{vb} = 1 \text{ or }  x_{av} + x_{vb} = 0. 
+  \]
+\end{conjecture}
 
-Consider this graph square on $6$ vertices with three different roots  
 \begin{figure}[ht]
     \centering
 
@@ -1675,13 +1678,14 @@ Consider this graph square on $6$ vertices with three different roots
     \label{fig::130_6}
 \end{figure}
 
-$G_1$ is the unique maximal root. Assigning $a = x_{14}$ gives using Lemma~\eqref{lemma::two_edges_linear_maximization} that $1 - a = x_{40}$ since $01$ does not exist in $G$. The same applies such that $1 - a = x_{42}$ and $a = x_{43}$, whereby the existence of edges $13$ and $02$ prevent additional constraints being imposed upon $a$, it is internally consistent. By symmetry can likewise assign $b = x_{15} = x_{35}$ 
-and $1 - b = x_{50} = x_{52}$. Setting $a = 0$ and $b = 1$ thus gives $x_{40}$
+Consider Figure~\ref{fig::130_6} where $G_1$ is the unique maximal root. Assigning $\alpha = x_{14}$ gives using Conjecture~\eqref{conjecture::two_edges_linear_maximization} that $1 - \alpha = x_{40}$ since $g_{01} = 0$. The same applies such that $1 - \alpha = x_{42}$ and $\alpha = x_{43}$, whereby the existence of edges $g_{13}=g_{02}=1$ prevent additional constraints being imposed upon $\alpha$ and ensure it is internally consistent. By symmetry can likewise assign $\beta = x_{15} = x_{35}$ and $1 - \beta = x_{50} = x_{52}$. Setting $\alpha = 0$ and $\beta = 1$ thus gives $x_{40} = x_{42} = x_{15} = x_{35} = 1$ and $x_{14} = x_{43} = x_{50} = x_{52} = 0$ which with the additioanl of $x_{45}=1$ gives Figure~\ref{fig::130_6_root_3}. In this example, both $\{(1,4), (4,0), (4,2), (4,3) \}$ and $\{(1,5), (3,5), (5,0), (5,2)\}$ are consistent sets. 
 
-Consider this graph square on $6$ vertices with only one unique root 
+\begin{definition}[Consistent Set] \label{def::consistent_set}
+  Let a \textbf{consistent set} $\mathcal{CG} \subseteq E_G$ be a set with at least three edges where all edges are labelled using a single symbol $\alpha$ such that every  pair of edges satisfies the $1$ equality of Conjecture~\eqref{conjecture::two_edges_linear_maximization} implicitly - that is every edge that satisfies the lemma is labelled $\alpha$ and  $1-\alpha$. Thus for a consistent set there are only two possibilities that must be considered, $\alpha = 0$ or $\alpha = 1$. 
+\end{definition}
+
 \begin{figure}[ht]
     \centering
-
     \begin{subfigure}{0.40\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/115_6_root.png}
@@ -1692,21 +1696,62 @@ Consider this graph square on $6$ vertices with only one unique root
     \begin{subfigure}{0.39\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/115_6_square.png}
-        \caption{The graph square $H=G^2$.}
+        \caption{The graph square $H^2=G$.}
         \label{fig::115_6_square}
     \end{subfigure}
 
-    \caption{A six-vertex graph and its square.}
-    \label{fig::115_6_example}
+    \caption{A six-vertex graph and its square. $G$ only has one root that is unique up to isomorphism.}
+    \label{fig::115_6}
 \end{figure}
 
-Assigning $a = x_{03}$ gives using Lemma~\eqref{lemma::two_edges_linear_maximization} that $x_{31} = 1 - a$ since $01$ does not exist in $G$, and likewise with $12$ does not exist in $G$ have $x_{32} = a$. However with the absence of $02$, must have $x_{03} + x_{32} \leq 1$ such that $\displaystyle a \leq \frac{1}{2}$. By symmetry  this likewise holds for $b = x_{05} = x_{15}$, $1-b = x_{52}$ and $c = x_{42} = x_{41}$, $1-c = x_{40}$ giving $\displaystyle b, c \leq \frac{1}{2}$. 
+Consider Figure~\ref{fig::115_6} where assigning $\alpha = x_{03}$ gives using Conjecture~\eqref{conjecture::two_edges_linear_maximization} that $x_{31} = 1 - \alpha$ since $g_{01} = 0$. Likewise as $g_{12} = 0$ have $x_{32} = \alpha$ and $x_{03} + x_{32} \leq 1$ such that $\displaystyle \alpha \leq \frac{1}{2}$. By symmetry this likewise holds for $\beta = x_{05} = x_{15}$, $1-\beta = x_{52}$ and $\gamma = x_{42} = x_{41}$, $1-\gamma = x_{40}$ giving $\displaystyle \beta, \gamma \leq \frac{1}{2}$. 
 
-In this case, rather than maximizing the objective function and giving a fractional solution, setting $a=b=c=0$ gives a valid integral solution. 
+Maximizing the objective function thus gives $\displaystyle \alpha=\beta=\gamma=\frac{1}{2}$ which is a fractional solution. It necessitates the arbitrarily fixing of edges to give a valid integral solution. Setting $\alpha=\beta=\gamma=0$ with $x_{31}=x_{52}=x_{40} = 1$ and the remaining to $0$ gives the solution Figure~\ref{fig::115_6_root}, yet this is not doable in general. In this example, all of $\{(0,3), (3,1), (3,2) \}$, $\{(0,5), (1,5), (5,2)\}$ and $\{(4,2), (4,1), (4,0)\}$ are inconsistent sets. 
+
+\begin{definition}[Inconsistent Set] \label{def::inconsistent_set}
+  Let an \textbf{inconsistent set} $\mathcal{IG} \subseteq E_G$ be a set with at least three edges where all edges are labelled by a single symbol $\alpha$ such that  every pair of edges satisfies Lemma~\eqref{conjecture::two_edges_linear_maximization} where there exists a pair of edges satisfying the lemma, but both are labelled $\alpha$ or $1-\alpha$. In this scenario $\alpha + \alpha \leq 1$ such that $\displaystyle 0 \leq \alpha \leq \frac{1}{2}$ or $1 - \alpha + 1 - \alpha \leq 1$ such that $\displaystyle 1 \geq \alpha \geq \frac{1}{2}$. 
+\end{definition}
+
+\begin{figure}[ht]
+    \centering
+    \begin{subfigure}{0.40\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/115_6_root.png}
+        \caption{The root graph $G$.}
+        \label{fig::115_6_root}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.39\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/115_6_square.png}
+        \caption{The graph square $H^2=G$.}
+        \label{fig::115_6_square}
+    \end{subfigure}
+
+    \caption{A six-vertex graph and its square. $G$ only has one root that is unique up to isomorphism. }
+    \label{fig::115_6}
+\end{figure}
+
+\begin{definition}[Null Set] \label{def::null_set}
+  Let a \textbf{null set} $\mathcal{NG} \subseteq E_G$ be a set with at least three edges where all edges are labelled by a single symbol $\alpha$ such that every pair of edges satisfies the $0$ equality of Conjecture~\eqref{conjecture::two_edges_linear_maximization} implicitly - that is every edge that satisfies the lemma is assigned $x$ value $0$. 
+\end{definition}
+
+
+\begin{conjecture} \label{conjecture::consisten_set_conjecture}
+  Any square graph with only consistent sets whose union forms a strict subgraph of $G$ can be solved by arbitrarily fixing one of the group's symbols with either $0$ or $1$. 
+\end{conjecture}
+
+\begin{conjecture} \label{conjecture::inconsistent_set_conjecture}
+  Any square graph with an inconsistent set must have at least one inconsistent set that is a star. By fixing one variable of the star, the linear program will only consist of consistent sets.  
+\end{conjecture}
 
 \section{Duality} \label{sec::duality}
 
-One of the strengths of a linear program in solving problems is the ability to leverage duality. The Karush-Kuhn-Tucker (KKT) conditions provide the optimality conditions for a constrained optimization problem. For a linear program, these conditions reduce to primal feasibility, dual feasibility, and complementary slackness. In particular, when both the primal and dual are feasible, strong duality implies that their optimal objective values are equal.
+One of the strengths of a linear program in solving problems is the ability to leverage duality. In particualr, the Karush-Kuhn-Tucker (KKT) conditions give deeper insight into the geometric interpretation of the feasible region through the introduction of dual variables. If the dual variable is non-zero, then the corresponding primal constraint is tight, whilst if the dual variable is zero, then the primal constraint is not satisfied. This enables solutions to the linear program to be viewed directly in the geometric region. 
+
+
+Impoprtantly, the relationshi pbetween the primal and dual is highlted by their solution to the objective function. 
+For a linear program, these conditions reduce to primal feasibility, dual feasibility, and complementary slackness. In particular, when both the primal and dual are feasible, strong duality implies that their optimal objective values are equal.
 
 Consider the dual formulation of the max objective linear program defined in Section~\ref{sec::max_linear_program} by first restating it in canonical form.
 

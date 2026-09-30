@@ -1034,14 +1034,9 @@ In this case, rather than maximizing the objective function and giving a fractio
 
 \subsection{Algorithm} \label{subsec::edge_enforcement_algorithm}
 
-Let a \textbf{consistent group} $CG \subseteq E_G$ be a group with at least three edges where all edges are labelled by a single symbol $\alpha$ such that every 
-pair of edges satisfies Lemma~\eqref{lemma::two_edges_linear_maximization} implicitly - that is every edge that satisfies the lemma is labelled $\alpha$ and 
-$1-\alpha$. Thus for a consistent group there are only two possibilities that must be considered, $\alpha = 0$ or $\alpha = 1$. 
+Let a \textbf{consistent group} $CG \subseteq E_G$ be a group with at least three edges where all edges are labelled by a single symbol $\alpha$ such that every  pair of edges satisfies Lemma~\eqref{lemma::two_edges_linear_maximization} implicitly - that is every edge that satisfies the lemma is labelled $\alpha$ and  $1-\alpha$. Thus for a consistent group there are only two possibilities that must be considered, $\alpha = 0$ or $\alpha = 1$. 
 
-Let an \textbf{inconsistent group} $IG \subseteq E_G$ be a group with at least three edges where all edges are labelled by a single symbol $\alpha$ such that 
-every pair of edges satisfies Lemma~\eqref{lemma::two_edges_linear_maximization} where there exists a pair of edges satisfying the lemma, but both are labelled 
-$\alpha$ or $1-\alpha$. In this scenario $\alpha + \alpha \leq 1$ such that $\displaystyle 0 \leq \alpha \leq \frac{1}{2}$ or $1 - \alpha + 1 - \alpha \leq 1$ 
-such that $\displaystyle 1 \geq \alpha \geq \frac{1}{2}$. 
+Let an \textbf{inconsistent group} $IG \subseteq E_G$ be a group with at least three edges where all edges are labelled by a single symbol $\alpha$ such that  every pair of edges satisfies Lemma~\eqref{lemma::two_edges_linear_maximization} where there exists a pair of edges satisfying the lemma, but both are labelled $\alpha$ or $1-\alpha$. In this scenario $\alpha + \alpha \leq 1$ such that $\displaystyle 0 \leq \alpha \leq \frac{1}{2}$ or $1 - \alpha + 1 - \alpha \leq 1$ such that $\displaystyle 1 \geq \alpha \geq \frac{1}{2}$. 
 
 \begin{theorem}
   Any square graph with only consistent groups whose union forms a strict subgraph of $G$ can be solved by arbitrarily fixing one of the group's symbol with
