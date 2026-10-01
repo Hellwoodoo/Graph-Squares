@@ -12,8 +12,8 @@
 
 \begin{lstlisting}[style=python, caption={Integer Program.}, label={lst::integer_program}]
 def integer_program(G):
-    m = MixedIntegerLinearProgram(solver = 'GLPK', maximization=False)
-    m.solver_parameter("simplex_or_intopt", "intopt_only")
+    m = MixedIntegerLinearProgram(solver='Gurobi', maximization=False)
+    m.solver_parameter("Method", 2)
 
     x = m.new_variable(integer=True, nonnegative=True)
     y = m.new_variable(integer=True, nonnegative=True)
@@ -66,8 +66,8 @@ def integer_program(G):
 
 \begin{lstlisting}[style=python, caption={Linear Program.}, label={lst::linear_program}]
 def linear_program(G):
-    m = MixedIntegerLinearProgram(solver = 'GLPK', maximization=False)
-    m.solver_parameter("simplex_or_intopt", "intopt_only")
+    m = MixedIntegerLinearProgram(solver='Gurobi', maximization=False)
+    m.solver_parameter("Method", 2)
 
     x = m.new_variable(real=True, nonnegative=True)
     y = m.new_variable(real=True, nonnegative=True)
@@ -119,8 +119,8 @@ def linear_program(G):
 
 \begin{lstlisting}[style=python, caption={Max Linear Program.}, label={lst::max_linear_program}]
 def max_linear_program(G):
-    m = MixedIntegerLinearProgram(solver = 'GLPK', maximization=False)
-    m.solver_parameter("simplex_or_intopt", "intopt_only")
+    m = MixedIntegerLinearProgram(solver='Gurobi', maximization=False)
+    m.solver_parameter("Method", 2)
 
     x = m.new_variable(real=True, nonnegative=True)
     y = m.new_variable(real=True, nonnegative=True)
@@ -174,8 +174,8 @@ def max_linear_program(G):
 
 \begin{lstlisting}[style=python, caption={Min Linear Program.}, label={lst::min_linear_program}]
 def min_linear_program(G):
-    m = MixedIntegerLinearProgram(solver = 'GLPK', maximization=False)
-    m.solver_parameter("simplex_or_intopt", "intopt_only")
+    m = MixedIntegerLinearProgram(solver='Gurobi', maximization=False)
+    m.solver_parameter("Method", 2)
 
     x = m.new_variable(real=True, nonnegative=True)
     y = m.new_variable(real=True, nonnegative=True)
@@ -256,8 +256,8 @@ def find_leaf_stem(G):
     return None
 
 def unicliqual_vertex_linear_program(G):
-    m = MixedIntegerLinearProgram(solver = 'GLPK', maximization=False)
-    m.solver_parameter("simplex_or_intopt", "intopt_only")
+    m = MixedIntegerLinearProgram(solver='Gurobi', maximization=False)
+    m.solver_parameter("Method", 2)
 
     x = m.new_variable(real=True, nonnegative=True)
     y = m.new_variable(real=True, nonnegative=True)
@@ -311,7 +311,7 @@ def unicliqual_vertex_linear_program(G):
     structure = find_leaf_stem(G)
 
     if structure is None:
-        
+
         return m, x
 
     s = structure["leaf"]
@@ -459,7 +459,7 @@ def vertex_deletion_recursive_linear_program(G):
     return m, x
 \end{lstlisting}
 
-\begin{lstlisting}[style=python, caption={Unicliqual Rounding Linear Program.}, label={lst::unicliqual_rounding_linear_program}]
+\begin{lstlisting}[style=python, caption={Max Rounding Linear Program.}, label={lst::max_rounding_linear_program}]
 def integer_components_and_ranked_vertex_edges(x_val, n, eps=1e-6):
     G_int = Graph()
     G_int.add_vertices(range(n))
@@ -500,6 +500,42 @@ def integer_components_and_ranked_vertex_edges(x_val, n, eps=1e-6):
 
     return components, comp_index, v_star, incident_edges
 
+def max_rounding_linear_program(G, threshold=0.5):
+    fixed_assignments = []
+    n = G.order()
+
+    m, x = max_linear_program(G)
+    m.solve()
+
+    for step in range(n * (n - 1) // 2):
+        x_val = m.get_values(x)
+        _, comp_index, v_star, edges = integer_components_and_ranked_vertex_edges(x_val, n)
+
+        if v_star is None:
+            return m, x
+
+        i, j, v, _ = edges[0]
+        fix_val = 1 if comp_index[i] != comp_index[j] else (1 if v > threshold else 0)
+
+        m_try, x_try = max_linear_program(G)
+        for a, b, val in fixed_assignments:
+            m_try.add_constraint(x_try[a,b] == val)
+            m_try.add_constraint(x_try[b,a] == val)
+        m_try.add_constraint(x_try[i,j] == fix_val)
+        m_try.add_constraint(x_try[j,i] == fix_val)
+
+        try:
+            m_try.solve()
+        except MIPSolverException:
+            return m, x
+
+        fixed_assignments.append((i, j, fix_val))
+        m, x = m_try, x_try
+
+    return m, x
+\end{lstlisting}
+
+\begin{lstlisting}[style=python, caption={Unicliqual Rounding Linear Program.}, label={lst::unicliqual_rounding_linear_program}]
 def unicliqual_rounding_linear_program(G, threshold=0.5):
     fixed_assignments = []
     n = G.order()

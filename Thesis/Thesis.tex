@@ -73,14 +73,14 @@ such that higher steps can be easily generated. In this manner, higher powers of
 
 \begin{figure}[ht]
     \centering
-    \begin{subfigure}{0.38\textwidth}
+    \begin{subfigure}{0.28\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/K5_root_11.png}
         \caption{One of the $15$ isomorphic graph roots of $K_5$.}
         \label{fig::K5_11_root}
     \end{subfigure}
-    \hfill
-    \begin{subfigure}{0.38\textwidth}
+    \hspace{0.03\textwidth}
+    \begin{subfigure}{0.28\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/K5.png}
         \caption{$K_5$.}
@@ -431,6 +431,8 @@ We now introduce the graph-theoretic objects central to this thesis.
 \begin{definition}[Graph Root] \label{def::graph_root}
   Let the \textbf{graph root} $H = (V, E_H)$ be a finite, simple, undirected graph, where $V$ is the vertex set with $|V| = n$, and $E_H \subseteq \{\{u,v\} \mid u,v \in V, u \neq v\}$ is the edge set. 
 \end{definition}
+
+\include{subfiles/FundamentalExample}
 
 \begin{definition}[Square of a Graph] \label{def::square_of_a_graph}
   The \textbf{square of a graph} $H$, denoted by $H^2 = (V, E_{H^2})$ is the graph on the same vertex set with edge set
@@ -1014,7 +1016,7 @@ Let $M \in \mathbb{Z}_{> 0}$ be a sufficiently large constant. In this case, $M$
 
 \input{subfiles/IntegerProgramFormulation.tex}
 
-The construction of the integer program on the arbitrary graph $G$ using Equations~\eqref{eq::IP_x_variable}--\eqref{eq::IP_diagonal_x} is denoted as $\mathcal{IP}(G)$. 
+The integer program on the arbitrary graph $G$ using Equations~\eqref{eq::IP_x_variable}--\eqref{eq::IP_diagonal_x} is denoted as $\mathcal{IP}(G)$. 
 
 The constraints in Equations~\eqref{eq::IP_symmetry_x}--\eqref{eq::IP_diagonal_x} impose the required symmetry and diagonal structure on the adjacency matrix $A_H$. Although analogous constraints could also be imposed on the auxiliary variables $z$, they are omitted as they are redundant and may introduce artificial degeneracy into the linear program.
 
@@ -1061,7 +1063,7 @@ The linear relaxation of the integer program defined by Equations~\eqref{eq::IP_
 
 The construction of the linear program on the arbitrary graph $G$ using Equations~\eqref{eq::LP_x_variable}--\eqref{eq::LP_z_variable} and Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::IP_diagonal_x} is denoted as $\mathcal{LP}(G)$. 
 
-The results from the linear programming can give \emph{integral solutions} and \emph{fractional solutions} when the root exists and \emph{fractional solutions} and \emph{infeasible solutions} when the root does not exist such that the results in Figure~\eqref{fig::linear_program_diagram} can be generated. 
+The results from the linear programming can give \emph{integral solutions} and \emph{fractional solutions} when the root exists and \emph{fractional solutions} and \emph{infeasible solutions} when the root does not exist. 
 
 \begin{definition}[Integral Solutions]
   A feasible solution to the linear program is an \emph{integral solution} if
@@ -1083,9 +1085,30 @@ The results from the linear programming can give \emph{integral solutions} and \
   and there exists at least one pair $(i,j)$ such that $0 < x_{ij} < 1$. In this case, the variables $x_{ij}$ do not directly define a graph root.
 \end{definition}
 
-\input{subfiles/LinearRelaxationResults.tex}
+\begin{figure}[!htbp]
+  \centering
+  \begin{tikzpicture}[level distance=1cm,
+    level 1/.style={sibling distance=9cm},
+    level 2/.style={sibling distance=5cm}]
+    \node {n=8}
+      child { node {$H$ exists}
+        child { node {$\underset{\raisebox{-0.8em}{47}}{\text{LP integral solution}}$} }
+        child { node {$\underset{\raisebox{-0.8em}{260}}{\text{LP fractional solution}}$} }
+      }
+      child { node {$H$ does not exist}
+        child { node {$\underset{\raisebox{-0.8em}{9380}}{\text{LP infeasible}}$} }
+        child { node {$\underset{\raisebox{-0.8em}{2659}}{\text{LP fractional solution}}$} }
+      };
+  \end{tikzpicture}
+  \caption{LP outcomes for different values for $n=8$ on base linear program.} 
+  \label{fig::linear_program_diagram} 
+\end{figure}
 
-Figure~\eqref{fig::linear_program_diagram} can be equivalently represented in the more compact Table~\eqref{tab::linear_program_outcomes} 
+\footnotetext{
+The LP integral solution sequence $2, 3, 6, 10, 17, 29, 51, \dots$ seems to be given by \href{https://oeis.org/A285665}{A285665}.
+}
+
+Figure~\eqref{tab::linear_program_outcomes} gives the classification of solutions on all inputs for graphs with up to $n = 8$ vertices. 
 
 \begin{table}[!htbp]
   \centering
@@ -1096,11 +1119,11 @@ Figure~\eqref{fig::linear_program_diagram} can be equivalently represented in th
   & \text{LP infeasible} & \text{LP fractional solution} \\
   \hline
   3 & 3  & 0   & 1    & 0    \\
-  4 & 6  & 0   & 5    & 0    \\
-  5 & 9  & 2   & 20   & 3    \\
-  6 & 15 & 13  & 107  & 21   \\
-  7 & 25 & 52  & 767  & 200  \\
-  8 & 47 & 260 & 9380 & 2659 \\
+  4 & 5  & 1   & 5    & 0    \\
+  5 & 7  & 4   & 20   & 3    \\
+  6 & 13 & 15  & 107  & 21   \\
+  7 & 22 & 55  & 767  & 200  \\
+  8 & 44 & 263 & 9380 & 2659 \\
   \hline
   \end{tabular}
   \caption{Outcomes of the LP relaxation for graphs of different orders of $n$, classified according to whether a square root $H$ exists.}
@@ -1143,7 +1166,7 @@ Consider the addition of an objective function maximizing the total weights on a
   \min \sum_{i=1}^{n} \sum_{j=1}^{n} x_{ij}.
 \end{equation}
 
-The construction of the linear program on the arbitrary graph $G$ using Equations~\eqref{eq::LP_x_variable}--\eqref{eq::LP_z_variable}, Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::IP_diagonal_x} together with Equation~\eqref{eq::min_obj_function} is denoted as $\min \mathcal{LP}(G)$. 
+The construction of the linear program for $G$ using Equations~\eqref{eq::LP_x_variable}--\eqref{eq::LP_z_variable}, Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::IP_diagonal_x} together with Equation~\eqref{eq::min_obj_function} is denoted as $\min \mathcal{LP}(G)$. 
 
 This relaxation however yields more fractional solutions, as illustrated in Table~\ref{tab::min_objective_function_outcomes}.  
 
@@ -1167,7 +1190,25 @@ This relaxation however yields more fractional solutions, as illustrated in Tabl
   \label{tab::min_objective_function_outcomes}
 \end{table}
 
-% Put example for fractional cliques
+\begin{figure}[ht]
+    \centering
+    \begin{subfigure}{0.30\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/K6_fractional.png}
+        \caption{$\min \mathcal{LP}(G)$ result from $K_6$ input.}
+        \label{fig::K6_fractional_root}
+    \end{subfigure}
+    \hspace{0.20\textwidth}
+    \begin{subfigure}{0.28\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/K6.png}
+        \caption{$K_6$.}
+        \label{fig::K6_square}
+    \end{subfigure}
+
+    \caption{For the square graph $K_6$, the result of $\min \mathcal{LP}(G)$ is completely fractional with all edges having weight $\displaystyle \frac{1}{5}$.}
+    \label{fig::K6_example}
+\end{figure}
 
 \begin{proposition}[Fractional Cliques in $\min \mathcal{LP}(G)$]
   Let $G$ be a graph with $n \geq 3$ and let $C \cong K_k$ be a maximal complete subgraph of $G$. Let $x$ be a feasible solution of $\min \mathcal{LP}(G)$. For every $i,j \in V_G$ with $ij \in E_G$
@@ -1176,7 +1217,8 @@ This relaxation however yields more fractional solutions, as illustrated in Tabl
   \]
 \end{proposition}
 \begin{proof}
-  Since $C\cong K_n$ is vertex-transitive, the feasible region and the objective function Equation~\eqref{eq::min_obj_function} are invariant under every permutation of the vertices of $G$. Hence, if $x$ is optimal, then averaging $x$ over all permutations of the vertex set $V$ produces another optimal solution $\bar x$ with
+  Since $G\cong K_k$ is vertex-transitive, every permutation of
+  $V_G$ is an automorphism of $G$. Consequently, the feasible region and the objective function of $\min\mathcal{LP}(G)$ are invariant under every permutation of $V_G$. Hence, if $x$ is optimal, then averaging $x$ over all permutations of the vertex set $V$ produces another optimal solution $\bar x$ with
   \[
   \bar x_{ij}=w \quad \text{for all } i\neq j \in V
   \]
@@ -1213,17 +1255,17 @@ This objective encourages solutions that have fewer fractional edges and therefo
   \hline
   3 & 3   & 0   & 1    & 0    \\
   4 & 6   & 0   & 5    & 0    \\
-  5 & 11  & 0   & 20   & 3    \\
-  6 & 24  & 4   & 107  & 21   \\
-  7 & 43  & 34  & 767  & 200  \\
-  8 & 100 & 207 & 9380 & 2659 \\
+  5 & 9   & 2   & 20   & 3    \\
+  6 & 18  & 10  & 107  & 21   \\
+  7 & 38  & 39  & 767  & 200  \\
+  8 & 94  & 213 & 9380 & 2659 \\
   \hline
   \end{tabular}
   \caption{LP outcomes for different values of $n$ on the linear program with max objective function.}
   \label{tab::max_objective_function_outcomes}
 \end{table}
 
-This choice of objective is also useful when identifying square root solutions beyond those unique up to isomorphism. For example, the complete graph $K_3$ has four roots: itself and three path graphs of length two, which are isomorphic to one another. Figure~\eqref{fig::K3_example} illustrates that the maximization objective preserves consistency up to isomorphism while still distinguishing structurally meaningful solutions.
+This choice of objective is also useful when identifying solutions beyond those unique up to isomorphism. For example, the complete graph $K_3$ has four roots: itself and three path graphs of length two, which are isomorphic to one another. Figure~\eqref{fig::K3_example} illustrates that the maximization objective preserves consistency up to isomorphism while still distinguishing structurally meaningful solutions.
 
 \begin{figure}[ht]
     \centering
@@ -1234,14 +1276,14 @@ This choice of objective is also useful when identifying square root solutions b
         \label{fig::K3}
     \end{subfigure}
     \hfill
-    \begin{subfigure}{0.28\textwidth}
+    \begin{subfigure}{0.29\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/K3_root_1.png}
         \caption{$K_3$.}
         \label{fig::K3_root_1}
     \end{subfigure}
     \hfill
-    \begin{subfigure}{0.28\textwidth}
+    \begin{subfigure}{0.24\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/K3_root_2.png}
         \caption{A path root of $K_3$.}
@@ -1301,7 +1343,7 @@ For a vertex $s \in V$, define
 \[
 T(s) = \bigl\{ \{u,v\} \subseteq V \setminus \{s\} \vert (s,u)\in E,\ (s,v)\in E,\ (u,v)\in E \bigr\}
 \]
-to be the set of $K_3$s or triangles in $G$ that contain $s$. If $|T(s)| = 1$ where $T(s) = \{\{u,v\}\}$ then the vertex $s$ exists in a unique triangle of $G$. When the neighbours have different degree $\deg_G(u) \neq \deg_G(v)$, then the vertex with smaller degree must be the stem vertex in the square root. This is assigned deterministically for a single triangle $s$ using
+to be the set of $K_3$s in $G$ that contain $s$. If $|T(s)| = 1$ where $T(s) = \{\{u,v\}\}$ then the vertex $s$ exists in a unique $K_3$ of $G$. When the neighbours have different degree $\deg_G(u) \neq \deg_G(v)$, then the vertex with smaller degree must be the stem vertex in the square root. This is assigned deterministically for a single triangle $s$ using
 \begin{equation} \label{eq::single_triangle_fix}
 x_{sa} = x_{as} = x_{ab} = x_{ba} = 1,
 \quad
@@ -1316,7 +1358,7 @@ x_{sa} = x_{as} = x_{ab} = x_{ba} = 1,
 If $\deg_G(u) = \deg_G(v)$, then either $u,v$ can be chosen since they are connected to a clique.
 
 \begin{proposition}[Single Triangle Decomposition Interchangeability] \label{prop::single_triangular_decomposition_equality}
-  Let $s,u,v$ form a triangle in square $G$ where $s$ only lies in a single clique. If $\deg_G(u)=\deg_G(v)=d\geq2$, then one can choose to assign
+  Let $s,u,v$ form a $K_3$ in square $G$ where $s$ only lies in a single clique. If $\deg_G(u)=\deg_G(v)=d\geq2$, then one can choose to assign
   \[
   x_{su}=x_{us}=x_{uv}=x_{vu}=1
   \]
@@ -1402,7 +1444,7 @@ neighbourhood as $s$, then impose the fixing
 \end{equation}
 
 \begin{proposition}[Unicliqual Vertex Interchangeability] \label{prop::unicliqual_decomposition_equality}
-  Let $s,u,v$ form a triangle in square $G$, where $s$ is unicliqual. If $N_G[u]=N_G[v]$ then $u$ and $v$ may be chosen arbitrarily as the corresponding vertex in the tree root $H$ without loss of generality.
+  Let $s,u,v$ form a $K_3$ in square $G$, where $s$ is unicliqual. If $N_G[u]=N_G[v]$ then $u$ and $v$ may be chosen arbitrarily as the corresponding vertex in the tree root $H$ without loss of generality.
 \end{proposition}
 \begin{proof}
   Since $s$ is unicliqual, the maximal clique containing $s$ is uniquely determined. If this clique satisfies the conditions of Proposition~\ref{prop::single_triangular_decomposition_equality}, then that proposition permits either $u$ or $v$ to be chosen as the corresponding vertex, since $N_G[u]=N_G[v]$ gives $\deg_G(u)=\deg_G(v)$. If the configuration instead satisfies the conditions of Proposition~\ref{prop::textrahedron_decomposition_equality}, then the equality $N_G[u]=N_G[v]$ gives
@@ -1420,7 +1462,7 @@ It remains to verify that whenever a root $H$ of $G$ exists, the addition of the
 \begin{proof}
   Suppose that a root $H$ of $G$ exists. By Proposition~\ref{prop::linear_relaxation_feasibility}, $\mathcal{LP}(G)$ is feasible. It remains to show that there exists a root whose adjacency matrix satisfies Equation~\eqref{eq::unicliqual_vertex_fix}.
 
-  Let $s,u,v$ be the vertices identified by the unicliqual vertex fixing. By Proposition~\ref{prop::unicliqual_decomposition_equality}, if $s,u,v$ form the corresponding triangle and $N_G[u]=N_G[v]$, then $u$ and $v$ may be chosen arbitrarily as the corresponding vertex in the tree root without loss of generality. Thus, if the given root $H$ does not satisfy Equation~\eqref{eq::unicliqual_vertex_fix}, the roles of $u$ and $v$ may be interchanged to obtain another root $H'$ of $G$ for which
+  Let $s,u,v$ be the vertices identified by the unicliqual vertex fixing. By Proposition~\ref{prop::unicliqual_decomposition_equality}, if $s,u,v$ form the corresponding $K_3$ and $N_G[u]=N_G[v]$, then $u$ and $v$ may be chosen arbitrarily as the corresponding vertex in the tree root without loss of generality. Thus, if the given root $H$ does not satisfy Equation~\eqref{eq::unicliqual_vertex_fix}, the roles of $u$ and $v$ may be interchanged to obtain another root $H'$ of $G$ for which
   \[
   x_{su}=x_{us}=x_{uv}=x_{vu}=1.
   \]
@@ -1437,10 +1479,10 @@ It remains to verify that whenever a root $H$ of $G$ exists, the addition of the
   \hline
   3 & 3   & 0   & 1     & 0    \\
   4 & 6   & 0   & 5     & 0    \\
-  5 & 11  & 0   & 21    & 2    \\
-  6 & 25  & 3   & 117   & 11   \\
-  7 & 55  & 22  & 852   & 115  \\
-  8 & 154 & 153 & 10271 & 1768 \\
+  5 & 10  & 1   & 21    & 2    \\
+  6 & 22  & 6   & 117   & 11   \\
+  7 & 51  & 26  & 852   & 115  \\
+  8 & 148 & 159 & 10271 & 1768 \\
   \hline
   \end{tabular}
   \caption{Outcomes of the unicliqual vertex linear program for graphs of different orders of $n$.}
@@ -1538,7 +1580,7 @@ In general, $H_-$ need not be a square root of $G^-$, since the deletion of $v$ 
   5 & 11  & 0   & 21    & 2    \\
   6 & 25  & 3   & 117   & 11   \\
   7 & 62  & 15  & 852   & 115  \\
-  8 & 175 & 132 & 10271 & 1768 \\
+  8 & 183 & 124 & 10271 & 1768 \\
   \hline
   \end{tabular}
   \caption{Outcomes of the vertex deletion linear program using unicliqual vertex as the base for graphs of different orders of $n$.}
@@ -1579,8 +1621,8 @@ The recursive algorithm works as follows.
   4 & 6   & 0   & 5     & 0    \\
   5 & 11  & 0   & 21    & 2    \\
   6 & 25  & 3   & 117   & 11   \\
-  7 & 65  & 12  & 852   & 115  \\
-  8 & 199 & 108 & 10271 & 1768 \\
+  7 & 62  & 15  & 852   & 115  \\
+  8 & 194 & 113 & 10271 & 1768 \\
   \hline
   \end{tabular}
   \caption{Outcomes of the recursive vertex deletion linear program using unicliqual vertex as the base for graphs of different orders of $n$.}
@@ -1602,8 +1644,8 @@ The intuition behind this step is that the linear program only finds a solution 
   3 & 3   & 0   & 1     & 0    \\
   4 & 6   & 0   & 5     & 0    \\
   5 & 11  & 0   & 21    & 2    \\
-  6 & 28  & 0   & 117   & 11   \\
-  7 & 72  & 5   & 852   & 115  \\
+  6 & 26  & 2   & 117   & 11   \\
+  7 & 73  & 4   & 852   & 115  \\
   8 & 254 & 53  & 10271 & 1768 \\
   \hline
   \end{tabular}
@@ -1622,9 +1664,9 @@ The intuition behind this step is that the linear program only finds a solution 
   3 & 3   & 0   & 1     & 0    \\
   4 & 6   & 0   & 5     & 0    \\
   5 & 11  & 0   & 21    & 2    \\
-  6 & 28  & 0   & 117   & 11   \\
-  7 & 74  & 3   & 852   & 115  \\
-  8 & 256 & 51  & 10271 & 1768 \\
+  6 & 26  & 2   & 117   & 11   \\
+  7 & 73  & 4   & 852   & 115  \\
+  8 & 274 & 33  & 10271 & 1768 \\
   \hline
   \end{tabular}
   \caption{Outcomes of the recursive vertex deletion linear program using unicliqual vertex as the base and enumerating all possible $H^-$ roots for graphs of different orders of $n$.}
@@ -1646,7 +1688,6 @@ If under certain conditions the relationship holds with equality $a + b = 1$, on
 
 \begin{figure}[ht]
     \centering
-
     \begin{subfigure}{0.20\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/130_6_root_1.png}
@@ -1692,7 +1733,7 @@ Consider Figure~\ref{fig::130_6} where $G_1$ is the unique maximal root. Assigni
         \caption{The root graph $G$.}
         \label{fig::115_6_root}
     \end{subfigure}
-    \hfill
+    \hspace{0.10\textwidth}
     \begin{subfigure}{0.39\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/115_6_square.png}
@@ -1720,7 +1761,7 @@ Maximizing the objective function thus gives $\displaystyle \alpha=\beta=\gamma=
         \caption{The root graph $G$.}
         \label{fig::115_6_root}
     \end{subfigure}
-    \hfill
+    \hspace{0.10\textwidth}
     \begin{subfigure}{0.39\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/115_6_square.png}
@@ -1735,7 +1776,6 @@ Maximizing the objective function thus gives $\displaystyle \alpha=\beta=\gamma=
 \begin{definition}[Null Set] \label{def::null_set}
   Let a \textbf{null set} $\mathcal{NG} \subseteq E_G$ be a set with at least three edges where all edges are labelled by a single symbol $\alpha$ such that every pair of edges satisfies the $0$ equality of Conjecture~\eqref{conjecture::two_edges_linear_maximization} implicitly - that is every edge that satisfies the lemma is assigned $x$ value $0$. 
 \end{definition}
-
 
 \begin{conjecture} \label{conjecture::consisten_set_conjecture}
   Any square graph with only consistent sets whose union forms a strict subgraph of $G$ can be solved by arbitrarily fixing one of the group's symbols with either $0$ or $1$. 
@@ -1836,7 +1876,9 @@ If the resulting LP is infeasible, the rounding procedure terminates and the pre
 
 The procedure is greedy because only one fixing is selected at each iteration and no alternative fixing is explored. Thus, unlike exhaustive rounding or branch-and-bound approaches, it does not construct a binary search tree of possible fixings. Since there are at most $\binom{|V_G|}{2}$ edge variables to fix and each iteration requires one LP solve, the rounding procedure requires at most $O(n^2)$ LP solves. Consequently, as $\mathcal{UVLP}(G)$ can be solved in polynomial time, the greedy rounding procedure is polynomial-time.
 
-Rounding fractional solutions in this manner either produces an integral solution or reaches a point at which the selected fixing makes the LP infeasible. These outcomes give the classifications reported in Table~\ref{tab::unicliqual_rounding_program_outcomes}.
+The choice of the base linear program is important for the effectiveness of the subsequent rounding procedure. The rounding procedure begins with a fractional solution and iteratively fixes selected edge variables. Consequently, the constraints imposed by the base formulation determine which fractional solutions can be successfully rounded and which become infeasible during the fixing process.
+
+The outcomes obtained by using the maximum-objective linear program and the unicliqual vertex linear program as base formulations are shown in Table~\ref{tab::max_rounding_program_outcomes} and Table~\ref{tab::unicliqual_rounding_program_outcomes}. These results demonstrate that the choice of base formulation has a substantial effect on the effectiveness of the subsequent rounding procedure. Although $\mathcal{UVLP}$ produces a smaller increase in successfully rounded solutions, the improvement remains significant, as the additional structural constraints enable more root instances to be correctly classified.
 
 \begin{table}[!htbp]
     \centering
@@ -1851,13 +1893,37 @@ Rounding fractional solutions in this manner either produces an integral solutio
         \hline
         3 & 3   & 0   & 1     & 0    & 0   \\
         4 & 6   & 0   & 5     & 0    & 0   \\
-        5 & 11  & 0   & 21    & 2    & 0   \\
-        6 & 27  & 1   & 117   & 11   & 2   \\
-        7 & 75  & 2   & 852   & 115  & 20  \\
-        8 & 262 & 45  & 10271 & 1768 & 108 \\
+        5 & 11  & 0   & 20    & 3    & 2   \\
+        6 & 27  & 1   & 107   & 21   & 9   \\
+        7 & 73  & 4   & 767   & 200  & 35  \\
+        8 & 245 & 62  & 9380  & 2659 & 151 \\
         \hline
     \end{tabular}
-    \caption{Outcomes of the greedy rounding linear program using the unicliqual vertex linear program as the base for graphs of different orders of $n$.}
+    \caption{Outcomes of the greedy rounding linear program using the max linear program as the base for graphs of different orders of $n$.}
+    \label{tab::max_rounding_program_outcomes}
+\end{table}
+
+
+\begin{table}[!htbp]
+    \centering
+    \begin{tabular}{c|cc|cc|c}
+        \hline
+        $n$ & \multicolumn{2}{c|}{$H$ exists} 
+            & \multicolumn{2}{c|}{$H$ does not exist}
+            & \multicolumn{1}{c}{$\text{Integral}\leftarrow\text{Fractional}$} \\
+        & \text{LP integral} & \text{LP fractional}
+        & \text{LP infeasible} & \text{LP fractional}
+        & \\
+        \hline
+        3 & 3   & 0   & 1     & 0    & 0   \\
+        4 & 6   & 0   & 5     & 0    & 0   \\
+        5 & 11  & 0   & 21    & 2    & 1   \\
+        6 & 28  & 0   & 117   & 11   & 6   \\
+        7 & 76  & 1   & 852   & 115  & 25  \\
+        8 & 268 & 39  & 10271 & 1768 & 120 \\
+        \hline
+    \end{tabular}
+    \caption{Outcomes of the greedy rounding linear program using the unicliqual vertex linear program as the base for graphs of different orders of $n$. The final column gives the number of initially fractional instances that are converted to integral solutions by the rounding procedure.}
     \label{tab::unicliqual_rounding_program_outcomes}
 \end{table}
 
