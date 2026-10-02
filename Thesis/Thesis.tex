@@ -140,11 +140,10 @@ Complexity theory studies the classification of computational problems and explo
 \begin{definition}[Big-$O$ Notation] \label{def::big_O_notation}
   Let $f,g:\mathbb{N} \rightarrow \mathbb{R}_{\geq 0}$. The set $O(g(n))$ is defined as
   \[
-  O(g(n)) = \left\{ f \mid \exists c>0,\ n_0\in\mathbb{N} \text{ such that } f(n)\leq c g(n) \text{ for all } n\geq n_0 \right\}.
+  O(g(n)) = \left\{ f \mid \text{ there exists } c > 0, n_0 \in \mathbb{N} \text{ such that } f(n) \leq c g(n) \text{ for all } n \geq n_0 \right\}.
   \]
   We write $f(n)=O(g(n))$ as shorthand for $f(n)\in O(g(n))$.
 \end{definition}
-
 
 Using this notation, we can classify algorithms based on their runtime. 
 
@@ -152,7 +151,7 @@ Using this notation, we can classify algorithms based on their runtime.
   An algorithm is said to run in \textbf{polynomial time} if there exists a constant $c \ge 0$ such that its run time on inputs of size $n$ is $O(n^c)$.
 \end{definition}
 
-Polynomial-time algorithms are important because they are generally regarded as efficient and computationally ``simple". Consequently, the class of problems that admit polynomial-time algorithms forms the basis for the complexity class $\mathbf{P}$.
+Polynomial-time algorithms are important because they are generally regarded as efficient and computationally ``simple''. Consequently, the class of problems that admit polynomial-time algorithms forms the basis for the complexity class $\mathbf{P}$. 
 
 \begin{definition}[Decision Problem] \label{def::decision_problem}
   A \textbf{decision problem} is a computational problem whose output is either \textbf{Yes} or \textbf{No} for every valid input instance. 
@@ -162,7 +161,7 @@ Polynomial-time algorithms are important because they are generally regarded as 
   The complexity class $\mathbf{P}$ consists of all decision problems that can be solved by a deterministic algorithm in polynomial time.
 \end{definition}
 
-Unfortunately many important decision problems are not known to admit such polynomial-time algorithms and hence need additional classification on their ``hardness''. For example, determining whether a graph is $3$-colourable is a well-known problem for which no polynomial-time algorithm is known, despite the fact that a proposed $3$-colouring can be checked efficiently. This motivates the study of complexity classes based not only on how efficiently a solution can be found, but also on how a proposed solution can be verified efficiently.
+Unfortunately many important decision problems are not known to admit such polynomial-time algorithms and hence need additional classification on their ``hardness''. For example, determining whether a graph is $3$-colourable is a well known problem for which no polynomial-time algorithm is known, despite the fact that a proposed $3$-colouring can be checked efficiently. This motivates the study of complexity classes based not only on how efficiently a solution can be found, but also on how a proposed solution can be verified efficiently.
 
 \begin{definition}[Certificate] \label{def::certificate}
   Let $L$ be a decision problem. A \textbf{certificate} for an instance $x$ of $L$ is a finite string $c$ that provides evidence that $x$ is a \textbf{Yes}-instance of $L$. A certificate is said to be \textbf{polynomially verifiable} if there exists a deterministic algorithm that for given input $(x,c)$, can determine whether $c$ is a valid certificate for $x$ in time polynomial in $|x|$.
@@ -179,7 +178,7 @@ Since every decision problem in $\mathbf{P}$ can be solved in polynomial time, a
 Whether this inclusion is strict remains one of the most important open questions in theoretical computer science - the $\mathbf{P}$ vs $\mathbf{NP}$ problem. As $\mathbf{NP}$ is a large class of decision problems, the relative difficulty of problems in $\mathbf{NP}$ is compared by using reduction. 
 
 \begin{definition}[Polynomial-Time Reduction] \label{def::polynomial_time_reduction}
-  Let $A$ and $B$ be decision problems. A \textbf{polynomial-time reduction} from $A$ to $B$, denoted $A \leq_p B$, is a polynomial-time computable function $f$ such that, for every instance $x$ of $A$,
+  Let $A$ and $B$ be decision problems. A \textbf{polynomial-time reduction} from $A$ to $B$, denoted $A \leq_p B$, is a polynomial-time computable function $f$ such that for every instance $x$ of $A$,
   \[
   x \in A \quad \text{if and only if} \quad f(x) \in B.
   \]
@@ -202,24 +201,24 @@ One can establish that a problem is $\mathbf{NP}$-complete by showing that it be
 The first known $\mathbf{NP}$-complete problem was established by the Cook-Levin theorem and is the Boolean satisfiability problem, or SAT. 
 
 \begin{definition}[Boolean Satisfiability Problem] \label{def::SAT}
-  The \textbf{Boolean satisfiability problem} (\textbf{SAT}) asks whether there exists an assignment of truth values to the variables of a given Boolean formula such that the formula evaluates to true. A Boolean formula is said to be \textbf{satisfiable} if such an assignment exists.
+  The \textbf{Boolean satisfiability problem} (\textbf{SAT}) asks whether there exists an assignment of truth values to the variables of a given Boolean formula such that the formula evaluates to $\textsc{True}$. A Boolean formula is said to be \textbf{satisfiable} if such an assignment exists.
 \end{definition}
 
 Any Boolean formula can be transformed into an equisatisfiable formula typically in linear time using the \textbf{Tseytin transformation} by introducing additional variables. This transformation preserves satisfiability while ensuring only linear growth in the size of the resulting conjunctive normal form Boolean formula.  
 
 \begin{definition}[Conjunctive Normal Form]
 \label{def::CNF}
-A Boolean formula is in \textbf{conjunctive normal form} (\textbf{CNF}) if it is expressed as a conjunction of clauses, where each clause is a disjunction of literals. That is, a CNF formula has the form
-\[
-C_1 \land C_2 \land \cdots \land C_m, \quad \text {where each clause $C_i$ is of the form} \quad C_i = \ell_{i1} \lor \ell_{i2} \lor \cdots \lor \ell_{ik_i}
-\]
-and each $\ell_{ij}$ is either a Boolean variable or its complement, denoted with $\overline{\ell}_{ij}$.
+  A Boolean formula is in \textbf{conjunctive normal form} (\textbf{CNF}) if it is expressed as a conjunction of clauses, where each clause is a disjunction of literals. That is, a CNF formula has the form
+  \[
+  C_1 \land C_2 \land \cdots \land C_m, \quad \text {where each clause $C_i$ is of the form} \quad C_i = \ell_{i1} \lor \ell_{i2} \lor \cdots \lor \ell_{ik_i}
+  \]
+  and each $\ell_{ij}$ is either a Boolean variable or its complement, denoted with $\overline{\ell}_{ij}$.
 \end{definition}
 
-A further restriction is obtained by requiring each clause in a CNF formula to contain exactly three literals, which can be done using $3$-CNF transformation, to give the following problem.
+A further restriction is obtained by requiring each clause in a CNF formula to contain exactly three literals. THis can be done using $3$-CNF transformation and gives the following problem.
 
 \begin{definition}[$3$-SAT] \label{def::3SAT}
-  The \textbf{$3$-SAT} problem asks whether there exists an assignment of truth values to the variables of a Boolean formula in conjunctive normal form such that every clause contains exactly three literals and the formula evaluates to true. It is formally structured as
+  The \textbf{$3$-SAT} problem asks whether there exists an assignment of truth values to the variables of a Boolean formula in conjunctive normal form such that every clause contains exactly three literals and the formula evaluates to $\textsc{True}$. It is formally structured as
   \leavevmode
 
   \textbf{Instance:} A Boolean formula $\varphi$ in conjunctive normal form in which each clause contains exactly three literals.
@@ -345,7 +344,7 @@ A graph can be further categorized according to whether multiple edges between a
   A \textbf{labelled graph} is a graph $G=(V,E)$ together with a labelling function $\ell:V\rightarrow L$, where $L$ is a set of labels. A graph is \textbf{unlabelled} when no such vertex labels are specified. 
 \end{definition}
 
-In this thesis, we exclusively study finite, simple, undirected, unlabelled graphs. However, the constructions and algorithms may use additional structure, including labels or multiple edges, which must be analysed and restricted to their corresponding simple, unlabelled counterparts.
+In this thesis, we exclusively study finite, simple, undirected, unlabelled graphs. However, the constructions and algorithms may use additional structure, including labels or multiple edges, which must be analyzed and restricted to their corresponding simple, unlabelled counterparts.
 
 In particular, two graphs may have different vertex sets while nevertheless having the same underlying structure. This motivates the following notion of isomorphism.
 
@@ -354,8 +353,7 @@ In particular, two graphs may have different vertex sets while nevertheless havi
   \[
   f:V_G\rightarrow V_H \quad \text{such that} \quad uv\in E_G \text{ if and only if } f(u)f(v)\in E_H.
   \]
-  We say that $G$ is \textbf{isomorphic} to $H$, written
-  $G\cong H$, if there exists an isomorphism from $G$ to $H$.
+  We say that $G$ is \textbf{isomorphic} to $H$, written $G\cong H$, if there exists an isomorphism from $G$ to $H$.
 \end{definition}
 
 The isomorphism relation is an equivalence relation on the set of graphs, and an \textbf{isomorphism class} is an equivalence class of graphs under this relation. Thus, graphs within the same isomorphism class have the same structure up to a relabelling of their vertices.
@@ -432,8 +430,6 @@ We now introduce the graph-theoretic objects central to this thesis.
   Let the \textbf{graph root} $H = (V, E_H)$ be a finite, simple, undirected graph, where $V$ is the vertex set with $|V| = n$, and $E_H \subseteq \{\{u,v\} \mid u,v \in V, u \neq v\}$ is the edge set. 
 \end{definition}
 
-\include{subfiles/FundamentalExample}
-
 \begin{definition}[Square of a Graph] \label{def::square_of_a_graph}
   The \textbf{square of a graph} $H$, denoted by $H^2 = (V, E_{H^2})$ is the graph on the same vertex set with edge set
   \begin{equation} \label{eq::fund_def_square}
@@ -449,12 +445,14 @@ We now introduce the graph-theoretic objects central to this thesis.
   \end{equation}
 \end{definition} 
 
+\input{subfiles/FundamentalExample}
+
 \subsection{Mathematical Optimization} \label{subsec::mathematical_optimization}
 
 Mathematical optimization studies the problem of finding the best solution from all feasible solutions which are defined by a collection of constraints. An optimization problem usually consists of decision variables, an objective function to be maximized or minimized, and a set of constraints restricting the feasible values of the variables.
 
 \begin{definition}[Integer Program] \label{def::integer_program}
-  An \textbf{integer program} ($LP$) is an optimization problem of the form
+  An \textbf{integer program} ($IP$) is an optimization problem of the form
   \[
   \begin{aligned}
     \text{max/min}\quad & c^\top x\\
@@ -484,8 +482,7 @@ A linear relaxation is obtained by removing the integrality requirements from an
 \end{definition}
 
 \begin{definition}[Feasible Solution] \label{def::feasible_solution}
-  A \textbf{feasible solution} to an optimization problem is an assignment of values to its decision variables that satisfies all of its constraints. The set of all feasible solutions is called the \textbf{feasible set} and is denoted by $\mathcal{F}$. Geometrically, $\mathcal{F}$ is the subset of the decision-variable space satisfying all of the constraints and is
-  referred to as the \textbf{feasible region}.
+  A \textbf{feasible solution} to an optimization problem is an assignment of values to its decision variables that satisfies all of its constraints. The set of all feasible solutions is called the \textbf{feasible set} and is denoted by $\mathcal{F}$. Geometrically, $\mathcal{F}$ is the subset of the decision-variable space satisfying all of the constraints and is referred to as the \textbf{feasible region}.
 \end{definition}
 
 Among the feasible solutions, an optimal solution is one that achieves the best value of the objective function.
@@ -543,15 +540,15 @@ We now establish the computational complexity of the graph square problem as was
   Problem~\eqref{prob::square_problem} is in $\mathbf{NP}$. 
 \end{theorem}
 \begin{proof}[NP Proof]
-  Given a candidate square root $H$ on $n$ vertices, it is sufficient to verify that $G=H^2$. For each pair of distinct vertices $u,v\in V_H$, check whether $u$ and $v$ are adjacent in $H$ or have a common neighbour in $H$. This determines whether $d_H(u,v)\leq 2$ and therefore whether $uv\in E_{H^2}$.
+  Given a candidate square root $H$ on $n$ vertices, it is sufficient to verify that $G=H^2$. For each pair of distinct vertices $u,v\in V_H$, check whether $u$ and $v$ are adjacent in $H$ or have a common neighbour in $H$. This determines whether $d_H(u,v) \leq 2$ and therefore whether $uv \in E_{H^2}$.
 
   There are $\displaystyle \binom{n}{2}=\frac{n(n-1)}{2}$ unordered pairs of vertices. For each pair, determining whether the vertices have a common neighbour requires at most $O(n)$ operations. Hence, the total verification time is
   \[
-  O(n^2)\cdot O(n)=O(n^3).
+  O(n^2) \cdot O(n) = O(n^3).
   \]
   By the definition of Big-$O$ notation in Definition~\ref{def::big_O_notation}, this is polynomial in $n$. Therefore, the certificate $H$ can be verified in polynomial time, and consequently
   \[
-  \text{SQUARE}\in\mathbf{NP}.
+  \text{SQUARE} \in \mathbf{NP}.
   \]
 \end{proof}
 
@@ -566,7 +563,7 @@ where each clause $C_i$ is over variables $x_1,\ldots,x_n$.
 
 \medskip
 
-\textbf{Question:} Does there exist an assignment of TRUE and FALSE to the variables such that every clause contains at least one TRUE literal and at least one FALSE literal?
+\textbf{Question:} Does there exist an assignment of $\textsc{True}$ and $\textsc{False}$ to the variables such that every clause contains at least one $\textsc{True}$ literal and at least one $\textsc{False}$ literal?
 \end{problem}
 
 Thus, an assignment satisfies the not-all-equal condition if, for every clause, its literals are not all assigned the same truth value. The problem NAESAT is known to be $\mathbf{NP}$-complete by Schaefer's dichotomy theorem \cite{schaefer_1978_complexity}. 
@@ -576,15 +573,14 @@ Thus, an assignment satisfies the not-all-equal condition if, for every clause, 
 Following \cite{motwani_sudan_1994_roots}, we show SQUARE is $\mathbf{NP}$-hard by giving a polynomial-time reduction from $\mathbf{NP}$-complete NAESAT and then show that $G_\phi$ has a graph root if and only if $\phi \in \mathrm{NAESAT}$. 
 
 \begin{proof}[Polynomial Reduction] \label{proof::polynomial_reduction}
-  Let $\phi = C_1 \land C_2 \land \cdots \land C_m $ be an instance of NAESAT, where $\phi$ is a $3$-CNF formula on variables $x_1,\ldots,x_n$. Over variables $x_1,\dots,x_n$, construct a graph $G_\phi=(V_\phi,E_\phi)$ in polynomial time such that
+  Let $\phi = C_1 \land C_2 \land \cdots \land C_m $ be an instance of NAESAT, where $\phi$ is a $3$-CNF formula on variables $x_1, \ldots, x_n$. Over variables $x_1, \dots, x_n$, construct a graph $G_\phi = (V_\phi,E_\phi)$ in polynomial time such that
   \[
   \phi \in \textsc{NAESAT} \quad \text{if and only if} \quad G_\phi \text{ has a square root}.
   \]
-
   The vertex set $V_\phi$ consists of
   \begin{enumerate}[label=(\roman*)]
-    \item Two constant vertices TRUE and FALSE, plus a vertex $x$ and three tail vertices $t_1,t_2,t_3$ for $x$.
-    \item For each of the $2n$ literals $\ell_1,\dots,\ell_{2n}$, where $\ell_{i+n}=\overline{\ell_i}$, a literal vertex $L_i$. 
+    \item Two constant vertices $\textsc{True}$ and $\textsc{False}$, plus a vertex $x$ and three tail vertices $t_1, t_2, t_3$ for $x$.
+    \item For each of the $2n$ literals $\ell_1, \dots, \ell_{2n}$, where $\ell_{i+n} = \overline{\ell_i}$, a literal vertex $L_i$. 
     \item For every pair of literals $\ell_i,\ell_k$ that are not complements of each other, a literal-pair vertex $A_{ik}$.
     \item For each clause $C_j=\{\ell_{j_1},\ell_{j_2},\ell_{j_3}\}$, a clause vertex $C_j$ together with three tail vertices $C_j^1,C_j^2,C_j^3$.
   \end{enumerate}
@@ -593,20 +589,17 @@ Following \cite{motwani_sudan_1994_roots}, we show SQUARE is $\mathbf{NP}$-hard 
   \begin{enumerate}[label=\roman*)]
     \item \textbf{Tail of $x$.} The tail of $x$ consists of the edges
     \[
-    t_3t_2,\quad t_3t_1,\quad t_2t_1,\quad t_2x,\quad t_1x,\quad t_1\text{TRUE},\quad t_1\text{FALSE}.
+    t_3t_2,\quad t_3t_1,\quad t_2t_1,\quad t_2x,\quad t_1x,\quad t_1\text{$\textsc{True}$},\quad t_1\text{$\textsc{False}$}.
     \]
-
     \item \textbf{Tails of the clause vertices.} For every clause $C_j$, introduce the edges
     \[
     C_j^3C_j^2,\quad C_j^3C_j^1,\quad C_j^2C_j^1,\quad C_j^2C_j,\quad C_j^1C_j, \quad C_j^1L_{j_1},\quad C_j^1L_{j_2},\quad C_j^1L_{j_3},
     \]
     where $C_j=\{\ell_{j_1},\ell_{j_2},\ell_{j_3}\}$.
-
-    \item \textbf{Edges incident to clause vertices.} For every clause $C_j$ and every literal $\ell_i\in C_j$, introduce the edge $C_jL_i$. Also introduce $C_j\text{TRUE}$ and $C_j\text{FALSE}$. Finally, for every literal $\ell_k$ that is not the complement of a literal in $C_j$, introduce the edge $C_jA_{ik}$.
-
+    \item \textbf{Edges incident to clause vertices.} For every clause $C_j$ and every literal $\ell_i \in C_j$, introduce the edge $C_jL_i$. Also introduce $C_j\text{$\textsc{True}$}$ and $C_j\text{$\textsc{False}$}$. Finally, for every literal $\ell_k$ that is not the complement of a literal in $C_j$, introduce the edge $C_jA_{ik}$.
     \item \textbf{Edges among the remaining vertices.} All vertices in
     \[
-    \{L_i:1\leq i\leq 2n\} \cup \{A_{ik}: \ell_i\neq\overline{\ell_k}\} \cup \{\text{TRUE},\text{FALSE},x\}
+    \{L_i:1\leq i\leq 2n\} \cup \{A_{ik}: \ell_i \neq \overline{\ell_k}\} \cup \{\text{$\textsc{True}$},\text{$\textsc{False}$},x\}
     \]
     are adjacent to one another, except for pairs of complementary literals. Thus, $L_iL_k\in E_\phi$ whenever $\ell_i$ and $\ell_k$ are not complementary, while $L_iL_k \notin E_\phi$ whenever $\ell_i$ and $\ell_k$ are complementary.
   \end{enumerate}
@@ -633,7 +626,7 @@ The following lemma is the central combinatorial tool for proving the correctnes
 \begin{proof}
   Since $N_G(a)=\{b,c\}$, every neighbour of $a$ in $H$ is contained in $\{b,c\}$.
   
-  First show that $N_H(a)=\{b\}$. Suppose, for contradiction, that $N_H(a)=\{c\}$. Then $ac \in E_H$. Because $ab \in E_G=E_{H^2}$, there is a path of length at most two from $a$ to $b$ in $H$. As $a$  only has the neighbour $c$, this forces $bc \in E_H$. 
+  First show that $N_H(a)=\{b\}$. Suppose, for contradiction, that $N_H(a)=\{c\}$. Then $ac \in E_H$. Because $ab \in E_G=E_{H^2}$, there is a path of length at most two from $a$ to $b$ in $H$. As $a$ only has the neighbour $c$, this forces $bc \in E_H$. 
 
   Now $cd \in E_G$, so $c$ and $d$ are at distance at most two in $H$. As $bc \in E_H$, the only possible $P_2$ from $c$ to $d$ uses $b$, and hence $bd \in E_H$. 
 
@@ -672,9 +665,9 @@ We now establish the two directions required for the validity of the reduction.
 \begin{proof}[Proof Sketch]
   Suppose that $\phi$ has an assignment satisfying not-all-equal. We construct a graph root $H=(V_\phi,E_H)$ on the same vertex set as $G_\phi$ as follows.
 
-  The edges of $H$ consist of the edges of the tails, together with edges connecting $x$ to TRUE and FALSE. For each clause vertex $C_j$, connect $C_j$ to the three literal vertices corresponding to the literals contained in the clause, together with the edges required by its tail. Each literal vertex is connected to TRUE if its corresponding literal is assigned TRUE and to FALSE if its corresponding literal is assigned FALSE. Finally, each literal vertex is connected to the appropriate literal-pair vertices, and each literal-pair vertex is connected to both TRUE and FALSE.
+  The edges of $H$ consist of the edges of the tails, together with edges connecting $x$ to $\textsc{True}$ and $\textsc{False}$. For each clause vertex $C_j$, connect $C_j$ to the three literal vertices corresponding to the literals contained in the clause, together with the edges required by its tail. Each literal vertex is connected to $\textsc{True}$ if its corresponding literal is assigned $\textsc{True}$ and to $\textsc{False}$ if its corresponding literal is assigned $\textsc{False}$. Finally, each literal vertex is connected to the appropriate literal-pair vertices, and each literal-pair vertex is connected to both $\textsc{True}$ and $\textsc{False}$.
 
-  Because the assignment is not-all-equal, every clause contains at least one TRUE literal and at least one FALSE literal. Consequently, the paths in $H$ of length two produce precisely the edges of $G_\phi$. In particular, complementary literals do not have a common neighbour in $H$, whereas every pair of non-complementary literals has a common neighbour through its corresponding literal-pair vertex. The tail construction similarly ensures that the required tail edges are obtained in $H^2$. 
+  Since the assignment is not-all-equal, every clause contains at least one $\textsc{True}$ literal and at least one $\textsc{False}$ literal. Thus, the construction produces the required adjacencies between the clause vertices and their literals. Moreover, complementary literals do not have a common neighbour in $H$, while every pair of non-complementary literals has a common neighbour through its corresponding literal-pair vertex. Hence, the literal adjacencies in $H^2$ are exactly those specified in $G_\phi$. The tail construction similarly ensures that all required tail adjacencies are obtained in $H^2$, while the connections to $\textsc{True}$ and $\textsc{False}$ produce the remaining required adjacencies.
 
   Hence, $G_\phi=H^2$, and therefore $G_\phi$ has a graph root.
 \end{proof}
@@ -685,23 +678,23 @@ We now establish the two directions required for the validity of the reduction.
 \begin{proof}[Proof Sketch] 
   Suppose that $G_\phi$ has a graph root $H$, so that $G_\phi=H^2$. 
   
-  Apply Lemma~\ref{lemma::tail} to the tail of $x$, with $(a,b,c,d)=(t_3,t_2,t_1,x)$. Since $t_1$ has the external neighbours TRUE and FALSE in $G_\phi$, the lemma gives 
+  Apply Lemma~\ref{lemma::tail} to the tail of $x$, with $(a,b,c,d)=(t_3,t_2,t_1,x)$. Since $t_1$ has the external neighbours $\textsc{True}$ and $\textsc{False}$ in $G_\phi$, the lemma gives 
   \[ 
-  N_H(x)\setminus\{t_3,t_2,t_1,x\} = \{\textsc{True},\textsc{False}\}. 
+  N_H(x)\setminus\{t_3,t_2,t_1,x\} = \{\textsc{$\textsc{True}$},\textsc{$\textsc{False}$}\}. 
   \] 
-  Thus, apart from its own tail, $x$ is adjacent in $H$ precisely to TRUE and FALSE. 
+  Thus, apart from its own tail, $x$ is adjacent in $H$ precisely to $\textsc{True}$ and $\textsc{False}$. 
   
   Similarly, for each clause $C_j$, apply Lemma~\ref{lemma::tail} to its tail with $ (a,b,c,d)=(C_j^3,C_j^2,C_j^1,C_j)$. Since $C_j^1$ has the external neighbours $L_{j_1},L_{j_2},L_{j_3}$ in $G_\phi$, the lemma gives 
   \[ 
   N_H(C_j)\setminus \{C_j^3,C_j^2,C_j^1,C_j\} = \{L_{j_1},L_{j_2},L_{j_3}\}. 
   \] 
-  Hence, apart from its own tail, $C_j$ is adjacent in $H$ precisely to the three literal vertices occurring in $C_j$. Since every literal vertex $L_i$ is adjacent to $x$ in $G_\phi=H^2$, each $L_i$ must be adjacent in $H$ to at least one of TRUE and FALSE. 
+  Hence, apart from its own tail, $C_j$ is adjacent in $H$ precisely to the three literal vertices occurring in $C_j$. Since every literal vertex $L_i$ is adjacent to $x$ in $G_\phi=H^2$, each $L_i$ must be adjacent in $H$ to at least one of $\textsc{True}$ and $\textsc{False}$. 
   
-  On the other hand, complementary literal vertices are non-adjacent in $G_\phi$. Therefore they cannot have a common neighbour in $H$, and hence a literal and its complement cannot both be adjacent to the same one of TRUE and FALSE. It follows that every literal vertex is adjacent to exactly one of TRUE and FALSE, and complementary literals are adjacent to opposite constant vertices. 
+  On the other hand, complementary literal vertices are non-adjacent in $G_\phi$. Therefore they cannot have a common neighbour in $H$, and hence a literal and its complement cannot both be adjacent to the same one of $\textsc{True}$ and $\textsc{False}$. It follows that every literal vertex is adjacent to exactly one of $\textsc{True}$ and $\textsc{False}$, and complementary literals are adjacent to opposite constant vertices. 
   
-  We may therefore define an assignment by declaring a literal $\ell_i$ to be TRUE only when $L_i\textsc{True}\in E_H$. Consider any clause $ C_j=\{\ell_{j_1},\ell_{j_2},\ell_{j_3}\}$. By construction, $C_j$ is adjacent in $G_\phi$ to both TRUE and FALSE. Since, apart from its own tail, $C_j$ is adjacent in $H$ only to $L_{j_1},L_{j_2},L_{j_3}$, these three literal vertices must include one adjacent to TRUE and one adjacent to FALSE. 
+  We may therefore define an assignment by declaring a literal $\ell_i$ to be $\textsc{True}$ only when $L_i\textsc{$\textsc{True}$}\in E_H$. Consider any clause $ C_j=\{\ell_{j_1},\ell_{j_2},\ell_{j_3}\}$. By construction, $C_j$ is adjacent in $G_\phi$ to both $\textsc{True}$ and $\textsc{False}$. Since, apart from its own tail, $C_j$ is adjacent in $H$ only to $L_{j_1},L_{j_2},L_{j_3}$, these three literal vertices must include one adjacent to $\textsc{True}$ and one adjacent to $\textsc{False}$. 
   
-  Thus every clause contains at least one TRUE literal and at least one FALSE literal. Therefore the assignment is a not-all-equal satisfying assignment of $\phi$, and hence 
+  Thus every clause contains at least one $\textsc{True}$ literal and at least one $\textsc{False}$ literal. Therefore the assignment is a not-all-equal satisfying assignment of $\phi$, and hence 
   \[ 
   \phi\in\mathrm{NAESAT}. 
   \] 
@@ -725,12 +718,12 @@ We now establish the two directions required for the validity of the reduction.
 \citeauthor{ross_1960_square} give a necessary and sufficient characterization of graphs that are squares of trees, together with an algorithm for constructing the corresponding tree square root \cite{ross_1960_square}. The characterization is based on the maximal cliques of the square and the way in which these cliques intersect. We first establish the structural properties of the square of a tree that underlie the characterization, before describing the root finding algorithm.
 
 \begin{theorem}[Structural Characterization of Squares of Trees] \label{theorem::structural_characterization_trees}
-  Let $G$ be a finite, simple, undirected graph. Then $G=T^2$ for some tree $T$ if and only if either $G$ is a complete graph, or the maximal cliques $C_1,\ldots,C_n$ of $G$ satisfy the following conditions:
+  Let $G$ be a finite, simple, undirected graph. Then $G = T^2$ for some tree $T$ if and only if either $G$ is a complete graph, or the maximal cliques $C_1, \ldots, C_n$ of $G$ satisfy the following conditions:
   \begin{enumerate}[label=(\roman*)]
     \item\label{characterization:1} $G$ is connected and the closed neighbourhood of every vertex of $T$ forms a clique in $G$.
     \item\label{characterization:2} If two maximal cliques have exactly one common vertex $v$, then there is another maximal clique containing $v$ and one additional vertex from each of the two cliques.
     \item\label{characterization:3} Each maximal clique $C_i$ can be associated with a unique multicliqual vertex $b_i$. The number of multicliqual vertices contained in $C_i$ is equal to the number of maximal cliques containing $b_i$.
-    \item\label{characterization:4} For any two maximal cliques $C_i$ and $C_j$, $|C_i\cap C_j|\leq 2$, that is their intersection contains at most two points 
+    \item\label{characterization:4} For any two maximal cliques $C_i$ and $C_j$, $|C_i \cap C_j| \leq 2$, that is their intersection contains at most two points 
     \item\label{characterization:5} The number of pairs of maximal cliques whose intersection contains two vertices is $n-1$.
   \end{enumerate}
 \end{theorem}
@@ -741,26 +734,26 @@ To establish this characterization, let $G$ be the square of a tree $T$ and firs
   $G$ is complete if and only if $T$ is a star
 \end{lemma}
 \begin{proof}
-  Suppose that $T$ has a vertex $v$ that is adjacent to every other vertex. Then every pair of vertices in $T$ is at distance at most two, since any two vertices are either adjacent or have $v$ as a common neighbour. Hence $G=T^2$ is complete.
+  Suppose that $T$ has a vertex $v$ that is adjacent to every other vertex. Then every pair of vertices in $T$ is at distance at most two, since any two vertices are either adjacent or have $v$ as a common neighbour. Hence $G = T^2$ is complete.
 
-  Conversely, suppose that $G=T^2$ is complete. Then every pair of vertices in $T$ has distance at most two, so $\operatorname{diam}(T)\leq 2$. Since $T$ is a tree, this implies that there is a vertex $v$ adjacent to every other vertex. Thus, choosing $v$ as the root gives a rooted tree $T$ of depth one.
+  Conversely, suppose that $G = T^2$ is complete. Then every pair of vertices in $T$ has distance at most two, so $\operatorname{diam}(T) \leq 2$. Since $T$ is a tree, this implies that there is a vertex $v$ adjacent to every other vertex. Thus, choosing $v$ as the root gives a rooted tree $T$ of depth one.
 \end{proof}
 
 \begin{lemma} \label{lemma::2}
   $G$ is connected and the closed neighbourhood of every vertex of $T$ forms a clique in $G$.
 \end{lemma}
 \begin{proof}
-  Let $v\in V_T$. Every pair of vertices in the closed neighbourhood $N_T[v]$ are either adjacent in $T$ or have $v$ as a common neighbour and thus has distance at most two in $T$. Hence $N_T[v]$ forms a clique in $G=T^2$. Furthermore, every edge of $T$ is also an edge of $G$, so $T$ is a spanning subgraph of $G$. Since $T$ is connected, this implies $G$ is also connected.
+  Let $v \in V_T$. Every pair of vertices in the closed neighbourhood $N_T[v]$ are either adjacent in $T$ or have $v$ as a common neighbour and thus has distance at most two in $T$. Hence $N_T[v]$ forms a clique in $G = T^2$. Furthermore, every edge of $T$ is also an edge of $G$, so $T$ is a spanning subgraph of $G$. Since $T$ is connected, this implies $G$ is also connected.
 \end{proof}
 
 \begin{lemma}\label{lemma::3}
   If $G$ is not complete, then the maximal cliques of $G$ are precisely the closed neighbourhoods of the non-leaf vertices of $T$.
 \end{lemma}
 \begin{proof}
-  Let $v$ be a non-leaf vertex of $T$. Since $v$ has at least two neighbours, every pair of vertices in $N_T(v)$ is at distance two through $v$. Hence $C(v)=N_T[v]$ is a clique in $G$. Now consider a vertex $u \notin N_T[v]$. The unique path from $u$ to $v$ in $T$ has length at least two. If this path has length greater than two, then $u$ is not adjacent in $G$ to $v$. If the path has length two, then $u$ can only be adjacent in $G$ to the vertices along the corresponding part of the path. In either case, $u$ cannot be added to $N_T[v]$ while maintaining a clique. Therefore $N_T[v]$ is a maximal clique.
+  Let $v$ be a non-leaf vertex of $T$. Since $v$ has at least two neighbours, every pair of vertices in $N_T(v)$ is at distance two through $v$. Hence $C(v) = N_T[v]$ is a clique in $G$. Now consider a vertex $u \notin N_T[v]$. The unique path from $u$ to $v$ in $T$ has length at least two. If this path has length greater than two, then $u$ is not adjacent in $G$ to $v$. If the path has length two, then $u$ can only be adjacent in $G$ to the vertices along the corresponding part of the path. In either case, $u$ cannot be added to $N_T[v]$ whilst maintaining a clique. Therefore $N_T[v]$ is a maximal clique.
 
-  Conversely, let $C$ be a maximal clique of $G$. Since $G=T^2$, vertices in $C$ are pairwise at distance at most two in $T$. The vertices of such a clique must therefore be contained in the closed neighbourhood of a common non-leaf vertex $v$ of $T$. Thus $C\subseteq N_T[v]$. Since $N_T[v]$ is itself a clique and $C$ is maximal, this gives
-  $C=N_T[v]$. Hence every maximal clique of $G$ is the closed neighbourhood of a non-leaf vertex of $T$.
+  Conversely, let $C$ be a maximal clique of $G$. Since $G = T^2$, every pair of vertices in $C$ are at distance at most two in $T$. The vertices of such a clique must therefore be contained in the closed neighbourhood of a common non-leaf vertex $v$ of $T$. Thus $C \subseteq N_T[v]$. Since $N_T[v]$ is itself a clique and $C$ is maximal, this gives
+  $C = N_T[v]$. Hence every maximal clique of $G$ is the closed neighbourhood of a non-leaf vertex of $T$.
 \end{proof}
 
 \begin{lemma}\label{lemma::4}
@@ -769,26 +762,26 @@ To establish this characterization, let $G$ be the square of a tree $T$ and firs
 \begin{proof}
   Let $v$ be a leaf of $T$, and let $u$ be its unique neighbour. By Lemma~\ref{lemma::3}, every maximal clique corresponds to the closed neighbourhood of a non-leaf vertex. Since $v$ has only one neighbour, the only maximal clique containing $v$ is $N_T[u]$.Thus $v$ belongs to exactly one maximal clique.
 
-  Conversely, suppose that $v$ is not a leaf. Then $v$ has at least two neighbours in $T$. By Lemma~\ref{lemma::3}, $N_T[v]$ is a maximal clique containing $v$. Since $G$ is not complete, Lemma~\ref{lemma::1} implies that $T$ is not a star. Hence at least one neighbour $u$ of $v$ is a non-leaf vertex. The closed neighbourhood $N_T[u]$ is therefore another maximal clique containing $v$. Thus $v$ belongs to at least two maximal cliques. Therefore, the vertices belonging to exactly one maximal clique are exactly the leaves of $T$.
+  Conversely, suppose that $v$ is not a leaf. Then $v$ has at least two neighbours in $T$. By Lemma~\ref{lemma::3}, $N_T[v]$ is a maximal clique containing $v$. Since $G$ is not complete, Lemma~\ref{lemma::1} implies that $T$ is not a star. Hence at least one neighbour $u$ of $v$ is a non-leaf vertex. Therefore the closed neighbourhood $N_T[u]$ is another maximal clique containing $v$. Thus $v$ belongs to at least two maximal cliques and the vertices belonging to exactly one maximal clique are exactly the leaves of $T$.
 \end{proof}
 
 \begin{lemma}\label{lemma::5}
-  Let $C_i$ and $C_j$ be maximal cliques corresponding to non-leaf vertices $v_i$ and $v_j$ of $T$. Then $|C_i\cap C_j|=2$ if and only if $v_i v_j\in E_T$.
+  Let $C_i$ and $C_j$ be maximal cliques corresponding to non-leaf vertices $v_i$ and $v_j$ of $T$. Then $|C_i \cap C_j|=2$ if and only if $v_iv_j \in E_T$.
 \end{lemma}
 \begin{proof}
   Suppose that $v_i$ and $v_j$ are adjacent in $T$. Then both $v_i$ and $v_j$ belong to $
-  N_T[v_i]\cap N_T[v_j]$. If there were another vertex $u$ in this intersection, then $u$ would be adjacent to both $v_i$ and $v_j$ in $T$. Together with the edge $v_i v_j$, this would create a cycle in $T$, which is impossible. Therefore, $|N_T[v_i]\cap N_T[v_j]|=2$. By Lemma~\ref{lemma::3}, these closed neighbourhoods are the corresponding maximal cliques, so $|C_i \cap C_j|=2$.
+  N_T[v_i] \cap N_T[v_j]$. If there were another vertex $u$ in this intersection, then $u$ would be adjacent to both $v_i$ and $v_j$ in $T$. Together with the edge $v_i v_j$, this would create a cycle in $T$, which is impossible. Therefore, $|N_T[v_i] \cap N_T[v_j]|=2$. By Lemma~\ref{lemma::3}, these closed neighbourhoods are the corresponding maximal cliques, so $|C_i \cap C_j| = 2$.
 
-  Conversely, suppose that $|C_i \cap C_j|=2$. Since $v_i$ and $v_j$ belong to their respective closed neighbourhoods, the intersection implies that $v_i$ and $v_j$ are either adjacent or have a common neighbour in $T$. If they were not adjacent, there would be a vertex $u$ adjacent to both $v_i$ and $v_j$. Then $v_i,v_j,u\in C_i\cap C_j$, which would give an intersection of at least three vertices, contradicting $|C_i \cap C_j|=2$. Therefore, $v_i v_j\in E_T$. 
+  Conversely, suppose that $|C_i \cap C_j| = 2$. Since $v_i$ and $v_j$ belong to their respective closed neighbourhoods, the intersection implies that $v_i$ and $v_j$ are either adjacent or have a common neighbour in $T$. If they are not adjacent, there would be a common neighbour $u$ adjacent to both $v_i$ and $v_j$. Then $v_i,v_j,u \in C_i \cap C_j$, which would give an intersection of at least three vertices, contradicting $|C_i \cap C_j| = 2$. Therefore, $v_i$ and $v_j$ must be adjacent with $v_iv_j \in E_T$. 
 \end{proof}
 
 \begin{lemma}\label{lemma::6}
   $G$ is a $2$-edge-connected graph where the removal of any edge does not result in a disconnected graph
 \end{lemma}
 \begin{proof}
-  Let $uv\in E_G$. Consider the edge $uv$ and the graph $G-uv$. Since $G=T^2$, either $uv\in E_T$, or there exists a vertex $w\in V_T$ such that $uw,vw\in E_T$. In the latter case, $u$ and $v$ are connected by the path $u-w-v$ in $G-uv$.
+  Let $uv \in E_G$. Consider the edge $uv$ and the graph $G'$ with edge set $E_G \backslash \{uv\}$. Since $G = T^2$, either $uv \in E_T$, or there exists a vertex $w \in V_T$ such that $uw,vw \in E_T$. In the latter case, $u$ and $v$ are connected by the path $u-w-v$ in $G'$.
 
-  If $uv\in E_T$, then the vertices closest to $u$ and $v$ along the remaining components of $T-uv$ are adjacent in $G$. Thus, the two components of $T-uv$ remain connected through vertices that are joined by edges in $G-uv$.
+  If $uv \in E_T$, then the vertices closest to $u$ and $v$ along the remaining components of $T-uv$ are adjacent in $G$. Thus, the two components of $T-uv$ remain connected through vertices that are joined by edges in $G-uv$.
 
   Consequently, removing $uv$ from $G$ does not disconnect the graph. Hence $G$ has no bridges and is $2$-edge-connected.
 \end{proof}
@@ -796,7 +789,7 @@ To establish this characterization, let $G$ be the square of a tree $T$ and firs
 Combining gives the following proof of Theorem~\eqref{theorem::structural_characterization_trees}
 
 \begin{proof}
-  Suppose first that $G=T^2$ for some tree $T$. If $G$ is complete, then Lemma~\ref{lemma::1} shows that $T$ is a star.
+  Suppose first that $G = T^2$ for some tree $T$. If $G$ is complete, then Lemma~\ref{lemma::1} shows that $T$ is a star.
 
   Now suppose that $G$ is not complete. By Lemma~\ref{lemma::2}, $G$ is connected and every closed neighbourhood in $T$ forms a clique in $G$, giving \hyperref[characterization:1]{(i)}. 
 
@@ -850,7 +843,7 @@ The proof of Theorem~\eqref{theorem::structural_characterization_trees} gives th
 \end{algorithm}
 
 \begin{theorem}[Tree Root Algorithm] \label{theorem::tree_root_algorithm}
-  Given a graph $G=T^2$, Algorithm~\eqref{algo::ross_harary_tree} returns a tree $T$ such that $T^2=G$. Furthermore, this tree is unique up to isomorphism.
+  Given a graph $G = T^2$, Algorithm~\eqref{algo::ross_harary_tree} returns a tree $T$ such that $T^2=G$. Furthermore, this tree is unique up to isomorphism.
 \end{theorem}
 
 \begin{proof}
@@ -889,7 +882,7 @@ Instead, we aim to situate the problem completely within a polynomial-time frame
   \big((A_H)^2 - D_H + A_H\big)_{ij} = (A_H)^2_{ij} + (A_H)_{ij}.
   \]
 
-  Suppose $ij \in E_G$ such that $(A_H)^2_{ij} + (A_H)_{ij} \geq 1$. This implies that at least on of $(A_H)_{ij} = 1$ or $(A_H)^2_{ij} \geq 1$ must be true. If $(A_H)_{ij} = 1$, then $d_H(i,j) = 1$.  If $(A_H)^2_{ij} \geq 1$, then there exists a vertex $k$ such that $ik, kj \in E_H$, and hence $d_H(i,j) \leq 2$. Therefore $1 \leq d_H(i,j) \leq 2$, and thus $ij \in E_{H^2}$.
+  Suppose $ij \in E_G$ such that $(A_H)^2_{ij} + (A_H)_{ij} \geq 1$. This implies that at least on of $(A_H)_{ij} = 1$ or $(A_H)^2_{ij} \geq 1$ must be $\textsc{True}$. If $(A_H)_{ij} = 1$, then $d_H(i,j) = 1$.  If $(A_H)^2_{ij} \geq 1$, then there exists a vertex $k$ such that $ik, kj \in E_H$, and hence $d_H(i,j) \leq 2$. Therefore $1 \leq d_H(i,j) \leq 2$, and thus $ij \in E_{H^2}$.
 
   Suppose $ij \in E_{H^2}$ such that $1 \leq d_H(i,j) \leq 2$. $D_H$ is diagonal such that $(D_H)_{ij} = 0$. If $d_H(i,j) = 1$, then $(A_H)_{ij} = 1$. If $d_H(i,j) = 2$, then there exists a vertex $k$ such that $ik, kj \in E_H$, and hence $(A_H)^2_{ij} \geq 1$. In either case, $(A_H)^2_{ij} + (A_H)_{ij} \geq 1$, so $(A_G)_{ij} = 1$, and hence $ij \in E_G$.
 
@@ -897,7 +890,7 @@ Instead, we aim to situate the problem completely within a polynomial-time frame
   \[
   \big((A_H)^2 - D_H + A_H\big)_{ii} = (A_H)^2_{ii} - (D_H)_{ii}.
   \]
-  $(A_H)^2_{ii} - (D_H)_{ii} = 0$ is always true since the degree matrix of $H$ always has diagonal values $\displaystyle (D_H)_{ii} = \sum_k x_{ik}$ and each edge from vertex $i$ to its neighbour in $H$ will always create a loop to itself in the square such that $\displaystyle (A_H)^2_{ii} = 
+  $(A_H)^2_{ii} - (D_H)_{ii} = 0$ is always $\textsc{True}$ since the degree matrix of $H$ always has diagonal values $\displaystyle (D_H)_{ii} = \sum_k x_{ik}$ and each edge from vertex $i$ to its neighbour in $H$ will always create a loop to itself in the square such that $\displaystyle (A_H)^2_{ii} = 
   \sum_{k = 1} x_{ik}x_{ki} = \sum_{k = 1} x_{ik}^2$ by the symmetry of adjacency matrix $A_H$. Since $x_{ik} \in \{0, 1\}$, the square of the boolean is identical to the boolean $x_ik$ such that $\displaystyle (A_H)^2_{ii} = \sum_k x_{ik} = (D_H)_{ii}$ and $(A_G)_{ii} = \mathbbm{1}_{\geq 1}\big((A_H)^2 - D_H + A_H\big)$ as required. 
 
   Combining both gives that $E_G = E_{H^2}$, and so $G = H^2$.  
@@ -1140,8 +1133,7 @@ In Figure~\ref{fig::ip_lp_set_geometric} solutions which are $LP$ feasible may b
 
 When $H$ does not exist, two outcomes are observed. An $LP$-infeasible instance has no point in $\mathcal{F}*{LP}$, and therefore cannot contain a feasible integer solution. Alternatively, the $LP$ may remain feasible but return a fractional solution, placing the solution in $\mathcal{F}*{LP} \setminus \mathcal{F}*{IP}$. The number of such fractional solutions also increases with $n$. 
 
-These results demonstrate that $LP$ feasibility alone is insufficient to establish the existence of a graph root, since $\mathcal{F}_{LP}$ may contain both integral and fractional solutions. Fractional solutions arise because the linear relaxation weakens the integrality restrictions of the integer program, allowing variables that are
-binary in the integer formulation to take values in the continuous interval $[0,1]$.
+These results demonstrate that $LP$ feasibility alone is insufficient to establish the existence of a graph root, since $\mathcal{F}_{LP}$ may contain both integral and fractional solutions. Fractional solutions arise because the linear relaxation weakens the integrality restrictions of the integer program, allowing variables that are binary in the integer formulation to take values in the continuous interval $[0,1]$.
 
 Consider Equations~\eqref{eq::IP_product_upper_first}-\eqref{eq::IP_product_lower} which gives $y_{ikj} = x_{ik}x_{kj}$. When $x$ is binary, this construction of $y$ leads to $y$ being binary as well.  
 
@@ -1494,7 +1486,7 @@ It remains to verify that whenever a root $H$ of $G$ exists, the addition of the
 We first show that the unicliqual vertex linear program will always fix a pendant or pendant fork. 
 
 \begin{lemma} \label{lemma::unicliqual_vertex_fix}
-  Let $G$ and $T$ be graphs such that $G=T^2$ and $T$ is a tree. $\max\mathcal{UVLP}(G)$ always a pendant or pendant fork subgraph of $T$.
+  Let $G$ and $T$ be graphs such that $G = T^2$ and $T$ is a tree. $\max\mathcal{UVLP}(G)$ always a pendant or pendant fork subgraph of $T$.
 \end{lemma}
 \begin{proof}
   By Lemma~\ref{lemma::tree_pendant_pendant_fork}, $T$ either contains pendant or a pendant fork subgraph. Let $s$ be a leaf of this subgraph and let $u$ be its stem. Since $s$ is a leaf of $T$, every vertex of  $N_G[s]$ is either $s$, $u$, the neighbours of $u$ in $T$, or a vertex at distance two from $s$ through $u$. Hence
