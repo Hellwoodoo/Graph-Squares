@@ -850,7 +850,7 @@ The proof of Theorem~\eqref{theorem::structural_characterization_trees} gives th
   If $G$ is complete, Step 1 returns a star. By Lemma~\ref{lemma::1}, this is a tree square root of $G$. Otherwise, Lemma~\ref{lemma::3} shows that each maximal clique corresponds to a non-leaf vertex of the root. Thus the vertices $b_1,\ldots,b_n$ identified in Step 3 determine the internal vertices of $T$. By Lemma~\ref{lemma::5}, two of these internal vertices are adjacent precisely when their corresponding maximal cliques have an intersection of size two. Therefore Step 3 recovers all edges between the internal vertices. The remaining vertices belong to exactly one maximal clique and, by Lemma~\ref{lemma::4}, correspond to leaves. Step 4 therefore places each of these vertices at its unique position in the tree. Hence the algorithm reconstructs a tree $T$ satisfying $T^2=G$. Since the internal vertices, their adjacencies, and the attachment of every leaf are all determined by the maximal cliques of $G$, the resulting tree is unique up to isomorphism.
 \end{proof}
 
-While Algorithm~\ref{algo::ross_harary_tree} formalizes the original $1960$ constructive proof by \citeauthor{ross_1960_square}, it predates the formalization of computational complexity classes $\mathcal{P}$ vs. $\mathcal{NP}$ established in the early $1970$s. From a modern perspective, Ross and Harary's strategy relies on global maximal clique enumeration to group vertices into local star subgraphs. If implemented using general-purpose clique algorithms such as Bron--Kerbosch, this approach suffers from exponential worst-case execution time.
+While Algorithm~\ref{algo::ross_harary_tree} formalizes the original $1960$ constructive proof by \citeauthor{ross_1960_square}, it predates the formalization of computational complexity classes $\mathcal{P}$ vs. $\mathcal{NP}$ established in the early $1970$s. From a modern perspective, Ross and Harary's strategy relies on global maximal clique enumeration to group vertices into local star subgraphs. If implemented using general-purpose clique algorithms such as Bron-Kerbosch, this approach suffers from exponential worst-case execution time.
 
 In contrast, \citeauthor{lin_1995_square_roots} bypass clique enumeration entirely by shifting to a local, bottom-up leaf-trimming strategy to give a polynomial algorithm \cite{lin_1995_square_roots}. Rather than searching for global subgraphs, they identify leaves of $T$ directly as simplicial vertices with minimal degree, partition their closed neighborhoods into leaf and non-leaf sets, and use the structural properties of these local neighborhoods to reconstruct parent-child adjacencies directly. By repeatedly trimming identified leaves, they reduce the problem to smaller tree squares until the tree structure is fully recovered.
 
@@ -1510,25 +1510,25 @@ We first show that the unicliqual vertex linear program will always fix a pendan
 
 \chapter{Further Work}
 
-In this chapter, we discuss additional work, further concepts, and interesting ideas arising from structural properties that the square graph intrinsically possesses. Most of these ideas have not been rigorously proven and are instead presented through proof sketches or intuition for why they may help improve the results obtained by the linear programming framework. 
+In this chapter, we discuss additional work, further concepts, and interesting ideas arising from structural properties that the square graph intrinsically possesses. 
 
 Previous methods for solving specific classes of roots have been developed by augmenting the linear programming framework with additional constraints and objective functions. Nevertheless, integrating known polynomial-time solutions for trees into an overall framework, while maintaining the internal consistency that valid square graphs must always correspond to feasible instances, does not appear to justify the use of a comparatively complex polynomial-time framework such as the interior-point method. 
 
-It is, however, relatively straightforward to construct stronger exact algorithms by performing a polynomial number of runs of the linear program. Each run can be used to identify additional structural information, fix variables, or further restrict the possible roots before solving the resulting instance again. This provides a useful mechanism through which improvements to the base linear program can have a much greater effect than the improvement obtained from a single LP solution alone. In particular, a stronger base program can provide more integral variables and structural information, which can then be propagated through subsequent runs of the program.
+It is, however, possible to construct stronger exact algorithms by performing a polynomial number of runs of the linear program. Each run can be used to identify additional structural information, fix variables, or further restrict the possible solutions before solving the resulting instance again. This may provide a useful mechanism through which improvements to the base linear program can have a much greater effect than the improvement obtained from a single LP solution alone. In particular, a stronger base program provides more integral variables and structural information, which can then be propagated through subsequent runs of the LP relaxation.
 
-The following sections illustrate several directions in which this can be explored. Rather than treating each structural property as an isolated addition to the formulation, these examples demonstrate how improvements to the base linear program can be repeatedly exploited to obtain substantially stronger results.
+The following sections illustrate several directions in which this can be explored. 
 
 \section{Vertex Deletion} \label{sec::vertex_deletion}
 
-From Table~\eqref{tab::unicliqual_vertex_linear_program_outcomes}, we can already see that for small $n$, all square graphs can be completely categorized such that, whenever a root $H$ exists, an integral solution is obtained, while whenever no root $H$ exists, the linear program is infeasible. This suggests that the behaviour of the linear program may be closely related not only to the structure of the graph itself, but also to the structure of its subgraphs.
+We can use an LP to find the set of all graphs on $n \leq 5$ vertices that admit a root. From Table~\eqref{tab::unicliqual_vertex_linear_program_outcomes} all square graphs can be completely categorized for small $n$, such that, whenever a root $H$ exists, an integral solution is obtained, while whenever no root $H$ exists, the linear program is infeasible. 
 
-In particular, consider arbitrarily removing a vertex from $G$ and applying the same linear program to the resulting subgraph. If the subgraph has an integral solution, this provides structural information about a possible root on the reduced vertex set. The natural question is whether this information can subsequently be used to constrain the original graph when the deleted vertex is reintroduced.
+In particular, consider arbitrarily removing a vertex from $G$ and applying the same linear program to the resulting subgraph. If the subgraph has an integral solution, this provides structural information about a possible root on the reduced vertex set. We may then fix a partial solution using vertices whose root edges are not generated by a $P_2$ whose middle vertex is the removed vertex. The natural question is whether this information can subsequently be used to constrain the original graph when the deleted vertex is reintroduced.
 
 More specifically, if deleting a vertex produces a graph for which the linear program has an integral solution, it is worth investigating whether the corresponding solution can be extended to the original graph and, if so, whether the possible extensions can be restricted to a small number of cases. If such extensions can be characterized, vertex deletion provides a mechanism through which information obtained from smaller instances can be propagated back to the original graph.
 
-Let $G^-$ be the subgraph of $G$ defined by $\displaystyle (V^- = V - {v}, E_{G^-} = E_G \backslash {uv \mid u \in V^-})$. If $G^-$ has a valid square root, denote it by $H^-$. Let $H$ be a square root of $G$ satisfying $H^2=G$, and let $H_-$ be the subgraph of $H$ obtained by deleting $v$, defined by $\displaystyle (V^-, E_H \backslash {uv \mid u \in V^-})$. 
+Let $G^-$ be the subgraph of $G$ defined by $\displaystyle V^- = V - {v}, E_{G^-} =  \{ E_G \backslash {uv \mid u \in V^-} \}$. If $G^-$ admits a valid square root, denote it by $H^-$. Let $H$ be a square root of $G$ satisfying $H^2=G$, and let $H_-$ be the subgraph of $H$ obtained by deleting $v$, defined by $\displaystyle V^-, \{ E_H \backslash {uv \mid u \in V^-}\}$. 
 
-In general, $H_-$ need not be a square root of $G^-$, since the deletion of $v$ from $H$ may remove $P_2$s between vertices in $V^-$ which results in $\left(H_-\right)^2\neq G^-$. Nevertheless, an integral solution of the LP for $G^-$ provides a candidate set of root edges on $V^-$ which can be used to refine the LP for $G$. 
+In general, $H_-$ need not be a square root of $G^-$, since the deletion of $v$ from $H$ may remove copies of $P_2$ between vertices in $V^-$ which results in $\left(H_-\right)^2\neq G^-$. Nevertheless, an integral solution of the LP for $G^-$ provides a candidate set of root edges on $V^-$ which can be used to refine the LP for $G$. 
 
 \begin{algorithm} \caption{Vertex-Deletion Linear Program} \label{algo:vertex_deletion}
   \begin{algorithmic}[1]
@@ -1638,26 +1638,6 @@ The intuition behind this step is that the linear program only finds a solution 
   5 & 11  & 0   & 21    & 2    \\
   6 & 26  & 2   & 117   & 11   \\
   7 & 73  & 4   & 852   & 115  \\
-  8 & 254 & 53  & 10271 & 1768 \\
-  \hline
-  \end{tabular}
-  \caption{Outcomes of the vertex deletion linear program using unicliqual vertex as the base and enumerating all possible $H^-$ roots for graphs of different orders of $n$.}
-  \label{tab::vertex_deletion_enumerate_subgraphs_program_outcomes}
-\end{table}
-
-\begin{table}[!htbp]
-  \centering
-  \begin{tabular}{c|cc|cc}
-  \hline
-  $n$ & \multicolumn{2}{c|}{$H$ exists} & \multicolumn{2}{c}{$H$ does not exist} \\
-  & \text{LP integral solution} & \text{LP fractional solution}
-  & \text{LP infeasible} & \text{LP fractional solution} \\
-  \hline
-  3 & 3   & 0   & 1     & 0    \\
-  4 & 6   & 0   & 5     & 0    \\
-  5 & 11  & 0   & 21    & 2    \\
-  6 & 26  & 2   & 117   & 11   \\
-  7 & 73  & 4   & 852   & 115  \\
   8 & 274 & 33  & 10271 & 1768 \\
   \hline
   \end{tabular}
@@ -1714,7 +1694,7 @@ If under certain conditions the relationship holds with equality $a + b = 1$, on
 Consider Figure~\ref{fig::130_6} where $G_1$ is the unique maximal root. Assigning $\alpha = x_{14}$ gives using Conjecture~\eqref{conjecture::two_edges_linear_maximization} that $1 - \alpha = x_{40}$ since $g_{01} = 0$. The same applies such that $1 - \alpha = x_{42}$ and $\alpha = x_{43}$, whereby the existence of edges $g_{13}=g_{02}=1$ prevent additional constraints being imposed upon $\alpha$ and ensure it is internally consistent. By symmetry can likewise assign $\beta = x_{15} = x_{35}$ and $1 - \beta = x_{50} = x_{52}$. Setting $\alpha = 0$ and $\beta = 1$ thus gives $x_{40} = x_{42} = x_{15} = x_{35} = 1$ and $x_{14} = x_{43} = x_{50} = x_{52} = 0$ which with the additioanl of $x_{45}=1$ gives Figure~\ref{fig::130_6_root_3}. In this example, both $\{(1,4), (4,0), (4,2), (4,3) \}$ and $\{(1,5), (3,5), (5,0), (5,2)\}$ are consistent sets. 
 
 \begin{definition}[Consistent Set] \label{def::consistent_set}
-  Let a \textbf{consistent set} $\mathcal{CG} \subseteq E_G$ be a set with at least three edges where all edges are labelled using a single symbol $\alpha$ such that every  pair of edges satisfies the $1$ equality of Conjecture~\eqref{conjecture::two_edges_linear_maximization} implicitly - that is every edge that satisfies the lemma is labelled $\alpha$ and  $1-\alpha$. Thus for a consistent set there are only two possibilities that must be considered, $\alpha = 0$ or $\alpha = 1$. 
+  Let a \textbf{consistent set} $\mathcal{CS}(G) \subseteq E_G$ be a set with at least three edges where all edges are labelled using a single symbol $\alpha$ such that every  pair of edges satisfies the $1$ equality of Conjecture~\eqref{conjecture::two_edges_linear_maximization} implicitly - that is every edge that satisfies the lemma is labelled $\alpha$ and  $1-\alpha$. Thus for a consistent set there are only two possibilities that must be considered, $\alpha = 0$ or $\alpha = 1$. 
 \end{definition}
 
 \begin{figure}[ht]
@@ -1742,40 +1722,29 @@ Consider Figure~\ref{fig::115_6} where assigning $\alpha = x_{03}$ gives using C
 Maximizing the objective function thus gives $\displaystyle \alpha=\beta=\gamma=\frac{1}{2}$ which is a fractional solution. It necessitates the arbitrarily fixing of edges to give a valid integral solution. Setting $\alpha=\beta=\gamma=0$ with $x_{31}=x_{52}=x_{40} = 1$ and the remaining to $0$ gives the solution Figure~\ref{fig::115_6_root}, yet this is not doable in general. In this example, all of $\{(0,3), (3,1), (3,2) \}$, $\{(0,5), (1,5), (5,2)\}$ and $\{(4,2), (4,1), (4,0)\}$ are inconsistent sets. 
 
 \begin{definition}[Inconsistent Set] \label{def::inconsistent_set}
-  Let an \textbf{inconsistent set} $\mathcal{IG} \subseteq E_G$ be a set with at least three edges where all edges are labelled by a single symbol $\alpha$ such that  every pair of edges satisfies Lemma~\eqref{conjecture::two_edges_linear_maximization} where there exists a pair of edges satisfying the lemma, but both are labelled $\alpha$ or $1-\alpha$. In this scenario $\alpha + \alpha \leq 1$ such that $\displaystyle 0 \leq \alpha \leq \frac{1}{2}$ or $1 - \alpha + 1 - \alpha \leq 1$ such that $\displaystyle 1 \geq \alpha \geq \frac{1}{2}$. 
+  Let an \textbf{inconsistent set} $\mathcal{IS}(G) \subseteq E_G$ be a set with at least three edges where all edges are labelled by a single symbol $\alpha$ such that  every pair of edges satisfies Lemma~\eqref{conjecture::two_edges_linear_maximization} where there exists a pair of edges satisfying the lemma, but both are labelled $\alpha$ or $1-\alpha$. In this scenario $\alpha + \alpha \leq 1$ such that $\displaystyle 0 \leq \alpha \leq \frac{1}{2}$ or $1 - \alpha + 1 - \alpha \leq 1$ such that $\displaystyle 1 \geq \alpha \geq \frac{1}{2}$. 
 \end{definition}
 
-\begin{figure}[ht]
-    \centering
-    \begin{subfigure}{0.40\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{images/115_6_root.png}
-        \caption{The root graph $G$.}
-        \label{fig::115_6_root}
-    \end{subfigure}
-    \hspace{0.10\textwidth}
-    \begin{subfigure}{0.39\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{images/115_6_square.png}
-        \caption{The graph square $H^2=G$.}
-        \label{fig::115_6_square}
-    \end{subfigure}
-
-    \caption{A six-vertex graph and its square. $G$ only has one root that is unique up to isomorphism. }
-    \label{fig::115_6}
-\end{figure}
-
-\begin{definition}[Null Set] \label{def::null_set}
-  Let a \textbf{null set} $\mathcal{NG} \subseteq E_G$ be a set with at least three edges where all edges are labelled by a single symbol $\alpha$ such that every pair of edges satisfies the $0$ equality of Conjecture~\eqref{conjecture::two_edges_linear_maximization} implicitly - that is every edge that satisfies the lemma is assigned $x$ value $0$. 
-\end{definition}
-
-\begin{conjecture} \label{conjecture::consisten_set_conjecture}
-  Any square graph with only consistent sets whose union forms a strict subgraph of $G$ can be solved by arbitrarily fixing one of the group's symbols with either $0$ or $1$. 
+\begin{conjecture} \label{conjecture::consistent_set_conjecture}
+  Any square graph with only consistent sets whose union forms a strict subgraph of $G$ can be solved by arbitrarily fixing all of the consistent set's symbols with either $0$ or $1$. 
 \end{conjecture}
 
 \begin{conjecture} \label{conjecture::inconsistent_set_conjecture}
-  Any square graph with an inconsistent set must have at least one inconsistent set that is a star. By fixing one variable of the star, the linear program will only consist of consistent sets.  
+  Any square graph with an inconsistent set must have at least one inconsistent set that contains a star. 
 \end{conjecture}
+
+Using Conjectures~\ref{conjecture::consistent_set_conjecture}--\ref{conjecture::inconsistent_set_conjecture}, we can formulate an edge enforcement algorithm that first identifies independent consistent sets and fixes their edges by setting the symbol to be $0$ or $1$. Before then identifying stars within the remaining inconsistent sets and fixing an edge within them. 
+
+
+
+For a fully exhausitive approach, consider the complexity of enumerating all consistent sets $\{\mathcal{CS}(G)\}$ whereby there are at least two edges in each $\mathcal{G}$. 
+
+\begin{proposition} \label{prop::edge_fixing_complexity}
+  
+\end{proposition}
+\begin{proof}
+  
+\end{proof}
 
 \section{Duality} \label{sec::duality}
 
