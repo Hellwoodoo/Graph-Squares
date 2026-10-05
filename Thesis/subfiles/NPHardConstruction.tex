@@ -11,99 +11,152 @@
         inner sep=0pt,
         font=\small
     },
-    edge/.style={thick},
+    gedge/.style={thick},
+    hedge/.style={very thick},
+    dashedroot/.style={very thick,dashed},
+    arrow/.style={->,>=stealth,very thick},
     every node/.style={font=\small}
 ]
-    \begin{scope}[xshift=0cm,yshift=0cm]
-        \node[anchor=west,font=\bfseries] at (0,4.8)
-            {(i) Tail of $x$};
 
-        \node[vertex] (t3) at (0,2.5) {$t_3$};
-        \node[vertex] (t2) at (1.5,2.5) {$t_2$};
-        \node[vertex] (t1) at (3.0,2.5) {$t_1$};
-        \node[vertex] (x)  at (4.5,2.5) {$x$};
-        \node[vertex] (T)  at (6.0,2.5) {$\textsc{True}$};
-        \node[vertex] (F)  at (7.5,2.5) {$\textsc{False}$};
+\node[anchor=west,font=\bfseries] at (0,5.8)
+    {(i) Tail of $x$};
 
-        \draw[edge] (t3)--(t2);
-        \draw[edge] (t2)--(t1);
-        \draw[edge] (t1)--(x);
-        \draw[edge] (t1) to[bend left=35] (T);
-        \draw[edge] (t3) to[bend left=35] (t1);
-        \draw[edge] (t2) to[bend left=35] (x);
-        \draw[edge] (t1) to[bend right=45] (F);
-    \end{scope}
+\node[anchor=west,font=\itshape] at (0,5.15) {$G_\phi$};
+\node[vertex] (gt3) at (0,3.6) {$t_3$};
+\node[vertex] (gt2) at (1.5,3.6) {$t_2$};
+\node[vertex] (gt1) at (3.0,3.6) {$t_1$};
+\node[vertex] (gx)  at (4.5,3.6) {$x$};
+\node[vertex] (gT) at (2.3,1.8) {$\textsc{True}$};
+\node[vertex] (gF) at (4.3,1.8) {$\textsc{False}$};
 
-    \begin{scope}[xshift=9cm,yshift=0cm]
-        \node[anchor=west,font=\bfseries] at (0,4.8)
-            {(ii) Tail of $C_j$};
+\draw[gedge] (gt3)--(gt2);
+\draw[gedge] (gt2)--(gt1);
+\draw[gedge] (gt1)--(gx);
+\draw[gedge] (gt3) to[bend left=35] (gt1);
+\draw[gedge] (gt2) to[bend left=35] (gx);
+\draw[gedge] (gt1)--(gT);
+\draw[gedge] (gt1)--(gF);
+\draw[gedge] (gt2)--(gT);
+\draw[gedge] (gt2)--(gF);
+\draw[gedge] (gx)--(gT);
+\draw[gedge] (gx)--(gF);
 
-        \node[vertex] (c3) at (0,2.5) {$C_j^3$};
-        \node[vertex] (c2) at (1.5,2.5) {$C_j^2$};
-        \node[vertex] (c1) at (3.0,2.5) {$C_j^1$};
-        \node[vertex] (C)  at (4.5,2.5) {$C_j$};
 
-        \node[vertex] (L1) at (1.8,0.4) {$L_{j_1}$};
-        \node[vertex] (L2) at (3.0,0.4) {$L_{j_2}$};
-        \node[vertex] (L3) at (4.2,0.4) {$L_{j_3}$};
+\draw[arrow] (5.3,3.0) -- (6.5,3.0)
+    node[midway,above] {$H^2$};
 
-        \draw[edge] (c3)--(c2);
-        \draw[edge] (c2)--(c1);
-        \draw[edge] (c1)--(C);
+\node[anchor=west,font=\itshape] at (7.0,5.15) {$H$};
+\node[vertex] (ht3) at (7.0,3.6) {$t_3$};
+\node[vertex] (ht2) at (8.5,3.6) {$t_2$};
+\node[vertex] (ht1) at (10.0,3.6) {$t_1$};
+\node[vertex] (hx)  at (11.5,3.6) {$x$};
+\node[vertex] (hT) at (9.3,1.8) {$\textsc{True}$};
+\node[vertex] (hF) at (11.3,1.8) {$\textsc{False}$};
 
-        \draw[edge] (c3) to[bend left=35] (c1);
-        \draw[edge] (c2) to[bend left=35] (C);
+\draw[hedge] (ht3)--(ht2);
+\draw[hedge] (ht2)--(ht1);
+\draw[hedge] (ht1)--(hx);
+\draw[hedge] (ht1)--(hT);
+\draw[dashedroot] (ht1)--(hF);
 
-        \draw[edge] (c1)--(L1);
-        \draw[edge] (c1)--(L2);
-        \draw[edge] (c1)--(L3);
-    \end{scope}
+\node[align=center] at (9.8,0.75)
+    {$t_1$ chooses one of\\
+     $\textsc{True}$ or $\textsc{False}$};
 
-    \begin{scope}[xshift=0cm,yshift=-5.7cm]
-        \node[anchor=west,font=\bfseries] at (0,4.5)
-            {(iii) Edges incident to $C_j$};
 
-        \node[vertex] (Cc) at (3.5,1.5) {$C_j$};
+\node[anchor=west,font=\bfseries] at (0,-0.5)
+    {(ii) Tail of clause};
 
-        \node[vertex] (CL1) at (2.0,3.0) {$L_{j_1}$};
-        \node[vertex] (CL2) at (3.5,3.0) {$L_{j_2}$};
-        \node[vertex] (CL3) at (5.0,3.0) {$L_{j_3}$};
+\node[anchor=west,font=\itshape] at (0,-1.05) {$G_\phi$};
+\node[vertex] (gc3) at (0,-2.5) {$C_j^3$};
+\node[vertex] (gc2) at (1.5,-2.5) {$C_j^2$};
+\node[vertex] (gc1) at (3.0,-2.5) {$C_j^1$};
+\node[vertex] (gc)  at (4.5,-2.5) {$C_j$};
+\node[vertex] (gL1) at (1.8,-4.1) {$L_{j_1}$};
+\node[vertex] (gL2) at (3.0,-4.1) {$L_{j_2}$};
+\node[vertex] (gL3) at (4.2,-4.1) {$L_{j_3}$};
 
-        \node[vertex] (Tc) at (2.0,0.0) {$\textsc{True}$};
-        \node[vertex] (Fc) at (5.0,0.0) {$\textsc{False}$};
+\draw[gedge] (gc3)--(gc2);
+\draw[gedge] (gc2)--(gc1);
+\draw[gedge] (gc1)--(gc);
+\draw[gedge] (gc3) to[bend left=35] (gc1);
+\draw[gedge] (gc2) to[bend left=35] (gc);
+\draw[gedge] (gc)--(gL1);
+\draw[gedge] (gc)--(gL2);
+\draw[gedge] (gc)--(gL3);
+\draw[gedge] (gc1)--(gL1);
+\draw[gedge] (gc1)--(gL2);
+\draw[gedge] (gc1)--(gL3);
+\draw[gedge] (gc2)--(gL1);
+\draw[gedge] (gc2)--(gL2);
+\draw[gedge] (gc2)--(gL3);
 
-        \node[vertex] (A1) at (7.0,3.0) {$A_{j_1k}$};
-        \node[vertex] (A2) at (7.0,1.5) {$A_{j_2k}$};
-        \node[vertex] (A3) at (7.0,0.0) {$A_{j_3k}$};
+\draw[arrow] (5.3,-2.9) -- (6.5,-2.9)
+    node[midway,above] {$H^2$};
 
-        \draw[edge] (Cc)--(CL1);
-        \draw[edge] (Cc)--(CL2);
-        \draw[edge] (Cc)--(CL3);
+\node[anchor=west,font=\itshape] at (7.0,-1.05) {$H$};
+\node[vertex] (hc3) at (7.0,-2.5) {$C_j^3$};
+\node[vertex] (hc2) at (8.5,-2.5) {$C_j^2$};
+\node[vertex] (hc1) at (10.0,-2.5) {$C_j^1$};
+\node[vertex] (hc)  at (11.5,-2.5) {$C_j$};
+\node[vertex] (hL1) at (8.8,-4.1) {$L_{j_1}$};
+\node[vertex] (hL2) at (10.0,-4.1) {$L_{j_2}$};
+\node[vertex] (hL3) at (11.2,-4.1) {$L_{j_3}$};
 
-        \draw[edge] (Cc) to[bend left=20] (Tc);
-        \draw[edge] (Cc) to[bend right=20] (Fc);
+\draw[hedge] (hc3)--(hc2);
+\draw[hedge] (hc2)--(hc1);
+\draw[hedge] (hc1)--(hc);
+\draw[hedge] (hc1)--(hL1);
+\draw[hedge] (hc1)--(hL2);
+\draw[hedge] (hc1)--(hL3);
 
-        \draw[edge] (Cc) to[bend left=25] (A1);
-        \draw[edge] (Cc)--(A2);
-        \draw[edge] (Cc) to[bend right=25] (A3);
-    \end{scope}
+\node[align=center] at (9.7,-5.0)
+    {the clause gadget exposes\\
+     $L_{j_1},L_{j_2},L_{j_3}$};
 
-    \begin{scope}[xshift=9cm,yshift=-5.7cm]
-        \node[anchor=west,font=\bfseries] at (0,4.5)
-            {(iv) Literal-complement structure};
+\node[anchor=west,font=\itshape] at (0,-6.55) {$G_\phi$};
+\node[vertex] (li)   at (1.5,-7.7) {$L_i$};
+\node[vertex] (lT)   at (0.4,-9.0) {$\textsc{True}$};
+\node[vertex] (lF)   at (2.6,-9.0) {$\textsc{False}$};
+\node[vertex] (lbar) at (1.5,-10.3) {$L_{\bar i}$};
 
-        \node[vertex] (Li)    at (3.5,3.5)  {$L_i$};
-        \node[vertex] (T)     at (2.5,1.5)  {$\textsc{True}$};
-        \node[vertex] (F)     at (4.5,1.5)  {$\textsc{False}$};
-        \node[vertex] (Libar) at (3.5,-0.5) {$\overline{L_i}$};
+\draw[gedge] (li)--(lT);
+\draw[gedge] (li)--(lF);
+\draw[gedge] (lT)--(lF);
+\draw[gedge] (lT)--(lbar);
+\draw[gedge] (lF)--(lbar);
 
-        \draw[edge] (Li)--(T);
-        \draw[edge] (Li)--(F);
-        \draw[edge] (T)--(F);
-        \draw[edge] (T)--(Libar);
-        \draw[edge] (F)--(Libar);
-    \end{scope}
+\draw[arrow] (4.0,-8.8) -- (6.5,-8.8)
+    node[midway,above] {$H^2$};
+
+\node[anchor=west,font=\itshape] at (7.0,-6.55) {$H$};
+
+\node[vertex] (hli)   at (9.0,-7.7) {$L_i$};
+\node[vertex] (hlT)   at (7.9,-9.0) {$\textsc{True}$};
+\node[vertex] (hlF)   at (10.1,-9.0) {$\textsc{False}$};
+\node[vertex] (hlbar) at (8.9,-10.3) {$L_{\bar i}$};
+
+\draw[hedge] (hli)--(hlT);
+\draw[dashedroot] (hli)--(hlF);
+\draw[hedge] (hlbar)--(hlF);
+\draw[dashedroot] (hlbar)--(hlT);
+
+\node[align=center] at (9.15,-11.15)
+{$L_i$ and $L_{\bar i}$ represent\\
+     opposite choices};
+
 \end{tikzpicture}
 
-\label{fig:polynomial-reduction}
+\caption{
+The gadgets illustrate how the structure of $G_\phi$ constrains a square
+root $H$. The tail of $x$ forces a root path and leaves a
+$\textsc{True}/\textsc{False}$ choice. The clause tail similarly forces
+a root path and exposes the three literal vertices of the clause.
+The resulting distance-two edges in $G_\phi$ include the edges between
+$C_j$ and its literals and between $C_j^2$ and its literals.
+Complementary literal vertices are constrained to represent opposite
+truth values. Thus, the local structure of $G_\phi$ encodes the truth
+assignment represented by a square root.
+}
+\label{fig:polynomial-reduction-gadgets}
 \end{figure}
