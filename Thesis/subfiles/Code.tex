@@ -570,3 +570,378 @@ def unicliqual_rounding_linear_program(G, threshold=0.5):
 
     return m, x
 \end{lstlisting}
+
+\begin{lstlisting}[style=python, caption={Max Edge Enforcment Linear Program.}, label={lst::max_edge_enforcement_linear_program}]
+def two_edge_triangles_from_edges(G):
+    A = G.adjacency_matrix()
+    n = G.num_verts()
+    triangles = []
+    for u in range(n):
+        for v in range(u + 1, n):
+            for w in range(v + 1, n):
+                edges = A[u][v] + A[u][w] + A[v][w]
+                if edges == 2:
+                    triangles.append((u, v, w))
+    return triangles
+
+def present_edges(i, j, k, G):
+    A = G.adjacency_matrix()
+    edges = []
+    if A[i][j]:
+        edges.append((i, j))
+    if A[i][k]:
+        edges.append((i, k))
+    if A[j][k]:
+        edges.append((j, k))
+    return edges
+
+def is_fixed(value, tol=1e-8):
+    return abs(value) < tol or abs(value - 1) < tol
+
+def invalid_group(G, group_edges):
+    group_edges = {tuple(sorted(e)) for e in group_edges}
+    for v in G.vertices():
+        incident_edges = {tuple(sorted(e)) for e in G.edges_incident(v, labels=False)}
+        if not incident_edges:
+            continue
+        if incident_edges.issubset(group_edges):
+            return True
+    return False
+
+def find_consistent_inconsistent_sets(G, solution=None):
+    triangles = two_edge_triangles_from_edges(G)
+    H = Graph()
+    for tri in triangles:
+        e1, e2 = present_edges(*tri, G)
+        if solution is not None:
+            if is_fixed(solution[e1]):
+                continue
+            if is_fixed(solution[e2]):
+                continue
+        H.add_vertex(e1)
+        H.add_vertex(e2)
+        H.add_edge(e1, e2)
+    consistent_sets = []
+    inconsistent_sets = []
+    for component in H.connected_components():
+        C = H.subgraph(component)
+        if C.num_verts() < 3:
+            continue
+        group_edges = sorted(component)
+        if C.is_bipartite():
+            if invalid_group(G, group_edges):
+                inconsistent_sets.append({
+                    "edges": group_edges,
+                })
+                continue
+            part0, part1 = C.bipartite_sets()
+            consistent_sets.append({
+                "edges": group_edges,
+                "part0": sorted(part0),
+                "part1": sorted(part1),
+            })
+        else:
+            inconsistent_sets.append({
+                "edges": group_edges,
+            })
+    return consistent_sets, inconsistent_sets
+
+def edge_enforcement(G):
+    consistent_sets, inconsistent_sets = find_consistent_inconsistent_sets(G)
+    consistent_assignment = {}
+    inconsistent_assignment = {}
+    consistent_variables = []
+    inconsistent_variables = []
+    next_var = 0
+    # Consistent sets
+    for group in consistent_sets:
+        a = var(f"a{next_var}")
+        next_var += 1
+        consistent_variables.append(a)
+        for edge in group["part0"]:
+            consistent_assignment[edge] = a
+        for edge in group["part1"]:
+            consistent_assignment[edge] = 1 - a
+    # Inconsistent sets
+    for group in inconsistent_sets:
+        b = var(f"b{next_var}")
+        next_var += 1
+        inconsistent_variables.append(b)
+        for edge in group["edges"]:
+            inconsistent_assignment[edge] = b
+
+    return consistent_assignment, inconsistent_assignment, consistent_variables, inconsistent_variables, consistent_sets, inconsistent_sets
+
+def max_edge_enforcement_no_fixing_linear_program(G):
+    m, x = max_linear_program(G)
+
+    triangles = two_edge_triangles_from_edges(G)
+    consistent_assignment, inconsistent_assignment, consistent_vars, inconsistent_vars, consistent_sets, inconsistent_sets = edge_enforcement(G)
+
+    assignment = { **consistent_assignment, **inconsistent_assignment}
+    variables = consistent_vars + inconsistent_vars
+
+    var_index = {v: i for i, v in enumerate(variables)}
+
+    group_lp = m.new_variable(real=True)
+
+    for i in range(len(variables)):
+        m.add_constraint(group_lp[i] >= 0)
+        m.add_constraint(group_lp[i] <= 1)
+
+    for group, a in zip(consistent_sets, consistent_vars):
+        idx = var_index[a]
+        for edge in group["part0"]:
+            m.add_constraint(x[edge] == group_lp[idx])
+        for edge in group["part1"]:
+            m.add_constraint(x[edge] == 1 - group_lp[idx])
+
+    return m, x, group_lp, variables, assignment
+
+
+def choose_inconsistent_star(G, inconsistent_sets):
+    if not inconsistent_sets:
+        return None
+    for group in inconsistent_sets:
+        stars = defaultdict(list)
+        for u, v in group["edges"]:
+            edge = tuple(sorted((u, v)))
+            stars[u].append(edge)
+            stars[v].append(edge)
+        if not stars:
+            continue
+        centre = max(stars, key=lambda v: (len(stars[v]), -v))
+        return {
+            "centre": centre,
+            "edges": sorted(stars[centre])
+        }
+    return None
+
+def choose_star_edge(star, solution_x):
+    edges = sorted(star["edges"])
+    return min(edges, key=lambda e: (min(solution_x[e], 1 - solution_x[e]), e))
+
+def choose_consistent_group(consistent_sets):
+    if not consistent_sets:
+        return None
+    return sorted(consistent_sets, key=lambda g: sorted(g))[0]
+
+def choose_group_symbol(group):
+    return min(group["edges"])
+
+
+def max_edge_enforcement_fixing_linear_program(G):
+    m, x, a_lp, variables, assignment = max_edge_enforcement_no_fixing_linear_program(G)
+    n = G.order()
+
+    try:
+        m.solve()
+    except MIPSolverException:
+        return m, x
+
+    solution_x = m.get_values(x)
+    is_noninteger = False
+    A_H = matrix([[solution_x[i, j] for j in range(n)] for i in range(n)])
+    if any(abs(A_H[i, j] - round(A_H[i, j])) > 1e-6 for i in range(n) for j in range(n)):
+        is_noninteger = True
+
+    if not is_noninteger:
+        return m, x
+
+    consistent_assignment, inconsistent_assignment, consistent_vars, inconsistent_vars, consistent_sets, inconsistent_sets = edge_enforcement(G)
+    var_index = { v: i for i, v in enumerate(variables) }
+
+    if consistent_sets:
+        group = choose_consistent_group(consistent_sets)
+        group_index = consistent_sets.index(group)
+        symbol = consistent_vars[group_index]
+        idx = var_index[symbol]
+        m.add_constraint(a_lp[idx] == 0)
+        try:
+            m.solve()
+            return m, x
+        except MIPSolverException:
+            pass
+
+        m, x, a_lp, variables, assignment = max_edge_enforcement_no_fixing_linear_program(G)
+        m.add_constraint(a_lp[idx] == 1)
+        try:
+            m.solve()
+            return m, x
+        except MIPSolverException:
+            pass
+    if inconsistent_sets:
+        star = choose_inconsistent_star(G, inconsistent_sets)
+        if star is None:
+            return m, x
+
+        for edge in sorted(star["edges"]):
+            value = int(solution_x[edge] >= 0.5)
+
+            m_branch, x_branch, a_lp_branch, variables_branch, assignment_branch = max_edge_enforcement_no_fixing_linear_program(G)
+            m_branch.add_constraint(x_branch[edge] == value)
+            try:
+                m_branch.solve()
+                return m_branch, x_branch
+
+            except MIPSolverException:
+                continue
+    return m, x
+
+def max_edge_enforcement_iterative_linear_program(G):
+    m, x, a_lp, variables, assignment = max_edge_enforcement_no_fixing_linear_program(G)
+    n = G.order()
+
+    consistent_assignment, inconsistent_assignment, consistent_vars, inconsistent_vars, consistent_sets, inconsistent_sets = edge_enforcement(G)
+    var_index = {v: i for i, v in enumerate(variables)}
+    fixed_consistent_sets = set()
+    fixed_inconsistent_sets = set()
+    fixed_constraints = []
+
+    while True:
+        try:
+            m.solve()
+        except MIPSolverException:
+            return m, x
+
+        solution_x = m.get_values(x)
+        is_noninteger = any(abs(solution_x[i, j] - round(solution_x[i, j])) > 1e-6 for i in range(n) for j in range(n))
+
+        if not is_noninteger:
+            return m, x
+
+        available_consistent_sets = [(i, group) for i, group in enumerate(consistent_sets) if i not in fixed_consistent_sets]
+        available_inconsistent_sets = [(i, group) for i, group in enumerate(inconsistent_sets) if i not in fixed_inconsistent_sets]
+
+        if available_consistent_sets:
+            group_index, group = available_consistent_sets[0]
+            symbol = consistent_vars[group_index]
+            idx = var_index[symbol]
+
+            m0, x0, a0, variables0, assignment0 = max_edge_enforcement_no_fixing_linear_program(G)
+            var_index0 = {v: i for i, v in enumerate(variables0)}
+
+            for fixed_type, fixed_value in fixed_constraints:
+                if fixed_type == "a":
+                    m0.add_constraint(a0[var_index0[fixed_value[0]]] == fixed_value[1])
+                else:
+                    m0.add_constraint(x0[fixed_value[0]] == fixed_value[1])
+
+            m0.add_constraint(a0[var_index0[symbol]] == 0)
+
+            try:
+                m0.solve()
+
+                m = m0
+                x = x0
+                a_lp = a0
+                variables = variables0
+                assignment = assignment0
+
+                fixed_constraints.append(("a", (symbol, 0)))
+                fixed_consistent_sets.add(group_index)
+
+                solution_x = m.get_values(x)
+                is_noninteger = any(abs(solution_x[i, j] - round(solution_x[i, j])) > 1e-6 for i in range(n) for j in range(n))
+
+                if not is_noninteger:
+                    return m, x
+
+                continue
+
+            except MIPSolverException:
+                pass
+
+            m1, x1, a1, variables1, assignment1 = max_edge_enforcement_no_fixing_linear_program(G)
+            var_index1 = {v: i for i, v in enumerate(variables1)}
+
+            for fixed_type, fixed_value in fixed_constraints:
+                if fixed_type == "a":
+                    m1.add_constraint(a1[var_index1[fixed_value[0]]] == fixed_value[1])
+                else:
+                    m1.add_constraint(x1[fixed_value[0]] == fixed_value[1])
+
+            m1.add_constraint(a1[var_index1[symbol]] == 1)
+
+            try:
+                m1.solve()
+
+                m = m1
+                x = x1
+                a_lp = a1
+                variables = variables1
+                assignment = assignment1
+
+                fixed_constraints.append(("a", (symbol, 1)))
+                fixed_consistent_sets.add(group_index)
+
+                solution_x = m.get_values(x)
+                is_noninteger = any(abs(solution_x[i, j] - round(solution_x[i, j])) > 1e-6 for i in range(n) for j in range(n))
+
+                if not is_noninteger:
+                    return m, x
+
+                continue
+
+            except MIPSolverException:
+                pass
+
+            fixed_consistent_sets.add(group_index)
+
+            continue
+
+        if available_inconsistent_sets:
+            group_index, group = available_inconsistent_sets[0]
+            star = choose_inconsistent_star(G, [group])
+
+            if star is None:
+                fixed_inconsistent_sets.add(group_index)
+                continue
+
+            branch_found = False
+
+            for edge in sorted(star["edges"]):
+                value = 1
+
+                m_branch, x_branch, a_lp_branch, variables_branch, assignment_branch = max_edge_enforcement_no_fixing_linear_program(G)
+                var_index_branch = {v: i for i, v in enumerate(variables_branch)}
+
+                for fixed_type, fixed_value in fixed_constraints:
+                    if fixed_type == "a":
+                        m_branch.add_constraint(a_lp_branch[var_index_branch[fixed_value[0]]] == fixed_value[1])
+                    else:
+                        m_branch.add_constraint(x_branch[fixed_value[0]] == fixed_value[1])
+
+                m_branch.add_constraint(x_branch[edge] == 1)
+
+                try:
+                    m_branch.solve()
+
+                    m = m_branch
+                    x = x_branch
+                    a_lp = a_lp_branch
+                    variables = variables_branch
+                    assignment = assignment_branch
+
+                    fixed_constraints.append(("x", (edge, 1)))
+                    fixed_inconsistent_sets.add(group_index)
+
+                    solution_x = m.get_values(x)
+                    is_noninteger = any(abs(solution_x[i, j] - round(solution_x[i, j])) > 1e-6 for i in range(n) for j in range(n))
+
+                    if not is_noninteger:
+                        return m, x
+
+                    branch_found = True
+                    break
+
+                except MIPSolverException:
+                    continue
+
+            if not branch_found:
+                fixed_inconsistent_sets.add(group_index)
+
+            continue
+
+        return m, x
+\end{lstlisting}
