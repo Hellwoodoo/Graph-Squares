@@ -30,13 +30,14 @@ style=alphabetic]{biblatex}
 
 \author{
     Eddie Xu \\[2em]
-    Submitted for the degree of Master of Science:\\
-    Mathematics and Statistics
+    School of Mathematics and Statistics \\
+    University of Melbourne \\[2em]
+    Submitted for the degree of Master of Science
 }
 
 \date{
     \vspace{2em}
-    Supervisor: Christopher Duffy \\[1em]
+    Supervisor: Dr Christopher Duffy \\[1em]
     \today
 } 
 
@@ -53,6 +54,12 @@ style=alphabetic]{biblatex}
   The seminal result for the problem is the work by \citeauthor{ross_1960_square}, who approached the problem by restricting the root graphs to trees. By analyzing the number of cliques which each vertex in the graph square is situated in, they gave an algorithm for finding the unique tree root up to isomorphism. In contrast, our formulation provides an optimization-based approach that can be iteratively strengthened through the addition of further constraints. These constraints refine the linear relaxation, enabling tree roots to be represented by integral solutions to the linear program, while graphs with no possible roots are identified through fractional or infeasible solutions. Rather than relying on heuristic such as rounding, our approach exploits structural properties of the graph square and its root to obtain an exact solution. 
 \end{abstract}
 
+\chapter*{Acknowledgements}
+
+I would like to thank my supervisor Christopher Duffy  helping and introducing me to this wonderful topic. Although this exploration has somewhat deviated from your vision, I greatly appreciate your willingness to lend your knowledge to support me in writing this thesis.
+
+I would also like to thank my family and friends for their support and help, without which I would not have been able to do this.
+
 \tableofcontents
 
 \newpage 
@@ -66,11 +73,11 @@ Festinger noticed that his structure, reminiscent of the adjacency matrix define
 \[
 A_{rc}^2 = A_{1c}A_{r1} + \dots + A_{nc}A_{rn} \footnote{$A_{rc}^2$ is more naturally written as $\displaystyle \sum_{k = 1}^n A_{ck}A_{kr}$ using the commutativity of multiplication $A_{1c}A_{r1} = A_{c1}A_{1r}$, which intuitively gives the notion of paths from c to r via intermediary k}
 \]
-represented the number of ``two-step'' connections, which can then be used to denote ``three-step'' connections between any two people  
+represented the number of ``two-step'' connections. This same approach can then be used to denote ``three-step'' connections between any two people  
 \[
 A_{rc}^3 = A_{1c}A_{r1}^2 + \dots + A_{nc}A_{rn}^2, \footnote{$A_{rc}^3$ is more naturally written as $\displaystyle \sum_{k=1}^n A_{ck}A^2_{kr}$, which intuitively counts the number of paths from $c$ to $r$ that go through an intermediate vertex $k$, followed by any two-step path from $k$ to $r$.}
 \]
-such that higher steps can be easily generated. In this manner, higher powers of the adjacency matrix encode the number of walks of increasing length between pairs of individuals, allowing densely connected groups of people, known as cliques, to be identified.
+Higher steps can be easily generated in the same way. In this manner, higher powers of the adjacency matrix encode the number of walks of increasing length between pairs of individuals. For the two-step case, this allows densely connected groups of people, known as cliques, to be identified.
 
 \begin{figure}[ht]
     \centering
@@ -92,7 +99,7 @@ such that higher steps can be easily generated. In this manner, higher powers of
     \label{fig::K5_example}
 \end{figure}
 
-In the process of improving Festinger's clique detection methods, \citeauthor{ross_1960_square} showed that complete graphs may be realized as squares of stars by considering powers of such matrices \cite{ross_1960_square}. They introduced a structural characterization of the square of a graph in terms of clique intersections, ``multicliqual'' vertices, and so called ``neighborly'' properties, proving that a graph is the square of a tree if and only if
+In the process of improving Festinger's clique detection methods, \citeauthor{ross_1960_square} showed that complete graphs may be realized as squares of stars by considering powers of such matrices \cite{ross_1960_square}. They introduced a structural characterization of the square of a tree in terms of clique intersections, ``multicliqual'' vertices, and so called ``neighborly'' properties, proving that a graph is the square of a tree if and only if
 \begin{enumerate}[label=\roman*)]
   \item every vertex is every vertex is adjacent to at least one other vertex,
   \item no two maximal cliques intersect in more than two vertices, and
@@ -103,7 +110,7 @@ Using these properties, they constructed an explicit algorithm that recovers the
 
 Since then, the problem of finding the square root of a graph has extended beyond sociology and is a well-studied field in both mathematics and computer-science, with direct applications in distributed computing (e.g., see \cite{peres_2023_distributed}), network design and computational biology (e.g., see \cite{zhou_2025_biology}). This is in part because many structural properties of graph roots are first established in the square case before being extended to the more general $k$-th power setting (e.g., see \cite{harary_1962_planarity}). 
 
-Research in this area has primarily focused around an undirected graph $H$ and its square $G = H^2$ which is obtained by adding an edge between every pair of vertices whose distance in $H$ is at most two. This two-step undirected graph square has been studied extensively with much of the focus being on the complexity of the decision problem - given a specific graph square $G$ does there exist a root graph $H$ such that $H^2=G$. \citeauthor{motwani_sudan_1994_roots} showed that deciding if a graph admits a root is $\mathbf{NP}$-complete. Subsequent studies in the area have restricted the decision problem in two ways, either by considering various properties on the root graph or by considering properties on the graph square. 
+Research in this area has primarily focused around an undirected graph $H$ and its square $G = H^2$, which is obtained by adding an edge between every pair of vertices whose distance in $H$ is at most two. This two-step undirected graph square has been studied extensively with much of the focus being on the complexity of the decision problem - given a specific graph square $G$ does there exist a root graph $H$ such that $H^2=G$. \citeauthor{motwani_sudan_1994_roots} showed that deciding if a graph admits a root is $\mathbf{NP}$-complete. Subsequent studies in the area have restricted the decision problem in two ways, either by considering various properties on the root graph or by considering properties on the graph square. 
 
 
 \section{Literature} \label{sec::literature}
@@ -124,11 +131,11 @@ In recent years, Duffy provided a full classification for the undirected square 
 
 \subsection{Overview} \label{subsec::overview}
 
-In addition to providing a general overview of the research direction in this section we first standardise the definitions that will be used for the rest of this thesis. We then introduce fundamental theory on the three areas of: complexity theory, graph theory and mathematical optimization that are used in the various algorithmic approaches to the decision problem. 
+In addition to providing a general overview of the research direction in this section we first standardise the definitions that will be used for the rest of this thesis. We then introduce fundamental theory on the three areas of: complexity theory, graph theory and mathematical optimization, which are used in the various algorithmic approaches to the decision problem. 
 
 The first construction we examine is the reduction used by \citeauthor{motwani_sudan_1994_roots} in showing that the decision problem determining whether a given graph $G$ admits a square root is $\mathbf{NP}$-complete \cite{motwani_sudan_1994_roots}. Next, we introduce the polynomial time algorithm given by \citeauthor{ross_1960_square} for constructing a tree root from a given square in detail. Finally, we formulate the problem as an integer program. 
 
-In Chapter $3$ we present the ideas of linear relaxation and discuss the results of each program and their validity. To obtain these results, we conducted an exhaustive enumeration on all non-isomorphic connected graphs up to $n=8$ vertices. For each such graph, we formulated the corresponding linear program and solved it using a standard LP solver using interior point method. The outcomes of these computations are categorized as integral, fractional, or infeasible and are analyzed. 
+In Chapter $3$ we present the ideas of linear relaxation and discuss the results of each program and their validity. To obtain these results, we conducted an exhaustive enumeration on all non-isomorphic connected graphs up to $n=8$ vertices in addition to obtaining theoretical results. For each such graph, we formulated the corresponding linear program and solved it using a standard LP solver using interior point method. The outcomes of these computations are categorized as integral, fractional, or infeasible and are analyzed. 
 
 Finally, we introduce several augmentations to the linear program, consisting of constraints that encode structural bounds on both the graph square and its underlying root. In particular, we show that by adding specific constraints to the LP, we can ensure that the square of all trees will return a feasible integer solution. This augmentation ensures that the LP returns a tree root in polynomial time, whilst ensuring that all squares with roots remain LP feasible. 
 
@@ -136,7 +143,7 @@ Finally, we introduce several augmentations to the linear program, consisting of
 
 \subsection{Complexity Theory} \label{subsec::complexity_theory}
 
-Complexity theory studies the classification of computational problems and explores the amount of resources required to solve these problems. Complexity Theory considers both time and space as critical resources and is standardized across various different problems. 
+Complexity theory studies the classification of computational problems and explores the amount of resources required to solve these problems. Complexity theory considers both time and space as critical resources and provides a standardized approach across various different problems. 
 
 \begin{definition}[Big-$O$ Notation] \label{def::big_O_notation}
   Let $f,g:\mathbb{N} \rightarrow \mathbb{R}_{\geq 0}$. The set $O(g(n))$ is defined as
@@ -169,19 +176,20 @@ Unfortunately many important decision problems are not known to admit such polyn
 \end{definition}
 
 \begin{definition}[Class $\mathbf{NP}$] \label{def::class_np}
-  The complexity class $\mathbf{NP}$ consists of all decision problems for which every \textbf{Yes}-instance admits a certificate that is polynomially verifiable. 
+  The complexity class $\mathbf{NP}$ consists of all decision problems for which every \textbf{Yes}-instance admits a certificate that is polynomially verifiable.
 \end{definition}
 
 Since every decision problem in $\mathbf{P}$ can be solved in polynomial time, a solution can also be verified in polynomial time,
 \[
 \mathbf{P} \subseteq \mathbf{NP}.
 \]
-Whether this inclusion is strict remains one of the most important open questions in theoretical computer science - the $\mathbf{P}$ vs $\mathbf{NP}$ problem. As $\mathbf{NP}$ is a large class of decision problems, the relative difficulty of problems in $\mathbf{NP}$ is compared by using reduction. 
+Whether this inclusion is strict remains one of the most important open questions in theoretical computer science - the $\mathbf{P}$ vs $\mathbf{NP}$ problem. Reductions provide a means of comparing the relative computational difficulty of problems in $\mathbf{NP}$ by establishing whether one problem is at least as hard as another. In particular, if $\mathbf{P}=\mathbf{NP}$, then every problem in $\mathbf{NP}$ is solvable in polynomial time.
 
 \begin{definition}[Polynomial-Time Reduction] \label{def::polynomial_time_reduction}
-  Let $A$ and $B$ be decision problems. A \textbf{polynomial-time reduction} from $A$ to $B$, denoted $A \leq_p B$, is a polynomial-time computable function $f$ such that for every instance $x$ of $A$,
+  Let $A$ and $B$ be decision problems, with sets of instances
+  $\mathcal{I}_A$ and $\mathcal{I}_B$ and sets of \textbf{Yes}-instances $Y_A \subseteq \mathcal{I}_A$ and $Y_B \subseteq \mathcal{I}_B$. A \textbf{polynomial-time reduction} from $A$ to $B$, denoted $A \leq_p B$, is a polynomial-time computable function $f \colon \mathcal{I}_A \rightarrow \mathcal{I}_B$ such that, for every instance $x \in \mathcal{I}_A$,
   \[
-  x \in A \quad \text{if and only if} \quad f(x) \in B.
+  x \in Y_A \quad \text{if and only if} \quad f(x) \in Y_B.
   \]
 \end{definition}
 
@@ -205,7 +213,7 @@ The first known $\mathbf{NP}$-complete problem was established by the Cook-Levin
   The \textbf{Boolean satisfiability problem} (\textbf{SAT}) asks whether there exists an assignment of truth values to the variables of a given Boolean formula such that the formula evaluates to $\textsc{True}$. A Boolean formula is said to be \textbf{satisfiable} if such an assignment exists.
 \end{definition}
 
-Any Boolean formula can be transformed into an equisatisfiable formula typically in linear time using the \textbf{Tseytin transformation} by introducing additional variables. This transformation preserves satisfiability while ensuring only linear growth in the size of the resulting conjunctive normal form Boolean formula.  
+Any Boolean formula can be transformed into an equisatisfiable conjunctive normal form (CNF) formula of linear size by introducing additional variables using the \textbf{Tseitin transformation} \cite{tseitin_1968_transformation}. This transformation preserves satisfiability while ensuring only linear growth in the size of the resulting conjunctive normal form Boolean formula.  
 
 \begin{definition}[Conjunctive Normal Form]
 \label{def::CNF}
@@ -213,10 +221,10 @@ Any Boolean formula can be transformed into an equisatisfiable formula typically
   \[
   C_1 \land C_2 \land \cdots \land C_m, \quad \text {where each clause $C_i$ is of the form} \quad C_i = \ell_{i1} \lor \ell_{i2} \lor \cdots \lor \ell_{ik_i}
   \]
-  and each $\ell_{ij}$ is either a Boolean variable or its complement, denoted with $\overline{\ell}_{ij}$.
+  and each $\ell_{ij}$ is either a Boolean variable or its complement, denoted with $\overline{\ell_{ij}}$.
 \end{definition}
 
-A further restriction is obtained by requiring each clause in a CNF formula to contain exactly three literals. THis can be done using $3$-CNF transformation and gives the following problem.
+A further restriction is obtained by requiring each clause in a CNF formula to contain exactly three literals. This can be done using $3$-CNF transformation and gives the following problem.
 
 \begin{definition}[$3$-SAT] \label{def::3SAT}
   The \textbf{$3$-SAT} problem asks whether there exists an assignment of truth values to the variables of a Boolean formula in conjunctive normal form such that every clause contains exactly three literals and the formula evaluates to $\textsc{True}$. It is formally structured as
@@ -228,7 +236,8 @@ A further restriction is obtained by requiring each clause in a CNF formula to c
   \textbf{Question:} Does there exist an assignment of truth values to the variables of $\varphi$ such that every clause is satisfied?
 \end{definition}
 
-The decision problem \textbf{$3$-SAT} is a well-known $\mathbf{NP}$-complete problem. It is commonly used as a starting point for proving the $\mathbf{NP}$-completeness of other decision problems. In particular, we will reduce $3$-SAT to the \textbf{SQUARE} problem to establish that the latter is $\mathbf{NP}$-complete.
+The decision problem \textbf{$3$-SAT} is a well-known $\mathbf{NP}$-complete problem. It is commonly used as a starting point for proving the $\mathbf{NP}$-completeness of other decision problems. In particular, we will reduce $3$-SAT to the \textbf{SQUARE} \footnote{The \textbf{SQUARE} problem is defined in
+Definition~\ref{prob::square_problem}.} problem to establish that the latter is $\mathbf{NP}$-complete.
 
 \subsection{Graph Theory} \label{subsec::graph_theory}
 
@@ -287,7 +296,7 @@ The length of a shortest cycle is an important structural parameter of a graph.
   The \textbf{girth} of a graph $G$, denoted by $g(G)$, is the length of the shortest cycle in $G$. If $G$ contains no cycle, its girth is $\infty$.
 \end{definition}
 
-A connected graph with infinite girth is called a tree.
+A finite connected graph with infinite girth is called a tree.
 
 \begin{definition}[Tree] \label{def::tree}
   A \textbf{tree} is a connected graph that contains no cycles.
@@ -382,8 +391,10 @@ One of the most important types of graphs is the complete graph, and its subgrap
   A \textbf{clique} of a graph $G$ is a subset $S\subseteq V_G$ such that the induced subgraph $G[S]$ is complete. The \textbf{clique number} of $G$, denoted by $\omega(G)$, is the size of a largest clique in $G$. A clique containing $k$ vertices is denoted by $K_k$. 
 \end{definition}
 
+It is important to distinguish maximal cliques from cliques in general since any vertex belonging to a clique of size $n$ naturally belongs to a clique of size $n-1$.
+
 \begin{definition} \label{def::multicliqual_vertex}
-  A \textbf{multicliqual vertex} is a vertex that belongs to multiple maximal cliques, an important distinction from just cliques since any vertex belonging to a clique of size $n$ naturally belongs to a clique of size $n-1$. A \textbf{unicliqual vertex} is a vertex that belongs to only one maximal clique.    
+  A \textbf{multicliqual vertex} is a vertex that belongs to multiple maximal cliques. A \textbf{unicliqual vertex} is a vertex that belongs to only one maximal clique.    
 \end{definition}
 
 In addition to being specified using a set of vertices and a set of edges, a graph can also be represented using a matrix.
@@ -427,24 +438,21 @@ In our discussion of graphs represented as matrices, we will find the following 
 
 We now introduce the graph-theoretic objects central to this thesis.
 
-\begin{definition}[Graph Root] \label{def::graph_root}
-  Let the \textbf{graph root} $H = (V, E_H)$ be a finite, simple, undirected graph, where $V$ is the vertex set with $|V| = n$, and $E_H \subseteq \{\{u,v\} \mid u,v \in V, u \neq v\}$ is the edge set. 
-\end{definition}
-
-\begin{definition}[Square of a Graph] \label{def::square_of_a_graph}
+\begin{definition}[Square of a Graph, Root] \label{def::square_of_a_graph}
+  Let the \textbf{graph root} $H = (V, E_H)$ be a finite, simple, undirected graph, where $V$ is the vertex set with $|V| = n$, and $E_H \subseteq \{\{u,v\} \mid u,v \in V, u \neq v\}$ is the edge set.  
   The \textbf{square of a graph} $H$, denoted by $H^2 = (V, E_{H^2})$ is the graph on the same vertex set with edge set
   \begin{equation} \label{eq::fund_def_square}
     E_{H^2} = \{\, uv \mid u \neq v, 1 \leq d_H(u,v) \leq 2 \,\}.
   \end{equation}
-  That is, two distinct vertices are adjacent in $H^2$ if and only if they are connected by a path of length one or two in $H$. This is the standard definition of the square of a graph. 
+  That is, two distinct vertices are adjacent in $H^2$ if and only if they are connected by a path of length one or two in $H$. When $G = H^2$ we say that $H$ is a \textbf{root} of $G$ 
 \end{definition}
 
-\begin{definition}[Graph Square] \label{def::graph_square}
-  The \textbf{graph square} of $H$ is the undirected graph defined on the same vertex set $G = (V, E_G)$. Define the adjacency matrix of $G$ using the adjacency and degree matrices of $H$
-  \begin{equation} \label{eq::fund_adj_eq_undirected}
-    A_G = \mathbbm{1}_{\geq 1}\!\big((A_H)^2 - D_H + A_H\big).
-  \end{equation}
-\end{definition} 
+Equivalently, $G$ is a root of $H$ when the adjacency matrices of $G$ and $H$ satisfy  
+\begin{equation} \label{eq::fund_adj_eq_undirected}
+  A_G = \mathbbm{1}_{\geq 1}\!\big((A_H)^2 - D_H + A_H\big).
+\end{equation}
+
+We prove this equivalence in Chapter 2.
 
 \input{subfiles/FundamentalExample}
 
@@ -486,7 +494,7 @@ A linear relaxation is obtained by removing the integrality requirements from an
   A \textbf{feasible solution} to an optimization problem is an assignment of values to its decision variables that satisfies all of its constraints. The set of all feasible solutions is called the \textbf{feasible set} and is denoted by $\mathcal{F}$. Geometrically, $\mathcal{F}$ is the subset of the decision-variable space satisfying all of the constraints and is referred to as the \textbf{feasible region}.
 \end{definition}
 
-Among the feasible solutions, an optimal solution is one that achieves the best value of the objective function.
+Among the feasible solutions, an optimal solution is one that achieves the optimum value of the objective function.
 
 \begin{definition}[Optimal Solution] \label{def::optimal_solution}
   An \textbf{optimal solution} is a feasible solution that maximizes or minimizes the objective function, depending on the optimization problem. The corresponding value of the objective function is called the \textbf{optimal value} and is denoted by $\operatorname{OPT}$.
@@ -500,7 +508,7 @@ Geometrically, $\mathcal{F}_{IP}$ is represented by the feasible integer points 
 
 \input{subfiles/LinearRelaxationSetGeometry.tex}
 
-For a maximization problem, this set inclusion implies $\operatorname{OPT}_{IP} \leq \operatorname{OPT}_{LP}$, so the linear relaxation provides an upper bound on the optimal value of the integer program. For a minimization problem, $\operatorname{OPT}_{LP} \leq \operatorname{OPT}_{IP}$, so the linear relaxation provides a lower bound.
+For a maximization problem, this set inclusion implies $\operatorname{OPT}_{IP} \leq \operatorname{OPT}_{LP}$. Therefore  the the optimal value for the linear relaxation provides an upper bound on the optimal value of the integer program. For a minimization problem, $\operatorname{OPT}_{LP} \leq \operatorname{OPT}_{IP}$, so the linear relaxation provides a lower bound.
 
 \begin{definition}[Integer Hull] \label{def::integer_hull}
   Let $\mathcal{F}_{IP}$ denote the feasible set of an integer program. The \textbf{integer hull} is the convex hull of the feasible integer solutions, denoted by $\operatorname{conv}(\mathcal{F}_{IP})$. That is, the integer hull is the set of all convex combinations of points in $\mathcal{F}_{IP}$.
@@ -523,7 +531,7 @@ In this chapter we explore different methodologies that have been used to show c
 
 \section{NP-Completeness Proof} \label{sec::np_completeness_proof}
 
-We now establish the computational complexity of the graph square problem as was done by \citeauthor{motwani_sudan_1994_roots} in their paper \cite{motwani_sudan_1994_roots}. The decision version of the problem asks whether a given graph admits a graph root whose square is the given graph.
+We now establish the computational complexity of the graph square problem as was done by \citeauthor{motwani_sudan_1994_roots} in their paper \cite{motwani_sudan_1994_roots}. The decision version of the problem asks whether a given graph admits a root.
 
 \begin{problem}[SQUARE] \label{prob::square_problem}
   \leavevmode
@@ -538,7 +546,7 @@ We now establish the computational complexity of the graph square problem as was
 \end{problem}
 
 \begin{theorem}[$\mathbf{NP}$] \label{theorem::np}
-  Problem~\eqref{prob::square_problem} is in $\mathbf{NP}$. 
+  The decision problem \textbf{SQUARE} is in $\mathbf{NP}$. 
 \end{theorem}
 \begin{proof}[NP Proof]
   Given a candidate square root $H$ on $n$ vertices, it is sufficient to verify that $G=H^2$. For each pair of distinct vertices $u,v\in V_H$, check whether $u$ and $v$ are adjacent in $H$ or have a common neighbour in $H$. This determines whether $d_H(u,v) \leq 2$ and therefore whether $uv \in E_{H^2}$.
@@ -547,7 +555,7 @@ We now establish the computational complexity of the graph square problem as was
   \[
   O(n^2) \cdot O(n) = O(n^3).
   \]
-  By the definition of Big-$O$ notation in Definition~\ref{def::big_O_notation}, this is polynomial in $n$. Therefore, the certificate $H$ can be verified in polynomial time, and consequently
+  By the definition of Big-$O$ notation, this is polynomial in $n$. Therefore, the certificate $H$ can be verified in polynomial time, and consequently
   \[
   \text{SQUARE} \in \mathbf{NP}.
   \]
@@ -571,10 +579,10 @@ Thus, an assignment satisfies the not-all-equal condition if, for every clause, 
 
 \subsection{NP-Hard proof} \label{subsec::np_hard_proof}
 
-Following \cite{motwani_sudan_1994_roots}, we show SQUARE is $\mathbf{NP}$-hard by giving a polynomial-time reduction from $\mathbf{NP}$-complete NAESAT and then show that $G_\phi$ has a graph root if and only if $\phi \in \mathrm{NAESAT}$. 
+Following \cite{motwani_sudan_1994_roots}, we show \textbf{SQUARE} is $\mathbf{NP}$-hard by giving a polynomial-time reduction from $\mathbf{NP}$-complete NAESAT and then show that $G_\phi$ has a root if and only if $\phi \in \mathrm{NAESAT}$. 
 
 \begin{proof}[Polynomial Reduction] \label{proof::polynomial_reduction}
-  Let $\phi = C_1 \land C_2 \land \cdots \land C_m $ be an instance of NAESAT, where $\phi$ is a $3$-CNF formula on variables $x_1, \ldots, x_n$. Over variables $x_1, \dots, x_n$, construct a graph $G_\phi = (V_\phi,E_\phi)$ in polynomial time such that
+  Let $\phi = C_1 \land C_2 \land \cdots \land C_m $ be an instance of NAESAT, where $\phi$ is a $3$-CNF formula on variables $x_1, \ldots, x_n$. Over variables $x_1, \dots, x_n$, construct a graph $G_\phi = (V_\phi,E_\phi)$ such that
   \[
   \phi \in \textsc{NAESAT} \quad \text{if and only if} \quad G_\phi \text{ has a square root}.
   \]
@@ -704,14 +712,14 @@ We now establish the two directions required for the validity of the reduction.
   Problem~\eqref{prob::square_problem} is $\mathbf{NP}$-complete.
 \end{theorem}
 \begin{proof}
-  Theorem~\eqref{theorem::np} shows that Problem~\eqref{prob::square_problem} belongs to $\mathbf{NP}$. For $\mathbf{NP}$-hardness, consider the polynomial reduction from $\mathrm{NAESAT}$ to SQUARE given in Proof~\eqref{proof::polynomial_reduction}. By Lemma~\eqref{lemma::np_complete_forward}, every \textbf{Yes}-instance $\phi$ of $\mathrm{NAESAT}$ produces a graph $G_\phi$ with a graph root. Together with Lemma~\eqref{lemma::np_complete_backward}, this gives that $\mathrm{NAESAT} \leq_p \mathrm{SQUARE}$, so Problem~\eqref{prob::square_problem} is $\mathbf{NP}$-hard.
+  Theorem~\eqref{theorem::np} shows that Problem~\eqref{prob::square_problem} belongs to $\mathbf{NP}$. For $\mathbf{NP}$-hardness, consider the polynomial reduction from $\mathrm{NAESAT}$ to \textbf{SQUARE} given in Proof~\eqref{proof::polynomial_reduction}. By Lemma~\eqref{lemma::np_complete_forward}, every \textbf{Yes}-instance $\phi$ of $\mathrm{NAESAT}$ produces a graph $G_\phi$ with a graph root. Together with Lemma~\eqref{lemma::np_complete_backward}, this gives that $\mathrm{NAESAT} \leq_p \mathrm{SQUARE}$, so Problem~\eqref{prob::square_problem} is $\mathbf{NP}$-hard.
 
   Since Problem~\eqref{prob::square_problem} belongs to $\mathbf{NP}$ and is $\mathbf{NP}$-hard, it is $\mathbf{NP}$-complete.
 \end{proof}
 
 \section{Algorithm for Tree Roots} \label{sec::time_algorithm}
 
-\citeauthor{ross_1960_square} give a necessary and sufficient characterization of graphs that are squares of trees, together with an algorithm for constructing the corresponding tree square root \cite{ross_1960_square}. The characterization is based on the maximal cliques of the square and the way in which these cliques intersect. We first establish the structural properties of the square of a tree that underlie the characterization, before describing the root finding algorithm.
+\citeauthor{ross_1960_square} give a necessary and sufficient characterization of graphs that are squares of trees, together with an algorithm for constructing the corresponding tree square root \cite{ross_1960_square}. The characterization is based on the maximal cliques of the square and the way in which these cliques intersect. We first establish the structural properties of the square of a tree that underlie the characterization, before describing their root finding algorithm.
 
 \begin{theorem}[Structural Characterization of Squares of Trees] \label{theorem::structural_characterization_trees}
   Let $G$ be a finite, simple, undirected graph. Then $G = T^2$ for some tree $T$ if and only if either $G$ is a complete graph, or the maximal cliques $C_1, \ldots, C_n$ of $G$ satisfy the following conditions:
@@ -923,13 +931,13 @@ We will not focus on this particular restricted class and analyze the integer pr
 
 \subsection{Formulation} \label{subsec::integer_program_formulation}
 
-Using Lemma~\eqref{lemma::G_equal_to_H^2}, we construct an integer program to solve instances of SQUARE. The set of decision variables is
+Using Lemma~\eqref{lemma::G_equal_to_H^2}, we construct an integer program to solve instances of \textbf{SQUARE}. The set of decision variables is
 \[
 X=\{x_{ij}\mid i,j\in V_G\},
 \]
 where $x_{ij}\in\{0,1\}$ denotes the corresponding entry of the adjacency matrix $A_H$. In a feasible solution, $x_{ij}=1$ if and only if $ij\in E_H$. The variables $y_{ikj}\in\{0,1\}$ represent the products $x_{ik}x_{kj}$ in $(A_H)^2_{ij}$, while $z_{ij}\in\mathbb{Z}_{\geq0}$ represents the argument of the indicator function.
 
-Given an input $G$ to SQUARE, our goal is the contruct the following matrices, where $g_{ij}$ is the corresponding entry of the adjacency matrix of $G$.
+Given an input $G$ to \textbf{SQUARE}, our goal is the contruct the following matrices, where $g_{ij}$ is the corresponding entry of the adjacency matrix of $G$.
 
 $\displaystyle 
 D_H =
@@ -1139,7 +1147,7 @@ In Figure~\ref{fig::ip_lp_set_geometric} solutions which are $LP$ feasible may b
 
 When $H$ does not exist, two outcomes are observed. An $LP$-infeasible instance has no point in $\mathcal{F}*{LP}$, and therefore cannot contain a feasible integer solution. Alternatively, the $LP$ may remain feasible but return a fractional solution, placing the solution in $\mathcal{F}*{LP} \setminus \mathcal{F}*{IP}$. The number of such fractional solutions also increases with $n$. 
 
-These results demonstrate that $LP$ feasibility alone is insufficient to establish the existence of a graph root, since $\mathcal{F}_{LP}$ may contain both integral and fractional solutions. This is to be expected as LPs are solvable in polynomial time, but SQUARE is $\mathbf{NP}$-complete. Fractional solutions arise because the linear relaxation weakens the integrality restrictions of the integer program, allowing variables that are binary in the integer formulation to take values in the continuous interval $[0,1]$.
+These results demonstrate that $LP$ feasibility alone is insufficient to establish the existence of a graph root, since $\mathcal{F}_{LP}$ may contain both integral and fractional solutions. This is to be expected as LPs are solvable in polynomial time, but \textbf{SQUARE} is $\mathbf{NP}$-complete. Fractional solutions arise because the linear relaxation weakens the integrality restrictions of the integer program, allowing variables that are binary in the integer formulation to take values in the continuous interval $[0,1]$.
 
 The following examines which properties of the integer formulation are preserved under the linear relaxation and identifies where fractional solutions can lose their interpretation as graph roots. Recall Equations~\eqref{eq::IP_product_upper_first}--\eqref{eq::IP_product_lower}, which impose $y_{ikj} = x_{ik}x_{kj}$. When $x$ is binary, the construction $y$ is binary as well; however, this may cause issues when $x$ is fractional.
 
