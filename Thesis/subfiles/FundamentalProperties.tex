@@ -34,23 +34,40 @@
   Since $a,i,j,b$ form shortest path in $H$, we have $d_H(a,b)=3$ and therefore $ab \notin E_G$. By Lemma~\eqref{lemma::g_ab=0,x_av=1}, setting  $x_{ai}=1$ gives $x_{ib}=0.$ Similarly, setting $x_{jb}=1$ gives $ x_{aj}=0$. The remaining two implications follow by symmetry.
 \end{proof}
 
-\begin{lemma}[$1$ Path Propogation] \label{lemma::1_path_propogation}
-  Let $G$ and $H$ be graphs such that $G = H^2$. Let $a,b \in V_G$ such that $ab \in E_G$. If a feasible solution $x$ of $\mathcal{LP}(G)$ satisfies $x_{ab} = 0$, then 
+\begin{lemma}[$1$-Path Propagation] \label{lemma::1_path_propagation}
+  Let $G$ be a graph and let $x$ be a feasible solution of $\mathcal{LP}(G)$. Suppose that $u-v-a_1$ form a shortest induced path in $H$ between $u$ and $a$ and that $x_{uv}=1$. Let $A=\{a_1,\ldots,a_r\}$ and $B=\{b_1,\ldots,b_s\}$ be such that every vertex $k \in V_G\setminus\{u,v\}$ satisfies
+  $k \in A\cup B$, and suppose that 
   \[
-  \sum_{\substack{k\in V_G \\ g_{ak}>0, g_{kb}>0 \\ x_{ak}>0, x_{kb}>0}} y_{akb} \geq 1,
+  x_{um}=0 \text{ for every } m \in A, \quad g_{un}=0 \text{ for every } n \in B,
+  \]
+  and $g_{sa_1}=0$ for the vertex $s$ preceding $u$ on the shortest path to $a_1$. Then
+  \[
+  x_{va_1}=1.
   \]
 \end{lemma}
 \begin{proof}
-  Since $ab\in E_G$, we have $g_{ab}=1$. Hence, by Equation~\eqref{eq::IP_indicator_lower}, $z_{ab}\geq 1$. By Equation~\eqref{eq::IP_indicator_arg} and the assumption that $x_{ab}=0$,
+  Without loss of generality consider $a_1\in A$. Since $ua_1\in E_G$, have $g_{ua_1}=1$, and hence Equation~\eqref{eq::IP_indicator_lower} gives $z_{ua_1}\geq1$. Since $x_{ua_1}=0$, Equation~\eqref{eq::IP_indicator_arg} gives
   \[
-  z_{ab} = \sum_{k=1}^{n} y_{akb}+x_{ab} = \sum_{k=1}^{n} y_{akb} \geq 1. 
+  1 \leq z_{ua_1} = x_{ua_1}+\sum_{k\in V_G}y_{uka_1} = \sum_{k\in V_G}y_{uka_1}.
   \]
-  If $g_{ak}=0$, then Equations~\eqref{eq::IP_indicator_upper} and \eqref{eq::IP_indicator_lower} imply $z_{ak}=0$. By Equation~\eqref{eq::IP_indicator_arg},
+  The terms corresponding to $k=s$ and $k=u$ are zero since $g_{sa_1}=g_{uu}=0$, and hence Lemma~\eqref{lemma::g_ab=0} gives $x_{sa_1}=x_{uu}=0$. Therefore, by Equations~\eqref{eq::IP_product_upper_first}--\eqref{eq::IP_product_lower},
   \[
-  0 = z_{ak} = \sum_{r=1}^{n} y_{ark}+x_{ak},
+  y_{usa_1}=y_{uua_1}=0.
   \]
-  and since all variables are non-negative, $x_{ak}=0$. Similarly, $g_{kb}=0$ implies $x_{kb}=0$. Moreover, if $x_{ak}=0$, then Equation~\eqref{eq::IP_product_upper_first} gives $y_{akb}=0$, while if $x_{kb}=0$, Equation~\eqref{eq::IP_product_upper_second} gives $y_{akb}=0$. Thus every term $y_{akb}$ excluded from the restricted sum is zero, giving
+  For every $m\in A$, we have $x_{um}=0$, and hence Equation~\eqref{eq::IP_product_upper_first} gives
   \[
-  \sum_{\substack{k\in V_G \\ g_{ak}>0, g_{kb}>0 \\ x_{ak}>0, x_{kb}>0}} y_{akb} \geq 1,
+  y_{uma_1}=0.
+  \]
+  Similarly, for every $n\in B$, we have $g_{un}=0$, and therefore Lemma~\eqref{lemma::g_ab=0} gives $x_{un}=0$. Thus Equation~\eqref{eq::IP_product_upper_first} gives
+  \[
+  y_{una_1}=0.
+  \]
+  Thus all terms in the sum are zero except possibly $y_{uva_1}$, giving
+  \[
+  1 \leq y_{uva_1}.
+  \]
+  Since $x_{uv}=1$, Equation~\eqref{eq::IP_product_upper_first} gives $y_{uva_1}\leq x_{uv}=1$, while Equation~\eqref{eq::IP_product_upper_second} gives $y_{uva_1} \leq x_{va_1}$. Hence $1 \leq y_{uva_1} \leq x_{va_1} \leq 1$, and therefore
+  \[
+  x_{va_1}=1.
   \]
 \end{proof}

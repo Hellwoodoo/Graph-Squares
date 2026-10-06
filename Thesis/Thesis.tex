@@ -76,19 +76,19 @@ such that higher steps can be easily generated. In this manner, higher powers of
     \centering
     \begin{subfigure}{0.28\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{images/K5_root_11.png}
-        \caption{One of the $15$ isomorphic graph roots of $K_5$.}
-        \label{fig::K5_11_root}
-    \end{subfigure}
-    \hspace{0.03\textwidth}
-    \begin{subfigure}{0.28\textwidth}
-        \centering
         \includegraphics[width=\linewidth]{images/K5.png}
         \caption{$K_5$.}
         \label{fig::K5_square}
     \end{subfigure}
+    \hspace{0.03\textwidth}
+    \begin{subfigure}{0.28\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/K5_root_11.png}
+        \caption{One of the $15$ isomorphic graph roots of $K_5$.}
+        \label{fig::K5_11_root}
+    \end{subfigure}
 
-    \caption{The star graph $K_{1,4}$ and its square $K_5$, which is a complete graph since every vertex in the root .}
+    \caption{$K_5$ and one of its root, the star graph $K_{1,4}$.}
     \label{fig::K5_example}
 \end{figure}
 
@@ -605,7 +605,6 @@ Following \cite{motwani_sudan_1994_roots}, we show SQUARE is $\mathbf{NP}$-hard 
     are adjacent to one another, except for pairs of complementary literals. Thus, $L_iL_k\in E_\phi$ whenever $\ell_i$ and $\ell_k$ are not complementary, while $L_iL_k \notin E_\phi$ whenever $\ell_i$ and $\ell_k$ are complementary.
   \end{enumerate}
 \end{proof}
-
 \input{subfiles/NPHardConstruction.tex}
 
 The construction is polynomial in $n+m$ and depends only on the formula $\phi$. Therefore it can be carried out without knowing whether $\phi$ has a not-all-equal satisfying assignment. Moreover, the number of vertices and edges introduced is polynomial in the size of $\phi$.
@@ -701,15 +700,11 @@ We now establish the two directions required for the validity of the reduction.
   \] 
 \end{proof}
 
-
-
 \begin{theorem}[$\mathbf{NP}$-complete] \label{theorem::np_complete}
   Problem~\eqref{prob::square_problem} is $\mathbf{NP}$-complete.
 \end{theorem}
 \begin{proof}
-  Theorem~\eqref{theorem::np} shows that Problem~\eqref{prob::square_problem} belongs to $\mathbf{NP}$. For $\mathbf{NP}$-hardness, consider the
-  polynomial reduction from $\mathrm{NAESAT}$ to SQUARE given in Proof~\eqref{proof::polynomial_reduction}. By Lemma~\eqref{lemma::np_complete_forward}, every \textbf{Yes}-instance
-  $\phi$ of $\mathrm{NAESAT}$ produces a graph $G_\phi$ with a graph root. Together with Lemma~\eqref{lemma::np_complete_backward}, this gives that $\mathrm{NAESAT}\leq_p\mathrm{SQUARE}$, so Problem~\eqref{prob::square_problem} is $\mathbf{NP}$-hard.
+  Theorem~\eqref{theorem::np} shows that Problem~\eqref{prob::square_problem} belongs to $\mathbf{NP}$. For $\mathbf{NP}$-hardness, consider the polynomial reduction from $\mathrm{NAESAT}$ to SQUARE given in Proof~\eqref{proof::polynomial_reduction}. By Lemma~\eqref{lemma::np_complete_forward}, every \textbf{Yes}-instance $\phi$ of $\mathrm{NAESAT}$ produces a graph $G_\phi$ with a graph root. Together with Lemma~\eqref{lemma::np_complete_backward}, this gives that $\mathrm{NAESAT} \leq_p \mathrm{SQUARE}$, so Problem~\eqref{prob::square_problem} is $\mathbf{NP}$-hard.
 
   Since Problem~\eqref{prob::square_problem} belongs to $\mathbf{NP}$ and is $\mathbf{NP}$-hard, it is $\mathbf{NP}$-complete.
 \end{proof}
@@ -807,40 +802,40 @@ Combining gives the following proof of Theorem~\eqref{theorem::structural_charac
 The proof of Theorem~\eqref{theorem::structural_characterization_trees} gives the following algorithm. Given a graph known to be the square of a tree, identify all maximal cliques, classify the vertices as multicliqual or unicliqual according to the number of maximal cliques in which they occur, and construct the tree $T$ by connecting the multicliqual vertices to form the internal structure of $T$ and attaching the unicliqual vertices as leaves to their corresponding multicliqual vertices.
 
 \begin{algorithm} \caption{Ross-Harary Tree Construction}  \label{algo::ross_harary_tree} 
-\begin{algorithmic}[1] 
-\State \textbf{Input:} A graph $G$ where $G = T^2$
-\State \textbf{Output:} A tree $T$
-\vspace{0.5em}
+  \begin{algorithmic}[1] 
+    \State \textbf{Input:} A graph $G$ where $G = T^2$
+    \State \textbf{Output:} A tree $T$
+    \vspace{0.5em}
 
-\Statex \textbf{Step 1}
-\If{$G = K_p$ is complete}
-    \State \textbf{Return} tree $T$ with depth $1$ where root can be any vertex
-\Else
-    \State \textbf{Continue} 
-\EndIf
-\vspace{0.5em}
+    \Statex \textbf{Step 1}
+    \If{$G = K_p$ is complete}
+        \State \textbf{Return} tree $T$ with depth $1$ where root can be any vertex
+    \Else
+        \State \textbf{Continue} 
+    \EndIf
+    \vspace{0.5em}
 
-\Statex \textbf{Step 2}
-\State Identify all maximal cliques $C_1, \dots, C_n$ of $G$ using an algorithm such as Bron-Kerbosch \cite{bron_kerbosch_1973_maximal_cliques} where $n > 1$ from \hyperref[characterization:1]{characterization (i)}
-\vspace{0.5em}
+    \Statex \textbf{Step 2}
+    \State Identify all maximal cliques $C_1, \dots, C_n$ of $G$ using an algorithm such as Bron-Kerbosch \cite{bron_kerbosch_1973_maximal_cliques} where $n > 1$ from \hyperref[characterization:1]{characterization (i)}
+    \vspace{0.5em}
 
-\Statex \textbf{Step 3}
-\State Let $b_1, \dots, b_n$ be multicliqual points corresponding to $C_1, \dots, C_n$ formed from 
-\hyperref[characterization:3]{characterization (iii)} 
-\State Construct a graph $T$ with vertex set $\{b_1, \dots, b_n\}$
-\For{each pair $(C_i, C_j)$ satisfying $|C_i \cap C_j| = 2$  }
-    \State Add edge between $b_i$ and $b_j$ in $T$
-\EndFor
-\State By \hyperref[characterization:5]{characterization (v)}, $T$ is a tree
+    \Statex \textbf{Step 3}
+    \State Let $b_1, \dots, b_n$ be multicliqual points corresponding to $C_1, \dots, C_n$ formed from 
+    \hyperref[characterization:3]{characterization (iii)} 
+    \State Construct a graph $T$ with vertex set $\{b_1, \dots, b_n\}$
+    \For{each pair $(C_i, C_j)$ satisfying $|C_i \cap C_j| = 2$  }
+        \State Add edge between $b_i$ and $b_j$ in $T$
+    \EndFor
+    \State By \hyperref[characterization:5]{characterization (v)}, $T$ is a tree
 
-\vspace{0.5em}
-\Statex \textbf{Step 4}
-\For{each clique $C_i$}
-    \State Let $n_i$ be the number of unicliqual points in $C_i$
-    \State Attach $n_i$ leaf nodes to $b_i$ in $T$
-\EndFor
-\State The resulting tree $T$ has the same number of nodes as $G$ and satisfies $T^2 = G$
-\end{algorithmic} 
+    \vspace{0.5em}
+    \Statex \textbf{Step 4}
+    \For{each clique $C_i$}
+        \State Let $n_i$ be the number of unicliqual points in $C_i$
+        \State Attach $n_i$ leaf nodes to $b_i$ in $T$
+    \EndFor
+    \State The resulting tree $T$ has the same number of nodes as $G$ and satisfies $T^2 = G$
+  \end{algorithmic} 
 \end{algorithm}
 
 \begin{theorem}[Tree Root Algorithm] \label{theorem::tree_root_algorithm}
@@ -1047,7 +1042,9 @@ In this chapter, we explore the recognition of squares of trees using linear pro
 
 The methodology used in this work is implemented using the SageMath~\cite{sagemath} framework with Gurobi~\cite{gurobi} as the optimisation backend. The barrier method is used, as seen in Code~\ref{lst::linear_program}--\ref{lst::unicliqual_rounding_linear_program}, through the parameter \texttt{Method=2}. The barrier method is an interior-point method that uses a predictor-corrector scheme based on Newton iterations to approach an optimal solution from within the feasible region. For linear programs, classical interior-point theory provides polynomial worst-case bounds on the number of iterations, with each iteration requiring polynomial computational effort in the number of variables and constraints \cite{gonzaga_1991_barrier_function}. Thus, the barrier method provides a theoretically polynomial approach for solving the LP formulations considered in this chapter, although these worst-case bounds do not necessarily reflect the practical running time of the implementation. 
 
-Throughout this chapter, each graph instance systematically generated and processed independently under the same framework. The complete test harness and instance-generation scripts are available at \href{https://github.com/Hellwoodoo/Graph-Squares}{\texttt{github.com/Hellwoodoo/Graph-Squares}}.
+Throughout this chapter, we consider graphs as unlabelled graphs, so graphs that are isomorphic are regarded as the same graph instance. However, the algorithms themselves operate on a labelled representation of each graph. Each unlabelled graph is therefore represented computationally by a particular labelled graph generated by SageMath, with the assigned vertex labels retained throughout the subsequent computations.
+
+The particular labelling depends on the graph generation procedure. Consequently, different labellings of the same unlabelled graph, or different generated representatives of the same isomorphism class, may lead to different intermediate or selected solutions of the optimisation procedures, even though the underlying graph structure is unchanged. The results reported in this chapter therefore correspond to the particular labelled representatives produced by the stated generation procedure. The complete test harness and instance generation scripts are available at \href{https://github.com/Hellwoodoo/Graph-Squares}{\texttt{github.com/Hellwoodoo/Graph-Squares}}.
 
 \section{Linear Program Relaxation} \label{sec::linear_program_relaxation}
 
@@ -1260,7 +1257,7 @@ Consider the addition of an objective function maximizing the total weights on a
 
 The construction of the linear program on the arbitrary graph $G$ using Equations~\eqref{eq::LP_x_variable}--\eqref{eq::LP_z_variable}, Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::IP_diagonal_x} together with Equation~\eqref{eq::max_obj_function} is denoted as $\max \mathcal{LP}(G)$. 
 
-From Table~\ref{tab::max_objective_function_outcomes}, this objective encourages solutions that have fewer fractional edges and therefore tends to produce relaxations that are integral and hence are more informative. In particular, maximizing the total edge weight pushes the variables toward values closer to $1$, which promotes direct edges and reduces the need for paths of length $2$ with fractional weights to satisfy Equation~\eqref{eq::IP_indicator_arg}. As a result, the relaxation is more likely to yield integral solutions.  
+From Table~\ref{tab::max_objective_function_outcomes}, this objective encourages solutions that have fewer fractional edges and therefore tends to produce relaxations that are integral. In particular, maximizing the total edge weight pushes the variables toward values closer to $1$, which promotes direct edges and reduces the need for paths of length $2$ with fractional weights to satisfy Equation~\eqref{eq::IP_indicator_arg}. As a result, the relaxation is more likely to yield integral solutions.  
 
 \begin{table}[!htbp]
   \centering
@@ -1282,7 +1279,9 @@ From Table~\ref{tab::max_objective_function_outcomes}, this objective encourages
   \label{tab::max_objective_function_outcomes}
 \end{table}
 
-This choice of objective is also useful when identifying solutions beyond those unique up to isomorphism. For example, the complete graph $K_3$ has four roots: itself and three path graphs of length two, which are isomorphic to one another. Figure~\eqref{fig::K3_example} illustrates that the maximization objective preserves consistency up to isomorphism while still distinguishing structurally meaningful solutions.
+This choice of objective function is also useful when identifying solutions that are not unique as labelled graphs but are unique up to isomorphism. For example, the complete graph $K_3$ has four graph roots: $K_3$ itself and three path graphs on three vertices. The three path roots are distinct as labelled graphs but are all isomorphic to $P_3$. Figure~\eqref{fig::K3_example} illustrates this situation.
+
+Without an objective function that breaks this symmetry, the three labelled path roots are indistinguishable to the linear program, and their symmetric combination can give rise to a fractional solution rather than selecting a single path. In contrast, the maximization objective function breaks this symmetry by assigning different objective values to the possible labelled edge selections. Consequently, one of the three path roots is selected as the unique optimal solution, providing a single integral representative of this isomorphism class.
 
 \begin{figure}[ht]
     \centering
@@ -1296,7 +1295,7 @@ This choice of objective is also useful when identifying solutions beyond those 
     \begin{subfigure}{0.29\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/K3_root_1.png}
-        \caption{$K_3$.}
+        \caption{$K_3$ root of $K_3$.}
         \label{fig::K3_root_1}
     \end{subfigure}
     \hfill

@@ -15,32 +15,7 @@
   \[
   x_{ua_i}=0 \quad \text{ for all } a_i \in A.
   \]
-  Without loss of generality consider $a_1\in A$. Since $ua_1\in E_G$, have $g_{ua_1}=1$, and hence Equation~\eqref{eq::IP_indicator_lower} gives $z_{ua_1}\geq1$. Since $x_{ua_1}=0$, Equation~\eqref{eq::IP_indicator_arg} gives
-  \[
-  1 \leq z_{ua_1} = x_{ua_1}+\sum_{k\in V_G}y_{uka_1} = \sum_{k\in V_G}y_{uka_1}.
-  \]
-  The terms corresponding to $k=s$ and $k=u$ are zero since $g_{sa_1}=g_{uu}=0$, and hence Lemma~\eqref{lemma::g_ab=0} gives $x_{sa_1}=x_{uu}=0$. Therefore, by Equations~\eqref{eq::IP_product_upper_first}--\eqref{eq::IP_product_lower},
-  \[
-  y_{usa_1}=y_{uua_1}=0.
-  \]
-  For every $m\in A$, we have $x_{um}=0$, and hence Equation~\eqref{eq::IP_product_upper_first} gives
-  \[
-  y_{uma_1}=0.
-  \]
-  Similarly, for every $n\in B$, we have $g_{un}=0$, and therefore Lemma~\eqref{lemma::g_ab=0} gives $x_{un}=0$. Thus Equation~\eqref{eq::IP_product_upper_first} gives
-  \[
-  y_{una_1}=0.
-  \]
-  Thus all terms in the sum are zero except possibly $y_{uva_1}$, giving
-  \[
-  1 \leq y_{uva_1}.
-  \]
-  Since $x_{uv}=1$, Equation~\eqref{eq::IP_product_upper_first} gives
-  $y_{uva_1}\leq x_{uv}=1$, while Equation~\eqref{eq::IP_product_upper_second} gives $y_{uva_1} \leq x_{va_1}$. Hence
-  $1 \leq y_{uva_1} \leq x_{va_1} \leq 1$, and therefore
-  \[
-  x_{va_1}=1.
-  \]
+  Using Lemma~\eqref{lemma::1_path_propagation} 
   This process can be repeated for each $a_i\in A$, giving $x_{va_i}=1$ for all $i\in\{1,\ldots,r\}$. Thus the edges $uv, va_1,\ldots,va_r$ are identified in the root, with $u$ acting as a leaf, $v$ as its stem, and each $a_i$ as the next vertex along the tree.
 \end{proof}
 
