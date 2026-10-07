@@ -1223,38 +1223,68 @@ This relaxation however yields more fractional solutions, as illustrated in Tabl
 
 The behaviour of the weights observed in Figure~\ref{fig::K6_example} motivates the following proposition. 
 
-\begin{proposition}
-  Let $G$ be a graph with $n\geq 3$ vertices.For all $uv \in V_G$ let $t_uv$ be the number of vertices in a smallest maximal clique of $G$ containing $uv$. Then the solution given by
+\begin{proposition} \label{prop::unique_maximal_clique_minimizer}
+  Let $G$ be a graph and let $C\cong K_k$ be a maximal clique of $G$.
+  Consider the clique-restricted problem induced by the constraints
   \[
-  x_{uv}=\frac{1}{t_{uv}+-1}.
+  \sum_{j\in V_C\setminus\{i\}}x_{ij}\ge1, \quad i\in V_C.
   \]
-  is optimal. 
+  Among solutions symmetric on $C$, the unique minimizer of
+  \[
+  \sum_{ij\in E_C}x_{ij}
+  \]
+  is
+  \[
+  x_{ij}=\frac{1}{k-1} \quad \forall ij\in E_C.
+  \]
 \end{proposition}
 \begin{proof}
-  Let $C\cong K_k$ be a maximal clique. Fix $i \in V_C$. Since $C$ is
-  complete, have $g_{ij}=1$  for every $j \in V_C\setminus\{i\}$. Hence, by the indicator constraints Equations~\eqref{eq::IP_indicator_upper}--\eqref{eq::IP_indicator_lower}, for every $j\in V_C\setminus\{i\}$
+  Restrict to solutions symmetric on $C$, so that
   \[
-  x_{ij}+\sum_{\ell=1}^{n}y_{i\ell j} = z_{ij} \geq g_{ij}=1.
+  x_{ij}=t
+  \qquad\forall ij\in E_C
   \]
-  Since $C$ is complete, every length-two connection $i-\ell-j$
-  between vertices of $C$ uses an edge incident with $i$ in $C$.
-  The product constraints $y_{i\ell j}\leq x_{i\ell}$ therefore imply that the constraints for the vertices of $C$ require
+  for some $t\ge0$. Since every vertex of $C\cong K_k$ has
+  $k-1$ neighbours in $C$, each clique constraint becomes
   \[
-  \sum_{j\in V_C\setminus\{i\}}x_{ij}\geq1.
+  (k-1)t\ge1.
   \]
-  There are $k-1$ edges of $C$ incident with $i$. Since the objective minimizes the total weight, the minimum is obtained by distributing this unit equally among these $k-1$ edges. Thus
+  Hence
   \[
-  x_{ij}=\frac{1}{k-1} \quad \text{for every }ij \in E_C.
+  t\ge\frac{1}{k-1}.
   \]
-  Now suppose that an edge $ij$ belongs to several maximal cliques $C_1,\ldots,C_r$, with $|C_t|=k_t$. The same variable $x_{ij}$ must satisfy the requirement imposed by every clique containing the edge. Consequently,
+  The clique-restricted objective is
   \[
-  x_{ij}\geq\frac{1}{k_t-1} \quad \text{for every }t=1,\ldots,r.
+  \sum_{ij\in E_C}x_{ij}
+  =\binom{k}{2}t.
   \]
-  Since the objective is minimized, $x_{ij}$ takes the largest of these required values. Hence, when maximal cliques share an edge, the smallest clique determines the fractional value of the shared edge, and
+  Since this is increasing in $t$, it is minimized by the smallest
+  feasible value,
   \[
-  x_{ij} = \max_{1\leq t\leq r}\frac{1}{k_t-1} = \max_{\substack{C\text{ maximal clique}\\ij\in E_C}} \frac{1}{|C|-1}.
+  t=\frac{1}{k-1}.
+  \]
+  Therefore the unique symmetric minimizer is
+  \[
+  x_{ij}=\frac{1}{k-1}
+  \qquad\forall ij\in E_C.
   \]
 \end{proof}
+
+\begin{conjecture}[Fractional Cliques in $\min \mathcal{LP}(G)$]
+  Let $G$ be a graph and let $x$ be an optimal solution of
+  $\min\mathcal{LP}(G)$. For each edge $ij\in E_G$, define
+  \[
+  t_{ij}
+  =
+  \min\{|C|: C\text{ is a maximal clique of }G,\ ij\in E_C\}.
+  \]
+  Then
+  \[
+  x_{ij}=\frac{1}{t_{ij}-1}
+  \qquad\forall ij\in E_G.
+  \]
+\end{conjecture}
+
 
 \section{Max Linear Program} \label{sec::max_linear_program}
 
