@@ -1,11 +1,7 @@
 % !TeX root = Thesis.tex
 
 \begin{lemma}[Propagation] \label{lemma::propagation}
-  Let $G$ and $T$ be graphs such that $G=T^2$ and $T$ is a tree. Let $s,u,v \in V_G$ be identified such that $s$ is a leaf, $u$ is its stem, and $v$ is the external vertex, with
-  \[
-  x_{su}=x_{us}=x_{uv}=x_{vu}=1.
-  \]
-  Let $N_T(v)\setminus\{u\} = \{a_1,\ldots,a_r\}$ be the set of all other neighbours of $v$ in $T$. Then path propagation fixes
+  Let $G$ and $T$ be graphs such that $G=T^2$ and $T$ is a tree. Let $s,u,v \in V_T$ such that $s$ is a leaf, $u$ is its stem, and $v$ is the external vertex. Let $a_1,a_2,\dots a_r$ be the set of neighbours of $v$ in $T$. In every feasible solution $x$ of $\mathcal{UVLP}$, 
   \[
   x_{va_i}=x_{a_iv}=1 \text{ for every } i \in \{1,\ldots,r\}. 
   \]
@@ -19,21 +15,21 @@
   This process can be repeated for each $a_i\in A$, giving $x_{va_i}=1$ for all $i\in\{1,\ldots,r\}$. Thus the edges $uv, va_1,\ldots,va_r$ are identified in the root, with $u$ acting as a leaf, $v$ as its stem, and each $a_i$ as the next vertex along the tree.
 \end{proof}
 
-\begin{theorem}[Inductive Proof] \label{theorem::unicliqual_vertex_induction}
+\begin{theorem} \label{theorem::unicliqual_vertex_induction_proof}
   Let $G$ and $T$ be graphs such that $G=T^2$ and $T$ is a tree. Then $\max \mathcal{UVLP}(G)$ returns an integral solution.
 \end{theorem}
-
 \begin{proof}
   Suppose that $G=T^2$ for some tree $T$. By Lemma~\ref{lemma::unicliqual_vertex_fix}, the unicliqual vertex fixing identifies a leaf $s$, its stem $u$, and the external vertex $v$, and Equation~\eqref{eq::unicliqual_vertex_fix} imposes
   \[
-  x_{su}=x_{us}=x_{uv}=x_{vu}=1.
+  x_{su}=x_{us}=x_{uv}=x_{vu}=1
   \]
-  Hence the hypotheses of Lemma~\ref{lemma::propagation} are satisfied and path propagation fixes $N_T(v)\setminus\{u\} = \{a_1,\ldots,a_r\}$ such that 
+  in $\mathcal{UVLP}(G)$. Let $N_T(v)\setminus\{u\} = \{a_1,\ldots,a_r\}$. Hence the hypotheses of Lemma~\ref{lemma::propagation} are satisfied and the path propagation lemma implies
   \[
-  x_{va_i}=x_{a_iv}=1 \text{ for every } i \in \{1,\ldots,r\}. 
+  x_{va_i}=x_{a_iv}=1 \text{ for every } i \in \{1,\ldots,r\},
   \]
+  for every $a_i \in N_T(v)\setminus\{u\}$. 
 
-  We prove by induction on the number of edges of the reconstructed subtree that repeated application of path propagation assigns an integral value to every edge of $T$. 
+ We prove by induction on the number of edges of the reconstructed subtree that repeated application of the path propagation lemma assigns an integral value to every edge of $T$. 
   
   For the base case, the reconstructed subtree consists of the edges initially identified by the unicliqual vertex fixing and the first application of path propagation. These edges have integral assignments by Equation~\eqref{eq::unicliqual_vertex_fix} and Lemma~\ref{lemma::propagation}. 
   
@@ -48,31 +44,4 @@
   Thus $T'$ can be extended to the larger connected subtree $T''=T'+ab$, whose edges all have integral assignments. 
   
   Thus, by the inductive argument, whenever the reconstructed subtree is a proper subtree of $T$, it can be extended by at least one additional edge of $T$, with all edges of the resulting subtree assigned integral values. Since $T$ is finite, the induction eventually reconstructs all of $T$ and assigns an integral value to every edge. Hence the resulting solution is integral and corresponds to the tree root $T$ of $G$. Therefore, $\max\mathcal{UVLP}(G)$ returns an integral solution.
-\end{proof}
-
-\begin{theorem}[Path Proof] \label{theorem::unicliqual_vertex_path}
-  Let $G$ and $T$ be graphs such that $G=T^2$ and $T$ is a tree. Then $\max \mathcal{UVLP}(G)$ returns an integral solution.
-\end{theorem}
-\begin{proof}
-  Suppose that $G=T^2$ for some tree $T$. By Lemma~\ref{lemma::unicliqual_vertex_fix}, the unicliqual vertex fixing identifies a leaf $s$, its stem $u$, and the external vertex $v$, and Equation~\eqref{eq::unicliqual_vertex_fix} imposes
-  \[
-  x_{su}=x_{us}=x_{uv}=x_{vu}=1.
-  \]
-  Hence the hypotheses of Lemma~\ref{lemma::propagation} are satisfied and path propagation fixes $N_T(v)\setminus\{u\} = \{a_1,\ldots,a_r\}$ such that 
-  \[
-  x_{va_i}=x_{a_iv}=1 \text{ for every } i \in \{1,\ldots,r\}. 
-  \]
-  The same argument can then be applied at each newly identified vertex. More generally, let $w \in V_{T}$ be arbitrary. Since $T$ is connected, there is a path from $v$ to $w$. Therefore, together with the fixed path $s-u-v$, there is a path
-  \[
-  s-u-v-a-\cdots-w
-  \]
-  in $T$. Starting from the fixed edges $su$ and $uv$, path propagation already fixes $va$ and can be applied successively along this path. Hence every edge on the path from $v$ to $w$ is assigned an integral value.
-
-  Since $w$ was arbitrary, every vertex of $T$ is reached by such a path. Now let $wx \in E_T$ be arbitrary. Since $T$ is connected, there is a path from $v$ to $w$, and appending the edge $wx$ gives a path
-  \[
-  s-u-v-a-\cdots-w-x
-  \]
-  containing $wx$. Thus path propagation assigns an integral value to $wx$.
-
-  Therefore every edge of $T$ is assigned an integral value. Hence the resulting assignment is integral and corresponds to the tree root $T$ of $G$. Therefore $\max\mathcal{UVLP}(G)$ returns an integral solution.
 \end{proof}
