@@ -51,12 +51,12 @@ style=alphabetic]{biblatex}
 
   In this thesis, rather than studying the construction problem directly and using reduction techniques to ascertain polynomial-time algorithms, we formulate the problem as an integer program based on the relationship between the adjacency matrices of a root $H$ and its square $G$. By constructing the corresponding linear relaxation, the problem can then be situated within polynomial time through the use of interior-point methods.
 
-  The seminal result for the problem is the work by \citeauthor{ross_1960_square}, who approached the problem by restricting the root graphs to trees. By analyzing the number of cliques which each vertex in the graph square is situated in, they gave an algorithm for finding the unique tree root up to isomorphism. In contrast, our formulation provides an optimization-based approach that can be iteratively strengthened through the addition of further constraints. These constraints refine the linear relaxation, enabling tree roots to be represented by integral solutions to the linear program, while graphs with no possible roots are identified through fractional or infeasible solutions. Rather than relying on heuristic such as rounding, our approach exploits structural properties of the graph square and its root to obtain an exact solution. 
+  The seminal result for the problem is the work by \citeauthor{ross_1960_square}, who approached the problem by restricting the root graphs to trees. Through analyzing the number of cliques which each vertex in the graph square is situated in, they gave an algorithm for finding the unique tree root up to isomorphism. In contrast, our formulation provides an optimization-based approach that can be iteratively strengthened through the addition of further constraints. These constraints refine the linear relaxation, enabling tree roots to be represented by integral solutions to the linear program, while graphs with no possible roots are identified through fractional or infeasible solutions. Rather than relying purely on heuristics, our approach exploits structural properties of the graph square and its root to obtain an exact solution. 
 \end{abstract}
 
 \chapter*{Acknowledgements}
 
-I would like to thank my supervisor Christopher Duffy  helping and introducing me to this wonderful topic. Although this exploration has somewhat deviated from your vision, I greatly appreciate your willingness to lend your knowledge to support me in writing this thesis.
+I would like to thank my supervisor Christopher Duffy for helping and introducing me to this wonderful topic. Although this exploration has somewhat deviated from your vision, I greatly appreciate your willingness to lend your knowledge to support me in writing this thesis.
 
 I would also like to thank my family and friends for their support and help, without which I would not have been able to do this.
 
@@ -68,8 +68,7 @@ I would also like to thank my family and friends for their support and help, wit
 
 \section{Background} \label{sec::background}
 
-In 1949, Leon Festinger proposed a novel method in the field of social psychology for analyzing relationships among a number of people present \cite{festinger_bahoken_beauguitte_2023}. Classically, this was represented using a sociogram, a visual tool that maps out the relationships between people. However, Forsyth and Katz introduced the use of a matrix to represent the sociometric pattern, with rows and columns corresponding to individuals and containing $1$s for choices and blank diagonals.
-Festinger noticed that his structure, reminiscent of the adjacency matrix defined by \citeauthor{konig_1936} in \cite{konig_1936}, also had the remarkable property that the action of squaring a matrix 
+In 1949, Leon Festinger proposed a novel method in the field of social psychology for analyzing relationships among a number of people present \cite{festinger_bahoken_beauguitte_2023}. Classically, this was represented using a sociogram, a visual tool that maps out the relationships between people. However, Forsyth and Katz introduced the use of a matrix to represent the sociometric pattern, with rows and columns corresponding to individuals, $1$s for choices, and blank diagonals. Festinger noticed that his structure, reminiscent of the adjacency matrix defined by \citeauthor{konig_1936} in \cite{konig_1936}, also had the remarkable property that the action of squaring a matrix 
 \[
 A_{rc}^2 = A_{1c}A_{r1} + \dots + A_{nc}A_{rn} \footnote{$A_{rc}^2$ is more naturally written as $\displaystyle \sum_{k = 1}^n A_{ck}A_{kr}$ using the commutativity of multiplication $A_{1c}A_{r1} = A_{c1}A_{1r}$, which intuitively gives the notion of paths from c to r via intermediary k}
 \]
@@ -84,7 +83,7 @@ Higher steps can be easily generated in the same way. In this manner, higher pow
     \begin{subfigure}{0.28\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/K5.png}
-        \caption{$K_5$.}
+        \caption{The clique on $5$ vertices $K_5$.}
         \label{fig::K5_square}
     \end{subfigure}
     \hspace{0.03\textwidth}
@@ -111,7 +110,6 @@ Using these properties, they constructed an explicit algorithm that recovers the
 Since then, the problem of finding the square root of a graph has extended beyond sociology and is a well-studied field in both mathematics and computer-science, with direct applications in distributed computing (e.g., see \cite{peres_2023_distributed}), network design and computational biology (e.g., see \cite{zhou_2025_biology}). This is in part because many structural properties of graph roots are first established in the square case before being extended to the more general $k$-th power setting (e.g., see \cite{harary_1962_planarity}). 
 
 Research in this area has primarily focused around an undirected graph $H$ and its square $G = H^2$, which is obtained by adding an edge between every pair of vertices whose distance in $H$ is at most two. This two-step undirected graph square has been studied extensively with much of the focus being on the complexity of the decision problem - given a specific graph square $G$ does there exist a root graph $H$ such that $H^2=G$. \citeauthor{motwani_sudan_1994_roots} showed that deciding if a graph admits a root is $\mathbf{NP}$-complete. Subsequent studies in the area have restricted the decision problem in two ways, either by considering various properties on the root graph or by considering properties on the graph square. 
-
 
 \section{Literature} \label{sec::literature}
 
