@@ -51,7 +51,7 @@ style=alphabetic]{biblatex}
 
   In this thesis, rather than studying the construction problem directly and using reduction techniques to ascertain polynomial-time algorithms, we formulate the problem as an integer program based on the relationship between the adjacency matrices of a root $H$ and its square $G$. By constructing the corresponding linear relaxation, the problem can then be situated within polynomial time through the use of interior-point methods.
 
-  The seminal result for the problem is the work by \citeauthor{ross_1960_square}, who approached the problem by restricting the root graphs to trees. Through analyzing the number of cliques which each vertex in the graph square is situated in, they gave an algorithm for finding the unique tree root up to isomorphism. In contrast, our formulation provides an optimization-based approach that can be iteratively strengthened through the addition of further constraints. These constraints refine the linear relaxation, enabling tree roots to be represented by integral solutions to the linear program, while graphs with no possible roots are identified through fractional or infeasible solutions. Rather than relying purely on heuristics, our approach exploits structural properties of the graph square and its root to obtain an exact solution. 
+  The seminal contribution is that of \citeauthor{ross_1960_square}, who approached the problem by restricting the root graphs to trees. By analyzing how many cliques each vertex of the graph square lies in, they gave an algorithm for finding the unique tree root up to isomorphism. In contrast, our formulation provides an optimization-based approach that can be iteratively strengthened through the addition of further constraints. These constraints refine the linear relaxation, enabling tree roots to be represented by integral solutions to the linear program, while graphs with no possible roots are identified through fractional or infeasible solutions. Rather than relying purely on heuristics, our approach exploits structural properties of the graph square and its root to obtain an exact solution. 
 \end{abstract}
 
 \chapter*{Acknowledgements}
@@ -90,11 +90,11 @@ Higher steps can be easily generated in the same way. In this manner, higher pow
     \begin{subfigure}{0.28\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/K5_root_11.png}
-        \caption{One of the $15$ isomorphic graph roots of $K_5$.}
+        \caption{The star graph on $5$ vertices $K_{1,4}$ One of the $15$ non-isomorphic graph roots of $K_5$.}
         \label{fig::K5_11_root}
     \end{subfigure}
 
-    \caption{$K_5$ and one of its root, the star graph $K_{1,4}$.}
+    \caption{$K_5$ and two of its $15$ non-isomorphic graph roots.}
     \label{fig::K5_example}
 \end{figure}
 
@@ -107,35 +107,36 @@ In the process of improving Festinger's clique detection methods, \citeauthor{ro
 
 Using these properties, they constructed an explicit algorithm that recovers the underlying tree for a given graph square. Their work has become the foundational reference for the study of graph squares and is universally cited in subsequent literature on the subject, and will be explored in more detail later. 
 
-Since then, the problem of finding the square root of a graph has extended beyond sociology and is a well-studied field in both mathematics and computer-science, with direct applications in distributed computing (e.g., see \cite{peres_2023_distributed}), network design and computational biology (e.g., see \cite{zhou_2025_biology}). This is in part because many structural properties of graph roots are first established in the square case before being extended to the more general $k$-th power setting (e.g., see \cite{harary_1962_planarity}). 
+Since then, the problem of finding the root of a graph has extended beyond sociology and is a well-studied field in both mathematics and computer-science, with direct applications in distributed computing (e.g., see \cite{peres_2023_distributed}), network design and computational biology (e.g., see \cite{zhou_2025_biology}). This is partly because many structural properties of graph roots are first established in the square case before being extended to the more general $k$-th power setting (e.g., see \cite{harary_1962_planarity}). 
 
 Research in this area has primarily focused around an undirected graph $H$ and its square $G = H^2$, which is obtained by adding an edge between every pair of vertices whose distance in $H$ is at most two. This two-step undirected graph square has been studied extensively with much of the focus being on the complexity of the decision problem - given a specific graph square $G$ does there exist a root graph $H$ such that $H^2=G$. \citeauthor{motwani_sudan_1994_roots} showed that deciding if a graph admits a root is $\mathbf{NP}$-complete. Subsequent studies in the area have restricted the decision problem in two ways, either by considering various properties on the root graph or by considering properties on the graph square. 
 
 \section{Literature} \label{sec::literature}
 
-Focusing first on special undirected graph classes, the aforementioned work by \citeauthor{ross_1960_square} in 1960 gives an algorithm for constructing a tree root by using characterizations of the graph square. As part of this work they proved tree square roots are unique up to isomorphism. This was the first major contribution to the study of graph roots and provided fundamental structural characteristics of graph squares, laying the groundwork for later research on graph root problems and their applications. Building upon these insights, \citeauthor{lin_1995_square_roots} bypassed the exponential bottleneck of general maximal clique enumeration present in Ross and Harary's approach, by developing an optimal $\mathcal{O}(\vert{}V\vert{} + \vert{}E\vert{})$ linear time algorithm to recognize tree squares and reconstruct their unique tree roots\cite{lin_1995_square_roots}.
+Focusing first on special undirected graph classes, the aforementioned work by \citeauthor{ross_1960_square} in 1960 gives an algorithm for constructing a tree root by using characterizations of the graph square. As part of this work they proved tree roots are unique up to isomorphism. This was the first major contribution to the study of graph roots and provided fundamental structural characteristics of graph squares, laying the groundwork for later research on graph root problems and their applications. Building upon these insights, \citeauthor{lin_1995_square_roots} bypassed the inefficiency of general maximal clique enumeration in Ross and Harary's approach, by developing an optimal $\mathcal{O}(\vert{}V\vert{} + \vert{}E\vert{})$ linear time algorithm to recognize tree squares and reconstruct their unique tree roots\cite{lin_1995_square_roots}.
 
 \citeauthor{fleischner_1974_square} in 1974 showed that as long as a graph is 2-connected its graph square will have a Hamiltonian cycle. This established a broad condition guaranteeing Hamiltonicity in graph squares which is used in many subsequent works such as \cite{brandt_muttel_rautenbach_2014}. 
 
-\citeauthor{lau_corneil_2004_chordal_root} in 2004 provided an algorithm for constructing square roots from an interval square in polynomial time, and showed that the decision problem for finding roots of chordal graphs, roots of split graphs, and chordal roots of graphs are $\mathbf{NP}$-complete \cite{lau_corneil_2004_chordal_root}. Furthermore, Lau gave a linear-time algorithm for constructing square roots of bipartite graphs, and proved that deciding whether a bipartite graph has a cube root is $\mathbf{NP}$-complete \cite{lau_2006_bipartite_roots}. \citeauthor{le_tuy_2007_block_square} in 2007 generalized tree-root results further by giving a linear time recognition of roots of block graphs \cite{le_tuy_2007_block_square}. 
+\citeauthor{lau_corneil_2004_chordal_root} in 2004 provided an algorithm for constructing roots from an interval square in polynomial time, and showed that the decision problem for finding roots of chordal graphs, roots of split graphs, and chordal roots of graphs are $\mathbf{NP}$-complete \cite{lau_corneil_2004_chordal_root}. Furthermore, Lau gave a linear-time algorithm for constructing bipartite roots, and proved that deciding whether a bipartite square has a cube root is $\mathbf{NP}$-complete \cite{lau_2006_bipartite_roots}. \citeauthor{le_tuy_2007_block_square} in 2007 generalized tree root results further by giving a linear time recognition of roots of block graphs \cite{le_tuy_2007_block_square}. 
 
 Generalizing the notion of graph squares, in 1967 \citeauthor{mukhopadhyay_1967_root} provided necessary and sufficient conditions for a connected graph to have a square root \cite{mukhopadhyay_1967_root}, whilst \citeauthor{geller_1970_root} in 1970 likewise found necessary and sufficient conditions for a digraph to have a square root \cite{geller_1970_root}. 
 
 In 1994 \citeauthor{motwani_sudan_1994_roots} established the complexity of the square problem for the generalized undirected case and showed that the problem of determining if a given graph has a square root is an $\mathbf{NP}$-complete problem via a polynomial reduction to $3$-CNF not-all-equal SAT \cite{motwani_sudan_1994_roots}.
 
-Their work led to joint work by Farzad, Le, Tuy, Lau and Karimi in 2009 and 2012, in which they established a partial dichotomy theorem for the complexity of determining if a given undirected graph of girth $g$ has a square root \cite{farzad_2009_roots} which was informally completed under \cite{farzad_karimi_2012_root}. In 2013, \citeauthor{cochefert_et_al_2013_sparse_square_roots} gave an algorithm for constructing a square root with minimal number of edges from undirected graphs with max degree $\leq 6$ in polynomial time and an algorithm for constructing maximal edge square roots in exponential time \cite{cochefert_et_al_2013_sparse_square_roots}. 
+Their paper led to joint work by Farzad, Le, Tuy, Lau and Karimi in 2009 and 2012, in which they established a partial dichotomy theorem for the complexity of determining if a given undirected graph of girth $g$ has a square root \cite{farzad_2009_roots} which was informally completed under \cite{farzad_karimi_2012_root}. In 2013, \citeauthor{cochefert_et_al_2013_sparse_square_roots} gave an algorithm for constructing a square root with minimal number of edges from undirected graphs with max degree $\leq 6$ in polynomial time and an algorithm for constructing maximal edge square roots in exponential time \cite{cochefert_et_al_2013_sparse_square_roots}. 
 
 In recent years, Duffy provided a full classification for the undirected square of oriented graphs satisfying max degree $\leq 3$ and girth $\geq 4$ \cite{duffy_2025_oriented_root}. 
 
 \subsection{Overview} \label{subsec::overview}
+Having surveyed the relevant literature, we now turn to the foundations needed for the remainder of the thesis. We first standardize the definitions that will be used for the rest of this thesis. We then introduce fundamental theory on the three areas of: complexity theory, graph theory and mathematical optimization, which are used in the various algorithmic approaches to the decision problem. 
 
-In addition to providing a general overview of the research direction in this section we first standardise the definitions that will be used for the rest of this thesis. We then introduce fundamental theory on the three areas of: complexity theory, graph theory and mathematical optimization, which are used in the various algorithmic approaches to the decision problem. 
+The first construction we examine is the reduction used by \citeauthor{motwani_sudan_1994_roots} in showing that the decision problem determining whether a given graph $G$ admits a square root is $\mathbf{NP}$-complete \cite{motwani_sudan_1994_roots}. Next, we introduce the  algorithm given by \citeauthor{ross_1960_square} for constructing a tree root from a given square in detail. Finally, we formulate the graph square problem as an integer program. 
 
-The first construction we examine is the reduction used by \citeauthor{motwani_sudan_1994_roots} in showing that the decision problem determining whether a given graph $G$ admits a square root is $\mathbf{NP}$-complete \cite{motwani_sudan_1994_roots}. Next, we introduce the polynomial time algorithm given by \citeauthor{ross_1960_square} for constructing a tree root from a given square in detail. Finally, we formulate the problem as an integer program. 
+In Chapter~\ref{chap::square_of_a_tree_LP} we present the ideas of linear relaxation and discuss the results of each program and their validity. To obtain these results, we conducted an exhaustive enumeration on all non-isomorphic connected graphs up to $n=8$ vertices in addition to obtaining theoretical results. For each such graph, we formulate the corresponding linear program and solved it using a standard $LP$ solver using interior point method. The outcomes of these computations are categorized as integral, fractional, or infeasible and are analyzed. 
 
-In Chapter $3$ we present the ideas of linear relaxation and discuss the results of each program and their validity. To obtain these results, we conducted an exhaustive enumeration on all non-isomorphic connected graphs up to $n=8$ vertices in addition to obtaining theoretical results. For each such graph, we formulated the corresponding linear program and solved it using a standard LP solver using interior point method. The outcomes of these computations are categorized as integral, fractional, or infeasible and are analyzed. 
+Next, we introduce several augmentations to the linear program, consisting of constraints that encode structural bounds on both the graph square and its underlying root. In particular, we show that by adding specific constraints to the LP, we can ensure that the square of all trees will return a feasible integer solution. This augmentation ensures that the $LP$ returns a tree root in polynomial time, whilst ensuring that all squares with roots remain $LP$ feasible. 
 
-Finally, we introduce several augmentations to the linear program, consisting of constraints that encode structural bounds on both the graph square and its underlying root. In particular, we show that by adding specific constraints to the LP, we can ensure that the square of all trees will return a feasible integer solution. This augmentation ensures that the LP returns a tree root in polynomial time, whilst ensuring that all squares with roots remain LP feasible. 
+Finally, in Chapter~\ref{chap::further_work}, we leverage the augmented linear program together with specific structural properties of graph squares to develop two algorithms that iteratively solve modified linear programs with additional constraints. Depending on the outcome, these algorithms proceed either greedily or exhaustively, with the choice guided by whether the resulting search remains polynomial. The symbolic group algorithm exploits the non-existence of an edge in a triangle $K_3$, while the vertex deletion algorithm relies on finding root solutions for subgraphs of the square. We then examine duality, one of the more powerful tools provided by linear programming, before presenting a simple yet effective rounding heuristic.
 
 \section{Definitions and Notations} \label{sec::definitions_and_notations}
 
@@ -151,7 +152,7 @@ Complexity theory studies the classification of computational problems and explo
   We write $f(n)=O(g(n))$ as shorthand for $f(n)\in O(g(n))$.
 \end{definition}
 
-Using this notation, we can classify algorithms based on their runtime. 
+Using this notation, we can classify algorithms based on their runtime.
 
 \begin{definition}[Polynomial-Time Algorithm] \label{def::polynomial_time_algorithm}
   An algorithm is said to run in \textbf{polynomial time} if there exists a constant $c \ge 0$ such that its run time on inputs of size $n$ is $O(n^c)$.
@@ -436,11 +437,11 @@ In our discussion of graphs represented as matrices, we will find the following 
 
 We now introduce the graph-theoretic objects central to this thesis.
 
-\begin{definition}[Square of a Graph, Root] \label{def::square_of_a_graph}
+\begin{definition}[Graph Root and the Square of a Graph] \label{def::square_of_a_graph}
   Let the \textbf{graph root} $H = (V, E_H)$ be a finite, simple, undirected graph, where $V$ is the vertex set with $|V| = n$, and $E_H \subseteq \{\{u,v\} \mid u,v \in V, u \neq v\}$ is the edge set.  
   The \textbf{square of a graph} $H$, denoted by $H^2 = (V, E_{H^2})$ is the graph on the same vertex set with edge set
   \begin{equation} \label{eq::fund_def_square}
-    E_{H^2} = \{\, uv \mid u \neq v, 1 \leq d_H(u,v) \leq 2 \,\}.
+    E_{H^2} = \{ uv \mid u \neq v, 1 \leq d_H(u,v) \leq 2 \}.
   \end{equation}
   That is, two distinct vertices are adjacent in $H^2$ if and only if they are connected by a path of length one or two in $H$. When $G = H^2$ we say that $H$ is a \textbf{root} of $G$ 
 \end{definition}
@@ -498,6 +499,14 @@ Among the feasible solutions, an optimal solution is one that achieves the optim
   An \textbf{optimal solution} is a feasible solution that maximizes or minimizes the objective function, depending on the optimization problem. The corresponding value of the objective function is called the \textbf{optimal value} and is denoted by $\operatorname{OPT}$.
 \end{definition}
 
+% \begin{definition}[Optimal Feasible Sets] \label{def::optimal_feasible_sets}
+%   Let $\mathcal{F}_{IP}$ and $\mathcal{F}_{LP}$ be the feasible sets of an integer program and its linear relaxation, with optimal values $\operatorname{OPT}_{IP}$ and $\operatorname{OPT}_{LP}$. The \textbf{optimal feasible sets} are
+%   \[
+%   \mathcal{F}^{*}_{IP} = \{ x \in \mathcal{F}_{IP} : c^\top x = \operatorname{OPT}_{IP} \}, \quad
+%   \mathcal{F}^{*}_{LP} = \{ x \in \mathcal{F}_{LP} : c^\top x = \operatorname{OPT}_{LP} \}.
+%   \]
+% \end{definition}
+
 When an integer program is relaxed to a linear program, every feasible integer solution remains feasible for the relaxation. Consequently, if $\mathcal{F}_{IP}$ and $\mathcal{F}_{LP}$ denote the feasible sets of the integer program and its linear relaxation respectively, then
 \[
 \mathcal{F}_{IP} \subseteq \mathcal{F}_{LP}.
@@ -506,7 +515,7 @@ Geometrically, $\mathcal{F}_{IP}$ is represented by the feasible integer points 
 
 \input{subfiles/LinearRelaxationSetGeometry.tex}
 
-For a maximization problem, this set inclusion implies $\operatorname{OPT}_{IP} \leq \operatorname{OPT}_{LP}$. Therefore  the the optimal value for the linear relaxation provides an upper bound on the optimal value of the integer program. For a minimization problem, $\operatorname{OPT}_{LP} \leq \operatorname{OPT}_{IP}$, so the linear relaxation provides a lower bound.
+For a maximization problem, this set inclusion implies $\operatorname{OPT}_{IP} \leq \operatorname{OPT}_{LP}$. Therefore the optimal value for the linear relaxation provides an upper bound on the optimal value of the integer program. For a minimization problem, $\operatorname{OPT}_{LP} \leq \operatorname{OPT}_{IP}$, so the linear relaxation provides a lower bound.
 
 \begin{definition}[Integer Hull] \label{def::integer_hull}
   Let $\mathcal{F}_{IP}$ denote the feasible set of an integer program. The \textbf{integer hull} is the convex hull of the feasible integer solutions, denoted by $\operatorname{conv}(\mathcal{F}_{IP})$. That is, the integer hull is the set of all convex combinations of points in $\mathcal{F}_{IP}$.
@@ -516,7 +525,7 @@ Since the feasible region of a linear program is convex, the integer hull is con
 \[
 \mathcal{F}_{IP} \subseteq \operatorname{conv}(\mathcal{F}_{IP}) \subseteq \mathcal{F}_{LP}.
 \]
-The integer hull is the smallest convex set containing all feasible integer solutions. Thus, geometrically, the gap between the integer hull and the LP feasible region represents the additional solutions admitted by the relaxation. If
+The integer hull is the smallest convex set containing all feasible integer solutions. Thus, geometrically, the gap between the integer hull and the $LP$ feasible region represents the additional solutions admitted by the relaxation. If
 \[
 \operatorname{conv}(\mathcal{F}_{IP}) = \mathcal{F}_{LP},
 \]
@@ -1016,7 +1025,7 @@ Let $M \in \mathbb{Z}_{> 0}$ be a sufficiently large constant. This value $M$ ma
 
 \input{subfiles/IntegerProgramFormulation.tex}
 
-The integer program on the arbitrary graph $G$ using Equations~\eqref{eq::IP_x_variable}--\eqref{eq::IP_diagonal_x} is denoted as $\mathcal{IP}(G)$. 
+The integer program on the arbitrary graph $G$ using Equations~\eqref{eq::IP_x_variable}--\eqref{eq::IP_diagonal_x} together with the constant objective function Equation~\eqref{eq::integer_objective_function} is denoted as $\mathcal{IP}(G)$. 
 
 The constraints in Equations~\eqref{eq::IP_symmetry_x}--\eqref{eq::IP_diagonal_x} impose the required symmetry and diagonal structure on the adjacency matrix $A_H$. Although analogous constraints could also be imposed on the auxiliary variables $z$, they are omitted as they are redundant and may introduce artificial degeneracy into the linear program.
 
@@ -1052,15 +1061,15 @@ $2,3,6,11,28,77,307,\dots$ given by \href{https://oeis.org/A382181}{\texttt{A382
 
 In this chapter, we explore the recognition of squares of trees using linear programming. We first introduce a linear programming relaxation for $\mathcal{IP}(G)$ and investigate the structure of its feasible solutions. We then consider additional constraints that can be derived from the structure of the input graph and used to augment the relaxation. The resulting formulations are tested computationally on a collection of graphs in order to evaluate their ability to recover integral solutions corresponding to tree roots.
 
-The methodology used in this work is implemented using the SageMath~\cite{sagemath} framework with Gurobi~\cite{gurobi} as the optimisation backend. The barrier method is used, as seen in Code~\ref{lst::linear_program}--\ref{lst::unicliqual_rounding_linear_program}, through the parameter \texttt{Method=2}. The barrier method is an interior-point method that uses a predictor-corrector scheme based on Newton iterations to approach an optimal solution from within the feasible region. For linear programs, classical interior-point theory provides polynomial worst-case bounds on the number of iterations, with each iteration requiring polynomial computational effort in the number of variables and constraints \cite{gonzaga_1991_barrier_function}. Thus, the barrier method provides a theoretically polynomial approach for solving the LP formulations considered in this chapter, although these worst-case bounds do not necessarily reflect the practical running time of the implementation. 
+The methodology used in this work is implemented using the SageMath~\cite{sagemath} framework with Gurobi~\cite{gurobi} as the optimisation backend. The barrier method is used, as seen in Code~\ref{lst::linear_program}--\ref{lst::unicliqual_rounding_linear_program}, through the parameter \texttt{Method=2}. The barrier method is an interior-point method that uses a predictor-corrector scheme based on Newton iterations to approach an optimal solution from within the feasible region. For linear programs, classical interior-point theory provides polynomial worst-case bounds on the number of iterations, with each iteration requiring polynomial computational effort in the number of variables and constraints \cite{gonzaga_1991_barrier_function}. Thus, the barrier method provides a theoretically polynomial approach for solving the $LP$ formulations considered in this chapter, although these worst-case bounds do not necessarily reflect the practical running time of the implementation. 
 
 Throughout this chapter, we consider graphs as unlabelled graphs, so graphs that are isomorphic are regarded as the same graph instance. However, the algorithms themselves operate on a labelled representation of each graph. Each unlabelled graph is therefore represented computationally by a particular labelled graph generated by SageMath, with the assigned vertex labels retained throughout the subsequent computations.
 
-The particular labelling depends on the graph generation procedure. Consequently, different labellings of the same unlabelled graph, or different generated representatives of the same isomorphism class, may lead to different intermediate or selected solutions of the optimisation procedures, even though the underlying graph structure is unchanged. The results reported in this chapter therefore correspond to the particular labelled representatives produced by the stated generation procedure. The complete test harness and instance generation scripts are available at \href{https://github.com/Hellwoodoo/Graph-Squares}{\texttt{github.com/Hellwoodoo/Graph-Squares}}.
+The particular labelling depends on the graph generation procedure. Consequently, different labellings of the same unlabelled graph, or different generated representatives of the same isomorphism class, may lead to different intermediate or selected solutions of the optimisation procedures, even though the underlying graph structure is unchanged. The results reported in this chapter therefore correspond to the particular labelled representatives produced by the stated generation procedure. The complete test harness and instance generation scripts are available at \href{https://github.com/Hellwoodoo/Graph-Squares}{\texttt{github.com/Hellwoodoo/Graph-Squares}} and the functions used by the harness are reproduced in Appendix~\ref{lst::integer_program}--\ref{lst::unicliqual_rounding_linear_program} for completeness.
 
 \section{Linear Program Relaxation} \label{sec::linear_program_relaxation}
 
-We construct the linear relaxation of the integer program defined by Equations~\eqref{eq::IP_x_variable}--\eqref{eq::IP_diagonal_x}, which generates a feasible weighted solution in polynomial time. The relaxation has identical constraints, however the decision variables \eqref{eq::IP_x_variable}, \eqref{eq::IP_y_variable} and \eqref{eq::IP_z_variable} are replaced with
+We construct the linear relaxation of the integer program defined by Equations~\eqref{eq::integer_objective_function}--\eqref{eq::IP_diagonal_x}, which generates a feasible weighted solution in polynomial time. The relaxation has identical constraints, however the decision variables \eqref{eq::IP_x_variable}, \eqref{eq::IP_y_variable} and \eqref{eq::IP_z_variable} are replaced with
 \begin{alignat}{3}
 & x_{ij} \in  \mathbb{R}_{\geq 0}, 
 &&\qquad \forall i,j \in \{1, \dots, n\}, \label{eq::LP_x_variable} \\
@@ -1077,7 +1086,7 @@ Such a linear program may have \emph{integral solutions} and \emph{fractional so
 \begin{definition}[Integral Solutions]
   A feasible solution to the linear program is an \emph{integral solution} if
   \[
-  x_{ij} \in \{0,1\} \quad \forall i,j \in V.
+  x_{ij} \in \{0,1\} \quad \text{for all } i,j \in V.
   \]
   In this case, the variables $x_{ij}$ define a graph root $H$ through
   \[
@@ -1091,7 +1100,7 @@ An integral solution to $\mathcal{LP}(G)$ is a feasible solution for $\mathcal{I
   A feasible solution to the linear program is a \emph{fractional solution}
   if
   \[
-  x_{ij} \in [0,1] \quad \forall i,j \in V,
+  x_{ij} \in [0,1] \quad \text{for all } i,j \in V,
   \]
   and there exists at least one pair $(i,j)$ such that $0 < x_{ij} < 1$. In this case, the variables $x_{ij}$ do not directly define a graph root.
 \end{definition}
@@ -1104,20 +1113,20 @@ Figure~\ref{fig::linear_program_diagram} gives the classification of solutions o
     level 2/.style={sibling distance=5cm}]
     \node {n=8}
       child { node {$H$ exists}
-        child { node {$\underset{\raisebox{-0.8em}{47}}{\text{LP integral solution}}$} }
-        child { node {$\underset{\raisebox{-0.8em}{260}}{\text{LP fractional solution}}$} }
+        child { node {$\underset{\raisebox{-0.8em}{47}}{\text{$LP$ integral solution}}$} }
+        child { node {$\underset{\raisebox{-0.8em}{260}}{\text{$LP$ fractional solution}}$} }
       }
       child { node {$H$ does not exist}
-        child { node {$\underset{\raisebox{-0.8em}{9380}}{\text{LP infeasible}}$} }
-        child { node {$\underset{\raisebox{-0.8em}{2659}}{\text{LP fractional solution}}$} }
+        child { node {$\underset{\raisebox{-0.8em}{9380}}{\text{$LP$ infeasible}}$} }
+        child { node {$\underset{\raisebox{-0.8em}{2659}}{\text{$LP$ fractional solution}}$} }
       };
   \end{tikzpicture}
-  \caption{LP outcomes for $n=8$ vertices using $\mathcal{LP}(G)$.} 
+  \caption{$LP$ outcomes for $n=8$ vertices using $\mathcal{LP}(G)$.} 
   \label{fig::linear_program_diagram} 
 \end{figure}
 
 \footnotetext{
-The LP integral solution sequence $2, 3, 6, 10, 17, 29, 51, \dots$ matches \href{https://oeis.org/A285665}{A285665}. However, it is unclear why this should be the case. 
+The $LP$ integral solution sequence $2, 3, 6, 10, 17, 29, 51, \dots$ matches \href{https://oeis.org/A285665}{A285665}. However, it is unclear why this should be the case. 
 }
 
 \begin{table}[!htbp]
@@ -1125,8 +1134,8 @@ The LP integral solution sequence $2, 3, 6, 10, 17, 29, 51, \dots$ matches \href
   \begin{tabular}{c|cc|cc}
   \hline
   $n$ & \multicolumn{2}{c|}{$H$ exists} & \multicolumn{2}{c}{$H$ does not exist} \\
-  & \text{LP integral solution} & \text{LP fractional solution}
-  & \text{LP infeasible} & \text{LP fractional solution} \\
+  & \text{$LP$ integral solution} & \text{$LP$ fractional solution}
+  & \text{$LP$ infeasible} & \text{$LP$ fractional solution} \\
   \hline
   3 & 3  & 0   & 1    & 0    \\
   4 & 5  & 1   & 5    & 0    \\
@@ -1136,19 +1145,19 @@ The LP integral solution sequence $2, 3, 6, 10, 17, 29, 51, \dots$ matches \href
   8 & 44 & 263 & 9380 & 2659 \\
   \hline
   \end{tabular}
-  \caption{Outcomes of the LP relaxation for graphs of different orders of $n$, classified according to whether a square root $H$ exists.}
+  \caption{Outcomes of the $LP$ relaxation for graphs of different orders of $n$, classified according to whether a square root $H$ exists.}
   \footnotemark
   \label{tab::linear_program_outcomes}
 \end{table}
 \footnotetext{
-The LP integral solution sequence $2, 3, 6, 10, 17, 29, 51, \dots$ matches \href{https://oeis.org/A285665}{A285665}.
+The $LP$ integral solution sequence $2, 3, 6, 10, 17, 29, 51, \dots$ matches \href{https://oeis.org/A285665}{A285665}.
 }
 
 \input{subfiles/LinearRelaxationSet.tex}
 
-In Figure~\ref{fig::ip_lp_set_geometric} solutions which are $LP$ feasible may be integral or fractional. The results in Table~\ref{tab::linear_program_outcomes} demonstrate both cases. When $H$ exists, an integral $LP$ solution corresponds to a feasible point in $\mathcal{F}*{IP}$, while a fractional $LP$ solution lies in $\mathcal{F}*{LP} \setminus \mathcal{F}_{IP}$. For $n=3$ and $n=4$, all instances for which $H$ exists have integral $LP$ solutions. From $n=5$ onwards, fractional solutions begin to occur, with their number increasing as $n$ increases.
+In Figure~\ref{fig::ip_lp_set_geometric} solutions which are $LP$ feasible may be integral or fractional. The results in Table~\ref{tab::linear_program_outcomes} demonstrate both cases. When $H$ exists, an integral $LP$ solution corresponds to a feasible point in $\mathcal{F}_{IP}$, while a fractional $LP$ solution lies in $\mathcal{F}_{LP} \setminus \mathcal{F}_{IP}$. For $n=3$ and $n=4$, all instances for which $H$ exists have integral $LP$ solutions. From $n=5$ onwards, fractional solutions begin to occur, with their number increasing as $n$ increases.
 
-When $H$ does not exist, two outcomes are observed. An $LP$-infeasible instance has no point in $\mathcal{F}*{LP}$, and therefore cannot contain a feasible integer solution. Alternatively, the $LP$ may remain feasible but return a fractional solution, placing the solution in $\mathcal{F}*{LP} \setminus \mathcal{F}*{IP}$. The number of such fractional solutions also increases with $n$. 
+When $H$ does not exist, two outcomes are observed. An $LP$ infeasible instance has $\mathcal{F}_{LP} = \varnothing$, and therefore cannot contain a feasible integer solution. Alternatively, the $LP$ may remain feasible but return a fractional solution, placing the solution in $\mathcal{F}_{LP} \setminus \mathcal{F}_{IP}$. The number of such fractional solutions also increases with $n$. 
 
 These results demonstrate that $LP$ feasibility alone is insufficient to establish the existence of a graph root, since $\mathcal{F}_{LP}$ may contain both integral and fractional solutions. This is to be expected as LPs are solvable in polynomial time, but \textbf{SQUARE} is $\mathbf{NP}$-complete. Fractional solutions arise because the linear relaxation weakens the integrality restrictions of the integer program, allowing variables that are binary in the integer formulation to take values in the continuous interval $[0,1]$.
 
@@ -1170,7 +1179,7 @@ The following proposition establishes that whenever a graph root exists, the lin
 
 \section{Min Linear Program} \label{sec::min_linear_program}
 
-Consider the addition of an objective function maximizing the total weights on all edges to the linear relaxation defined in Section~\ref{sec::linear_program_relaxation} 
+Consider the replacement of Equation~\ref{eq::integer_objective_function} with an objective function that minimizes the total weights on all edges to the linear relaxation defined in Section~\ref{sec::linear_program_relaxation} 
 \begin{equation} \label{eq::min_obj_function}
   \min \sum_{i=1}^{n} \sum_{j=1}^{n} x_{ij}.
 \end{equation}
@@ -1184,8 +1193,8 @@ This relaxation however yields more fractional solutions, as illustrated in Tabl
   \begin{tabular}{c|cc|cc}
   \hline
   $n$ & \multicolumn{2}{c|}{$H$ exists} & \multicolumn{2}{c}{$H$ does not exist} \\
-  & \text{LP integral solution} & \text{LP fractional solution}
-  & \text{LP infeasible} & \text{LP fractional solution} \\
+  & \text{$LP$ integral solution} & \text{$LP$ fractional solution}
+  & \text{$LP$ infeasible} & \text{$LP$ fractional solution} \\
   \hline
   3 & 2  & 1   & 1    & 0    \\
   4 & 3  & 3   & 5    & 0    \\
@@ -1195,98 +1204,118 @@ This relaxation however yields more fractional solutions, as illustrated in Tabl
   8 & 7  & 300 & 9380 & 2659 \\
   \hline
   \end{tabular}
-  \caption{LP outcomes for different values of $n$ on the linear program with min objective function.}
+  \caption{$LP$ outcomes for different values of $n$ on the linear program with min objective function.}
   \label{tab::min_objective_function_outcomes}
 \end{table}
 
 \begin{figure}[ht]
     \centering
-    \begin{subfigure}{0.28\textwidth}
+    \begin{subfigure}{0.24\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/K6.png}
         \caption{$K_6$.}
         \label{fig::K6_square}
     \end{subfigure}
-    \hspace{0.20\textwidth}
-    \begin{subfigure}{0.30\textwidth}
+    \hfill
+    \begin{subfigure}{0.27\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/K6_fractional.png}
-        \caption{$\min \mathcal{LP}(G)$ result from $K_6$ input.}
+        \caption{$\min \mathcal{LP}(G)$ of $K_6$.}
         \label{fig::K6_fractional_root}
     \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.22\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/min_fractional_clique_example_square.png}
+        \caption{$K_6 \backslash \{13, 25\}$.}
+        \label{fig::min_fractional_clique_example_square}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.21\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/min_fractional_clique_example_root.png}
+        \caption{$\min \mathcal{LP}(G)$ of $K_6 \backslash \{13, 25\}$.}
+        \label{fig::min_fractional_clique_example_root}
+    \end{subfigure}
 
-    \caption{For the square graph $K_6$, the result of $\min \mathcal{LP}(G)$ is completely fractional with all edges having weight $\displaystyle \frac{1}{5}$.}
+    \caption{For the square graph $K_6$, the result of $\min \mathcal{LP}(G)$ is completely fractional with all edges having weight $\displaystyle \frac{1}{5}$. For the square graph $K_6 \backslash \{13, 25\}$, the result of $\min \mathcal{LP}(G)$ is completely fractional with all edges having weight $\displaystyle \frac{1}{3}$}
     \label{fig::K6_example}
 \end{figure}
 
 The behaviour of the weights observed in Figure~\ref{fig::K6_example} motivates the following proposition. 
 
-\begin{proposition} \label{prop::unique_maximal_clique_minimizer}
-  Let $G$ be a graph and let $C\cong K_k$ be a maximal clique of $G$.
-  Consider the clique-restricted problem induced by the constraints
+\begin{proposition} \label{prop::unique_symmetric_minimizer}
+  Let $G$ be a graph. For every edge $uv\in E_G$, let $t_{uv}$ be the
+  number of vertices in a smallest maximal clique of $G$ containing
+  $uv$. Then the unique symmetric minimizer of $\min\mathcal{LP}(G)$
+  is given by
   \[
-  \sum_{j\in V_C\setminus\{i\}}x_{ij}\ge1, \quad i\in V_C.
-  \]
-  Among solutions symmetric on $C$, the unique minimizer of
-  \[
-  \sum_{ij\in E_C}x_{ij}
-  \]
-  is
-  \[
-  x_{ij}=\frac{1}{k-1} \quad \forall ij\in E_C.
+  x_{uv}=\frac{1}{t_{uv}-1}.
   \]
 \end{proposition}
 \begin{proof}
-  Restrict to solutions symmetric on $C$, so that
+  First consider a maximal clique of size $2$. Such a clique consists of a single edge $uv$, and no larger clique contains it. In the square graph, a $K_2$ maximal clique can occur only when its edge forms an isolated component of $G$. If $u$ or $v$ had another other neighbour, that neighbour together with $u$ and $v$ would form a triangle containing $uv$, contradicting the maximality of $uv$. Hence $uv$ is an isolated component, and it must be its own root, so its value is integral and satisfies
   \[
-  x_{ij}=t
-  \qquad\forall ij\in E_C
+  x_{uv}=1 = \frac{1}{t_{uv}-1}.
   \]
-  for some $t\ge0$. Since every vertex of $C\cong K_k$ has
-  $k-1$ neighbours in $C$, each clique constraint becomes
+  Now let $C\cong K_k$ be a maximal clique with $k \geq 3$. Fix $i \in V_C$. Since $C$ is complete, we have $g_{ij}=1$ for every $j \in V_C\setminus\{i\}$. Hence, by the indicator constraints Equations~\eqref{eq::IP_indicator_upper}--\eqref{eq::IP_indicator_lower}, for every $j\in V_C\setminus\{i\}$
   \[
-  (k-1)t\ge1.
+  x_{ij}+\sum_{\ell=1}^{n}y_{i\ell j} = z_{ij} \geq g_{ij}=1.
   \]
-  Hence
+  Since $C$ is complete, every length-two connection $i-\ell-j$ between vertices of $C$ uses an edge incident with $i$ in $C$. The product constraints $y_{i\ell j}\leq x_{i\ell}$ therefore imply that the constraints for the vertices of $C$ require
   \[
-  t\ge\frac{1}{k-1}.
+  \sum_{j\in V_C\setminus\{i\}}x_{ij} \geq 1.
   \]
-  The clique-restricted objective is
+  Summing this inequality over all $i\in V_C$ and using $x_{ij}=x_{ji}$ gives $\displaystyle 2\sum_{ij\in E_C}x_{ij} \geq k$, and hence
   \[
-  \sum_{ij\in E_C}x_{ij}
-  =\binom{k}{2}t.
+  \sum_{ij\in E_C}x_{ij}\geq\frac{k}{2}.
   \]
-  Since this is increasing in $t$, it is minimized by the smallest
-  feasible value,
+  Restrict to solutions that are symmetric on $C$ and invariant under all permutations of $V_C$. Since every edge of $K_k$ is equivalent under a permutation of $V_C$, symmetry forces all edges of $C$ to take the same value. Thus, for some $t \geq 0$,
+  \[
+  x_{ij}=t \quad \text{for all } ij \in E_C.
+  \]
+  For any $i\in V_C$, the clique constraint becomes $ \displaystyle  \sum_{j\in V_C\setminus\{i\}}x_{ij} = (k-1)t  \geq 1$,
+  and so
+  \[
+  t\geq\frac{1}{k-1}.
+  \]
+  The contribution of the clique edges to the objective function is $ \displaystyle \sum_{ij\in E_C}x_{ij} = \binom{k}{2}t$. This is strictly increasing in $t$, so the unique symmetric minimizer of the objective function is obtained by taking the smallest feasible value,
   \[
   t=\frac{1}{k-1}.
   \]
-  Therefore the unique symmetric minimizer is
+  Therefore, among solutions symmetric on $C$, $\displaystyle x_{ij}=\frac{1}{k-1}$ for every $ij \in E_C$. Now suppose that an edge $ij$ belongs to several maximal cliques $C_1,\ldots,C_r$, with $|C_t|=k_t$. If all $k_t=2$, then $ij$ is an isolated $K_2$ component and the value $x_{ij}=1$ is integral, as handled above. Otherwise, assume $k_t\geq 3$ for at least one $t$. Symmetry on each $C_t$ forces
   \[
-  x_{ij}=\frac{1}{k-1}
-  \qquad\forall ij\in E_C.
+  x_{ij}=\frac{1}{k_t-1} \quad \text{for all } t=1,\ldots,r.
   \]
+  Since a single variable cannot take several distinct values, symmetry forces the largest of these required values. Hence, when maximal cliques share an edge, the smallest clique determines the fractional value of the shared edge, and
+  \[
+  x_{ij} = \max_{1\leq t\leq r}\frac{1}{k_t-1} = \frac{1}{t_{ij}-1},
+  \]
+  where $t_{ij}=\min_t k_t$ is the number of vertices in a smallest maximal clique of $G$ containing $ij$.
+
+  Combining the trivial $K_2$ case with the nontrivial $k \geq 3$ case, the unique symmetric minimizer of $\min\mathcal{LP}(G)$ is
+  \[
+  x_{uv}=\frac{1}{t_{uv}-1} \quad \text{for all } uv\in E_G,
+  \]
+  where $t_{uv}$ is the number of vertices in a smallest maximal clique of $G$ containing $uv$.
 \end{proof}
 
-\begin{conjecture}[Fractional Cliques in $\min \mathcal{LP}(G)$]
-  Let $G$ be a graph and let $x$ be an optimal solution of
-  $\min\mathcal{LP}(G)$. For each edge $ij\in E_G$, define
+Using Proposition~\ref{prop::unique_symmetric_minimizer} we conjecture that the $LP$ will always return a symmetric solution.  
+
+\begin{conjecture}[Fractional Cliques in $\min \mathcal{LP}(G)$] \label{conjecture::fractional_cliques_min_LP}
+  Let $G$ be a graph with $n\geq 3$ vertices. For every edge
+  $uv\in E_G$, let $t_{uv}$ be the number of vertices in a smallest
+  maximal clique of $G$ containing $uv$. Then $\min\mathcal{LP}(G)$
+  returns the solution given by
   \[
-  t_{ij}
-  =
-  \min\{|C|: C\text{ is a maximal clique of }G,\ ij\in E_C\}.
-  \]
-  Then
-  \[
-  x_{ij}=\frac{1}{t_{ij}-1}
-  \qquad\forall ij\in E_G.
+  x_{uv}=\frac{1}{t_{uv}-1} \quad \text{for all } uv \in E_G.
   \]
 \end{conjecture}
 
 
 \section{Max Linear Program} \label{sec::max_linear_program}
 
-Consider the addition of an objective function maximizing the total weights on all edges to the linear relaxation defined by Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::LP_z_variable} in Section~\ref{sec::linear_program_relaxation} 
+Consider the replacement of Equation~\ref{eq::integer_objective_function} with an objective function that maximizes the total weights on all edges to the linear relaxation defined by Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::LP_z_variable} in Section~\ref{sec::linear_program_relaxation} 
 \begin{equation} \label{eq::max_obj_function}
   \max \sum_{i=1}^{n} \sum_{j=1}^{n} x_{ij}.
 \end{equation}
@@ -1300,8 +1329,8 @@ From Table~\ref{tab::max_objective_function_outcomes}, this objective encourages
   \begin{tabular}{c|cc|cc}
   \hline
   $n$ & \multicolumn{2}{c|}{$H$ exists} & \multicolumn{2}{c}{$H$ does not exist} \\
-  & \text{LP integral solution} & \text{LP fractional solution}
-  & \text{LP infeasible} & \text{LP fractional solution} \\
+  & \text{$LP$ integral solution} & \text{$LP$ fractional solution}
+  & \text{$LP$ infeasible} & \text{$LP$ fractional solution} \\
   \hline
   3 & 3   & 0   & 1    & 0    \\
   4 & 6   & 0   & 5    & 0    \\
@@ -1311,7 +1340,7 @@ From Table~\ref{tab::max_objective_function_outcomes}, this objective encourages
   8 & 94  & 213 & 9380 & 2659 \\
   \hline
   \end{tabular}
-  \caption{LP outcomes for different values of $n$ on the linear program with max objective function.}
+  \caption{$LP$ outcomes for different values of $n$ on the linear program with max objective function.}
   \label{tab::max_objective_function_outcomes}
 \end{table}
 
@@ -1354,13 +1383,13 @@ We now establish several fundamental properties of feasible solutions to $\mathc
 
 \section{Leaf Fixing} \label{sec::leaf_fixing}
 
-Two important structures in a tree are used to construct the linear program that fixes the edges of the tree uniquely.
+In this section, we show that every tree contains one of two structural configurations that can be identified from its square $G$. These configurations allow us to identify a leaf, or a group of leaves, and thereby recover a path $s-u-v$ in $H$, where $s$ is a leaf. Once such a path is identified, we can fix the corresponding edge variables and use the resulting constraints to propagate the assignments through the $LP$.
 
 \begin{definition}[Sparse Pendant] \label{def::sparse_pendant}
-  Let $T$ be a tree. A \textbf{sparse pendant} is a path of length three, $s,u,v$ where $s$ is a leaf and $u$ has degree $2$.
+  Let $H$ be a graph. A \textbf{sparse pendant} is a path $s-u-v$ in $H$ such that $s$ is a leaf and $u$ has degree $2$.
 \end{definition}
 \begin{definition}[Pendant Fork] \label{def::pendant_fork}
-  Let $T$ be a tree. A \textbf{pendant fork} is the induced subgraph of $T$ on four vertices $s_1,s_2,u,v$ where $s_1,s_2$ are leaves adjacent to $u$, $v$ is a neighbour of $u$ that is not a leaf.
+  Let $H$ be a graph. A \textbf{pendant fork} is the induced subgraph of $H$ on four vertices $s_1,s_2,u,v$, where $s_1$ and $s_2$ are leaves adjacent to $u$, and every neighbour of $u$ other than $v$ is a leaf.
 \end{definition}
 
 \begin{lemma} \label{lemma::tree_pendant_pendant_fork}
@@ -1538,8 +1567,8 @@ It remains to verify that whenever a root $H$ of $G$ exists, the addition of the
   \begin{tabular}{c|cc|cc}
   \hline
   $n$ & \multicolumn{2}{c|}{$H$ exists} & \multicolumn{2}{c}{$H$ does not exist} \\
-  & \text{LP integral solution} & \text{LP fractional solution}
-  & \text{LP infeasible} & \text{LP fractional solution} \\
+  & \text{$LP$ integral solution} & \text{$LP$ fractional solution}
+  & \text{$LP$ infeasible} & \text{$LP$ fractional solution} \\
   \hline
   3 & 3   & 0   & 1     & 0    \\
   4 & 6   & 0   & 5     & 0    \\
@@ -1580,19 +1609,19 @@ We first show that the unicliqual vertex linear program will always fix a sparse
 
 \input{subfiles/TreeProof.tex}
 
-\chapter{Further Work}
+\chapter{Further Work} \label{chap::further_work}
 
 In this chapter, we discuss additional work, further concepts, and interesting ideas arising from structural properties that the square graph intrinsically possesses. 
 
 Previous methods for solving specific classes of roots have been developed by augmenting the linear programming framework with additional constraints and objective functions. Nevertheless, integrating known polynomial-time solutions for trees into an overall framework, while maintaining the internal consistency that valid square graphs must always correspond to feasible instances, does not appear to justify the use of a comparatively complex polynomial-time framework such as the interior-point method. 
 
-It is, however, possible to construct stronger exact algorithms by performing a polynomial number of runs of the linear program. Each run can be used to identify additional structural information, fix variables, or further restrict the possible solutions before solving the resulting instance again. This may provide a useful mechanism through which improvements to the base linear program can have a much greater effect than the improvement obtained from a single LP solution alone. In particular, a stronger base program provides more integral variables and structural information, which can then be propagated through subsequent runs of the LP relaxation.
+It is, however, possible to construct stronger exact algorithms by performing a polynomial number of runs of the linear program. Each run can be used to identify additional structural information, fix variables, or further restrict the possible solutions before solving the resulting instance again. This may provide a useful mechanism through which improvements to the base linear program can have a much greater effect than the improvement obtained from a single $LP$ solution alone. In particular, a stronger base program provides more integral variables and structural information, which can then be propagated through subsequent runs of the $LP$ relaxation.
 
 The following sections illustrate several directions in which this can be explored. 
 
 \section{Vertex Deletion} \label{sec::vertex_deletion}
 
-We can use an LP to find the set of all graphs on $n \leq 5$ vertices that admit a root. From Table~\eqref{tab::unicliqual_vertex_linear_program_outcomes} all square graphs can be completely categorized for small $n$, such that, whenever a root $H$ exists, an integral solution is obtained, while whenever no root $H$ exists, the linear program is infeasible. 
+We can use an $LP$ to find the set of all graphs on $n \leq 5$ vertices that admit a root. From Table~\eqref{tab::unicliqual_vertex_linear_program_outcomes} all square graphs can be completely categorized for small $n$, such that, whenever a root $H$ exists, an integral solution is obtained, while whenever no root $H$ exists, the linear program is infeasible. 
 
 In particular, consider arbitrarily removing a vertex from $G$ and applying the same linear program to the resulting subgraph. If the subgraph has an integral solution, this provides structural information about a possible root on the reduced vertex set. We may then fix a partial solution using vertices whose root edges are not generated by a $P_2$ whose middle vertex is the removed vertex. The natural question is whether this information can subsequently be used to constrain the original graph when the deleted vertex is reintroduced.
 
@@ -1600,12 +1629,12 @@ More specifically, if deleting a vertex produces a graph for which the linear pr
 
 Let $G^-$ be the subgraph of $G$ defined by $\displaystyle V^- = V - {v}, E_{G^-} =  \{ E_G \backslash {uv \mid u \in V^-} \}$. If $G^-$ admits a valid square root, denote it by $H^-$. Let $H$ be a square root of $G$ satisfying $H^2=G$, and let $H_-$ be the subgraph of $H$ obtained by deleting $v$, defined by $\displaystyle V^-, \{ E_H \backslash {uv \mid u \in V^-}\}$. 
 
-In general, $H_-$ need not be a square root of $G^-$, since the deletion of $v$ from $H$ may remove copies of $P_2$ between vertices in $V^-$ which results in $\left(H_-\right)^2\neq G^-$. Nevertheless, an integral solution of the LP for $G^-$ provides a candidate set of root edges on $V^-$ which can be used to refine the LP for $G$. 
+In general, $H_-$ need not be a square root of $G^-$, since the deletion of $v$ from $H$ may remove copies of $P_2$ between vertices in $V^-$ which results in $\left(H_-\right)^2\neq G^-$. Nevertheless, an integral solution of the $LP$ for $G^-$ provides a candidate set of root edges on $V^-$ which can be used to refine the $LP$ for $G$. 
 
 \begin{algorithm} \caption{Vertex-Deletion Linear Program} \label{algo:vertex_deletion}
   \begin{algorithmic}[1]
     \State \textbf{Input:} A graph $G$
-    \State \textbf{Output:} A LP model $(m,x)$
+    \State \textbf{Output:} A $LP$ model $(m,x)$
     \State Construct and solve $\mathcal{LP}(G)$.
     \If{$\mathcal{LP}(G)$ is integral}
         \State \Return $(m,x)$
@@ -1623,10 +1652,10 @@ In general, $H_-$ need not be a square root of $G^-$, since the deletion of $v$ 
     \EndIf
     \State Construct a new copy of $\mathcal{LP}(G)$ and impose $x_{ab}=x_{ba}=1$ for every $\{a,b\}\in F$ and every $ab\in E_{H^-}$.
     \State Solve the modified LP.
-    \If{the modified LP is infeasible}
+    \If{the modified $LP$ is infeasible}
         \State \Return $(m,x)$
     \Else
-        \State \Return the modified LP solution $(m,x)$
+        \State \Return the modified $LP$ solution $(m,x)$
     \EndIf
   \end{algorithmic}
 \end{algorithm}
@@ -1636,8 +1665,8 @@ In general, $H_-$ need not be a square root of $G^-$, since the deletion of $v$ 
   \begin{tabular}{c|cc|cc}
   \hline
   $n$ & \multicolumn{2}{c|}{$H$ exists} & \multicolumn{2}{c}{$H$ does not exist} \\
-  & \text{LP integral solution} & \text{LP fractional solution}
-  & \text{LP infeasible} & \text{LP fractional solution} \\
+  & \text{$LP$ integral solution} & \text{$LP$ fractional solution}
+  & \text{$LP$ infeasible} & \text{$LP$ fractional solution} \\
   \hline
   3 & 3   & 0   & 1     & 0    \\
   4 & 6   & 0   & 5     & 0    \\
@@ -1654,7 +1683,7 @@ In general, $H_-$ need not be a square root of $G^-$, since the deletion of $v$ 
 
 The recursive algorithm works as follows.
 \begin{enumerate}[label=\roman*)]
-  \item Solve $\mathcal{LP}(G)$. If the LP is infeasible, the procedure terminates. If the LP is integral, the corresponding graph is retained as a candidate square root and the procedure terminates. Otherwise, let $\displaystyle F\subseteq\binom{V}{2}$ denote the set of unordered vertex pairs for which the solution satisfies $x_{ab}=x_{ba}=1$.
+  \item Solve $\mathcal{LP}(G)$. If the $LP$ is infeasible, the procedure terminates. If the $LP$ is integral, the corresponding graph is retained as a candidate square root and the procedure terminates. Otherwise, let $\displaystyle F\subseteq\binom{V}{2}$ denote the set of unordered vertex pairs for which the solution satisfies $x_{ab}=x_{ba}=1$.
   \item For each $u\in V$, define its unfixed degree with respect to $F$ to be $d_F(u)=\{w \in N_G(u):{u,w} \notin F\}$. Choose a vertex $\displaystyle v \in \arg\min_{u \in V} \{d_F(u)\}$ and construct $G^-=G-v$ by deleting $v$ and all edges incident to $v$. Let $V^-=V\setminus{v}$ and let
   $F^-={{a,b}\in F,b\in V^-}$ denote the fixing inherited by $G^-$.
   \item Solve $\mathcal{LP}(G^-) + F^-$, which is $G^-$ with the additional fixing $F^-$.
@@ -1666,7 +1695,7 @@ The recursive algorithm works as follows.
   \item If an integral candidate $H^-$ has been obtained, construct $\mathcal{LP}(G\mid F,H^-)$ by taking $\mathcal{LP}(G)$ and imposing $x_{ab}=x_{ba}=1$ for every ${a,b}\in F$ and every pair $ \displaystyle {a,b}\in\binom{V^-}{2}$ such that $ab\in E_{H^-}$. No additional constraint is imposed on pairs for which $ab\notin E_{H^-}$, and the variables corresponding to pairs involving $v$ remain unrestricted apart from the fixing induced by $F$.
   \item Solve $\mathcal{LP}(G\mid F,H^-)$.
     \begin{enumerate}
-      \item If $\mathcal{LP}(G\mid F,H^-)$ is feasible, the fixing obtained from $H^-$ is consistent with the LP formulation for $G$, and the resulting solution is retained.
+      \item If $\mathcal{LP}(G\mid F,H^-)$ is feasible, the fixing obtained from $H^-$ is consistent with the $LP$ formulation for $G$, and the resulting solution is retained.
       \item If $\mathcal{LP}(G\mid F,H^-)$ is infeasible, the candidate $H^-$ is discarded. This does not imply that $\mathcal{LP}(G)$ is infeasible; it only shows that the candidate root structure $H^-$ is incompatible with the current fixing for $G$.
     \end{enumerate}
   \item \label{step:no_integral_hminus} If no integral candidate $H^-$ is obtained from $\mathcal{LP}(G^-)+F^-$ or from the recursive application to $G^-$, then no further fixing is obtained from the vertex deletion step. The current feasible solution of $\mathcal{LP}(G)$ is retained, and the procedure terminates.
@@ -1678,8 +1707,8 @@ The recursive algorithm works as follows.
   \begin{tabular}{c|cc|cc}
   \hline
   $n$ & \multicolumn{2}{c|}{$H$ exists} & \multicolumn{2}{c}{$H$ does not exist} \\
-  & \text{LP integral solution} & \text{LP fractional solution}
-  & \text{LP infeasible} & \text{LP fractional solution} \\
+  & \text{$LP$ integral solution} & \text{$LP$ fractional solution}
+  & \text{$LP$ infeasible} & \text{$LP$ fractional solution} \\
   \hline
   3 & 3   & 0   & 1     & 0    \\
   4 & 6   & 0   & 5     & 0    \\
@@ -1693,17 +1722,17 @@ The recursive algorithm works as follows.
   \label{tab::vertex_deletion_recursive_program_outcomes}
 \end{table}
 
-If the candidate $H^-$ is discarded, instead of applying Step~\ref{step:no_integral_hminus}, consider the remaining square roots of $G^-$, taking one representative from each possible non-isomorphic solution. For each such root $H'$, construct $\mathcal{LP}(G \mid F,H')$ by imposing $x_{ab}=x_{ba}=1$ for every ${a,b}\in\binom{V^-}{2}$ such that $ab\in E_{H'}$, in addition to the fixing induced by $F$. If the resulting LP is feasible, the corresponding solution is retained.
+If the candidate $H^-$ is discarded, instead of applying Step~\ref{step:no_integral_hminus}, consider the remaining square roots of $G^-$, taking one representative from each possible non-isomorphic solution. For each such root $H'$, construct $\mathcal{LP}(G \mid F,H')$ by imposing $x_{ab}=x_{ba}=1$ for every ${a,b}\in\binom{V^-}{2}$ such that $ab\in E_{H'}$, in addition to the fixing induced by $F$. If the resulting $LP$ is feasible, the corresponding solution is retained.
 
-The intuition behind this step is that the linear program only finds a single solution, while there may be many distinct, non-isomorphic solutions. Hence, although fixing a subgraph obtained from the LP may be useful, the particular subgraph selected by the LP may not correspond to the subgraph required to continue the reconstruction of a square root. Resolving this issue would require a polynomial-time method for identifying an appropriate subgraph among the possible solutions, which is not provided by the current enumerative implementation. Hence, the resulting approach is not polynomial in its current form. Nevertheless, the approach shows very strong improvements in practice as can be seen in Table~\ref{tab::vertex_deletion_recursive_enumerate_subgraphs_program_outcomes}.
+The intuition behind this step is that the linear program only finds a single solution, while there may be many distinct, non-isomorphic solutions. Hence, although fixing a subgraph obtained from the $LP$ may be useful, the particular subgraph selected by the $LP$ may not correspond to the subgraph required to continue the reconstruction of a square root. Resolving this issue would require a polynomial-time method for identifying an appropriate subgraph among the possible solutions, which is not provided by the current enumerative implementation. Hence, the resulting approach is not polynomial in its current form. Nevertheless, the approach shows very strong improvements in practice as can be seen in Table~\ref{tab::vertex_deletion_recursive_enumerate_subgraphs_program_outcomes}.
 
 \begin{table}[!htbp]
   \centering
   \begin{tabular}{c|cc|cc}
   \hline
   $n$ & \multicolumn{2}{c|}{$H$ exists} & \multicolumn{2}{c}{$H$ does not exist} \\
-  & \text{LP integral solution} & \text{LP fractional solution}
-  & \text{LP infeasible} & \text{LP fractional solution} \\
+  & \text{$LP$ integral solution} & \text{$LP$ fractional solution}
+  & \text{$LP$ infeasible} & \text{$LP$ fractional solution} \\
   \hline
   3 & 3   & 0   & 1     & 0    \\
   4 & 6   & 0   & 5     & 0    \\
@@ -1721,7 +1750,7 @@ The intuition behind this step is that the linear program only finds a single so
 
 Lemma~\ref{lemma::g_ab=0,two_edge_sum} gives structure into the feasible solution of the LP. Using the maximization objective function Lemma~\ref{lemma::g_ab=0,two_edge_sum}, if $g_{ij}=g_{jk}=1$$G$ but $g_{ki}=0$, $x_{ij} + x_{jk} \leq 1$. 
 
-If one could determine when this holds with equality $x_{ij} + x_{jk} = 1$, this would enable $x_{ij}, x_{jk}$ to be easily categorized since if one is $0$ then the other is necessarily $1$. In particular, this may be useful in resolving scenarios where the maximum fractional objective function is greater than the optimal integer objective function corresponding to a valid square root. 
+If one could determine when this holds with equality $x_{ij} + x_{jk} = 1$, this would enable $x_{ij}, x_{jk}$ to be easily categorized since if one is $0$ then the other is necessarily $1$. 
 
 \begin{conjecture} \label{conjecture::two_edges_linear_maximization}
   Let $G$ and $H$ be graphs such that $G = H^2$. Let $a,b \in V_G$ such that $ab \notin E_G$. For every feasible solution $x$ of $\max \mathcal{LP}(G)$ and every $v \in V_G$ with $v \neq a,b$ we have
@@ -1763,18 +1792,19 @@ If one could determine when this holds with equality $x_{ij} + x_{jk} = 1$, this
     \label{fig::130_6}
 \end{figure}
 
-Consider Figure~\ref{fig::130_6} where $G_1$ is the unique root with maximum objective value. Assigning $\alpha = x_{14}$ gives using Conjecture~\eqref{conjecture::two_edges_linear_maximization} that $1 - \alpha = x_{40}$ since $g_{01} = 0$. The same applies such that $1 - \alpha = x_{42}$ and $\alpha = x_{43}$, whereby the existence of edges $g_{13}=g_{02}=1$ prevent additional constraints being imposed upon $\alpha$ and ensure it is internally consistent. By symmetry can likewise assign $\beta = x_{15} = x_{35}$ and $1 - \beta = x_{50} = x_{52}$. Setting $\alpha = 0$ and $\beta = 1$ thus gives $x_{40} = x_{42} = x_{15} = x_{35} = 1$ and $x_{14} = x_{43} = x_{50} = x_{52} = 0$ which with the additioanl of $x_{45}=1$ gives Figure~\ref{fig::130_6_root_3}. In this example, both $\{(1,4), (4,0), (4,2), (4,3) \}$ and $\{(1,5), (3,5), (5,0), (5,2)\}$ are consistent sets. 
+Consider Figure~\ref{fig::130_6} where $G_1$ is the unique root with maximum objective value. Assigning $\alpha = x_{14}$ gives using Conjecture~\eqref{conjecture::two_edges_linear_maximization} that $1 - \alpha = x_{40}$ since $g_{01} = 0$. The same applies such that $1 - \alpha = x_{42}$ and $\alpha = x_{43}$, whereby the existence of edges $g_{13}=g_{02}=1$ prevent additional constraints being imposed upon $\alpha$ and ensure it is internally consistent. By symmetry can likewise assign $\beta = x_{15} = x_{35}$ and $1 - \beta = x_{50} = x_{52}$. Setting $\alpha = 0$ and $\beta = 1$ thus gives $x_{40} = x_{42} = x_{15} = x_{35} = 1$ and $x_{14} = x_{43} = x_{50} = x_{52} = 0$ which with the addition of $x_{45}=1$ gives Figure~\ref{fig::130_6_root_3}. In this example, both $\{(1,4), (4,0), (4,2), (4,3) \}$ and $\{(1,5), (3,5), (5,0), (5,2)\}$ are consistent sets. 
 
-To formalise this two-colouring structure, we define an auxiliary graph that represents the relationships between edges of $G$. Let $\operatorname{Aux}(G)$ be the graph whose vertices correspond to the edges of $G$. Two vertices of $\operatorname{Aux}(G)$ are adjacent whenever their corresponding edges in $G$ form a $P_2$ for which the $=1$ case of Conjecture~\eqref{conjecture::two_edges_linear_maximization} holds. Thus, if the corresponding edges are $av$ and $vb$, then
+To formalise this two-colouring structure, we work directly with subsets of $E_G$ and the $=1$ case of Conjecture~\eqref{conjecture::two_edges_linear_maximization}. Two distinct edges $e,f\in E_G$ are said to be \emph{$=1$-related} if they form a $P_2$ in $G$ and, for every feasible solution $x$ of $\max\mathcal{LP}(G)$, the corresponding edge variables satisfy
 \[
-x_{av}+x_{vb}=1.
+x_e+x_f=1.
 \]
-Consequently, if $x_{av}=\alpha$ then $x_{vb}=1-\alpha$, and adjacent vertices of $\operatorname{Aux}(G)$ must receive different colours.
-
-For the graph in Figure~\ref{fig::130_6}, the auxiliary graph contains three disconnected bipartite components, corresponding to the three consistent sets. The two colour classes within each component represent the complementary values associated with a separate parameter $\alpha$, $\beta$, or $\gamma$. Thus, the edge variables in the first consistent set are assigned $\alpha$ or $1-\alpha$, those in the second are assigned $\beta$ or $1-\beta$, and those in the third are assigned $\gamma$ or $1-\gamma$. Since the components are disconnected, these three assignments are independent.
 
 \begin{definition}[Consistent Set] \label{def::consistent_set}
-  A \textbf{consistent set} $\mathcal{CS}(G)\subseteq E_G$ is a maximal set containing at least three edges whose corresponding vertices induce a connected bipartite subgraph of $\operatorname{Aux}(G)$.
+  Let $E'\subseteq E_G$ be a maximal subset with $|E'|\geq 3$ such that, for every $e\in E'$, there exists $f \in E'$ such that $e$ and $f$ satisfy the $=1$ relationship. We call $E'$ a \textbf{consistent set} if there exists a partition
+  \[
+  E'=A\cup B,\quad A\cap B=\varnothing,
+  \]
+  into nonempty sets $A$ and $B$ such that, for all $e,e'\in A$, the edges $e$ and $e'$ do not form a $P_2$ in $G$, and for all $f,f'\in B$, the edges $f$ and $f'$ do not form a $P_2$ in $G$.
 \end{definition}
 
 \begin{figure}[ht]
@@ -1799,10 +1829,14 @@ For the graph in Figure~\ref{fig::130_6}, the auxiliary graph contains three dis
 
 Consider Figure~\ref{fig::115_6} where assigning $\alpha = x_{03}$ gives using Conjecture~\eqref{conjecture::two_edges_linear_maximization} that $x_{31} = 1 - \alpha$ since $g_{01} = 0$. Likewise as $g_{12} = 0$ have $x_{32} = \alpha$ and $x_{03} + x_{32} \leq 1$ such that $\displaystyle \alpha \leq \frac{1}{2}$. By symmetry this likewise holds for $\beta = x_{05} = x_{15}$, $1-\beta = x_{52}$ and $\gamma = x_{42} = x_{41}$, $1-\gamma = x_{40}$ giving $\displaystyle \beta, \gamma \leq \frac{1}{2}$. 
 
-Maximizing the objective function thus gives $\displaystyle \alpha=\beta=\gamma=\frac{1}{2}$ which is a fractional solution. It necessitates the arbitrarily fixing of edges to give a valid integral solution. Setting $\alpha=\beta=\gamma=0$ with $x_{31}=x_{52}=x_{40} = 1$ and the remaining to $0$ gives the solution Figure~\ref{fig::115_6_root}, yet this is not doable in general. In this example, all of $\{(0,3), (3,1), (3,2) \}$, $\{(0,5), (1,5), (5,2)\}$ and $\{(4,2), (4,1), (4,0)\}$ are inconsistent sets. 
+Maximizing the objective function thus gives $\displaystyle \alpha=\beta=\gamma=\frac{1}{2}$ which is a fractional solution. To obtain an integral solution, one must instead select which edges within each inconsistent set are assigned value $1$. For example, setting $\alpha=\beta=\gamma=0$ with $x_{31}=x_{52}=x_{40} = 1$ and the remaining to $0$ gives the solution Figure~\ref{fig::115_6_root}, yet this is not doable in general. In this example, all of $\{(0,3), (3,1), (3,2) \}$, $\{(0,5), (1,5), (5,2)\}$ and $\{(4,2), (4,1), (4,0)\}$ are inconsistent sets. 
 
 \begin{definition}[Inconsistent Set] \label{def::inconsistent_set}
-  Let an \textbf{inconsistent set} $\mathcal{IS}(G) \subseteq E_G$ be a set with at least three edges such that every pair of edges in $\mathcal{IS}(G)$ satisfies the equality with value $1$ in Conjecture~\eqref{conjecture::two_edges_linear_maximization}, but does not admit a valid $2$-colouring. That is, there is no assignment of $\alpha$ and $1-\alpha$ to the edges of $\mathcal{IS}(G)$ that simultaneously satisfies all equalities in the set. In particular, if a pair of edges is required to have the same value, then the equality $\alpha + \alpha \leq 1$ implies $\displaystyle 0 \leq \alpha \leq \frac{1}{2}$ or $1 - \alpha + 1 - \alpha \leq 1$ such that $\displaystyle 1 \geq \alpha \geq \frac{1}{2}$. 
+  Let $E'\subseteq E_G$ be a maximal subset with $|E'|\geq 3$ such that, for every $e\in E'$, there exists $f\in E'$ such that $e$ and $f$ satisfy the $=1$ relationship. We call $E'$ an \textbf{inconsistent set} if there is no partition
+  \[
+  E'=A\cup B,\quad A\cap B=\varnothing,
+  \]
+  into nonempty sets $A$ and $B$ such that, for all $e,e'\in A$, the edges $e$ and $e'$ do not form a $P_2$ in $G$, and, for all $f,f'\in B$, the edges $f$ and $f'$ do not form a $P_2$ in $G$.
 \end{definition}
 
 \begin{conjecture} \label{conjecture::consistent_set_conjecture}
@@ -1820,28 +1854,28 @@ k=O(\log n)$, since then
 \[
 2^k=2^{O(\log n)}=n^{O(1)}.
 \]
-Hence, instead of exploring the full set, the greedy algorithm explores at most two LP feasibility tests for the selected group before moving to the next group and therefore avoids the exponential branching over combinations of consistent sets. 
+Hence, instead of exploring the full set, the greedy algorithm explores at most two $LP$ feasibility tests for the selected group before moving to the next group and therefore avoids the exponential branching over combinations of consistent sets. 
 
 \begin{algorithm} \caption{Greedy edge enforcement}
 \label{algorithm::greedy_edge_enforcement}
   \begin{algorithmic}[1]
     \State \textbf{Input:} A graph $G$
-    \State \textbf{Output:} A LP model $(m,x)$
+    \State \textbf{Output:} A $LP$ model $(m,x)$
     \State Construct and solve $\mathcal{LP}(G)$.
     \State Identify the consistent sets and inconsistent sets.
     \State Mark all sets as unfixed.
-    \While{the current LP solution is fractional}
+    \While{the current $LP$ solution is fractional}
       \If{there is an unfixed consistent set}
           \State Select a consistent set $C$.
           \State Let $a$ be the symbol associated with $C$.
           \State Add the constraint $a=0$ and solve the LP.
-          \If{the resulting LP is feasible}
+          \If{the resulting $LP$ is feasible}
               \State Keep the constraint $a=0$.
           \Else
               \State Remove the constraint $a=0$.
               \State Add the constraint $a=1$ and solve the LP.
 
-              \If{the resulting LP is feasible}
+              \If{the resulting $LP$ is feasible}
                   \State Keep the constraint $a=1$.
               \Else
                   \State Remove the constraint $a=1$.
@@ -1853,12 +1887,12 @@ Hence, instead of exploring the full set, the greedy algorithm explores at most 
           \State Select an inconsistent set and identify a star
           \State with centre $v$.
           \State Order the edges of the star according to their
-          \State current LP values, considering the most integral edge first.
+          \State current $LP$ values, considering the most integral edge first.
 
           \For{each edge $e$ of the selected star}
               \State Add the constraint $x_e=1$ and solve the LP.
 
-              \If{the resulting LP is feasible}
+              \If{the resulting $LP$ is feasible}
                   \State Keep the constraint $x_e=1$.
                   \State Mark the inconsistent set as fixed.
                   \State \textbf{break}.
@@ -1870,7 +1904,7 @@ Hence, instead of exploring the full set, the greedy algorithm explores at most 
           \State \textbf{break}.
       \EndIf
     \EndWhile
-    \State \Return the resulting LP model.
+    \State \Return the resulting $LP$ model.
   \end{algorithmic}
 \end{algorithm}
 
@@ -1881,8 +1915,8 @@ This gives the results in Table~\ref{tab::max_edge_enforcement_program_outcomes}
     \begin{tabular}{c|cc|cc}
     \hline
     $n$ & \multicolumn{2}{c|}{$H$ exists} & \multicolumn{2}{c}{$H$ does not exist} \\
-    & \text{LP integral solution} & \text{LP fractional solution}
-    & \text{LP infeasible} & \text{LP fractional solution} \\
+    & \text{$LP$ integral solution} & \text{$LP$ fractional solution}
+    & \text{$LP$ infeasible} & \text{$LP$ fractional solution} \\
     \hline
     3 & 3   & 0   & 1     & 0    \\
     4 & 6   & 0   & 5     & 0    \\
@@ -1931,7 +1965,7 @@ In this scenario, the dual is tight and gives exactly the same objective functio
         7 & \text{Does not exist} & \text{Infeasible} & \text{Infeasible} & 767 \\
         \hline
     \end{tabular}
-    \caption{Primal and dual LP outcomes for graphs of different orders of $n$.}
+    \caption{Primal and dual $LP$ outcomes for graphs of different orders of $n$.}
     \label{tab::primal_dual_outcomes}
 \end{table}
 
@@ -1939,24 +1973,24 @@ It remains to explore this more by investigating the structure of the optimal du
 
 \section{Rounding} \label{sec::rounding}
 
-Finally, we consider a simple heuristic for further refining fractional LP solutions - rounding. Since each edge variable takes a value in $[0,1]$,  many strategies are possible, ranging from probabilistic rounding to systematically fixing each fractional edge in both possible ways. Because every edge variable must ultimately take a value in $\{0,1\}$ in an integral solution, a more exhaustive approach is to branch on each fractional variable, assigning it one of its two possible integral values. This produces a binary search tree whose depth is bounded by the number of fractional variables.
+Finally, we consider a simple heuristic for further refining fractional $LP$ solutions - rounding. Since each edge variable takes a value in $[0,1]$,  many strategies are possible, ranging from probabilistic rounding to systematically fixing each fractional edge in both possible ways. Because every edge variable must ultimately take a value in $\{0,1\}$ in an integral solution, a more exhaustive approach is to branch on each fractional variable, assigning it one of its two possible integral values. This produces a binary search tree whose depth is bounded by the number of fractional variables.
 
-If the number of fractional variables is bounded by $O(\log n)$, where $n=|V_G|$, then the search tree has at most $2^{O(\log n)}=n^{O(1)}$ leaves. Therefore, provided that the work performed at each node of the search tree is polynomial in $n$, the overall algorithm runs in polynomial time. Classical techniques such as pruning, bounding, and depth-first or breadth-first search may then be leveraged to evaluate all end nodes efficiently: pruning discards branches whose LP bound exceeds the incumbent, bounding limits the depth of exploration, and the search order determines how quickly an integral solution is found. 
+If the number of fractional variables is bounded by $O(\log n)$, where $n=|V_G|$, then the search tree has at most $2^{O(\log n)}=n^{O(1)}$ leaves. Therefore, provided that the work performed at each node of the search tree is polynomial in $n$, the overall algorithm runs in polynomial time. Classical techniques such as pruning, bounding, and depth-first or breadth-first search may then be leveraged to evaluate all end nodes efficiently: pruning discards branches whose $LP$ bound exceeds the incumbent, bounding limits the depth of exploration, and the search order determines how quickly an integral solution is found. 
 
-In Algorithm~\ref{algo::greedy_rounding}, we use only a simple greedy rounding procedure. At each iteration, the current fractional LP solution is examined and a single fractional edge is selected. The selection is based on the distance of its value from $0.5$, so that fractional values closer to $0$ or $1$ are considered first. The selected edge is then fixed to $0$ if its value is below $0.5$ and to $1$ otherwise. The LP is subsequently resolved with all previous fixings retained.
+In Algorithm~\ref{algo::greedy_rounding}, we use only a simple greedy rounding procedure. At each iteration, the current fractional $LP$ solution is examined and a single fractional edge is selected. The selection is based on the distance of its value from $0.5$, so that fractional values closer to $0$ or $1$ are considered first. The selected edge is then fixed to $0$ if its value is below $0.5$ and to $1$ otherwise. The $LP$ is subsequently resolved with all previous fixings retained.
 
-If the resulting LP is infeasible, the rounding procedure terminates and the previous feasible fractional solution is retained. If the resulting LP remains fractional, another fractional edge is selected and the process continues. The procedure terminates when an integral solution is obtained or when no further feasible fixing can be made.
+If the resulting $LP$ is infeasible, the rounding procedure terminates and the previous feasible fractional solution is retained. If the resulting $LP$ remains fractional, another fractional edge is selected and the process continues. The procedure terminates when an integral solution is obtained or when no further feasible fixing can be made.
 
-\begin{algorithm} \caption{Greedy LP Rounding} \label{algo::greedy_rounding}
+\begin{algorithm} \caption{Greedy $LP$ Rounding} \label{algo::greedy_rounding}
   \begin{algorithmic}[1]
     \State \textbf{Input:} A graph $G$
-    \State \textbf{Output:} A LP model $(m,x)$
+    \State \textbf{Output:} A $LP$ model $(m,x)$
 
     \vspace{0.5em}
 
     \State Initialize $F=\emptyset$ and construct $\mathcal{UVLP}(G)$.
     \State Solve $\mathcal{UVLP}(G)$.
-    \While{the current LP solution is fractional}
+    \While{the current $LP$ solution is fractional}
       \State For each fractional edge $ab$, compute its rounding score $ s_{ab}=|x_{ab}-0.5|$.
       \State Select a fractional edge $ab$ with maximum score.
       \State Set
@@ -1981,7 +2015,7 @@ If the resulting LP is infeasible, the rounding procedure terminates and the pre
   \end{algorithmic}
 \end{algorithm}
 
-The procedure is greedy because only one fixing is selected at each iteration and no alternative fixing is explored. Thus, unlike exhaustive rounding or branch-and-bound approaches, it does not construct a binary search tree of possible fixings. Since there are at most $\binom{|V_G|}{2}$ edge variables to fix and each iteration requires one LP solve, the rounding procedure requires at most $O(n^2)$ LP solves. Consequently, as $\mathcal{UVLP}(G)$ can be solved in polynomial time, the greedy rounding procedure is polynomial-time.
+The procedure is greedy because only one fixing is selected at each iteration and no alternative fixing is explored. Thus, unlike exhaustive rounding or branch-and-bound approaches, it does not construct a binary search tree of possible fixings. Since there are at most $\binom{|V_G|}{2}$ edge variables to fix and each iteration requires one $LP$ solve, the rounding procedure requires at most $O(n^2)$ $LP$ solves. Consequently, as $\mathcal{UVLP}(G)$ can be solved in polynomial time, the greedy rounding procedure is polynomial-time.
 
 The choice of the base linear program is important for the effectiveness of the subsequent rounding procedure. The rounding procedure begins with a fractional solution and iteratively fixes selected edge variables. Consequently, the constraints imposed by the base formulation determine which fractional solutions can be successfully rounded and which become infeasible during the fixing process.
 
@@ -1994,8 +2028,8 @@ The outcomes obtained by using the maximum-objective linear program and the unic
         $n$ & \multicolumn{2}{c|}{$H$ exists} 
             & \multicolumn{2}{c|}{$H$ does not exist}
             & \multicolumn{1}{c}{$\text{Integral}\leftarrow\text{Fractional}$} \\
-        & \text{LP integral} & \text{LP fractional}
-        & \text{LP infeasible} & \text{LP fractional}
+        & \text{$LP$ integral} & \text{$LP$ fractional}
+        & \text{$LP$ infeasible} & \text{$LP$ fractional}
         & \\
         \hline
         3 & 3   & 0   & 1     & 0    & 0   \\
@@ -2018,8 +2052,8 @@ The outcomes obtained by using the maximum-objective linear program and the unic
         $n$ & \multicolumn{2}{c|}{$H$ exists} 
             & \multicolumn{2}{c|}{$H$ does not exist}
             & \multicolumn{1}{c}{$\text{Integral}\leftarrow\text{Fractional}$} \\
-        & \text{LP integral} & \text{LP fractional}
-        & \text{LP infeasible} & \text{LP fractional}
+        & \text{$LP$ integral} & \text{$LP$ fractional}
+        & \text{$LP$ infeasible} & \text{$LP$ fractional}
         & \\
         \hline
         3 & 3   & 0   & 1     & 0    & 0   \\
@@ -2037,7 +2071,6 @@ The outcomes obtained by using the maximum-objective linear program and the unic
 \newpage
 
 \appendix
-
 \input{subfiles/Code.tex}
 
 

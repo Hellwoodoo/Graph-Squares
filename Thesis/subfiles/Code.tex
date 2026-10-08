@@ -459,118 +459,6 @@ def vertex_deletion_recursive_linear_program(G):
     return m, x
 \end{lstlisting}
 
-\begin{lstlisting}[style=python, caption={Max Rounding Linear Program.}, label={lst::max_rounding_linear_program}]
-def integer_components_and_ranked_vertex_edges(x_val, n, eps=1e-6):
-    G_int = Graph()
-    G_int.add_vertices(range(n))
-
-    for (i, j), v in x_val.items():
-        if i < j and v > 1 - eps:
-            G_int.add_edge(i, j)
-
-    components = G_int.connected_components()
-
-    comp_index = {}
-    for idx, C in enumerate(components):
-        for v in C:
-            comp_index[v] = idx
-
-    vertex_score = {}
-    for (i, j), v in x_val.items():
-        if i >= j:
-            continue
-        if eps < v < 1 - eps:
-            w = abs(v - 0.5)
-            vertex_score[i] = vertex_score.get(i, 0) + w
-            vertex_score[j] = vertex_score.get(j, 0) + w
-
-    if not vertex_score:
-        return components, comp_index, None, []
-
-    v_star = max(vertex_score.items(), key=lambda t: (t[1], -t[0]))[0]
-
-    incident_edges = []
-    for (i, j), v in x_val.items():
-        if eps < v < 1 - eps:
-            if i == v_star or j == v_star:
-                a, b = min(i, j), max(i, j)
-                incident_edges.append((a, b, v, abs(v - 0.5)))
-
-    incident_edges.sort(key=lambda t: (-t[3], t[0], t[1]))
-
-    return components, comp_index, v_star, incident_edges
-
-def max_rounding_linear_program(G, threshold=0.5):
-    fixed_assignments = []
-    n = G.order()
-
-    m, x = max_linear_program(G)
-    m.solve()
-
-    for step in range(n * (n - 1) // 2):
-        x_val = m.get_values(x)
-        _, comp_index, v_star, edges = integer_components_and_ranked_vertex_edges(x_val, n)
-
-        if v_star is None:
-            return m, x
-
-        i, j, v, _ = edges[0]
-        fix_val = 1 if comp_index[i] != comp_index[j] else (1 if v > threshold else 0)
-
-        m_try, x_try = max_linear_program(G)
-        for a, b, val in fixed_assignments:
-            m_try.add_constraint(x_try[a,b] == val)
-            m_try.add_constraint(x_try[b,a] == val)
-        m_try.add_constraint(x_try[i,j] == fix_val)
-        m_try.add_constraint(x_try[j,i] == fix_val)
-
-        try:
-            m_try.solve()
-        except MIPSolverException:
-            return m, x
-
-        fixed_assignments.append((i, j, fix_val))
-        m, x = m_try, x_try
-
-    return m, x
-\end{lstlisting}
-
-\begin{lstlisting}[style=python, caption={Unicliqual Rounding Linear Program.}, label={lst::unicliqual_rounding_linear_program}]
-def unicliqual_rounding_linear_program(G, threshold=0.5):
-    fixed_assignments = []
-    n = G.order()
-
-    m, x = unicliqual_vertex_linear_program(G)
-    m.solve()
-
-    for step in range(n * (n - 1) // 2):
-        x_val = m.get_values(x)
-        _, comp_index, v_star, edges = integer_components_and_ranked_vertex_edges(x_val, n)
-
-        if v_star is None:
-            return m, x
-
-        i, j, v, _ = edges[0]
-        fix_val = 1 if comp_index[i] != comp_index[j] else (1 if v > threshold else 0)
-
-        m_try, x_try = unicliqual_vertex_linear_program(G)
-        for a, b, val in fixed_assignments:
-            m_try.add_constraint(x_try[a,b] == val)
-            m_try.add_constraint(x_try[b,a] == val)
-        m_try.add_constraint(x_try[i,j] == fix_val)
-        m_try.add_constraint(x_try[j,i] == fix_val)
-
-        try:
-            m_try.solve()
-        except MIPSolverException:
-            return m, x
-
-        fixed_assignments.append((i, j, fix_val))
-        m, x = m_try, x_try
-
-    return m, x
-\end{lstlisting}
-
 \begin{lstlisting}[style=python, caption={Max Edge Enforcment Linear Program.}, label={lst::max_edge_enforcement_linear_program}]
 def two_edge_triangles_from_edges(G):
     A = G.adjacency_matrix()
@@ -944,4 +832,116 @@ def max_edge_enforcement_iterative_linear_program(G):
             continue
 
         return m, x
+\end{lstlisting}
+
+\begin{lstlisting}[style=python, caption={Max Rounding Linear Program.}, label={lst::max_rounding_linear_program}]
+def integer_components_and_ranked_vertex_edges(x_val, n, eps=1e-6):
+    G_int = Graph()
+    G_int.add_vertices(range(n))
+
+    for (i, j), v in x_val.items():
+        if i < j and v > 1 - eps:
+            G_int.add_edge(i, j)
+
+    components = G_int.connected_components()
+
+    comp_index = {}
+    for idx, C in enumerate(components):
+        for v in C:
+            comp_index[v] = idx
+
+    vertex_score = {}
+    for (i, j), v in x_val.items():
+        if i >= j:
+            continue
+        if eps < v < 1 - eps:
+            w = abs(v - 0.5)
+            vertex_score[i] = vertex_score.get(i, 0) + w
+            vertex_score[j] = vertex_score.get(j, 0) + w
+
+    if not vertex_score:
+        return components, comp_index, None, []
+
+    v_star = max(vertex_score.items(), key=lambda t: (t[1], -t[0]))[0]
+
+    incident_edges = []
+    for (i, j), v in x_val.items():
+        if eps < v < 1 - eps:
+            if i == v_star or j == v_star:
+                a, b = min(i, j), max(i, j)
+                incident_edges.append((a, b, v, abs(v - 0.5)))
+
+    incident_edges.sort(key=lambda t: (-t[3], t[0], t[1]))
+
+    return components, comp_index, v_star, incident_edges
+
+def max_rounding_linear_program(G, threshold=0.5):
+    fixed_assignments = []
+    n = G.order()
+
+    m, x = max_linear_program(G)
+    m.solve()
+
+    for step in range(n * (n - 1) // 2):
+        x_val = m.get_values(x)
+        _, comp_index, v_star, edges = integer_components_and_ranked_vertex_edges(x_val, n)
+
+        if v_star is None:
+            return m, x
+
+        i, j, v, _ = edges[0]
+        fix_val = 1 if comp_index[i] != comp_index[j] else (1 if v > threshold else 0)
+
+        m_try, x_try = max_linear_program(G)
+        for a, b, val in fixed_assignments:
+            m_try.add_constraint(x_try[a,b] == val)
+            m_try.add_constraint(x_try[b,a] == val)
+        m_try.add_constraint(x_try[i,j] == fix_val)
+        m_try.add_constraint(x_try[j,i] == fix_val)
+
+        try:
+            m_try.solve()
+        except MIPSolverException:
+            return m, x
+
+        fixed_assignments.append((i, j, fix_val))
+        m, x = m_try, x_try
+
+    return m, x
+\end{lstlisting}
+
+\begin{lstlisting}[style=python, caption={Unicliqual Rounding Linear Program.}, label={lst::unicliqual_rounding_linear_program}]
+def unicliqual_rounding_linear_program(G, threshold=0.5):
+    fixed_assignments = []
+    n = G.order()
+
+    m, x = unicliqual_vertex_linear_program(G)
+    m.solve()
+
+    for step in range(n * (n - 1) // 2):
+        x_val = m.get_values(x)
+        _, comp_index, v_star, edges = integer_components_and_ranked_vertex_edges(x_val, n)
+
+        if v_star is None:
+            return m, x
+
+        i, j, v, _ = edges[0]
+        fix_val = 1 if comp_index[i] != comp_index[j] else (1 if v > threshold else 0)
+
+        m_try, x_try = unicliqual_vertex_linear_program(G)
+        for a, b, val in fixed_assignments:
+            m_try.add_constraint(x_try[a,b] == val)
+            m_try.add_constraint(x_try[b,a] == val)
+        m_try.add_constraint(x_try[i,j] == fix_val)
+        m_try.add_constraint(x_try[j,i] == fix_val)
+
+        try:
+            m_try.solve()
+        except MIPSolverException:
+            return m, x
+
+        fixed_assignments.append((i, j, fix_val))
+        m, x = m_try, x_try
+
+    return m, x
 \end{lstlisting}
