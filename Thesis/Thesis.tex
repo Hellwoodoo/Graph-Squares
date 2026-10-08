@@ -182,7 +182,8 @@ Since every decision problem in $\mathbf{P}$ can be solved in polynomial time, a
 \[
 \mathbf{P} \subseteq \mathbf{NP}.
 \]
-Whether this inclusion is strict remains one of the most important open questions in theoretical computer science - the $\mathbf{P}$ vs $\mathbf{NP}$ problem. Reductions provide a means of comparing the relative computational difficulty of problems in $\mathbf{NP}$ by establishing whether one problem is at least as hard as another. In particular, if $\mathbf{P}=\mathbf{NP}$, then every problem in $\mathbf{NP}$ is solvable in polynomial time.
+Whether this inclusion is strict remains one of the most important open questions in theoretical computer science - the $\mathbf{P}$ vs $\mathbf{NP}$ problem.  Polynomial-time reductions provide a means of transforming instances of one problem into instances of another while preserving their \textbf{Yes}/\textbf{No} status. In particular, if a problem in $\mathbf{NP}$ can be reduced in polynomial time to a problem that is solvable in polynomial time, then the original
+problem is also solvable in polynomial time. If $\mathbf{P}=\mathbf{NP}$, this would imply that every problem in $\mathbf{NP}$ is solvable in polynomial time.
 
 \begin{definition}[Polynomial-Time Reduction] \label{def::polynomial_time_reduction}
   Let $A$ and $B$ be decision problems, with sets of instances
@@ -198,7 +199,7 @@ This notion of reduction allows the computational difficulty of problems to be c
   A decision problem $B$ is \textbf{$\mathbf{NP}$-hard} if every problem $A \in \mathbf{NP}$ satisfies $A \leq_p B$. The collection of all $\mathbf{NP}$-hard problems is denoted by the class \textbf{$\mathbf{NP}$-hard}.
 \end{definition}
 
-Importantly, an $\mathbf{NP}$-hard problem many not necessary lie in $\mathbf{NP}$. If it does, it is called $\mathbf{NP}$-complete. 
+Importantly, an $\mathbf{NP}$-hard problem may not necessary lie in $\mathbf{NP}$. If it does, it is called $\mathbf{NP}$-complete. 
 
 \begin{definition}[Class $\mathbf{NP}$-Complete] \label{def::class_np_complete}
   A decision problem $B$ is \textbf{$\mathbf{NP}$-complete} if $B \in \mathbf{NP}$, and $B$ is $\mathbf{NP}$-hard. The collection of all $\mathbf{NP}$-complete problems is denoted by the class \textbf{$\mathbf{NP}$-complete}.
@@ -206,7 +207,7 @@ Importantly, an $\mathbf{NP}$-hard problem many not necessary lie in $\mathbf{NP
 
 One can establish that a problem is $\mathbf{NP}$-complete by showing that it belongs to $\mathbf{NP}$ and that a known $\mathbf{NP}$-complete problem can be reduced to it in polynomial time. 
 
-The first known $\mathbf{NP}$-complete problem was established by the Cook-Levin theorem and is the Boolean satisfiability problem, or SAT. 
+The first known $\mathbf{NP}$-complete problem was the Boolean satisfiability problem, or SAT, as established by the Cook-Levin theorem~\cite{cook_1971_complexity}. 
 
 \begin{definition}[Boolean Satisfiability Problem] \label{def::SAT}
   The \textbf{Boolean satisfiability problem} (\textbf{SAT}) asks whether there exists an assignment of truth values to the variables of a given Boolean formula such that the formula evaluates to $\textsc{True}$. A Boolean formula is said to be \textbf{satisfiable} if such an assignment exists.
@@ -240,7 +241,7 @@ Definition~\ref{prob::square_problem}.} problem to establish that the latter is 
 
 \subsection{Graph Theory} \label{subsec::graph_theory}
 
-Informally, a graph is relational structure that captures relationships between discrete objects. 
+Informally, a graph is a mathematical structure used to represent relationships between a collection of discrete objects.
 
 \begin{definition}[Graph] \label{def::graph}
   A \textbf{graph} $G$ is an ordered pair $(V,E)$, where $V$ is a set of vertices and $E$ is a set of unordered pairs of distinct vertices in $V$. Each element of $E$ is called an \textbf{edge} of $G$.
@@ -387,7 +388,8 @@ One of the most important types of graphs is the complete graph, and its subgrap
 \end{definition}
 
 \begin{definition}[Clique] \label{def::clique}
-  A \textbf{clique} of a graph $G$ is a subset $S\subseteq V_G$ such that the induced subgraph $G[S]$ is complete. The \textbf{clique number} of $G$, denoted by $\omega(G)$, is the size of a largest clique in $G$. A clique containing $k$ vertices is denoted by $K_k$. 
+  A \textbf{clique} of a graph $G$ is a subset $S\subseteq V_G$ such that the induced subgraph $G[S]$ is complete. $S$ is a \textbf{maximal clique} if there is no clique $S' \subseteq V_G$ such that
+  $S \subsetneq S'$. The \textbf{clique number} of $G$, denoted by $\omega(G)$, is the size of a largest clique in $G$. A clique containing $k$ vertices is denoted by $K_k$. 
 \end{definition}
 
 It is important to distinguish maximal cliques from cliques in general since any vertex belonging to a clique of size $n$ naturally belongs to a clique of size $n-1$.
@@ -396,7 +398,7 @@ It is important to distinguish maximal cliques from cliques in general since any
   A \textbf{multicliqual vertex} is a vertex that belongs to multiple maximal cliques. A \textbf{unicliqual vertex} is a vertex that belongs to only one maximal clique.    
 \end{definition}
 
-In addition to being specified using a set of vertices and a set of edges, a graph can also be represented using a matrix.
+In addition to being specified by a set of vertices and a set of edges, a graph can also be represented using a matrix.
 
 \begin{definition}[Adjacency Matrix] \label{def::adjacency_matrix}
   The \textbf{adjacency matrix} of graph $H$ is denoted by $A_H \in \{0,1\}^{n \times n}$ where
@@ -534,7 +536,7 @@ then the linear relaxation coincides with the integer hull and is therefore an e
 
 \chapter{Algorithmic Approaches} \label{chap::algorithmic_approaches}
 
-In this chapter we explore different methodologies that have been used to show certain properties of the graph root and the graph square. For many restricted cases which are $\mathbf{NP}$, a polynomial time reduction is given and in cases which are polynomial, a polynomial time algorithm is given.  
+In this chapter, we explore different methodologies for studying properties of graph roots and graph squares. These include polynomial-time reductions for establishing $\mathbf{NP}$-completeness, structural characterisations and constructive algorithms for restricted cases, and integer programming formulations for studying graph roots. 
 
 \section{NP-Completeness Proof} \label{sec::np_completeness_proof}
 
@@ -643,7 +645,7 @@ The following lemma is the central combinatorial tool for proving the correctnes
   
   First show that $N_H(a)=\{b\}$. Suppose, for contradiction, that $N_H(a)=\{c\}$. Then $ac \in E_H$. Because $ab \in E_G=E_{H^2}$, there is a path of length at most two from $a$ to $b$ in $H$. As $a$ only has the neighbour $c$, this forces $bc \in E_H$. 
 
-  Now $cd \in E_G$, so $c$ and $d$ are at distance at most two in $H$. As $bc \in E_H$, the only possible $P_2$ from $c$ to $d$ uses $b$, and hence $bd \in E_H$. 
+  Now $cd \in E_G$, so $c$ and $d$ are at distance at most two in $H$. As $bc \in E_H$, the only possible $P_3$ from $c$ to $d$ uses $b$, and hence $bd \in E_H$. 
 
   Let $v \notin \{a,b,c,d\}$ be the neighbour of $c$ in $G$. Since $cv \in E_G$, there is a path of length at most two from $c$ to $v$ in $H$. This path cannot go through $a$, otherwise $av \in E_G$, contradicting $N_G(a)=\{b,c\}$. Nor can it go through $b$, since that would give $bv \in E_G$, contradicting $N_G(b)=\{a,c,d\}$. Therefore the path must be $c-d-v$, giving $dv \in E_H$.
 
@@ -652,18 +654,18 @@ The following lemma is the central combinatorial tool for proving the correctnes
     N_H(a)=\{b\}. 
   \end{equation}
 
-  Now we determine the neighbourhood of $c$. Since $ab \in E_H$ as $N_H(a)=\{b\}$, and $ac\in E_G$, the edge $ac$ in $G=H^2$ must be realized by the path $a-b-c$. This gives that $bc \in E_H$. If $b$ had a neighbour $x \notin \{a,c\}$ in $H$, then $a-b-x$ would be a $P_2$, forcing $ax \in E_G$, which contradicts $N_H(a)=\{b\}$. Thus \begin{equation} \label{eq::tail_2}
+  Now we determine the neighbourhood of $c$. Since $ab \in E_H$ as $N_H(a)=\{b\}$, and $ac\in E_G$, the edge $ac$ in $G=H^2$ must be realized by the path $a-b-c$. This gives that $bc \in E_H$. If $b$ had a neighbour $x \notin \{a,c\}$ in $H$, then $a-b-x$ would be a $P_3$, forcing $ax \in E_G$, which contradicts $N_H(a)=\{b\}$. Thus \begin{equation} \label{eq::tail_2}
     N_H(b)=\{a,c\}. 
   \end{equation}
 
-  Since $bd\in E_G$ and $N_H(b)=\{a,c\}$, the $P_2$ from $b$ to $d$ in $H$ must be $b-c-d$ - it cannot use $a$, as $N_H(a)=\{b\}$. Therefore $cd \in E_H$. 
+  Since $bd\in E_G$ and $N_H(b)=\{a,c\}$, the $P_3$ from $b$ to $d$ in $H$ must be $b-c-d$ - it cannot use $a$, as $N_H(a)=\{b\}$. Therefore $cd \in E_H$. 
   
   If $c$ had a neighbour $y\notin\{b,d\}$ in $H$, then $b-c-y$ would give $by \in E_G$, contradicting Equation~\eqref{eq::tail_2}. Hence
   \begin{equation} \label{eq::tail_3}
     N_H(c)=\{b,d\}. 
   \end{equation}
   
-  It remains to relate the external neighbours of $c$ in $G$ to those of $d$ in $H$. Take any $v\notin\{a,b,c,d\}$. If $cv\in E_G$, then there is a path of length at most two from $c$ to $v$ in $H$. By Equation~\eqref{eq::tail_3}, such a path must use $b$ or $d$ as the intermediate vertex. It cannot use $b$, since that would imply $bv \in E_G$, contradicting $N_G(b)=\{a,c,d\}$. Hence the path is $c-d-v$, so $dv \in E_H$. Conversely, if $dv \in E_H$, then $c-d-v$ is a $P_2$ in $H$ since $cd \in E_H$, giving $cv \in E_G$. 
+  It remains to relate the external neighbours of $c$ in $G$ to those of $d$ in $H$. Take any $v\notin\{a,b,c,d\}$. If $cv\in E_G$, then there is a path of length at most two from $c$ to $v$ in $H$. By Equation~\eqref{eq::tail_3}, such a path must use $b$ or $d$ as the intermediate vertex. It cannot use $b$, since that would imply $bv \in E_G$, contradicting $N_G(b)=\{a,c,d\}$. Hence the path is $c-d-v$, so $dv \in E_H$. Conversely, if $dv \in E_H$, then $c-d-v$ is a $P_3$ in $H$ since $cd \in E_H$, giving $cv \in E_G$. 
   
   Therefore have established that for every $v\notin\{a,b,c,d\}$,
   \[
@@ -1623,13 +1625,13 @@ The following sections illustrate several directions in which this can be explor
 
 We can use an $LP$ to find the set of all graphs on $n \leq 5$ vertices that admit a root. From Table~\eqref{tab::unicliqual_vertex_linear_program_outcomes} all square graphs can be completely categorized for small $n$, such that, whenever a root $H$ exists, an integral solution is obtained, while whenever no root $H$ exists, the linear program is infeasible. 
 
-In particular, consider arbitrarily removing a vertex from $G$ and applying the same linear program to the resulting subgraph. If the subgraph has an integral solution, this provides structural information about a possible root on the reduced vertex set. We may then fix a partial solution using vertices whose root edges are not generated by a $P_2$ whose middle vertex is the removed vertex. The natural question is whether this information can subsequently be used to constrain the original graph when the deleted vertex is reintroduced.
+In particular, consider arbitrarily removing a vertex from $G$ and applying the same linear program to the resulting subgraph. If the subgraph has an integral solution, this provides structural information about a possible root on the reduced vertex set. We may then fix a partial solution using vertices whose root edges are not generated by a $P_3$ whose middle vertex is the removed vertex. The natural question is whether this information can subsequently be used to constrain the original graph when the deleted vertex is reintroduced.
 
 More specifically, if deleting a vertex produces a graph for which the linear program has an integral solution, it is worth investigating whether the corresponding solution can be extended to the original graph and, if so, whether the possible extensions can be restricted to a small number of cases. If such extensions can be characterized, vertex deletion provides a mechanism through which information obtained from smaller instances can be propagated back to the original graph.
 
 Let $G^-$ be the subgraph of $G$ defined by $\displaystyle V^- = V - {v}, E_{G^-} =  \{ E_G \backslash {uv \mid u \in V^-} \}$. If $G^-$ admits a valid square root, denote it by $H^-$. Let $H$ be a square root of $G$ satisfying $H^2=G$, and let $H_-$ be the subgraph of $H$ obtained by deleting $v$, defined by $\displaystyle V^-, \{ E_H \backslash {uv \mid u \in V^-}\}$. 
 
-In general, $H_-$ need not be a square root of $G^-$, since the deletion of $v$ from $H$ may remove copies of $P_2$ between vertices in $V^-$ which results in $\left(H_-\right)^2\neq G^-$. Nevertheless, an integral solution of the $LP$ for $G^-$ provides a candidate set of root edges on $V^-$ which can be used to refine the $LP$ for $G$. 
+In general, $H_-$ need not be a square root of $G^-$, since the deletion of $v$ from $H$ may remove copies of $P_3$ between vertices in $V^-$ which results in $\left(H_-\right)^2\neq G^-$. Nevertheless, an integral solution of the $LP$ for $G^-$ provides a candidate set of root edges on $V^-$ which can be used to refine the $LP$ for $G$. 
 
 \begin{algorithm} \caption{Vertex-Deletion Linear Program} \label{algo:vertex_deletion}
   \begin{algorithmic}[1]
@@ -1794,7 +1796,7 @@ If one could determine when this holds with equality $x_{ij} + x_{jk} = 1$, this
 
 Consider Figure~\ref{fig::130_6} where $G_1$ is the unique root with maximum objective value. Assigning $\alpha = x_{14}$ gives using Conjecture~\eqref{conjecture::two_edges_linear_maximization} that $1 - \alpha = x_{40}$ since $g_{01} = 0$. The same applies such that $1 - \alpha = x_{42}$ and $\alpha = x_{43}$, whereby the existence of edges $g_{13}=g_{02}=1$ prevent additional constraints being imposed upon $\alpha$ and ensure it is internally consistent. By symmetry can likewise assign $\beta = x_{15} = x_{35}$ and $1 - \beta = x_{50} = x_{52}$. Setting $\alpha = 0$ and $\beta = 1$ thus gives $x_{40} = x_{42} = x_{15} = x_{35} = 1$ and $x_{14} = x_{43} = x_{50} = x_{52} = 0$ which with the addition of $x_{45}=1$ gives Figure~\ref{fig::130_6_root_3}. In this example, both $\{(1,4), (4,0), (4,2), (4,3) \}$ and $\{(1,5), (3,5), (5,0), (5,2)\}$ are consistent sets. 
 
-To formalise this two-colouring structure, we work directly with subsets of $E_G$ and the $=1$ case of Conjecture~\eqref{conjecture::two_edges_linear_maximization}. Two distinct edges $e,f\in E_G$ are said to be \emph{$=1$-related} if they form a $P_2$ in $G$ and, for every feasible solution $x$ of $\max\mathcal{LP}(G)$, the corresponding edge variables satisfy
+To formalise this two-colouring structure, we work directly with subsets of $E_G$ and the $=1$ case of Conjecture~\eqref{conjecture::two_edges_linear_maximization}. Two distinct edges $e,f\in E_G$ are said to be \emph{$=1$-related} if they form a $P_3$ in $G$ and, for every feasible solution $x$ of $\max\mathcal{LP}(G)$, the corresponding edge variables satisfy
 \[
 x_e+x_f=1.
 \]
@@ -1804,7 +1806,7 @@ x_e+x_f=1.
   \[
   E'=A\cup B,\quad A\cap B=\varnothing,
   \]
-  into nonempty sets $A$ and $B$ such that, for all $e,e'\in A$, the edges $e$ and $e'$ do not form a $P_2$ in $G$, and for all $f,f'\in B$, the edges $f$ and $f'$ do not form a $P_2$ in $G$.
+  into nonempty sets $A$ and $B$ such that, for all $e,e'\in A$, the edges $e$ and $e'$ do not form a $P_3$ in $G$, and for all $f,f'\in B$, the edges $f$ and $f'$ do not form a $P_3$ in $G$.
 \end{definition}
 
 \begin{figure}[ht]
@@ -1836,7 +1838,7 @@ Maximizing the objective function thus gives $\displaystyle \alpha=\beta=\gamma=
   \[
   E'=A\cup B,\quad A\cap B=\varnothing,
   \]
-  into nonempty sets $A$ and $B$ such that, for all $e,e'\in A$, the edges $e$ and $e'$ do not form a $P_2$ in $G$, and, for all $f,f'\in B$, the edges $f$ and $f'$ do not form a $P_2$ in $G$.
+  into nonempty sets $A$ and $B$ such that, for all $e,e'\in A$, the edges $e$ and $e'$ do not form a $P_3$ in $G$, and, for all $f,f'\in B$, the edges $f$ and $f'$ do not form a $P_3$ in $G$.
 \end{definition}
 
 \begin{conjecture} \label{conjecture::consistent_set_conjecture}
