@@ -560,10 +560,7 @@ We now establish the computational complexity of the graph square problem as was
 \begin{proof}[NP Proof]
   Given a candidate square root $H$ on $n$ vertices, it is sufficient to verify that $G=H^2$. For each pair of distinct vertices $u,v\in V_H$, check whether $u$ and $v$ are adjacent in $H$ or have a common neighbour in $H$. This determines whether $d_H(u,v) \leq 2$ and therefore whether $uv \in E_{H^2}$.
 
-  There are $\displaystyle \binom{n}{2}=\frac{n(n-1)}{2}$ unordered pairs of vertices. For each pair, determining whether the vertices have a common neighbour requires at most $O(n)$ operations. Hence, the total verification time is
-  \[
-  O(n^2) \cdot O(n) = O(n^3).
-  \]
+  There are $\displaystyle \binom{n}{2}=\frac{n(n-1)}{2}$ unordered pairs of vertices. For each pair, determining whether the vertices have a common neighbour requires at most $O(n)$ operations. Hence, the total verification time is $O(n^2) \cdot O(n) = O(n^3)$.
   By the definition of Big-$O$ notation, this is polynomial in $n$. Therefore, the certificate $H$ can be verified in polynomial time, and consequently
   \[
   \text{SQUARE} \in \mathbf{NP}.
@@ -602,8 +599,7 @@ Following \cite{motwani_sudan_1994_roots}, we show \textbf{SQUARE} is $\mathbf{N
     \item For every pair of literals $\ell_i,\ell_k$ that are not complements of each other, a literal-pair vertex $A_{ik}$.
     \item For each clause $C_j=\{\ell_{j_1},\ell_{j_2},\ell_{j_3}\}$, a clause vertex $C_j$ together with three tail vertices $C_j^1,C_j^2,C_j^3$.
   \end{enumerate}
-
-  The edge set $E_\phi$ defined as
+  \noindent The edge set $E_\phi$ defined as
   \begin{enumerate}[label=\roman*)]
     \item \textbf{Tail of $x$.} The tail of $x$ consists of the edges
     \[
@@ -633,7 +629,7 @@ The following lemma is the central combinatorial tool for proving the correctnes
   \[
   N_G(a)=\{b,c\},\quad N_G(b)=\{a,c,d\},\quad cd\in E_G,
   \]
-  and suppose $c$ has a neighbour in $G$ outside $\{a,b,c,d\}$. If $H^2=G$, then
+  and suppose $c$ has a neighbour in $G$ outside $\{a,b,c,d\}$. If $G=H^2$, then
   \[
   N_H(d)\setminus\{a,b,c,d\} = N_G(c)\setminus\{a,b,c,d\}.
   \]
@@ -658,7 +654,7 @@ The following lemma is the central combinatorial tool for proving the correctnes
     N_H(b)=\{a,c\}. 
   \end{equation}
 
-  Since $bd\in E_G$ and $N_H(b)=\{a,c\}$, the $P_3$ from $b$ to $d$ in $H$ must be $b-c-d$ - it cannot use $a$, as $N_H(a)=\{b\}$. Therefore $cd \in E_H$. 
+  Since $bd\in E_G$ and $N_H(b)=\{a,c\}$, the $P_3$ from $b$ to $d$ in $H$ must be $b-c-d$ and it cannot use $a$, as $N_H(a)=\{b\}$. Therefore $cd \in E_H$. 
   
   If $c$ had a neighbour $y\notin\{b,d\}$ in $H$, then $b-c-y$ would give $by \in E_G$, contradicting Equation~\eqref{eq::tail_2}. Hence
   \begin{equation} \label{eq::tail_3}
@@ -788,16 +784,16 @@ To establish this characterization, let $G$ be the square of a tree $T$ and firs
   Conversely, suppose that $|C_i \cap C_j| = 2$. Since $v_i$ and $v_j$ belong to their respective closed neighbourhoods, the intersection implies that $v_i$ and $v_j$ are either adjacent or have a common neighbour in $T$. If they are not adjacent, there would be a common neighbour $u$ adjacent to both $v_i$ and $v_j$. Then $v_i,v_j,u \in C_i \cap C_j$, which would give an intersection of at least three vertices, contradicting $|C_i \cap C_j| = 2$. Therefore, $v_i$ and $v_j$ must be adjacent with $v_iv_j \in E_T$. 
 \end{proof}
 
-\begin{lemma}\label{lemma::6}
-  $G$ is a $2$-edge-connected graph where the removal of any edge does not result in a disconnected graph
-\end{lemma}
-\begin{proof}
-  Let $uv \in E_G$. Consider the edge $uv$ and the graph $G'$ with edge set $E_G \backslash \{uv\}$. Since $G = T^2$, either $uv \in E_T$, or there exists a vertex $w \in V_T$ such that $uw,vw \in E_T$. In the latter case, $u$ and $v$ are connected by the path $u-w-v$ in $G'$.
+% \begin{lemma}\label{lemma::6}
+%   $G$ is a $2$-edge-connected graph where the removal of any edge does not result in a disconnected graph
+% \end{lemma}
+% \begin{proof}
+%   Let $uv \in E_G$. Consider the edge $uv$ and the graph $G'$ with edge set $E_G \backslash \{uv\}$. Since $G = T^2$, either $uv \in E_T$, or there exists a vertex $w \in V_T$ such that $uw,vw \in E_T$. In the latter case, $u$ and $v$ are connected by the path $u-w-v$ in $G'$.
 
-  If $uv \in E_T$, then the vertices closest to $u$ and $v$ along the remaining components of $T-uv$ are adjacent in $G$. Thus, the two components of $T-uv$ remain connected through vertices that are joined by edges in $G-uv$.
+%   If $uv \in E_T$, then the vertices closest to $u$ and $v$ along the remaining components of $T-uv$ are adjacent in $G$. Thus, the two components of $T-uv$ remain connected through vertices that are joined by edges in $G-uv$.
 
-  Consequently, removing $uv$ from $G$ does not disconnect the graph. Hence $G$ has no bridges and is $2$-edge-connected.
-\end{proof}
+%   Consequently, removing $uv$ from $G$ does not disconnect the graph. Hence $G$ has no bridges and is $2$-edge-connected.
+% \end{proof}
 
 Combining gives the following proof of Theorem~\eqref{theorem::structural_characterization_trees}
 
@@ -816,7 +812,7 @@ Combining gives the following proof of Theorem~\eqref{theorem::structural_charac
   add the edge $b_i b_j$ to $T$. By \hyperref[characterization::5]{(v)}, $T$ contains exactly $n-1$ edges, and the intersection structure given by the characterization ensures that these edges connect all vertices without forming a cycle. Thus $T$ is a tree. It remains to add the unicliqual vertices. By \hyperref[characterization::3]{(iii)}, these vertices correspond to leaves of the root. For each clique $C_i$, attach all vertices of $C_i$ that occur in no other maximal clique as leaves adjacent to $b_i$. The resulting graph is a tree $T$. Each maximal clique $C_i$ is represented by the closed neighbourhood of $b_i$ in $T$, while the remaining vertices are attached as leaves to their corresponding internal vertices. Therefore every edge of $G$ is represented by two vertices at distance at most two in $T$, and no additional edges are introduced. Hence $T^2=G$ and $G$ is the square of a tree.
 \end{proof}
 
-The proof of Theorem~\eqref{theorem::structural_characterization_trees} gives the following algorithm: Given a graph known to be the square of a tree, identify all maximal cliques, classify the vertices as multicliqual or unicliqual according to the number of maximal cliques in which they occur, and construct the tree $T$ by connecting the multicliqual vertices to form the internal structure of $T$ and attaching the unicliqual vertices as leaves to their corresponding multicliqual vertices.
+The proof of Theorem~\eqref{theorem::structural_characterization_trees} gives the following algorithm. Given a graph known to be the square of a tree, identify all maximal cliques, classify the vertices as multicliqual or unicliqual according to the number of maximal cliques in which they occur, and construct the tree $T$ by connecting the multicliqual vertices to form the internal structure of $T$ and attaching the unicliqual vertices as leaves to their corresponding multicliqual vertices.
 
 \begin{algorithm} \caption{Ross-Harary Tree Construction}  \label{algo::ross_harary_tree} 
   \begin{algorithmic}[1] 
@@ -870,7 +866,7 @@ In contrast, \citeauthor{lin_1995_square_roots} bypass clique enumeration entire
 
 \section{Mathematical Optimization Approach} \label{sec::mathematical_optimization_approach}
 
-The two methods so far have primarily focused on the definition of a square of a graph to be paths of length at most than two defined in Definition~\eqref{def::square_of_a_graph}. Using adjacency matrices, this definition is equivalent expressed as 
+The two methods so far have primarily focused on the definition of a square of a graph to be paths of length at most three defined in Definition~\eqref{def::square_of_a_graph}. Using adjacency matrices, this definition is equivalent expressed as 
 \begin{equation} \label{eq::fund_adj_square_or}
   A_G = (A_H)^2 \lor A_H.
 \end{equation}
@@ -880,13 +876,12 @@ where $\lor$ is applied entrywise to the matrices. This concise interpretation w
 \end{equation}
 The resulting Boolean formula can be converted into a standard SAT instance using auxiliary variables and a polynomial number of clauses. Hence, the logical formulation provides a polynomial-size SAT representation of the graph-square condition.
 
-However, constructing a polynomial-size SAT instance does not imply that the underlying problem can be solved in polynomial time. A general SAT instance may require exponential time to solve, since SAT is $\mathbf{NP}$-complete. Therefore, to obtain a polynomial-time algorithm through this approach, one would additionally need to show that the SAT instances arising from Equation~\eqref{eq::sat_square} belongs to a tractable subclass of SAT, such as $2$-SAT, or otherwise provide a polynomial-time algorithm for solving these particular instances. The formulation in Equation~\eqref{eq::sat_square} evidently does not belong to $2$-SAT, as each constraint involves a disjunction over all possible common neighbours $k$ and therefore contains terms involving more than two Boolean variables. More generally, one would suspect from the results in \ref{sec::np_completeness_proof} that there is no immediate polynomial-time algorithm for solving this instance and any restricted version of the graph root finding problem would necessitate significant machinery.  
+However, constructing a polynomial-size SAT instance does not imply that the underlying problem can be solved in polynomial time. A general SAT instance may require exponential time to solve, since SAT is $\mathbf{NP}$-complete. Therefore, to obtain a polynomial-time algorithm through this approach, one would additionally need to show that the SAT instances arising from Equation~\eqref{eq::sat_square} belongs to a tractable subclass of SAT, such as $2$-SAT, or otherwise provide a polynomial-time algorithm for solving these particular instances. The formulation in Equation~\eqref{eq::sat_square} evidently does not belong to $2$-SAT, as each constraint involves a disjunction over all possible common neighbours $k$ and therefore contains terms involving more than two Boolean variables. More generally, one would suspect from the results in Section~\ref{sec::np_completeness_proof} that there is no immediate polynomial-time algorithm for solving this instance and any restricted version of the graph root finding problem would necessitate significant machinery.  
 
 Instead, we aim to situate the problem completely within a polynomial-time framework by considering another equivalent representation of Equation~\eqref{eq::fund_adj_square_or} and its equivalent formulation in Definition~\eqref{def::square_of_a_graph}.
 
 \begin{lemma} \label{lemma::G_equal_to_H^2}
-  Let $G$ and $H$ be graphs with adjacency matrices $A_G$ and $A_H$,respectively
-  The graph $H$ is a root of $G$ if and only if 
+  Let $G$ and $H$ be graphs with adjacency matrices $A_G$ and $A_H$,respectively. The graph $H$ is a root of $G$ if and only if 
   Equation~\ref{eq::fund_adj_eq_undirected} holds
   \[ 
   A_G = \mathbbm{1}_{\geq 1}\!\big((A_H)^2 - D_H + A_H\big).
@@ -898,7 +893,7 @@ Instead, we aim to situate the problem completely within a polynomial-time frame
   \big((A_H)^2 - D_H + A_H\big)_{ij} = (A_H)^2_{ij} + (A_H)_{ij}.
   \]
 
-  Suppose $ij \in E_G$ such that $(A_H)^2_{ij} + (A_H)_{ij} \geq 1$. This implies that at least on of $(A_H)_{ij} = 1$ or $(A_H)^2_{ij} \geq 1$ must be $\textsc{True}$. If $(A_H)_{ij} = 1$, then $d_H(i,j) = 1$.  If $(A_H)^2_{ij} \geq 1$, then there exists a vertex $k$ such that $ik, kj \in E_H$, and hence $d_H(i,j) \leq 2$. Therefore $1 \leq d_H(i,j) \leq 2$, and thus $ij \in E_{H^2}$.
+  Suppose $ij \in E_G$ such that $(A_H)^2_{ij} + (A_H)_{ij} \geq 1$. This implies that at least one of $(A_H)_{ij} = 1$ or $(A_H)^2_{ij} \geq 1$ must be true. If $(A_H)_{ij} = 1$, then $d_H(i,j) = 1$.  If $(A_H)^2_{ij} \geq 1$, then there exists a vertex $k$ such that $ik, kj \in E_H$, and hence $d_H(i,j) \leq 2$. Therefore $1 \leq d_H(i,j) \leq 2$, and thus $ij \in E_{H^2}$.
 
   Suppose $ij \in E_{H^2}$ such that $1 \leq d_H(i,j) \leq 2$. $D_H$ is diagonal such that $(D_H)_{ij} = 0$. If $d_H(i,j) = 1$, then $(A_H)_{ij} = 1$. If $d_H(i,j) = 2$, then there exists a vertex $k$ such that $ik, kj \in E_H$, and hence $(A_H)^2_{ij} \geq 1$. In either case, $(A_H)^2_{ij} + (A_H)_{ij} \geq 1$, so $(A_G)_{ij} = 1$, and hence $ij \in E_G$.
 
@@ -906,7 +901,7 @@ Instead, we aim to situate the problem completely within a polynomial-time frame
   \[
   \big((A_H)^2 - D_H + A_H\big)_{ii} = (A_H)^2_{ii} - (D_H)_{ii}.
   \]
-  $(A_H)^2_{ii} - (D_H)_{ii} = 0$ is always $\textsc{True}$ since the degree matrix of $H$ always has diagonal values $\displaystyle (D_H)_{ii} = \sum_k x_{ik}$ and each edge from vertex $i$ to its neighbour in $H$ will always create a loop to itself in the square and so $\displaystyle (A_H)^2_{ii} = 
+  $(A_H)^2_{ii} - (D_H)_{ii} = 0$ is always true since the degree matrix of $H$ always has diagonal values $\displaystyle (D_H)_{ii} = \sum_k x_{ik}$ and each edge from vertex $i$ to its neighbour in $H$ will always create a loop to itself in the square and so $\displaystyle (A_H)^2_{ii} = 
   \sum_{k = 1} x_{ik}x_{ki} = \sum_{k = 1} x_{ik}^2$ by the symmetry of adjacency matrix $A_H$. 
   
   Since $x_{ik} \in \{0, 1\}$, the square of the boolean is identical to the boolean $x_ik$ such that $\displaystyle (A_H)^2_{ii} = \sum_k x_{ik} = (D_H)_{ii}$ and $(A_G)_{ii} = \mathbbm{1}_{\geq 1}\big((A_H)^2 - D_H + A_H\big)$ as required. 
@@ -923,17 +918,17 @@ The formulation of the adjacency matrix of the graph square in Equation~\eqref{e
   \end{equation}
 \end{lemma}
 \begin{proof}
-  Since the graph root has girth $5$ there are no cycles of length $3$ or $4$ in $H$. Thus for every pair of vertices $i \neq j \in V$ there is either no cycle that contains both $i$ and $j$ or $i$ and $j$ lay on a common cycle of length at least $5$. In all cases $(D_H)_{ij} = 0$. If there is no cycle, then there is at most one path between $i$ and $j$. 
+  Since the graph root has girth $5$ there are no cycles of length $3$ or $4$ in $H$. Thus for every pair of vertices $i \neq j \in V$ there is either no cycle that contains both $i$ and $j$ or $i$ and $j$ lie on a common cycle of length at least $5$. In all cases $(D_H)_{ij} = 0$. If there is no cycle, then there is at most one path between $i$ and $j$. 
   \begin{enumerate}[label=\roman*)]
-    \item If the path is of length $1$, then $(A_H)_{ij} = 1, (A_H)^2_{ij} = 0$ and so $(A_G)_{ij} = 0 - 0 + 1 = 1$.
-    \item If the path is of length $2$, then $(A_H)_{ij} = 0, (A_H)^2_{ij} = 1$ and so $(A_G)_{ij} = 1 - 0 - 0 = 1$.
-    \item If the path is of length $\geq 3$ or a path does not exist, then $(A_H)_{ij} = 0, (A_H)^2_{ij} = 0 \implies (A_G)_{ij} = 0$.
+    \item If the path is of length $2$, then $(A_H)_{ij} = 1, (A_H)^2_{ij} = 0$ and so $(A_G)_{ij} = 0 - 0 + 1 = 1$.
+    \item If the path is of length $3$, then $(A_H)_{ij} = 0, (A_H)^2_{ij} = 1$ and so $(A_G)_{ij} = 1 - 0 - 0 = 1$.
+    \item If the path is of length $\geq 3$ or a path does not exist, then $(A_H)_{ij} = 0, (A_H)^2_{ij} = 0$ which implies that $(A_G)_{ij} = 0$.
   \end{enumerate}
-  If $i$ and $j$ lay on a common cycle of length at least five then there are two paths between $i,j$
+  If $i$ and $j$ lie on a common cycle of length at least five then there are two paths between $i,j$
   \begin{enumerate}[label=\roman*)]
-    \item If one path is of length $1$, then the other is of length $\geq 4$ and hence $(A_H)_{ij} = 1, (A_H)^2_{ij} = 0 \implies (A_G)_{ij} = 0 - 0 + 1 = 1$.
-    \item If one path is of length $2$, then the other is of length $\geq 3$ and hence $(A_H)_{ij} = 0, (A_H)^2_{ij} = 1 \implies (A_G)_{ij} = 1 - 0 - 0 = 1$.
-    \item If the paths are both of length $\geq 3$,  then $(A_H)_{ij} = 0, (A_H)^2_{ij} = 0 \implies (A_G)_{ij} = 0$. 
+    \item If one path is of length $2$, then the other is of length $\geq 4$ and hence $(A_H)_{ij} = 1, (A_H)^2_{ij} = 0$ which implies that $(A_G)_{ij} = 0 - 0 + 1 = 1$.
+    \item If one path is of length $3$, then the other is of length $\geq 3$ and hence $(A_H)_{ij} = 0, (A_H)^2_{ij} = 1$ which implies that $(A_G)_{ij} = 1 - 0 - 0 = 1$.
+    \item If the paths are both of length $\geq 3$,  then $(A_H)_{ij} = 0, (A_H)^2_{ij} = 0$ which implies that $(A_G)_{ij} = 0$. 
   \end{enumerate}
   If $i = j$, then $(A_H)_{ii} = 0$, $(D_H)_{ii} = \deg_H(i)$, and $(A_H)^2_{ii} = \deg_H(i)$. Thus,
   \[
@@ -941,7 +936,7 @@ The formulation of the adjacency matrix of the graph square in Equation~\eqref{e
   \]
 \end{proof}
 
-We will not focus on this particular restricted class and analyze the integer program generated by Equation~\eqref{eq::fund_adj_eq_undirected_no_indicator}, but rather aim for a unified method for solving the problem in general. Nevertheless this result gives strong intuition into the results established by \citeauthor{farzad_2009_roots} in \cite{farzad_2009_roots} in constructing a polynomial time algorithm for recognizing graph roots where $H$ has girth at least $6$. 
+Rather than focusing on the restricted class given by the integer program of Equation~\eqref{eq::fund_adj_eq_undirected_no_indicator}, we aim for a unified method for solving the problem in general. Nevertheless this result gives strong intuition into the results established by \citeauthor{farzad_2009_roots} in \cite{farzad_2009_roots} in constructing a polynomial time algorithm for recognizing graph roots where $H$ has girth at least $6$. 
 
 \subsection{Formulation} \label{subsec::integer_program_formulation}
 
@@ -981,7 +976,7 @@ $ such that
 \displaystyle \sum_{k=1}^n x_{nk}x_{k1} & \cdots & \displaystyle \sum_{k=1}^n x_{nk}x_{kj} & \cdots & \displaystyle \sum_{k=1}^n x_{nk}x_{kn}
 \end{bmatrix}.
 \]
-Then with known constants $g_{ij} \in \{0, 1\}$ from $A_G$, we can formulate \eqref{eq::fund_adj_eq_undirected} as an integer program by equating entries of each matrix to give the following linear system of $n^2$ equations.
+Then with known constants $g_{ij} \in \{0, 1\}$ from $A_G$, we can formulate Equation~\eqref{eq::fund_adj_eq_undirected} as an integer program by equating entries of each matrix to give the following linear system of $n^2$ equations.
 \begin{equation}  \label{eq::fund_programming_equation}
 \begin{bmatrix}
 g_{11} \\
@@ -1023,7 +1018,7 @@ The matrix $D_H$ is diagonal can be represented as $\displaystyle (D_H)_{ii} = \
 \[
 g_{ij} = 1 \text{ if and only if } z_{ij} \geq 1 \text{ and } g_{ij} = 0 \text{ if and only if } z_{ij} = 0.
 \]  
-Let $M \in \mathbb{Z}_{> 0}$ be a sufficiently large constant. This value $M$ may be bounded by the number of edges, that is $M \leq n(n -1) = O(n^2)$. The above condition can be modelled using a standard big-$M$ formulation. The resulting integer program is given by
+Let $M \in \mathbb{Z}_{> 0}$ be a sufficiently large constant that may be bounded by the number of edges, that is $M \leq n(n -1) = O(n^2)$. The above condition can be modelled using a standard big-$M$ formulation. The resulting integer program is given by
 
 \input{subfiles/IntegerProgramFormulation.tex}
 
@@ -1061,17 +1056,17 @@ $2,3,6,11,28,77,307,\dots$ given by \href{https://oeis.org/A382181}{\texttt{A382
 
 \chapter{Square of a Tree using Linear Programming} \label{chap::square_of_a_tree_LP}
 
-In this chapter, we explore the recognition of squares of trees using linear programming. We first introduce a linear programming relaxation for $\mathcal{IP}(G)$ and investigate the structure of its feasible solutions. We then consider additional constraints that can be derived from the structure of the input graph and used to augment the relaxation. The resulting formulations are tested computationally on a collection of graphs in order to evaluate their ability to recover integral solutions corresponding to tree roots.
+In this chapter, we explore the recognition of squares of trees using linear programming. We first introduce a linear programming relaxation for $\mathcal{IP}(G)$ and investigate the structure of its feasible solutions. We then consider additional constraints that can be derived from the structure of the input graph and be used to augment the relaxation. The resulting formulations are tested computationally on a collection of graphs in order to evaluate their ability to recover integral solutions corresponding to tree roots.
 
-The methodology used in this work is implemented using the SageMath~\cite{sagemath} framework with Gurobi~\cite{gurobi} as the optimisation backend. The barrier method is used, as seen in Code~\ref{lst::linear_program}--\ref{lst::unicliqual_rounding_linear_program}, through the parameter \texttt{Method=2}. The barrier method is an interior-point method that uses a predictor-corrector scheme based on Newton iterations to approach an optimal solution from within the feasible region. For linear programs, classical interior-point theory provides polynomial worst-case bounds on the number of iterations, with each iteration requiring polynomial computational effort in the number of variables and constraints \cite{gonzaga_1991_barrier_function}. Thus, the barrier method provides a theoretically polynomial approach for solving the $LP$ formulations considered in this chapter, although these worst-case bounds do not necessarily reflect the practical running time of the implementation. 
+The methodology used in this work is implemented using the SageMath~\cite{sagemath} framework with Gurobi~\cite{gurobi} as the optimization backend. The barrier method is used, as seen in the code block Listings~\ref{lst::linear_program}--\ref{lst::unicliqual_rounding_linear_program}, through the parameter \texttt{Method=2}. The barrier method is an interior-point method that uses a predictor-corrector scheme based on Newton iterations to approach an optimal solution from within the feasible region. For linear programs, classical interior-point theory provides polynomial worst-case bounds on the number of iterations, with each iteration requiring polynomial computational effort in the number of variables and constraints \cite{gonzaga_1991_barrier_function}. Thus, the barrier method provides a theoretically polynomial approach for solving the $LP$ formulations considered in this chapter, although these worst-case bounds do not necessarily reflect the practical running time of the implementation. 
 
-Throughout this chapter, we consider graphs as unlabelled graphs, so graphs that are isomorphic are regarded as the same graph instance. However, the algorithms themselves operate on a labelled representation of each graph. Each unlabelled graph is therefore represented computationally by a particular labelled graph generated by SageMath, with the assigned vertex labels retained throughout the subsequent computations.
+Throughout this thesis, we have only considered unlabelled graphs, so graphs that are isomorphic are regarded as the same graph instance. However, the algorithms themselves operate on a labelled representation of each graph. Each unlabelled graph is therefore represented computationally by a particular labelled graph generated by SageMath, with the assigned vertex labels retained throughout the subsequent computations.
 
-The particular labelling depends on the graph generation procedure. Consequently, different labellings of the same unlabelled graph, or different generated representatives of the same isomorphism class, may lead to different intermediate or selected solutions of the optimisation procedures, even though the underlying graph structure is unchanged. The results reported in this chapter therefore correspond to the particular labelled representatives produced by the stated generation procedure. The complete test harness and instance generation scripts are available at \href{https://github.com/Hellwoodoo/Graph-Squares}{\texttt{github.com/Hellwoodoo/Graph-Squares}} and the functions used by the harness are reproduced in Appendix~\ref{lst::integer_program}--\ref{lst::unicliqual_rounding_linear_program} for completeness.
+The particular labelling depends on the graph generation procedure. Consequently, different labellings of the same unlabelled graph, or different generated representatives of the same isomorphism class, may lead to different intermediate or selected solutions of the optimization procedures, even though the underlying graph structure is unchanged. The results reported in this chapter therefore correspond to the particular labelled representatives produced by the stated generation procedure. The complete test harness and instance generation scripts are available at \href{https://github.com/Hellwoodoo/Graph-Squares}{\texttt{github.com/Hellwoodoo/Graph-Squares}} and the functions used by the harness are reproduced in the appendix (Listings~\ref{lst::integer_program}--\ref{lst::unicliqual_rounding_linear_program}) for completeness.
 
 \section{Linear Program Relaxation} \label{sec::linear_program_relaxation}
 
-We construct the linear relaxation of the integer program defined by Equations~\eqref{eq::integer_objective_function}--\eqref{eq::IP_diagonal_x}, which generates a feasible weighted solution in polynomial time. The relaxation has identical constraints, however the decision variables \eqref{eq::IP_x_variable}, \eqref{eq::IP_y_variable} and \eqref{eq::IP_z_variable} are replaced with
+We construct the linear relaxation of the integer program defined by Equations~\eqref{eq::integer_objective_function}--\eqref{eq::IP_diagonal_x}, which generates a feasible weighted solution in polynomial time. The relaxation has identical constraints and the same constant objective function, however the decision variables Equations~\eqref{eq::IP_x_variable}--\eqref{eq::IP_z_variable} are replaced with
 \begin{alignat}{3}
 & x_{ij} \in  \mathbb{R}_{\geq 0}, 
 &&\qquad \forall i,j \in \{1, \dots, n\}, \label{eq::LP_x_variable} \\
@@ -1111,8 +1106,8 @@ Figure~\ref{fig::linear_program_diagram} gives the classification of solutions o
 \begin{figure}[!htbp]
   \centering
   \begin{tikzpicture}[level distance=1cm,
-    level 1/.style={sibling distance=9cm},
-    level 2/.style={sibling distance=5cm}]
+    level 1/.style={sibling distance=8cm},
+    level 2/.style={sibling distance=4cm}]
     \node {n=8}
       child { node {$H$ exists}
         child { node {$\underset{\raisebox{-0.8em}{47}}{\text{$LP$ integral solution}}$} }
@@ -1126,10 +1121,6 @@ Figure~\ref{fig::linear_program_diagram} gives the classification of solutions o
   \caption{$LP$ outcomes for $n=8$ vertices using $\mathcal{LP}(G)$.} 
   \label{fig::linear_program_diagram} 
 \end{figure}
-
-\footnotetext{
-The $LP$ integral solution sequence $2, 3, 6, 10, 17, 29, 51, \dots$ matches \href{https://oeis.org/A285665}{A285665}. However, it is unclear why this should be the case. 
-}
 
 \begin{table}[!htbp]
   \centering
@@ -1152,7 +1143,7 @@ The $LP$ integral solution sequence $2, 3, 6, 10, 17, 29, 51, \dots$ matches \hr
   \label{tab::linear_program_outcomes}
 \end{table}
 \footnotetext{
-The $LP$ integral solution sequence $2, 3, 6, 10, 17, 29, 51, \dots$ matches \href{https://oeis.org/A285665}{A285665}.
+The $LP$ integral solution sequence $2, 3, 6, 10, 17, 29, 51, \dots$ matches \href{https://oeis.org/A285665}{A285665}. However, it is unclear why this should be the case. 
 }
 
 \input{subfiles/LinearRelaxationSet.tex}
@@ -1247,62 +1238,45 @@ This relaxation however yields more fractional solutions, as illustrated in Tabl
 The behaviour of the weights observed in Figure~\ref{fig::K6_example} motivates the following proposition. 
 
 \begin{proposition} \label{prop::unique_symmetric_minimizer}
-  Let $G$ be a graph. For every edge $uv\in E_G$, let $t_{uv}$ be the
-  number of vertices in a smallest maximal clique of $G$ containing
-  $uv$. Then the unique symmetric minimizer of $\min\mathcal{LP}(G)$
-  is given by
+  Let $G$ be a graph. For every edge $uv\in E_G$, let $t_{uv}$ be the number of vertices in a smallest maximal clique of $G$ containing $uv$. Among solutions in which each edge variable is assigned the value determined by this rule, the unique minimizer of $\min\mathcal{LP}(G)$ is given by
   \[
   x_{uv}=\frac{1}{t_{uv}-1}.
   \]
 \end{proposition}
 \begin{proof}
-  First consider a maximal clique of size $2$. Such a clique consists of a single edge $uv$, and no larger clique contains it. In the square graph, a $K_2$ maximal clique can occur only when its edge forms an isolated component of $G$. If $u$ or $v$ had another other neighbour, that neighbour together with $u$ and $v$ would form a triangle containing $uv$, contradicting the maximality of $uv$. Hence $uv$ is an isolated component, and it must be its own root, so its value is integral and satisfies
-  \[
-  x_{uv}=1 = \frac{1}{t_{uv}-1}.
-  \]
-  Now let $C\cong K_k$ be a maximal clique with $k \geq 3$. Fix $i \in V_C$. Since $C$ is complete, we have $g_{ij}=1$ for every $j \in V_C\setminus\{i\}$. Hence, by the indicator constraints Equations~\eqref{eq::IP_indicator_upper}--\eqref{eq::IP_indicator_lower}, for every $j\in V_C\setminus\{i\}$
-  \[
-  x_{ij}+\sum_{\ell=1}^{n}y_{i\ell j} = z_{ij} \geq g_{ij}=1.
-  \]
-  Since $C$ is complete, every length-two connection $i-\ell-j$ between vertices of $C$ uses an edge incident with $i$ in $C$. The product constraints $y_{i\ell j}\leq x_{i\ell}$ therefore imply that the constraints for the vertices of $C$ require
-  \[
-  \sum_{j\in V_C\setminus\{i\}}x_{ij} \geq 1.
-  \]
-  Summing this inequality over all $i\in V_C$ and using $x_{ij}=x_{ji}$ gives $\displaystyle 2\sum_{ij\in E_C}x_{ij} \geq k$, and hence
-  \[
-  \sum_{ij\in E_C}x_{ij}\geq\frac{k}{2}.
-  \]
-  Restrict to solutions that are symmetric on $C$ and invariant under all permutations of $V_C$. Since every edge of $K_k$ is equivalent under a permutation of $V_C$, symmetry forces all edges of $C$ to take the same value. Thus, for some $t \geq 0$,
-  \[
-  x_{ij}=t \quad \text{for all } ij \in E_C.
-  \]
-  For any $i\in V_C$, the clique constraint becomes $ \displaystyle  \sum_{j\in V_C\setminus\{i\}}x_{ij} = (k-1)t  \geq 1$,
-  and so
-  \[
-  t\geq\frac{1}{k-1}.
-  \]
-  The contribution of the clique edges to the objective function is $ \displaystyle \sum_{ij\in E_C}x_{ij} = \binom{k}{2}t$. This is strictly increasing in $t$, so the unique symmetric minimizer of the objective function is obtained by taking the smallest feasible value,
-  \[
-  t=\frac{1}{k-1}.
-  \]
-  Therefore, among solutions symmetric on $C$, $\displaystyle x_{ij}=\frac{1}{k-1}$ for every $ij \in E_C$. Now suppose that an edge $ij$ belongs to several maximal cliques $C_1,\ldots,C_r$, with $|C_t|=k_t$. If all $k_t=2$, then $ij$ is an isolated $K_2$ component and the value $x_{ij}=1$ is integral, as handled above. Otherwise, assume $k_t\geq 3$ for at least one $t$. Symmetry on each $C_t$ forces
-  \[
-  x_{ij}=\frac{1}{k_t-1} \quad \text{for all } t=1,\ldots,r.
-  \]
-  Since a single variable cannot take several distinct values, symmetry forces the largest of these required values. Hence, when maximal cliques share an edge, the smallest clique determines the fractional value of the shared edge, and
-  \[
-  x_{ij} = \max_{1\leq t\leq r}\frac{1}{k_t-1} = \frac{1}{t_{ij}-1},
-  \]
-  where $t_{ij}=\min_t k_t$ is the number of vertices in a smallest maximal clique of $G$ containing $ij$.
+  Let $C$ be a maximal clique of $G$ with $|C|=k$.
 
-  Combining the trivial $K_2$ case with the nontrivial $k \geq 3$ case, the unique symmetric minimizer of $\min\mathcal{LP}(G)$ is
+  If $k=2$, then $C$ consists of an isolated edge $uv$. Hence
+  \[
+  x_{uv}=1=\frac{1}{t_{uv}-1}.
+  \]
+
+  Now suppose $k \geq 3$. Since every pair of distinct vertices in $C$ is adjacent, the indicator constraints Equations~\eqref{eq::IP_indicator_upper}--\eqref{eq::IP_indicator_lower}, together with the product constraints, imply that
+  \[
+  \sum_{j\in V_C\setminus\{i\}} x_{ij} \geq 1 \quad \text{for every } i\in V_C.
+  \]
+  If all edges of $C$ receive the same weight $t$, this gives $(k-1)t \geq 1$. Since the contribution of the clique edges to the objective is $\displaystyle \binom{k}{2}t$, it is minimized uniquely at
+  \begin{equation} \label{eq::symmetric_clique_weight}
+    x_{ij}=\frac{1}{k-1} \quad \text{for every } ij\in E_C.
+  \end{equation}
+  Finally, suppose an edge $ij$ belongs to multiple maximal cliques $C_1,\ldots,C_r$, of orders $k_1,\ldots,k_r$. Its weight must satisfy the lower bound imposed by each clique, giving
+  \[
+  x_{ij}\geq \max_{1\leq s\leq r}\frac{1}{k_s-1} =\frac{1}{t_{ij}-1},
+  \]
+  where $t_{ij}=\min_{1\leq s\leq r}k_s$. Thus, the smallest maximal clique containing $ij$ determines the strongest lower bound on its weight. Consider the assignment $ \displaystyle x_{uv}=\frac{1}{t_{uv}-1}$ for all $uv \in E_G$. If $uv$ lies in a maximal clique $C$ of order $k$, then  $t_{uv}\leq k$, so
+  \[
+  x_{uv}=\frac{1}{t_{uv}-1}\geq\frac{1}{k-1}.
+  \]
+  Consequently, for every $i\in V_C$ $\displaystyle \sum_{j\in V_C\setminus\{i\}}x_{ij} \geq (k-1)\frac{1}{k-1}=1$. Hence, the assignment satisfies Equation~\eqref{eq::symmetric_clique_weight}.
+
+  Therefore, among assignments satisfying the equal-weight requirement on every maximal clique, the minimum weights are
   \[
   x_{uv}=\frac{1}{t_{uv}-1} \quad \text{for all } uv\in E_G,
   \]
-  where $t_{uv}$ is the number of vertices in a smallest maximal clique of $G$ containing $uv$.
+  where $t_{uv}$ is the order of a smallest maximal clique containing $uv$.
 \end{proof}
 
-Using Proposition~\ref{prop::unique_symmetric_minimizer} we conjecture that the $LP$ will always return a symmetric solution.  
+Motivated by Proposition~\ref{prop::unique_symmetric_minimizer}, we conjecture that $\min\mathcal{LP}(G)$ always returns a symmetric optimal solution, assigning equal weights to edges whenever possible.
 
 \begin{conjecture}[Fractional Cliques in $\min \mathcal{LP}(G)$] \label{conjecture::fractional_cliques_min_LP}
   Let $G$ be a graph with $n\geq 3$ vertices. For every edge
@@ -1324,7 +1298,7 @@ Consider the replacement of Equation~\ref{eq::integer_objective_function} with a
 
 The construction of the linear program on the arbitrary graph $G$ using Equations~\eqref{eq::LP_x_variable}--\eqref{eq::LP_z_variable}, Equations~\eqref{eq::IP_fund_matrix}--\eqref{eq::IP_diagonal_x} together with Equation~\eqref{eq::max_obj_function} is denoted as $\max \mathcal{LP}(G)$. 
 
-From Table~\ref{tab::max_objective_function_outcomes}, this objective encourages solutions that have fewer fractional edges and therefore tends to produce relaxations that are integral. In particular, maximizing the total edge weight pushes the variables toward values closer to $1$, which promotes direct edges and reduces the need for paths of length $2$ with fractional weights to satisfy Equation~\eqref{eq::IP_indicator_arg}. As a result, the relaxation is more likely to yield integral solutions.  
+From Table~\ref{tab::max_objective_function_outcomes}, this objective encourages solutions that have fewer fractional edges and therefore tends to produce relaxations that are integral. In particular, maximizing the total edge weight pushes the variables closer to $1$, which promotes direct edges and reduces the need for paths of length $3$ with fractional weights to satisfy Equation~\eqref{eq::IP_indicator_arg}. As a result, the relaxation is more likely to yield integral solutions.  
 
 \begin{table}[!htbp]
   \centering
@@ -1373,7 +1347,7 @@ Without an objective function that breaks this symmetry, the three labelled path
         \label{fig::K3_root_2}
     \end{subfigure}
 
-    \caption{The graph $K_3$ and two of its square roots.}
+    \caption{The graph $K_3$ and two of its square roots. Notice that there are multiple possible isomorphic $P_3$ roots.}
     \label{fig::K3_example}
 \end{figure}
 
@@ -1406,21 +1380,13 @@ In this section, we show that every tree contains one of two structural configur
   \]
   forms a pendant subgraph.
 
-  Otherwise $u$ has at least two leaf neighbours $s_1,s_2$. Choose another neighbour $v$ of $u$ distinct from $s_1,s_2$. If $u$ is not the root, choose $v$ as its parent. Since $v$ is distinct from $s_1$ and $s_2$, have
-  \[
-  \{s_1,s_2,v\}\subseteq N(u),
-  \]
-  and $\deg_T(u)\ge3$. Hence the induced subgraph on
+  Otherwise $u$ has at least two leaf neighbours $s_1,s_2$. Choose another neighbour $v$ of $u$ distinct from $s_1,s_2$. If $u$ is not the root, choose $v$ as its parent. Since $v$ is distinct from $s_1$ and $s_2$, have $\{s_1,s_2,v\}\subseteq N(u)$, and $\deg_T(u)\ge3$. Hence the induced subgraph on
   \[
   \{s_1,s_2,u,v\}
   \]
   forms a pendant fork subgraph.
 
-  If $u$ is the root, then all neighbours of $u$ are children and hence are leaves. Since $|V_T| \ge 3$, $u$ has at least two neighbours. If it has exactly two neighbours, the induced subgraph on these three vertices forms a sparse pendant. Otherwise, choose any three distinct children $s_1,s_2,v$ of $u$. Then
-  \[
-    \{s_1,s_2,v\}\subseteq N_T(u),
-  \]
-  and the induced subgraph on
+  If $u$ is the root, then all neighbours of $u$ are children and hence are leaves. Since $|V_T| \ge 3$, $u$ has at least two neighbours. If it has exactly two neighbours, the induced subgraph on these three vertices forms a sparse pendant. Otherwise, choose any three distinct children $s_1,s_2,v$ of $u$. Then $\{s_1,s_2,v\}\subseteq N_T(u)$, and the induced subgraph on
   \[
     \{s_1,s_2,u,v\}
   \]
@@ -1436,27 +1402,23 @@ T(s) = \bigl\{ \{u,v\} \subseteq V \setminus \{s\} \vert (s,u)\in E,\ (s,v)\in E
 \]
 to be the set of $K_3$s in $G$ that contain $s$. If $|T(s)| = 1$ where $T(s) = \{\{u,v\}\}$ then the vertex $s$ exists in a unique $K_3$ of $G$. When the neighbours have different degree $\deg_G(u) \neq \deg_G(v)$, then the vertex with smaller degree must be the stem vertex in the square root. This is assigned deterministically for a single triangle $s$ using
 \begin{equation} \label{eq::single_triangle_fix}
-x_{sa} = x_{as} = x_{ab} = x_{ba} = 1,
-\quad
-\text{where }
-(a,b) =
-\begin{cases}
-(u,v), & \deg_G(u) \leq \deg_G(v), \\
-(v,u), & \deg_G(u) > \deg_G(v).
-\end{cases}
+  x_{sa} = x_{as} = x_{ab} = x_{ba} = 1, \quad \text{where } (a,b) =
+  \begin{cases}
+  (u,v), & \deg_G(u) \leq \deg_G(v), \\
+  (v,u), & \deg_G(u) > \deg_G(v).
+  \end{cases}
 \end{equation}
 
 If $\deg_G(u) = \deg_G(v)$, then either $u,v$ can be chosen since they are connected to a clique.
 
 \begin{proposition}[Single Triangle Decomposition Interchangeability] \label{prop::single_triangular_decomposition_equality}
-  Let $s,u,v$ form a $K_3$ in square $G$ where $s$ only lies in a single clique. If $\deg_G(u)=\deg_G(v)=d\geq2$, then one can choose to assign
-  \[
-  x_{su}=x_{us}=x_{uv}=x_{vu}=1
-  \]
-  in the tree root $H$ without loss of generality.
+  Let $G$ be a graph containing a triangle on vertices $s,u,v$, such
+  that $\{s,u,v\}$ is the unique maximal clique containing $s$ and
+  $\deg_G(u)=\deg_G(v)=d\geq 2$. If $G$ admits a graph root, then
+  $G$ admits a tree root $T$ such that $su,uv\in E_T$. 
 \end{proposition}
 \begin{proof}
-  Since $s$ lies in a single maximal clique in $G$, in any tree root $H$, the vertex $s$ must be a leaf, with exactly one of $u$ or $v$ being the internal vertex adjacent to the remainder of the graph. Assume without loss of generality that $u$ is this internal vertex. Since $v$ has no other connections in $H$ besides $s$ and $u$, any vertex adjacent to $v$ in $G$ other than $s$ must also be adjacent to $u$ in $G$. Hence
+  Since $s$ lies in a single maximal clique in $G$, in any tree root $T$, the vertex $s$ must be a leaf, with exactly one of $u$ or $v$ being the internal vertex adjacent to the remainder of the graph. Assume without loss of generality that $u$ is this internal vertex. Since $v$ has no other connections in the maximal clique besides $s$ and $u$, any vertex adjacent to $v$ in $G$ other than $s$ must also be adjacent to $u$ in $G$. Hence
   \[
   N_G(v)\setminus\{s\}\subseteq N_G(u)\setminus\{s\}.
   \]
@@ -1464,11 +1426,7 @@ If $\deg_G(u) = \deg_G(v)$, then either $u,v$ can be chosen since they are conne
   \[
   N_G(u)\setminus\{s\}=N_G(v)\setminus\{s\}.
   \]
-  Thus $u$ and $v$ have identical neighbourhoods outside $s$ and may be interchanged without changing the square graph $G$. Consequently, we may choose $u$ as the internal vertex and assign
-  \[
-  x_{su}=x_{us}=x_{uv}=x_{vu}=1
-  \]
-  without loss of generality.
+  Thus $u$ and $v$ have identical neighbourhoods outside $s$ and may be interchanged without changing the square graph $G$. Consequently, if $G$ admits a square root, we may choose $u$ as the internal vertex such that $su,uv \in E_T$.
 \end{proof}
 
 \subsection{Tetrahedron Decomposition} \label{subsec::tetrahedron_decomposition}
@@ -1478,11 +1436,11 @@ A natural extension of Section~\ref{subsec::single_triangular_decomposition} can
 
 Consider vertices $s_1,s_2,u,v\in V$ such that $K_4 = \{s_1,s_2,u,v\}$ induces a $K_4$ in $G$ and for each leaf $s_1, s_2$ of $u$ their neighbourhoods are equivalent and give the common neighbourhood $N_L = N_G(s_1)\setminus K_4 =N_G(s_2) \setminus K_4$. If
 \begin{equation} \label{eq::tetrahedron_neighbourhood_assignment}
-\big( N_G(s_1)\setminus K_4 \big) = \big( N_G(s_2)\setminus K_4 \big) \subset \big( N_G(u)\setminus K_4 \big) \subseteq \big( N_G(v)\setminus K_4 \big),
+  \big( N_G(s_1)\setminus K_4 \big) = \big( N_G(s_2)\setminus K_4 \big) \subset \big( N_G(u)\setminus K_4 \big) \subseteq \big( N_G(v)\setminus K_4 \big),
 \end{equation}
 and if every vertex in the common neighbourhood of each leaf has no neighbours outside the tetrahedron and that neighbourhood itself,
 \begin{equation} \label{eq::tetrahedron_leaf_class}
-N_G(w) \subseteq K_4 \cup N_L \quad \forall w\in N_L,
+  N_G(w) \subseteq K_4 \cup N_L \quad \forall w\in N_L,
 \end{equation}
 then $u$ is designated as the internal vertex, $v$ as the external vertex, and $s_1,s_2$ as the leaf vertices of the tetrahedron.
 
@@ -1499,15 +1457,11 @@ More generally, suppose $u$ has $k$ leaf children $s_1,\dots,s_k$, and that thes
 \end{equation}
 
 \begin{proposition}[Tetrahedron Decomposition Interchangeability] \label{prop::textrahedron_decomposition_equality}
-  Let $s_1,s_2,u,v$ form a $K_4$ in square $G$. If Equation~\eqref{eq::tetrahedron_neighbourhood_assignment} and Equation~\eqref{eq::tetrahedron_leaf_class} are satisfied and
+  Let $G$ be a graph that admits a graph root, and let $s_1,s_2,u,v$ form a $K_4$ in square $G$. If Equation~\eqref{eq::tetrahedron_neighbourhood_assignment} and Equation~\eqref{eq::tetrahedron_leaf_class} are satisfied and
   \[
   N_G(u)\setminus K_4=N_G(v)\setminus K_4,
   \]
-  then one can choose to assign
-  \[
-  x_{s_1u}=x_{us_1}=x_{s_2u}=x_{us_2}=x_{uv}=x_{vu}=1
-  \]
-  in the tree root $H$ without loss of generality.
+  then $G$ admits a tree root $T$ such that $s_1u,s_2u,uv \in E_T$. 
 \end{proposition}
 \begin{proof}
   Since $s_1,s_2,u,v$ form a $K_4$ in $G$ and
@@ -1518,10 +1472,7 @@ More generally, suppose $u$ has $k$ leaf children $s_1,\dots,s_k$, and that thes
   \[
   N_G(u)=N_G(v).
   \]
-  Thus, exchanging $u$ and $v$ is an automorphism of $G$. Hence, if a tree root $H$ has $v$ as the internal vertex of the tetrahedral configuration, applying this automorphism allows the roles of $u$ and $v$ to be exchanged without changing the square graph. Therefore, without loss of generality may assume that $u$ is the internal vertex of the tetrahedral configuration and assign
-  \[
-  x_{s_1u}=x_{us_1}=x_{s_2u}=x_{us_2}=x_{uv}=x_{vu}=1.
-  \]
+  Thus, exchanging $u$ and $v$ is an automorphism of $G$. Hence, if the root of $G$ is a tree root $T$ and has $v$ as the internal vertex of the tetrahedral configuration, applying this automorphism allows the roles of $u$ and $v$ to be exchanged without changing the square graph. Therefore, without loss of generality may assume that $u$ is the internal vertex of the tetrahedral configuration in the root $G$ and such that $s_1u,s_2u,uv \in E_T$
 \end{proof}
 
 \section{Unicliqual Vertex Linear Program} \label{sec::unicliqual_vertex_linear_program}
@@ -1539,9 +1490,9 @@ with all vertices in $N_G[s]\setminus\{u,v\}$ having the same closed neighbourho
 \end{equation}
 
 \begin{proposition}[Unicliqual Vertex Interchangeability] \label{prop::unicliqual_decomposition_equality}
-  Let $s,u,v$ form a $K_3$ in square $G$, where $s$ is unicliqual. If $N_G[u]=N_G[v]$ then $u$ and $v$ may be chosen arbitrarily as the corresponding vertex in the tree root $H$ without loss of generality.
+  Let $s,u,v$ form a $K_3$ in square $G$, where $s$ is unicliqual. If $N_G[u]=N_G[v]$ then $u$ and $v$ may be chosen arbitrarily as the corresponding vertex in the tree root $T$ without loss of generality.
 \end{proposition}
-\begin{proof}
+\begin{proof} 
   Since $s$ is unicliqual, the maximal clique containing $s$ is uniquely determined. If this clique satisfies the conditions of Proposition~\ref{prop::single_triangular_decomposition_equality}, then that proposition permits either $u$ or $v$ to be chosen as the corresponding vertex, since $N_G[u]=N_G[v]$ gives $\deg_G(u)=\deg_G(v)$. If the configuration instead satisfies the conditions of Proposition~\ref{prop::textrahedron_decomposition_equality}, then the equality $N_G[u]=N_G[v]$ gives
   \[
   N_G(u)\setminus K_4=N_G(v)\setminus K_4,
@@ -1821,7 +1772,7 @@ x_e+x_f=1.
     \begin{subfigure}{0.39\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/115_6_square.png}
-        \caption{The graph square $H^2=G$.}
+        \caption{The graph square $H$ such that $H^2=G$.}
         \label{fig::115_6_square}
     \end{subfigure}
 
@@ -2042,7 +1993,7 @@ The outcomes obtained by using the maximum-objective linear program and the unic
         8 & 245 & 62  & 9380  & 2659 & 151 \\
         \hline
     \end{tabular}
-    \caption{Outcomes of the greedy rounding linear program using the max linear program as the base for graphs of different orders of $n$.}
+    \caption{Outcomes of the greedy rounding linear program using the max linear program as the base for graphs of different orders of $n$. The final column gives the number of initially fractional instances that are converted to integral solutions by the rounding procedure.}
     \label{tab::max_rounding_program_outcomes}
 \end{table}
 
@@ -2072,13 +2023,20 @@ The outcomes obtained by using the maximum-objective linear program and the unic
 
 \newpage
 
-\appendix
-\input{subfiles/Code.tex}
-
-
-
-
 \printbibliography
 
+\newpage
+
+\section*{Declaration}
+
+I acknowledge the use of ChatGPT (OpenAI) in the preparation of this thesis.
+
+ChatGPT was used to assist with the formulation and refinement of diagrams and the  testing of the code framework used for computational experiments.
+
+A full record of prompts and outputs is available upon request.
+
+
+\appendix
+\input{subfiles/Code.tex}
 
 \end{document}

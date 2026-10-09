@@ -16,14 +16,28 @@
 \end{proof}
 
 \begin{theorem} \label{theorem::unicliqual_vertex_induction_proof}
-  Let $G$ and $T$ be graphs such that $G=T^2$ and $T$ is a tree. Then $\max \mathcal{UVLP}(G)$ returns an integral solution.
+  Let $G$ and $T$ be graphs such that $G=T^2$ and $T$ is a tree. Then $\mathcal{UVLP}(G)$ returns an integral solution.
 \end{theorem}
 \begin{proof}
-  Suppose that $G=T^2$ for some tree $T$. By Lemma~\ref{lemma::unicliqual_vertex_fix}, the unicliqual vertex fixing identifies a leaf $s$, its stem $u$, and the external vertex $v$, and Equation~\eqref{eq::unicliqual_vertex_fix} imposes
-  \[
-  x_{su}=x_{us}=x_{uv}=x_{vu}=1
-  \]
-  in $\mathcal{UVLP}(G)$. Let $N_T(v)\setminus\{u\} = \{a_1,\ldots,a_r\}$. Hence the hypotheses of Lemma~\ref{lemma::propagation} are satisfied and the path propagation lemma implies
+  Suppose that $G=T^2$ for some tree $T$. We consider two cases. 
+  
+  First, suppose that $T$ is a star. Then $G$ is a complete graph and the maximum objective therefore admits an integral solution that is the complete graph itself. Unicliqual fixing is not applied and unnecessary. 
+
+  Now suppose that $T$ is not a star. By Lemma~\ref{lemma::unicliqual_vertex_fix}, the unicliqual vertex fixing identifies either a sparse pendant or a pendant fork in $T$.
+  
+  In the sparse pendant case, the fixing identifies a leaf $s$, its stem $u$, and the external vertex $v$. Equation~\eqref{eq::unicliqual_vertex_fix} imposes 
+  \[ 
+  x_{su}=x_{us}=x_{uv}=x_{vu}=1 
+  \] 
+  in $\mathcal{UVLP}(G)$. 
+  
+  In the pendant fork case, the fixing identifies leaves $s_1,s_2$ with common parent $u$, together with the external vertex $v$ adjacent to $u$. The remaining leaves of $u$ need not be considered individually, as they form a clique with the other leaves and $u$ by the maximum objective function. Selecting one of the $s_1$ leaves as $s$ likewise imposes 
+  \[ 
+  x_{s_1u}=x_{us_1}=x_{uv}=x_{vu}=1 
+  \] 
+  in $\mathcal{UVLP}(G)$. 
+  
+  Let $N_T(v)\setminus\{u\} = \{a_1,\ldots,a_r\}$. Hence the hypotheses of Lemma~\ref{lemma::propagation} are satisfied and the path propagation lemma implies
   \[
   x_{va_i}=x_{a_iv}=1 \text{ for every } i \in \{1,\ldots,r\},
   \]
