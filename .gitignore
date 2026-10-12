@@ -37,3 +37,9 @@
 !Thesis/subfiles/*.tex
 !Thesis/images/
 !Thesis/images/*
+
+!Presentation/
+!Presentation/Presentation.tex
+!Presentation/Presentation.pdf
+!Presentation/images/
+!Presentation/images/*
