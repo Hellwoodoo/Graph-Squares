@@ -445,7 +445,7 @@ We now introduce the graph-theoretic objects central to this thesis.
   \begin{equation} \label{eq::fund_def_square}
     E_{H^2} = \{ uv \mid u \neq v, 1 \leq d_H(u,v) \leq 2 \}.
   \end{equation}
-  That is, two distinct vertices are adjacent in $H^2$ if and only if they are connected by a path of length one or two in $H$. When $G = H^2$ we say that $H$ is a \textbf{root} of $G$ 
+  That is, two distinct vertices are adjacent in $H^2$ if and only if they are connected by a path of length one or two in $H$. When $G = H^2$ we say that $H$ is a \textbf{root} of $G$. 
 \end{definition}
 
 Equivalently, $G$ is a root of $H$ when the adjacency matrices of $G$ and $H$ satisfy  
@@ -500,14 +500,6 @@ Among the feasible solutions, an optimal solution is one that achieves the optim
 \begin{definition}[Optimal Solution] \label{def::optimal_solution}
   An \textbf{optimal solution} is a feasible solution that maximizes or minimizes the objective function, depending on the optimization problem. The corresponding value of the objective function is called the \textbf{optimal value} and is denoted by $\operatorname{OPT}$.
 \end{definition}
-
-% \begin{definition}[Optimal Feasible Sets] \label{def::optimal_feasible_sets}
-%   Let $\mathcal{F}_{IP}$ and $\mathcal{F}_{LP}$ be the feasible sets of an integer program and its linear relaxation, with optimal values $\operatorname{OPT}_{IP}$ and $\operatorname{OPT}_{LP}$. The \textbf{optimal feasible sets} are
-%   \[
-%   \mathcal{F}^{*}_{IP} = \{ x \in \mathcal{F}_{IP} : c^\top x = \operatorname{OPT}_{IP} \}, \quad
-%   \mathcal{F}^{*}_{LP} = \{ x \in \mathcal{F}_{LP} : c^\top x = \operatorname{OPT}_{LP} \}.
-%   \]
-% \end{definition}
 
 When an integer program is relaxed to a linear program, every feasible integer solution remains feasible for the relaxation. Consequently, if $\mathcal{F}_{IP}$ and $\mathcal{F}_{LP}$ denote the feasible sets of the integer program and its linear relaxation respectively, then
 \[

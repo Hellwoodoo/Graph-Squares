@@ -159,15 +159,12 @@ style=alphabetic]{biblatex}
         \]
     \end{problem}
 
-    \begin{equation} \label{eq::fund_adj_square_or}
-        A_G = (A_H)^2 \lor A_H.
+    Let the \textbf{graph root} $H = (V, E_H)$ be a finite, simple, undirected graph, where $V$ is the vertex set with $|V| = n$, and $E_H \subseteq \{\{u,v\} \mid u,v \in V, u \neq v\}$ is the edge set.  
+    The \textbf{square of a graph} $H$, denoted by $H^2 = (V, E_{H^2})$ is the graph on the same vertex set with edge set
+    \begin{equation} \label{eq::fund_def_square}
+      E_{H^2} = \{ uv \mid u \neq v, 1 \leq d_H(u,v) \leq 2 \}.
     \end{equation}
-
-     $\displaystyle (A_H)^2_{ij} = \big( (A_H)_{i1} \land (A_H)_{1j} \big) \lor \big( (A_H)_{i2} \land (A_H)_{2j} \big) \lor \cdots \lor \big( (A_H)_{in} \land (A_H)_{nj} \big)$
-
-    \begin{equation} \label{eq::sat_square}
-        g_{ij} \text{ if and only if } \big( \bigwedge_k (x_{ik} \land x_{kj}) \lor x_{ij} \big). 
-    \end{equation}
+    That is, two distinct vertices are adjacent in $H^2$ if and only if they are connected by a path of length one or two in $H$. When $G = H^2$ we say that $H$ is a \textbf{root} of $G$. 
 \end{frame}
 
 
@@ -254,7 +251,154 @@ style=alphabetic]{biblatex}
 \end{frame}
 
 \begin{frame}{NP-Completeness}
-    \citeauthor{motwani_sudan_1994_roots} (1994): square-root recognition is NP-complete \cite{motwani_sudan_1994_roots}. 
+    \citeauthor{motwani_sudan_1994_roots} (1994) proved that the graph square problem is $\mathbf{NP}$-complete by showing that the problem is $\mathbf{NP}$-hard through a polynomial reduction from Not-All-Equal $3$-SAT. 
+    
+    \begin{problem}[NAESAT] \label{prob::naesat_problem}
+        \leavevmode
+
+        \textbf{Instance:} A $3$-CNF formula
+        \[
+        \phi = C_1 \land C_2 \land \cdots \land C_m
+        \]
+        where each clause $C_i$ is over variables $x_1,\ldots,x_n$.
+
+        \medskip
+
+        \textbf{Question:} Does there exist an assignment of $\textsc{True}$ and $\textsc{False}$ to the variables such that every clause contains at least one $\textsc{True}$ literal and at least one $\textsc{False}$ literal?
+    \end{problem}
+\end{frame}
+
+\begin{frame}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[
+            scale=0.6,
+            transform shape,
+            vertex/.style={
+                circle,
+                draw,
+                fill=white,
+                minimum size=4.5mm,
+                inner sep=0pt,
+                font=\scriptsize
+            },
+            gedge/.style={thick},
+            hedge/.style={very thick},
+            dashedroot/.style={very thick,dashed},
+            arrow/.style={->,>=stealth,very thick},
+            every node/.style={font=\scriptsize}
+        ]
+
+        \node[anchor=west,font=\itshape] at (0,4.8) {$G_\phi$};
+        \node[vertex] (gt3) at (0,3.5) {$t_3$};
+        \node[vertex] (gt2) at (1.5,3.5) {$t_2$};
+        \node[vertex] (gt1) at (3.0,3.5) {$t_1$};
+        \node[vertex] (gx)  at (4.5,3.5) {$x$};
+        \node[vertex] (gT) at (2.3,1.9) {$\textsc{True}$};
+        \node[vertex] (gF) at (4.3,1.9) {$\textsc{False}$};
+
+        \draw[gedge] (gt3)--(gt2);
+        \draw[gedge] (gt2)--(gt1);
+        \draw[gedge] (gt1)--(gx);
+        \draw[gedge] (gt3) to[bend left=35] (gt1);
+        \draw[gedge] (gt2) to[bend left=35] (gx);
+        \draw[gedge] (gt1)--(gT);
+        \draw[gedge] (gt1)--(gF);
+        \draw[gedge] (gt2)--(gT);
+        \draw[gedge] (gt2)--(gF);
+        \draw[gedge] (gx)--(gT);
+        \draw[gedge] (gx)--(gF);
+
+        \draw[arrow] (5.3,3.0) -- (6.5,3.0)
+            node[midway,above] {$H^2$};
+
+        \node[anchor=west,font=\itshape] at (7.0,4.8) {$H$};
+        \node[vertex] (ht3) at (7.0,3.5) {$t_3$};
+        \node[vertex] (ht2) at (8.5,3.5) {$t_2$};
+        \node[vertex] (ht1) at (10.0,3.5) {$t_1$};
+        \node[vertex] (hx)  at (11.5,3.5) {$x$};
+        \node[vertex] (hT) at (9.3,1.9) {$\textsc{True}$};
+        \node[vertex] (hF) at (11.3,1.9) {$\textsc{False}$};
+
+        \draw[hedge] (ht3)--(ht2);
+        \draw[hedge] (ht2)--(ht1);
+        \draw[hedge] (ht1)--(hx);
+        \draw[hedge] (ht1)--(hT);
+        \draw[dashedroot] (ht1)--(hF);
+
+        \node[anchor=west,font=\itshape] at (0,0.5) {$G_\phi$};
+        \node[vertex] (gc3) at (0,-0.8) {$C_j^3$};
+        \node[vertex] (gc2) at (1.5,-0.8) {$C_j^2$};
+        \node[vertex] (gc1) at (3.0,-0.8) {$C_j^1$};
+        \node[vertex] (gc)  at (4.5,-0.8) {$C_j$};
+        \node[vertex] (gL1) at (1.8,-2.3) {$L_{j_1}$};
+        \node[vertex] (gL2) at (3.0,-2.3) {$L_{j_2}$};
+        \node[vertex] (gL3) at (4.2,-2.3) {$L_{j_3}$};
+
+        \draw[gedge] (gc3)--(gc2);
+        \draw[gedge] (gc2)--(gc1);
+        \draw[gedge] (gc1)--(gc);
+        \draw[gedge] (gc3) to[bend left=35] (gc1);
+        \draw[gedge] (gc2) to[bend left=35] (gc);
+        \draw[gedge] (gc)--(gL1);
+        \draw[gedge] (gc)--(gL2);
+        \draw[gedge] (gc)--(gL3);
+        \draw[gedge] (gc1)--(gL1);
+        \draw[gedge] (gc1)--(gL2);
+        \draw[gedge] (gc1)--(gL3);
+        \draw[gedge] (gc2)--(gL1);
+        \draw[gedge] (gc2)--(gL2);
+        \draw[gedge] (gc2)--(gL3);
+
+        \draw[arrow] (5.3,-1.2) -- (6.5,-1.2)
+            node[midway,above] {$H^2$};
+
+        \node[anchor=west,font=\itshape] at (7.0,0.5) {$H$};
+        \node[vertex] (hc3) at (7.0,-0.8) {$C_j^3$};
+        \node[vertex] (hc2) at (8.5,-0.8) {$C_j^2$};
+        \node[vertex] (hc1) at (10.0,-0.8) {$C_j^1$};
+        \node[vertex] (hc)  at (11.5,-0.8) {$C_j$};
+        \node[vertex] (hL1) at (8.8,-2.3) {$L_{j_1}$};
+        \node[vertex] (hL2) at (10.0,-2.3) {$L_{j_2}$};
+        \node[vertex] (hL3) at (11.2,-2.3) {$L_{j_3}$};
+
+        \draw[hedge] (hc3)--(hc2);
+        \draw[hedge] (hc2)--(hc1);
+        \draw[hedge] (hc1)--(hc);
+        \draw[hedge] (hc1)--(hL1);
+        \draw[hedge] (hc1)--(hL2);
+        \draw[hedge] (hc1)--(hL3);
+
+        \node[anchor=west,font=\itshape] at (0,-3.9) {$G_\phi$};
+        \node[vertex] (li)   at (1.5,-4.9) {$L_i$};
+        \node[vertex] (lT)   at (0.4,-6.1) {$\textsc{True}$};
+        \node[vertex] (lF)   at (2.6,-6.1) {$\textsc{False}$};
+        \node[vertex] (lbar) at (1.5,-7.3) {$L_{\bar i}$};
+
+        \draw[gedge] (li)--(lT);
+        \draw[gedge] (li)--(lF);
+        \draw[gedge] (lT)--(lF);
+        \draw[gedge] (lT)--(lbar);
+        \draw[gedge] (lF)--(lbar);
+
+        \draw[arrow] (4.5,-6.1) -- (6.0,-6.1)
+            node[midway,above] {$H^2$};
+
+        \node[anchor=west,font=\itshape] at (7.0,-3.9) {$H$};
+
+        \node[vertex] (hli)   at (9.0,-4.9) {$L_i$};
+        \node[vertex] (hlT)   at (7.9,-6.1) {$\textsc{True}$};
+        \node[vertex] (hlF)   at (10.1,-6.1) {$\textsc{False}$};
+        \node[vertex] (hlbar) at (8.9,-7.3) {$L_{\bar i}$};
+
+        \draw[hedge] (hli)--(hlT);
+        \draw[dashedroot] (hli)--(hlF);
+        \draw[hedge] (hlbar)--(hlF);
+        \draw[dashedroot] (hlbar)--(hlT);
+        \draw[hedge] (hlT)--(hlF);
+
+        \end{tikzpicture}
+    \end{figure}
 \end{frame}
 
 \begin{frame}{Restricting the Square vs the Root}
@@ -329,10 +473,52 @@ style=alphabetic]{biblatex}
 % \end{enumerate}
 
 \begin{frame}{Maximal Cliques and Unicliqual Vertices in Tree Roots}
+  \scriptsize
+  \setlength{\itemsep}{0pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\topsep}{0pt}
+  \begin{algorithmic}[1]
+    \State \textbf{Input:} A graph $G$ where $G = T^2$
+    \State \textbf{Output:} A tree $T$
 
+    \Statex \textbf{Step 1}
+    \If{$G = K_p$ is complete}
+      \State \textbf{Return} tree $T$ with depth $1$, root any vertex
+    \Else
+      \State \textbf{Continue}
+    \EndIf
+
+    \Statex \textbf{Step 2}
+    \State Identify all maximal cliques $C_1, \dots, C_n$ of $G$ (e.g. Bron--Kerbosch \cite{bron_kerbosch_1973_maximal_cliques}) 
+
+    \Statex \textbf{Step 3}
+    \State Let $b_1, \dots, b_n$ be multicliqual points for $C_1, \dots, C_n$ 
+    \State Build graph $T$ on $\{b_1,\dots,b_n\}$
+    \For{each pair $(C_i, C_j)$ with $|C_i \cap C_j| = 2$}
+      \State Add edge $(b_i, b_j)$ in $T$
+    \EndFor
+    \State  $T$ is a tree
+
+    \Statex \textbf{Step 4}
+    \For{each clique $C_i$}
+      \State Let $n_i$ be the number of unicliqual points in $C_i$
+      \State Attach $n_i$ leaves to $b_i$ in $T$
+    \EndFor
+    \State Resulting $T$ has $|V(G)|$ nodes and $T^2 = G$
+  \end{algorithmic}
 \end{frame}
 
 \begin{frame}{Integer Program}
+    \begin{equation} \label{eq::fund_adj_square_or}
+        A_G = (A_H)^2 \lor A_H.
+    \end{equation}
+
+     $\displaystyle (A_H)^2_{ij} = \big( (A_H)_{i1} \land (A_H)_{1j} \big) \lor \big( (A_H)_{i2} \land (A_H)_{2j} \big) \lor \cdots \lor \big( (A_H)_{in} \land (A_H)_{nj} \big)$
+
+    \begin{equation} \label{eq::sat_square}
+        g_{ij} \text{ if and only if } \big( \bigwedge_k (x_{ik} \land x_{kj}) \lor x_{ij} \big). 
+    \end{equation}
+    
     \begin{lemma} \label{lemma::G_equal_to_H^2}
         Let $G$ and $H$ be graphs with adjacency matrices $A_G$ and $A_H$,respectively. The graph $H$ is a root of $G$ if and only if 
         \[ 
