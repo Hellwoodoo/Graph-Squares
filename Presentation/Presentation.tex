@@ -1,14 +1,27 @@
 \documentclass[10pt]{beamer}
 
 \usepackage{appendixnumberbeamer}
-\usepackage{subcaption}
+\usepackage{amsmath, amssymb, amsthm, bbm}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{tikz, subcaption}
+\usetikzlibrary{positioning,decorations.pathreplacing}
+\usepackage{enumitem}
+\usepackage{geometry}
+\usepackage{algorithm}
+\usepackage{caption}
+\usepackage{algpseudocode}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{float}
 \usepackage{booktabs}
 \usepackage[scale=2]{ccicons}
-
-\usepackage{pgfplots}
-\usepgfplotslibrary{dateplot}
-
 \usepackage{xspace}
+\usepackage[backend=biber,
+    maxnames=10,
+    minnames=1,
+style=alphabetic]{biblatex}
+\addbibresource{references.bib}
 
 \title{Linear Programming Approach to the Graph Square Problem}
 \date{
@@ -28,49 +41,309 @@
 \section[Intro]{Introduction}
 
 \begin{frame}{Square of a Graph}
-  \begin{figure}
-    \centering
-    \begin{subfigure}{0.34\textwidth}
-      \centering
-      \includegraphics[width=\linewidth,height=0.42\textheight,keepaspectratio]{images/K5.png}
-      \caption{$K_5$.}
-      \label{fig:K5}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}{0.34\textwidth}
-      \centering
-      \includegraphics[width=\linewidth,height=0.42\textheight,keepaspectratio]{images/K5_root_11.png}
-      \caption{$K_{1,4}$, a root of $K_5$.}
-      \label{fig:K5_root}
-    \end{subfigure}
-    \caption{One of the $15$ non-isomorphic graph roots of $K_5$.}
-    \label{fig:K5_example}
-  \end{figure}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.49\textwidth}
+\centering
+\textbf{Two-step connections}
+        \vspace{0.4cm}
+
+        \begin{tikzpicture}[
+            vertex/.style={
+                circle, draw, thick,
+                minimum size=9mm, inner sep=0pt
+            },
+            edge/.style={thick}
+        ]
+            \node[vertex] (r) at (0,0) {$r$};
+            \node[vertex] (k) at (1.5,1.2) {$k$};
+            \node[vertex] (c) at (3,0) {$c$};
+
+            \draw[edge,blue,very thick] (r)--(k)--(c);
+
+            \draw[blue,thick,dotted]
+                (0,-0.35)--(3,-0.35)
+                node[midway,below=6pt] {two steps};
+
+            \path (-0.5,-0.9) rectangle (3.5,1.65);
+        \end{tikzpicture}
+
+        \vspace{0.5cm}
+
+        \[
+            (A^2)_{rc}
+            = \sum_{k=1}^{n} A_{rk}A_{kc}.
+        \]
+
+        \small
+        Counts walks of length two from $r$ to $c$.
+    \end{column}
+
+    \begin{column}{0.49\textwidth}
+        \centering
+        \textbf{Three-step connections}
+
+        \vspace{0.4cm}
+
+        \begin{tikzpicture}[
+            vertex/.style={
+                circle, draw, thick,
+                minimum size=9mm, inner sep=0pt
+            },
+            edge/.style={thick}
+        ]
+            \node[vertex] (r) at (0,0) {$r$};
+            \node[vertex] (k1) at (0.9,1.2) {$k_1$};
+            \node[vertex] (k2) at (2.1,1.2) {$k_2$};
+            \node[vertex] (c) at (3,0) {$c$};
+
+            \draw[edge,red,very thick] (r)--(k1)--(k2)--(c);
+
+            \draw[red,thick,dotted]
+                (0,-0.35)--(3,-0.35)
+                node[midway,below=6pt] {three steps};
+
+            \path (-0.5,-0.9) rectangle (3.5,1.65);
+        \end{tikzpicture}
+
+        \vspace{0.5cm}
+
+        \[
+            (A^3)_{rc}
+            = \sum_{k=1}^{n} A_{rk}(A^2)_{kc}.
+        \]
+
+        \small
+        Counts walks of length three from $r$ to $c$.
+    \end{column}
+\end{columns}
+
+
+\end{frame}
+
+\begin{frame}
+    \begin{figure}
+        \centering
+        \begin{subfigure}{0.33\textwidth}
+            \centering
+            \includegraphics[width=\linewidth,height=0.33\textheight,keepaspectratio]{images/K5.png}
+            \caption{$K_5$.}
+            \label{fig:K5}
+        \end{subfigure}
+        \begin{subfigure}{0.33\textwidth}
+            \centering
+            \includegraphics[width=\linewidth,height=0.33\textheight,keepaspectratio]{images/K5.png}
+            \caption{$K_5$, a root of $K_5$.}
+            \label{fig:K5}
+        \end{subfigure}
+        \begin{subfigure}{0.32\textwidth}
+            \centering
+            \includegraphics[width=\linewidth,height=0.34\textheight,keepaspectratio]{images/K5_root_11.png}
+            \caption{$K_{1,4}$, a root of $K_5$.}
+            \label{fig:K5_root}
+        \end{subfigure}
+        \caption{A few of the $15$ non-isomorphic graph roots of $K_5$.}
+        \label{fig:K5_example}
+    \end{figure}
 \end{frame}
 
 \begin{frame}{The Graph Square Problem}
+    \begin{problem}[SQUARE] \label{prob::square_problem}
+        \leavevmode
 
+        \textbf{Instance:} A finite, simple, undirected graph $G=(V,E)$.
+        \medskip
+
+        \textbf{Question:} Does there exist a finite, simple, undirected graph $H$ such that
+        \[
+        G = H^2?
+        \]
+    \end{problem}
+
+    \begin{equation} \label{eq::fund_adj_square_or}
+        A_G = (A_H)^2 \lor A_H.
+    \end{equation}
+
+     $\displaystyle (A_H)^2_{ij} = \big( (A_H)_{i1} \land (A_H)_{1j} \big) \lor \big( (A_H)_{i2} \land (A_H)_{2j} \big) \lor \cdots \lor \big( (A_H)_{in} \land (A_H)_{nj} \big)$
+
+    \begin{equation} \label{eq::sat_square}
+        g_{ij} \text{ if and only if } \big( \bigwedge_k (x_{ik} \land x_{kj}) \lor x_{ij} \big). 
+    \end{equation}
 \end{frame}
 
-\begin{frame}{Restricting on the Square vs the Root}
 
+\begin{frame}
+    \begin{figure}
+        \centering
+        \begin{subfigure}{0.28\textwidth}
+            \centering
+            \begin{tikzpicture}[
+                scale=0.9,
+                every node/.style={
+                    circle,
+                    draw,
+                    fill=white,
+                    inner sep=1.5pt
+                }
+            ]
+                \node (0) at (0,2) {$0$};
+                \node (3) at (-1,0) {$3$};
+                \node (2) at (1,0) {$2$};
+                \node (1) at (0,-2) {$1$};
+
+                \draw (0)--(3);
+                \draw (0)--(2);
+                \draw (3)--(2);
+                \draw (3)--(1);
+                \draw (2)--(1);
+            \end{tikzpicture}
+            \caption{$G$}
+            \label{fig::fundamental_example_graph}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.28\textwidth}
+            \centering
+            \begin{tikzpicture}[
+                scale=0.9,
+                every node/.style={
+                    circle,
+                    draw,
+                    fill=white,
+                    inner sep=1.5pt
+                }
+            ]
+                \node (0) at (0,2) {$0$};
+                \node (3) at (-1,0) {$3$};
+                \node (2) at (1,0) {$2$};
+                \node (1) at (0,-2) {$1$};
+
+                \draw (0)--(3);
+                \draw (3)--(2);
+                \draw (2)--(1);
+            \end{tikzpicture}
+            \caption{$T_1$}
+            \label{fig::fundamental_example_root_1}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.28\textwidth}
+            \centering
+            \begin{tikzpicture}[
+                scale=0.9,
+                every node/.style={
+                    circle,
+                    draw,
+                    fill=white,
+                    inner sep=1.5pt
+                }
+            ]
+                \node (0) at (0,2) {$0$};
+                \node (3) at (-1,0) {$3$};
+                \node (2) at (1,0) {$2$};
+                \node (1) at (0,-2) {$1$};
+
+                \draw (0)--(2);
+                \draw (2)--(3);
+                \draw (3)--(1);
+            \end{tikzpicture}
+            \caption{$T_2$}
+            \label{fig::fundamental_example_root_2}
+        \end{subfigure}
+
+        \caption{The graph $G$ has two possible $P_4$ square roots that are trees, $T_1$ and $T_2$. The two roots are isomorphic, differing only by the interchange of vertices $2$ and $3$.}
+        \label{fig::fundamental_example}
+    \end{figure}
 \end{frame}
-
-\section[Algorithmic Approaches]{Algorithmic Approaches}
 
 \begin{frame}{NP-Completeness}
-
+    \citeauthor{motwani_sudan_1994_roots} (1994): square-root recognition is NP-complete \cite{motwani_sudan_1994_roots}. 
 \end{frame}
+
+\begin{frame}{Restricting the Square vs the Root}
+\scriptsize
+\centering
+\begin{tabular}{p{2.0cm} p{2.0cm} p{6.0cm}}
+\hline
+    \textbf{Square $G$} & \textbf{Root $H$} & \textbf{Main result} \\
+    \hline
+    Unrestricted
+    & Trees
+    & \citeauthor{ross_1960_square} (1960): structural characterization and reconstruction of tree roots, unique up to isomorphism
+    \cite{ross_1960_square}. \\[4pt]
+
+    Unrestricted
+    & Trees
+    & \citeauthor{lin_1995_square_roots} (1995): optimal linear-time recognition and reconstruction of tree roots
+    \cite{lin_1995_square_roots}. \\[4pt]
+
+    2-connected
+    & Unrestricted
+    & \citeauthor{fleischner_1974_square} (1974): the square of a 2-connected graph has a Hamiltonian cycle
+    \cite{fleischner_1974_square}. \\[4pt]
+
+    Interval squares
+    & Unrestricted
+    & \citeauthor{lau_corneil_2004_chordal_root} (2004): polynomial-time construction of roots from interval squares
+    \cite{lau_corneil_2004_chordal_root}. \\[4pt]
+
+    Unrestricted
+    & Block graphs
+    & \citeauthor{le_tuy_2007_block_square} (2007): linear-time recognition of roots of block graphs
+    \cite{le_tuy_2007_block_square}. \\[4pt]
+
+    Unrestricted
+    & Bipartite
+    & \citeauthor{lau_2006_bipartite_roots} (2006): linear-time construction of bipartite roots
+    \cite{lau_2006_bipartite_roots}. \\[4pt]
+    
+    Directed graphs
+    & Directed graphs
+    & \citeauthor{geller_1970_root} (1970): necessary and sufficient conditions for directed square-root existence
+    \cite{geller_1970_root}. \\[4pt]
+
+    Graphs of prescribed girth
+    & Unrestricted
+    & \citeauthor{farzad_2009_roots} (2009) and \citeauthor{farzad_karimi_2012_root} (2012): complexity dichotomy for square-root recognition
+    \cite{farzad_2009_roots,farzad_karimi_2012_root}. \\[4pt]
+
+    Maximum degree $\leq 6$
+    & Unrestricted
+    & \citeauthor{cochefert_et_al_2013_sparse_square_roots} (2013): minimum-edge roots in polynomial time and maximal-edge roots in exponential time
+    \cite{cochefert_et_al_2013_sparse_square_roots}. \\[4pt]
+
+    Unrestricted
+    & Oriented graphs, maximum degree $\leq 3$, girth $\geq 4$
+    & \citeauthor{duffy_2025_oriented_root} (2025): classification of squares of oriented graphs under these root restrictions
+    \cite{duffy_2025_oriented_root}. \\
+    \hline
+\end{tabular}
+\end{frame}
+
+
+
+\section[Main]{Main}
+
+% \begin{enumerate}
+%     \item Ross and Harary Tree Roots 
+%     \item Integer Program/Linear Relaxation
+%     \item Completely classifying tree roots in polynomial time 
+%     \item Using unicliqual vertex linear program as a base LP for further algorithms
+% \end{enumerate}
 
 \begin{frame}{Maximal Cliques and Unicliqual Vertices in Tree Roots}
 
 \end{frame}
 
 \begin{frame}{Integer Program}
-
+    \begin{lemma} \label{lemma::G_equal_to_H^2}
+        Let $G$ and $H$ be graphs with adjacency matrices $A_G$ and $A_H$,respectively. The graph $H$ is a root of $G$ if and only if 
+        \[ 
+            A_G = \mathbbm{1}_{\geq 1}\!\big((A_H)^2 - D_H + A_H\big).
+        \]
+    \end{lemma}
 \end{frame}
 
-\section[Square of a Tree]{Square of a Tree}
+\begin{frame}
+\end{frame}
+
 
 \begin{frame}{Linear Relaxation}
 
@@ -92,7 +365,6 @@
 
 \end{frame}
 
-\section[Further Work]{Further Work}
 
 \begin{frame}{Vertex Deletion}
 
@@ -102,8 +374,8 @@
 
 \end{frame}
 
-\begin{frame}{Duality}
-
+\begin{frame}{Rounding}
+    
 \end{frame}
 
 \end{document}
