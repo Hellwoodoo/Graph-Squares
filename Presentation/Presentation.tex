@@ -57,9 +57,9 @@ style=alphabetic]{biblatex}
 
 \begin{frame}{Square of a Graph}
 \begin{columns}[T,onlytextwidth]
-\begin{column}{0.49\textwidth}
-\centering
-\textbf{Two-step connections}
+    \begin{column}{0.49\textwidth}
+    \centering
+    \textbf{Two-step connections}
         \vspace{0.4cm}
 
         \begin{tikzpicture}[
@@ -131,8 +131,6 @@ style=alphabetic]{biblatex}
         Counts walks of length three from $r$ to $c$.
     \end{column}
 \end{columns}
-
-
 \end{frame}
 
 \begin{frame}
@@ -1306,8 +1304,82 @@ style=alphabetic]{biblatex}
 \end{frame}
 
 \begin{frame}
-    
+\centering
+
+\vspace{-0.15cm}
+
+\resizebox{0.94\textwidth}{!}{%
+\begin{tikzpicture}[
+    vertex/.style={circle, draw, fill=white, inner sep=2.5pt},
+    every edge/.style={thick}
+]
+    \node[vertex] (s)  at (0,0) {$s$};
+    \node[vertex] (u)  at (2.2,0) {$u$};
+    \node[vertex] (v)  at (4.4,0) {$v$};
+    \node[vertex] (a1) at (6.5,1.4) {$a_1$};
+    \node[vertex] (a2) at (6.5,-1.4) {$a_2$};
+    \node[vertex] (b1) at (8.8,1.4) {$b_1$};
+    \node[vertex] (b2) at (8.8,-1.4) {$b_2$};
+
+    \draw[blue, very thick] (s)--(u)--(v);
+    \draw[red, very thick] (u)--node[above left] {$0$}(a1);
+    \draw[red, very thick] (u)--node[below left] {$0$}(a2);
+    \draw[green!50!black, very thick] (v)--node[above] {$1$}(a1);
+    \draw[green!50!black, very thick] (v)--node[below] {$1$}(a2);
+
+    \draw (s) to[bend left=15] (v);
+    \draw (a1)--(a2);
+    \draw (a1)--(b1);
+    \draw (a2)--(b2);
+    \draw (v)--(b1);
+    \draw (v)--(b2);
+\end{tikzpicture}%
+}
+
+\vspace{0.3cm}
+
+\begin{minipage}{0.48\textwidth}
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[
+    vertex/.style={circle, draw, fill=white, inner sep=2.5pt},
+    every edge/.style={thick}
+]
+    \node[vertex] (u)  at (0,0) {$u$};
+    \node[vertex] (v)  at (2,0) {$v$};
+    \node[vertex] (a1) at (4,1.2) {$a_1$};
+    \node[vertex] (b1) at (6,1.2) {$b_1$};
+
+    \draw[blue, very thick] (u)--(v)--(a1);
+    \draw (u)--(a1);
+    \draw (a1)--(b1);
+    \draw (v)--(b1);
+\end{tikzpicture}%
+}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\textwidth}
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[
+    vertex/.style={circle, draw, fill=white, inner sep=2.5pt},
+    every edge/.style={thick}
+]
+    \node[vertex] (u)  at (0,0) {$u$};
+    \node[vertex] (v)  at (2,0) {$v$};
+    \node[vertex] (a2) at (4,-1.2) {$a_2$};
+    \node[vertex] (b2) at (6,-1.2) {$b_2$};
+
+    \draw[blue, very thick] (u)--(v)--(a2);
+    \draw (u)--(a2);
+    \draw (a2)--(b2);
+    \draw (v)--(b2);
+\end{tikzpicture}%
+}
+\end{minipage}
+
 \end{frame}
+
 
 \begin{frame}{Vertex Deletion}
     \scriptsize
@@ -1425,6 +1497,7 @@ style=alphabetic]{biblatex}
 \end{frame}
 
 \begin{frame}{Symbolic Sets}
+    \scriptsize
     \begin{conjecture} \label{conjecture::two_edges_linear_maximization}
         Let $G$ and $H$ be graphs such that $G = H^2$. Let $a,b \in V_G$ such that $ab \notin E_G$. For every feasible solution $x$ of $\max \mathcal{LP}(G)$ and every $v \in V_G$ with $v \neq a,b$ we have
         \[
