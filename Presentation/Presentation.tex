@@ -23,6 +23,9 @@
 style=alphabetic]{biblatex}
 \addbibresource{references.bib}
 
+\newtheorem{proposition}{Proposition}
+\newtheorem{conjecture}{Conjecture} 
+
 \title{Linear Programming Approach to the Graph Square Problem}
 \date{
     \vspace{2em}
@@ -164,7 +167,7 @@ style=alphabetic]{biblatex}
     \begin{equation} \label{eq::fund_def_square}
       E_{H^2} = \{ uv \mid u \neq v, 1 \leq d_H(u,v) \leq 2 \}.
     \end{equation}
-    That is, two distinct vertices are adjacent in $H^2$ if and only if they are connected by a path of length one or two in $H$. When $G = H^2$ we say that $H$ is a \textbf{root} of $G$. 
+    When $G = H^2$ we say that $H$ is a \textbf{root} of $G$. 
 \end{frame}
 
 
@@ -402,63 +405,63 @@ style=alphabetic]{biblatex}
 \end{frame}
 
 \begin{frame}{Restricting the Square vs the Root}
-\scriptsize
-\centering
-\begin{tabular}{p{2.0cm} p{2.0cm} p{6.0cm}}
-\hline
-    \textbf{Square $G$} & \textbf{Root $H$} & \textbf{Main result} \\
+    \scriptsize
+    \centering
+    \begin{tabular}{p{2.0cm} p{2.0cm} p{6.0cm}}
     \hline
-    Unrestricted
-    & Trees
-    & \citeauthor{ross_1960_square} (1960): structural characterization and reconstruction of tree roots, unique up to isomorphism
-    \cite{ross_1960_square}. \\[4pt]
+        \textbf{Square $G$} & \textbf{Root $H$} & \textbf{Main result} \\
+        \hline
+        Unrestricted
+        & Trees
+        & \citeauthor{ross_1960_square} (1960): structural characterization and reconstruction of tree roots, unique up to isomorphism
+        \cite{ross_1960_square}. \\[4pt]
 
-    Unrestricted
-    & Trees
-    & \citeauthor{lin_1995_square_roots} (1995): optimal linear-time recognition and reconstruction of tree roots
-    \cite{lin_1995_square_roots}. \\[4pt]
+        Unrestricted
+        & Trees
+        & \citeauthor{lin_1995_square_roots} (1995): optimal linear-time recognition and reconstruction of tree roots
+        \cite{lin_1995_square_roots}. \\[4pt]
 
-    2-connected
-    & Unrestricted
-    & \citeauthor{fleischner_1974_square} (1974): the square of a 2-connected graph has a Hamiltonian cycle
-    \cite{fleischner_1974_square}. \\[4pt]
+        2-connected
+        & Unrestricted
+        & \citeauthor{fleischner_1974_square} (1974): the square of a 2-connected graph has a Hamiltonian cycle
+        \cite{fleischner_1974_square}. \\[4pt]
 
-    Interval squares
-    & Unrestricted
-    & \citeauthor{lau_corneil_2004_chordal_root} (2004): polynomial-time construction of roots from interval squares
-    \cite{lau_corneil_2004_chordal_root}. \\[4pt]
+        Interval squares
+        & Unrestricted
+        & \citeauthor{lau_corneil_2004_chordal_root} (2004): polynomial-time construction of roots from interval squares
+        \cite{lau_corneil_2004_chordal_root}. \\[4pt]
 
-    Unrestricted
-    & Block graphs
-    & \citeauthor{le_tuy_2007_block_square} (2007): linear-time recognition of roots of block graphs
-    \cite{le_tuy_2007_block_square}. \\[4pt]
+        Unrestricted
+        & Block graphs
+        & \citeauthor{le_tuy_2007_block_square} (2007): linear-time recognition of roots of block graphs
+        \cite{le_tuy_2007_block_square}. \\[4pt]
 
-    Unrestricted
-    & Bipartite
-    & \citeauthor{lau_2006_bipartite_roots} (2006): linear-time construction of bipartite roots
-    \cite{lau_2006_bipartite_roots}. \\[4pt]
-    
-    Directed graphs
-    & Directed graphs
-    & \citeauthor{geller_1970_root} (1970): necessary and sufficient conditions for directed square-root existence
-    \cite{geller_1970_root}. \\[4pt]
+        Unrestricted
+        & Bipartite
+        & \citeauthor{lau_2006_bipartite_roots} (2006): linear-time construction of bipartite roots
+        \cite{lau_2006_bipartite_roots}. \\[4pt]
+        
+        Directed graphs
+        & Directed graphs
+        & \citeauthor{geller_1970_root} (1970): necessary and sufficient conditions for directed square-root existence
+        \cite{geller_1970_root}. \\[4pt]
 
-    Graphs of prescribed girth
-    & Unrestricted
-    & \citeauthor{farzad_2009_roots} (2009) and \citeauthor{farzad_karimi_2012_root} (2012): complexity dichotomy for square-root recognition
-    \cite{farzad_2009_roots,farzad_karimi_2012_root}. \\[4pt]
+        Graphs of prescribed girth
+        & Unrestricted
+        & \citeauthor{farzad_2009_roots} (2009) and \citeauthor{farzad_karimi_2012_root} (2012): complexity dichotomy for square-root recognition
+        \cite{farzad_2009_roots,farzad_karimi_2012_root}. \\[4pt]
 
-    Maximum degree $\leq 6$
-    & Unrestricted
-    & \citeauthor{cochefert_et_al_2013_sparse_square_roots} (2013): minimum-edge roots in polynomial time and maximal-edge roots in exponential time
-    \cite{cochefert_et_al_2013_sparse_square_roots}. \\[4pt]
+        Maximum degree $\leq 6$
+        & Unrestricted
+        & \citeauthor{cochefert_et_al_2013_sparse_square_roots} (2013): minimum-edge roots in polynomial time and maximal-edge roots in exponential time
+        \cite{cochefert_et_al_2013_sparse_square_roots}. \\[4pt]
 
-    Unrestricted
-    & Oriented graphs, maximum degree $\leq 3$, girth $\geq 4$
-    & \citeauthor{duffy_2025_oriented_root} (2025): classification of squares of oriented graphs under these root restrictions
-    \cite{duffy_2025_oriented_root}. \\
-    \hline
-\end{tabular}
+        Unrestricted
+        & Oriented graphs, maximum degree $\leq 3$, girth $\geq 4$
+        & \citeauthor{duffy_2025_oriented_root} (2025): classification of squares of oriented graphs under these root restrictions
+        \cite{duffy_2025_oriented_root}. \\
+        \hline
+    \end{tabular}
 \end{frame}
 
 
@@ -509,6 +512,8 @@ style=alphabetic]{biblatex}
 \end{frame}
 
 \begin{frame}{Integer Program}
+    Equation~\eqref{eq::fund_def_square} is equivalent to two distinct vertices are adjacent in $G=H^2$ if and only if they are connected by a path of length one or two in $H$.
+
     \begin{equation} \label{eq::fund_adj_square_or}
         A_G = (A_H)^2 \lor A_H.
     \end{equation}
@@ -528,36 +533,776 @@ style=alphabetic]{biblatex}
 \end{frame}
 
 \begin{frame}
+    \scriptsize
+    \begin{enumerate}[label=\roman*), itemsep=2pt, leftmargin=*]
+        \item $x_{ij}\in\{0,1\}$ denotes the $(i,j)$ entry of the adjacency matrix $A_H$.
+        \item $y_{ikj}\in\{0,1\}$ represents the product $x_{ik}x_{kj}$ in $(A_H)^2_{ij}$.
+        \item $z_{ij}\in\mathbb{Z}_{\geq 0}$ represents the argument of the indicator function.
+        \item $M \in \mathbb{Z}_{> 0}$ be a sufficiently large constant $M \leq n(n -1) = O(n^2)$.
+    \end{enumerate}
+
+    \vspace{0.1cm}
+
+    \[
+    D_H =
+    \begin{bmatrix}
+    \deg_H(1) & 0      & \cdots & 0 & 0      \\
+    0         & \ddots & \vdots & \ddots & \vdots \\
+    \vdots    & \cdots & \deg_H(i) & \cdots & 0      \\
+    0         & \ddots & \vdots & \ddots & \vdots \\
+    0         & \cdots & 0      & \cdots & \deg_H(n)
+    \end{bmatrix}, \quad
+    A_H =
+    \begin{bmatrix}
+    x_{11} & \cdots & x_{1j} & \cdots & x_{1n} \\
+    \vdots  & \ddots  & \vdots & \ddots & \vdots  \\
+    x_{i1} & \cdots & x_{ij} & \cdots & x_{in} \\
+    \vdots  & \ddots  & \vdots & \ddots & \vdots  \\
+    x_{n1} & \cdots & x_{nj} & \cdots & x_{nn}
+    \end{bmatrix}
+    \]
+    \[
+    (A_H)^2=
+    \begin{bmatrix}
+    \sum_k x_{1k}x_{k1}&\cdots&\sum_k x_{1k}x_{kj}&\cdots&\sum_k x_{1k}x_{kn}\\
+    \vdots&\ddots&\vdots&\ddots&\vdots\\
+    \sum_k x_{ik}x_{k1}&\cdots&\sum_k x_{ik}x_{kj}&\cdots&\sum_k x_{ik}x_{kn}\\
+    \vdots&\ddots&\vdots&\ddots&\vdots\\
+    \sum_k x_{nk}x_{k1}&\cdots&\sum_k x_{nk}x_{kj}&\cdots&\sum_k x_{nk}x_{kn}
+    \end{bmatrix}.
+    \]
 \end{frame}
 
+\begin{frame}
+    \scriptsize
+    \begin{equation}  \label{eq::fund_programming_equation}
+        \begin{bmatrix}
+        g_{11} \\
+        \vdots \\
+        g_{1j} \\
+        \vdots \\
+        g_{1n} \\
+        \vdots \\
+        g_{ij} \\
+        \vdots \\
+        g_{nn}
+        \end{bmatrix} 
+        =
+        \begin{bmatrix}
+        \mathbbm{1}_{\geq 1}\big(z_{11}\big) \\
+        \vdots \\
+        \mathbbm{1}_{\geq 1}\big(z_{1j}\big) \\
+        \vdots \\
+        \mathbbm{1}_{\geq 1}\big(z_{1n}\big) \\
+        \vdots \\
+        \mathbbm{1}_{\geq 1}\big(z_{ij}\big) \\
+        \vdots \\
+        \mathbbm{1}_{\geq 1}\big(z_{nn}\big)
+        \end{bmatrix}
+        =
+        \begin{bmatrix} \displaystyle
+        \mathbbm{1}_{\geq 1}\big(\sum_{k=1}^n x_{1k}x_{k1} - (D_H)_{11} + x_{11} \big) \\
+        \vdots \\ \displaystyle
+        \mathbbm{1}_{\geq 1}\big(\sum_{k=1}^n x_{1k}x_{kj} - (D_H)_{1j} + x_{1j} \big) \\
+        \vdots \\ \displaystyle
+        \mathbbm{1}_{\geq 1}\big(\sum_{k=1}^n x_{1k}x_{kn} - (D_H)_{1n} + x_{1n} \big)\\
+        \vdots \\ \displaystyle
+        \mathbbm{1}_{\geq 1}\big(\sum_{k=1}^n x_{ik}x_{kj} - (D_H)_{ij} + x_{ij} \big)\\
+        \vdots \\ \displaystyle
+        \mathbbm{1}_{\geq 1}\big(\sum_{k=1}^n x_{nk}x_{kn} - (D_H)_{nn} + x_{nn} \big)
+        \end{bmatrix}.
+    \end{equation}
+\end{frame}
+
+\begin{frame}
+    \scriptsize
+    \begin{alignat}{3}
+        \text{Objective Function: } & \nonumber \\
+        \max \quad & 0 \label{eq::integer_objective_function}
+        \end{alignat}
+        \begin{alignat}{3}
+        \text{Variables: } & \nonumber \\ 
+        & x_{ij} \in \mathbb{Z}_{\geq 0}, 
+        && \forall i,j \in \{1, \dots, n\}, \label{eq::IP_x_variable} \\ 
+        & y_{ikj} \in \mathbb{Z}_{\geq 0}, 
+        && \forall i,k,j \in \{1, \dots, n\}, \label{eq::IP_y_variable} \\
+        & z_{ij} \in \mathbb{Z}_{\geq 0}, 
+        && \forall i,j \in \{1, \dots, n\}, \label{eq::IP_z_variable} \\
+        \text{Constraints: } & \nonumber \\
+        \text{(1) Indicator argument: } 
+        & z_{ii} = \sum_{k = 1}^{n}y_{iki} - \sum_{k = 1}^{n} x_{ik}, 
+        && \forall i \in \{1, \dots, n\}, \label{eq::IP_fund_matrix} \\
+        & z_{ij} = \sum_{k = 1}^{n}y_{ikj} + x_{ij}, 
+        && \forall i \neq j \in \{1, \dots, n\}, \label{eq::IP_indicator_arg} \\
+        \text{(2) Indicator function: } 
+        & z_{ij} \leq M g_{ij}, 
+        && \forall i, j \in \{1, \dots, n\}, \label{eq::IP_indicator_upper} \\
+        & z_{ij} \geq g_{ij}, 
+        && \forall i, j \in \{1, \dots, n\}, \label{eq::IP_indicator_lower}\\
+        \text{(3) Product: } 
+        & y_{ikj} \leq x_{ik}, 
+        && \forall i, k, j \in \{1, \dots, n\}, \label{eq::IP_product_upper_first} \\
+        & y_{ikj} \leq x_{kj}, 
+        && \forall i, k, j \in \{1, \dots, n\}, \label{eq::IP_product_upper_second} \\
+        & y_{ikj} \geq x_{ik} + x_{kj} - 1, 
+        && \forall i, k, j \in \{1, \dots, n\}, \label{eq::IP_product_lower} \\
+        \text{(4) Upper Bound: } 
+        & x_{ij} \leq 1, 
+        && \forall i, j \in \{1, \dots, n\}, \label{eq::IP_x_upper_bound} \\
+        & y_{ikj} \leq 1, 
+        && \forall i, k, j \in \{1, \dots, n\}, \label{eq::IP_y_upper_bound} \\
+        \text{(5) Symmetry: } 
+        & x_{ij} = x_{ji}, 
+        &&\quad \forall i,j \in \{1, \dots, n\}, \label{eq::IP_symmetry_x} \\
+        \text{(6) Diagonal: } 
+        & x_{ii} = 0, 
+        &&\quad \forall i \in \{1, \dots, n\}.  \label{eq::IP_diagonal_x} 
+    \end{alignat} \label{eq::integer_program}
+\end{frame}
+
+\begin{frame}
+    The integer program on the arbitrary graph $G$ using Equations~\eqref{eq::IP_x_variable}--\eqref{eq::IP_diagonal_x} together with the constant objective function Equation~\eqref{eq::integer_objective_function} is denoted as $\mathcal{IP}(G)$. 
+
+    The total number of simple graphs on $n=2,3,4,\dots$ unlabeled nodes is the sequence $2,4,11,34,156,1044,12346,\dots$ given by \href{https://oeis.org/A000088}{\texttt{A000088}}. The number of graphs which are squares is the sequence $2,3,6,11,28,77,307,\dots$ given by \href{https://oeis.org/A382181}{\texttt{A382181}}.
+
+    \begin{table}[!htbp]
+        \centering
+        \begin{tabular}{c|cc}
+        \hline
+        $n$ 
+        & $H$ exists
+        & $H$ does not exist \\
+        \hline
+        3 & 3   & 1    \\
+        4 & 6   & 5    \\
+        5 & 11  & 23   \\
+        6 & 28  & 128  \\
+        7 & 77  & 967  \\
+        8 & 307 & 12039 \\
+        \hline
+        \end{tabular}
+        \caption{Outcomes of the integer program for graphs of different orders of $n$.}
+        \label{tab::integer_program_outcomes}
+    \end{table}
+\end{frame}
 
 \begin{frame}{Linear Relaxation}
+    \begin{alignat}{3}
+        & x_{ij} \in  \mathbb{R}_{\geq 0}, 
+        &&\qquad \forall i,j \in \{1, \dots, n\}, \label{eq::LP_x_variable} \\
+        & y_{ikj} \in \mathbb{R}_{\geq 0}, 
+        &&\qquad \forall i,k,j \in \{1, \dots, n\}, \label{eq::LP_y_variable} \\
+        & z_{ij} \in \mathbb{R}_{\geq 0}, 
+        &&\qquad \forall i,j \in \{1, \dots, n\} \label{eq::LP_z_variable}. 
+    \end{alignat} 
 
+    Such a linear program may have \emph{integral solutions} and \emph{fractional solutions} when the root exists and \emph{fractional solutions} and \emph{infeasible solutions} when the root does not exist. 
+
+    \begin{figure}
+        \centering
+        \resizebox{0.9\textwidth}{!}{
+            \begin{tikzpicture}[
+                level distance=0.9cm,
+                level 1/.style={sibling distance=6.5cm},
+                level 2/.style={sibling distance=3.25cm},
+                every node/.style={align=center}
+            ]
+                \node {$n=8$}
+                child { node {$H$ exists}
+                    child { node {$\underset{\raisebox{-0.6em}{47}}
+                        {\text{$LP$ integral solution}}$} }
+                    child { node {$\underset{\raisebox{-0.6em}{260}}
+                        {\text{$LP$ fractional solution}}$} }
+                }
+                child { node {$H$ does not exist}
+                    child { node {$\underset{\raisebox{-0.6em}{9380}}
+                        {\text{$LP$ infeasible}}$} }
+                    child { node {$\underset{\raisebox{-0.6em}{2659}}
+                        {\text{$LP$ fractional solution}}$} }
+                };
+            \end{tikzpicture}
+        }
+        \caption{$LP$ outcomes for $n=8$ vertices using $\mathcal{LP}(G)$.}
+        \label{fig::linear_program_diagram}
+    \end{figure}
 \end{frame}
 
-\begin{frame}{Min and Max Objective Function}
+\begin{frame}
+    \begin{figure}
+        \centering
+        \resizebox{0.68\textwidth}{!}{
+        \begin{tikzpicture}[
+            every node/.style={font=\scriptsize},
+            feasible/.style={circle,fill=black,inner sep=1.2pt},
+            fractional/.style={circle,fill=white,draw=black,inner sep=1.2pt}
+        ]
+            % Set-theoretic
+            \begin{scope}
+                \draw[thick,fill=gray!10] (0,0) ellipse (2.3cm and 1.35cm);
+                \draw[thick,fill=gray!25] (-0.25,0) ellipse (1.2cm and 0.7cm);
+                \node[feasible] at (-0.75,0.15) {};
+                \node[feasible] at (0.05,0.3) {};
+                \node[feasible] at (-0.15,-0.3) {};
+                \node[fractional] at (1.05,0.4) {};
+                \node[fractional] at (1.4,-0.2) {};
+                \node[fractional] at (0.8,-0.7) {};
+                \node[fractional] at (2.5,0.6) {};
+                \node at (0.85,1.05) {$\mathcal{F}_{LP}$};
+                \node at (-0.25,0.58) {$\mathcal{F}_{IP}$};
+                \node at (-0.65,-0.6) {IP feasible};
+                \node at (1.2,-1.0) {LP feasible};
+                \node at (2.7,0.95) {LP infeasible};
+                \draw[->,thick] (-0.15,1.55)--(0.95,1.55)
+                    node[midway,above] {$\mathcal{F}_{IP}\subseteq\mathcal{F}_{LP}$};
+                \node[font=\scriptsize\bfseries] at (0,-1.8) {Set-theoretic};
+            \end{scope}
 
+            % Geometric
+            \begin{scope}[xshift=6.3cm]
+                \fill[gray!10] (-1.7,-0.95)--(1.7,-0.85)--(1.9,1.05)--(-1.1,1.4)--cycle;
+                \draw[thick] (-1.7,-0.95)--(1.7,-0.85)--(1.9,1.05)--(-1.1,1.4)--cycle;
+                \fill[gray!25] (-1.05,-0.62)--(0.95,-0.52)--(1.1,0.62)--(-0.65,0.9)--cycle;
+                \draw[dashed,thick] (-1.05,-0.62)--(0.95,-0.52)--(1.1,0.62)--(-0.65,0.9)--cycle;
+                \node[feasible] at (-1.05,-0.62) {};
+                \node[feasible] at (0.95,-0.52) {};
+                \node[feasible] at (1.1,0.62) {};
+                \node[feasible] at (-0.65,0.9) {};
+                \node[feasible] at (0,0) {};
+                \node[fractional] at (1.45,0.2) {};
+                \node[fractional] at (-1.2,0.3) {};
+                \node[fractional] at (0,1.15) {};
+                \node[fractional] at (2.15,1.2) {};
+                \node at (0.60,1) {$\mathcal{F}_{LP}$};
+                \node at (0.15,0.18) {$\operatorname{conv}(\mathcal{F}_{IP})$};
+                \node at (0.55,-1.1) {LP boundary};
+                \node at (-1.35,0.85) {IP hull};
+                \node at (2.3,1.45) {Infeasible};
+                \node[font=\scriptsize\bfseries] at (0,-1.8) {Geometric};
+            \end{scope}
+        \end{tikzpicture}
+        }
+    \end{figure}
+    
+    The $LP$ integral solution sequence $2, 3, 6, 10, 17, 29, 51, \dots$ matches \href{https://oeis.org/A285665}{A285665}. However, it is unclear why this should be the case. 
+
+    \begin{table}[!htbp]
+        \centering
+        \resizebox{\textwidth}{!}{
+            \begin{tabular}{c|cc|cc}
+            \hline
+            $n$ & \multicolumn{2}{c|}{$H$ exists}
+                & \multicolumn{2}{c}{$H$ does not exist} \\
+            & \text{$LP$ integral solution}
+            & \text{$LP$ fractional solution}
+            & \text{$LP$ infeasible}
+            & \text{$LP$ fractional solution} \\
+            \hline
+            3 & 3  & 0   & 1    & 0    \\
+            4 & 5  & 1   & 5    & 0    \\
+            5 & 7  & 4   & 20   & 3    \\
+            6 & 13 & 15  & 107  & 21   \\
+            7 & 22 & 55  & 767  & 200  \\
+            8 & 44 & 263 & 9380 & 2659 \\
+            \hline
+            \end{tabular}
+        }
+        \caption{Outcomes of the $LP$ relaxation for graphs of different orders $n$, classified according to whether a square root $H$ exists.}
+        \label{tab::linear_program_outcomes}
+    \end{table}
+\end{frame}
+
+\begin{frame}
+    The linear relaxation will never return an infeasible solution. 
+
+    \begin{proposition} \label{prop::linear_relaxation_feasibility}
+        If $G$ has a square root $H$, then $\mathcal{LP}(G)$ is feasible. 
+    \end{proposition}
+
+    \begin{proof}
+         Since $\mathcal{LP}(G)$ is obtained by relaxing the integrality constraints of $\mathcal{IP}(G)$, every feasible solution of $\mathcal{IP}(G)$ is also feasible for $\mathcal{LP}(G)$. Hence $\mathcal{LP}(G)$ is feasible.
+    \end{proof}
+\end{frame}
+
+
+\begin{frame}{Min and Max Objective Function}
+    \begin{equation} \label{eq::min_obj_function}
+        \min \sum_{i=1}^{n} \sum_{j=1}^{n} x_{ij}.
+    \end{equation}
+
+    \begin{table}[!htbp]
+        \centering
+        \resizebox{\textwidth}{!}{
+            \begin{tabular}{c|cc|cc}
+            \hline
+            $n$ & \multicolumn{2}{c|}{$H$ exists}
+                & \multicolumn{2}{c}{$H$ does not exist} \\
+            & \text{$LP$ integral solution}
+            & \text{$LP$ fractional solution}
+            & \text{$LP$ infeasible}
+            & \text{$LP$ fractional solution} \\
+            \hline
+            3 & 2 & 1   & 1    & 0    \\
+            4 & 3 & 3   & 5    & 0    \\
+            5 & 3 & 8   & 20   & 3    \\
+            6 & 4 & 24  & 107  & 21   \\
+            7 & 5 & 72  & 767  & 200  \\
+            8 & 7 & 300 & 9380 & 2659 \\
+            \hline
+            \end{tabular}
+        }
+        \caption{$LP$ outcomes for different values of $n$ using the linear program with a minimisation objective function.}
+        \label{tab::min_objective_function_outcomes}
+    \end{table}
+\end{frame}
+
+\begin{frame}
+    \begin{figure}[ht]
+        \centering
+        \resizebox{\textwidth}{!}{
+            \begin{minipage}{1.15\textwidth}
+                \centering
+                \begin{subfigure}{0.24\textwidth}
+                    \centering
+                    \includegraphics[width=\linewidth]{images/K6.png}
+                    \caption{$K_6$.}
+                    \label{fig::K6_square}
+                \end{subfigure}
+                \hfill
+                \begin{subfigure}{0.24\textwidth}
+                    \centering
+                    \includegraphics[width=\linewidth]{images/K6_fractional.png}
+                    \caption{$\min \mathcal{LP}(G)$ of $K_6$.}
+                    \label{fig::K6_fractional_root}
+                \end{subfigure}
+                \hfill
+                \begin{subfigure}{0.24\textwidth}
+                    \centering
+                    \includegraphics[width=\linewidth]{images/min_fractional_clique_example_square.png}
+                    \caption{$K_6 \backslash \{13,25\}$.}
+                    \label{fig::min_fractional_clique_example_square}
+                \end{subfigure}
+                \hfill
+                \begin{subfigure}{0.24\textwidth}
+                    \centering
+                    \includegraphics[width=\linewidth]{images/min_fractional_clique_example_root.png}
+                    \caption{$\min \mathcal{LP}(G)$ of $K_6 \backslash \{13,25\}$.}
+                    \label{fig::min_fractional_clique_example_root}
+                \end{subfigure}
+            \end{minipage}
+        }
+        \caption{For $K_6$, the solution to $\min \mathcal{LP}(G)$ is completely fractional, with every edge having weight $\frac{1}{5}$. For $K_6 \backslash \{13,25\}$, the solution is completely fractional, with every edge having weight $\frac{1}{3}$.}
+        \label{fig::K6_example}
+    \end{figure}
+    \scriptsize
+    \begin{conjecture}[Fractional Cliques in $\min \mathcal{LP}(G)$] \label{conjecture::fractional_cliques_min_LP}
+        Let $G$ be a graph with $n\geq 3$ vertices. For every edge $uv\in E_G$, let $t_{uv}$ be the number of vertices in a smallest maximal clique of $G$ containing $uv$. Then $\min\mathcal{LP}(G)$ returns the solution given by
+        \[
+        x_{uv}=\frac{1}{t_{uv}-1} \quad \text{for all } uv \in E_G.
+        \]
+    \end{conjecture}
+\end{frame}
+
+\begin{frame}
+    \begin{equation} \label{eq::max_obj_function}
+        \max \sum_{i=1}^{n} \sum_{j=1}^{n} x_{ij}.
+    \end{equation}
+
+    \begin{table}[!htbp]
+        \centering
+        \resizebox{\textwidth}{!}{
+            \begin{tabular}{c|cc|cc}
+            \hline
+            $n$ & \multicolumn{2}{c|}{$H$ exists}
+                & \multicolumn{2}{c}{$H$ does not exist} \\
+            & \text{$LP$ integral solution}
+            & \text{$LP$ fractional solution}
+            & \text{$LP$ infeasible}
+            & \text{$LP$ fractional solution} \\
+            \hline
+            3 & 3  & 0   & 1    & 0    \\
+            4 & 6  & 0   & 5    & 0    \\
+            5 & 9  & 2   & 20   & 3    \\
+            6 & 18 & 10  & 107  & 21   \\
+            7 & 38 & 39  & 767  & 200  \\
+            8 & 94 & 213 & 9380 & 2659 \\
+            \hline
+            \end{tabular}
+        }
+        \caption{$LP$ outcomes for different values of $n$ using the linear program with a maximisation objective function.}
+        \label{tab::max_objective_function_outcomes}
+    \end{table}
+\end{frame}
+
+\begin{frame}
+    The single complete graph $K_3$ is selected as the unique optimal solution. 
+
+    \begin{figure}[ht]
+        \centering
+        \resizebox{\textwidth}{!}{
+            \begin{minipage}{1.05\textwidth}
+                \centering
+                \begin{subfigure}{0.31\textwidth}
+                    \centering
+                    \includegraphics[width=\linewidth]{images/K3.png}
+                    \caption{$K_3$.}
+                    \label{fig::K3}
+                \end{subfigure}
+                \hfill
+                \begin{subfigure}{0.31\textwidth}
+                    \centering
+                    \includegraphics[width=\linewidth]{images/K3_root_1.png}
+                    \caption{$K_3$ root of $K_3$.}
+                    \label{fig::K3_root_1}
+                \end{subfigure}
+                \hfill
+                \begin{subfigure}{0.31\textwidth}
+                    \centering
+                    \includegraphics[width=\linewidth]{images/K3_root_2.png}
+                    \caption{A path root of $K_3$.}
+                    \label{fig::K3_root_2}
+                \end{subfigure}
+            \end{minipage}
+        }
+        \caption{The graph $K_3$ and two of its square roots.}
+        \label{fig::K3_example}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+    \resizebox{0.96\textwidth}{!}{
+        \begin{tikzpicture}[
+            every node/.style={font=\scriptsize},
+            feasible/.style={circle,fill=black,inner sep=1.2pt},
+            fractional/.style={circle,fill=white,draw=black,inner sep=1.2pt}
+        ]
+            % Base LP
+            \begin{scope}
+                \draw[thick,fill=gray!10]
+                    (-1.7,-0.95)--(1.7,-0.85)--(1.9,1.05)--(-1.1,1.4)--cycle;
+                \node[feasible] at (-0.8,0.05) {};
+                \node[feasible] at (0,0.2) {};
+                \node[feasible] at (0.55,-0.15) {};
+                \node[fractional] at (0.85,0.85) {};
+                \node[fractional] at (1.25,0.35) {};
+                \node[fractional] at (1.45,-0.35) {};
+                \node at (0.9,1.15) {$\mathcal{F}_{LP}$};
+                \node[font=\scriptsize\bfseries] at (0,-1.3) {Base LP};
+            \end{scope}
+
+            % Useful strengthening
+            \begin{scope}[xshift=5.8cm]
+                \draw[thick,fill=gray!10]
+                    (-1.7,-0.95)--(1.7,-0.85)--(1.9,1.05)--(-1.1,1.4)--cycle;
+                \fill[gray!25]
+                    (-1.7,-0.95)--(0.7,-0.89)--(0.7,0.61)
+                    --(-0.65,1.01)--(-1.1,1.4)--cycle;
+                \draw[dotted,very thick] (0.7,-1.1)--(0.7,1.55);
+                \node[feasible] at (-0.8,0.05) {};
+                \node[feasible] at (0,0.2) {};
+                \node[feasible] at (0.55,-0.15) {};
+                \node[fractional] at (0.85,0.85) {};
+                \node[fractional] at (1.25,0.35) {};
+                \node[fractional] at (1.45,-0.35) {};
+                \node at (-0.15,1.15) {$\mathcal{F}_{LP}'$};
+                \node[font=\scriptsize\bfseries] at (0,-1.3) {Useful strengthening};
+            \end{scope}
+
+            % Incorrect strengthening
+            \begin{scope}[xshift=11.6cm]
+                \draw[thick,fill=gray!10]
+                    (-1.7,-0.95)--(1.7,-0.85)--(1.9,1.05)--(-1.1,1.4)--cycle;
+                \fill[gray!25]
+                    (-1.7,-0.95)--(-0.25,-0.91)--(-0.25,0.57)
+                    --(-0.65,1.01)--(-1.1,1.4)--cycle;
+                \draw[dotted,very thick] (-0.25,-1.1)--(-0.25,1.55);
+                \node[feasible] at (-0.8,0.05) {};
+                \node[feasible] at (0,0.2) {};
+                \node[feasible] at (0.55,-0.15) {};
+                \node[fractional] at (0.85,0.85) {};
+                \node[fractional] at (1.25,0.35) {};
+                \node[fractional] at (1.45,-0.35) {};
+                \node at (-0.75,1.15) {$\mathcal{F}_{LP}'$};
+                \node[font=\scriptsize\bfseries] at (0,-1.3) {Incorrect strengthening};
+            \end{scope}
+        \end{tikzpicture}
+    }
+
+    A suitable constraint eliminates fractional solutions while retaining all valid integer solutions, whereas an overly restrictive constraint also excludes valid integer solutions.
+\end{frame}
+
+\begin{frame}{Fundamental Properties}
+    \begin{lemma} \label{lemma::g_ab=0}
+        Let $G$ and $H$ be graphs such that $G = H^2$. Let $a,b \in V_G$ such that $ab \notin E_G$. For every feasible solution $x$ of $\mathcal{LP}(G)$ and every $v \in V_G$ with $v \neq a,b$ we have $x_{ab} = y_{avb} = 0$. 
+    \end{lemma}
+    \begin{lemma} \label{lemma::g_ab=0,two_edge_sum}
+        Let $G$ and $H$ be graphs such that $G = H^2$. Let $a,b \in V_G$ such that $ab \notin E_G$. For every feasible solution $x$ of $\mathcal{LP}(G)$ and every $v \in V_G$ with $v \neq a,b$ we have
+        \[
+        x_{av} + x_{vb} \leq 1.
+        \]
+    \end{lemma}
+    \begin{lemma} \label{lemma::g_ab=0,x_av=1}
+        Let $G$ and $H$ be graphs such that $G = H^2$. Let $a,b,v \in V_G$ such that $ab \notin E_G$. If a feasible solution $x$ of $\mathcal{LP}(G)$ satisfies $x_{av}=1$, then $x_{vb}=0$.
+    \end{lemma}
 \end{frame}
 
 \begin{frame}{Identifying Square Characteristics of Tree Roots}
+    \begin{definition}[Sparse Pendant] \label{def::sparse_pendant}
+        Let $H$ be a graph. A \textbf{sparse pendant} is a path $s-u-v$ in $H$ such that $s$ is a leaf and $u$ has degree $2$.
+    \end{definition}
+    \begin{definition}[Pendant Fork] \label{def::pendant_fork}
+        Let $H$ be a graph. A \textbf{pendant fork} is the induced subgraph of $H$ on four vertices $s_1,s_2,u,v$, where $s_1$ and $s_2$ are leaves adjacent to $u$, and every neighbour of $u$ other than $v$ is a leaf.
+    \end{definition}
 
+    \begin{lemma} \label{lemma::tree_pendant_pendant_fork}
+        Every tree with at least $3$ vertices contains either a \hyperref[def::sparse_pendant]{sparse pendant} or a \hyperref[def::pendant_fork]{pendant fork} subgraph.
+    \end{lemma}
 \end{frame}
 
 \begin{frame}{Leaf Fixing Linear Program}
+    If $s$ is a leaf, $u$ is its corresponding stem, and there exists $v\in N_G[u]\setminus\{u\}$ such that
+    \[
+        N_G[s]\subset N_G[u]\subseteq N_G[v],
+    \]
+    with all vertices in $N_G[s]\setminus\{u,v\}$ having the same closed neighbourhood as $s$, then the corresponding root edges can be fixed by imposing
+    \begin{equation} \label{eq::unicliqual_vertex_fix}
+        x_{su}=x_{us}=x_{uv}=x_{vu}=1.
+    \end{equation}
 
+    \begin{itemize}
+        \item \textbf{Sparse pendant:} $s$ belongs to a unique $K_3$ in $G$.
+        \item \textbf{Pendant fork:} An induced $K_4=\{s_1,s_2,u,v\}$,
+        where $s_1,s_2$ are leaves of $u$, satisfies
+        \[
+            N_G(s_1)\setminus K_4=N_G(s_2)\setminus K_4
+            \subset N_G(u)\setminus K_4
+            \subseteq N_G(v)\setminus K_4.
+        \]
+    \end{itemize}
+
+    \begin{lemma} \label{lemma::unicliqual_vertex_fix}
+        Let $G$ and $T$ be graphs such that $G = T^2$ and $T$ is a tree. $\max\mathcal{UVLP}(G)$ always fixes a sparse pendant or pendant fork subgraph of $T$.
+    \end{lemma}
+\end{frame}
+
+\begin{frame}
+    Whenever a root $H$ of $G$ exists, the addition of the constraint Equation~\eqref{eq::unicliqual_vertex_fix} preserves the feasibility of the linear program.
+
+    \begin{proposition}[Validity of Unicliqual Vertex Fix] \label{prop::unicliqual_vertex_fix_feasibility}
+        If a root $H$ of $G$ exists, then $\max\mathcal{UVLP}(G)$ is feasible.
+    \end{proposition}
+
+    \begin{table}[!htbp]
+        \centering
+        \resizebox{\textwidth}{!}{
+            \begin{tabular}{c|cc|cc}
+            \hline
+            $n$ & \multicolumn{2}{c|}{$H$ exists}
+                & \multicolumn{2}{c}{$H$ does not exist} \\
+            & \text{$LP$ integral solution}
+            & \text{$LP$ fractional solution}
+            & \text{$LP$ infeasible}
+            & \text{$LP$ fractional solution} \\
+            \hline
+            3 & 3   & 0   & 1     & 0    \\
+            4 & 6   & 0   & 5     & 0    \\
+            5 & 10  & 1   & 21    & 2    \\
+            6 & 22  & 6   & 117   & 11   \\
+            7 & 51  & 26  & 852   & 115  \\
+            8 & 148 & 159 & 10271 & 1768 \\
+            \hline
+            \end{tabular}
+        }
+        \caption{Outcomes of the unicliqual vertex linear program for graphs of different orders $n$.}
+        \label{tab::unicliqual_vertex_linear_program_outcomes}
+    \end{table}
 \end{frame}
 
 \begin{frame}{Propagation of the Fixing}
+    \begin{lemma}[$0$ Path Propagation] \label{lemma::0_path_propagation}
+        Let $G$ and $H$ be graphs such that $G = H^2$. Let $a,i,j,b \in V_G$ such that $a,i,j,b$ form a shortest induced path in $H$ between $a$ and $b$. For every feasible solution $x$ of $\mathcal{LP}(G)$,
+        \[
+        x_{ai}=1 \implies x_{ib}=0, \quad x_{ia}=1 \implies x_{bi}=0, \quad x_{jb}=1 \implies x_{aj}=0, \quad x_{bj}=1 \implies x_{ja}=0.
+        \]
+    \end{lemma}
 
+    \begin{lemma}[$1$-Path Propagation] \label{lemma::1_path_propagation}
+        Let $G$ be a graph and let $x$ be a feasible solution of $\mathcal{LP}(G)$. Suppose that $u-v-a_1$ form a shortest induced path in $H$ between $u$ and $a$ and that $x_{uv}=1$. Let $A=\{a_1,\ldots,a_r\}$ and $B=\{b_1,\ldots,b_s\}$ be such that every vertex $k \in V_G\setminus\{u,v\}$ satisfies
+        $k \in A\cup B$, and suppose that 
+        \[
+        x_{um}=0 \text{ for every } m \in A, \quad g_{un}=0 \text{ for every } n \in B,
+        \]
+        and $g_{sa_1}=0$ for the vertex $s$ preceding $u$ on the shortest path to $a_1$. Then
+        \[
+        x_{va_1}=1.
+        \]
+    \end{lemma}
+\end{frame}
+
+\begin{frame}
+    
 \end{frame}
 
 
 \begin{frame}{Vertex Deletion}
+    \scriptsize
+    \centering
+    \resizebox{\textwidth}{!}{
+        \begin{minipage}{\textwidth}
+        \begin{algorithmic}[1]
+            \State \textbf{Input:} A graph $G$
+            \State \textbf{Output:} A $LP$ model $(m,x)$
+            \State Construct and solve $\mathcal{LP}(G)$.
+            \If{$\mathcal{LP}(G)$ is integral}
+                \State \Return $(m,x)$
+            \EndIf
+            \State Set $\displaystyle F=\left\{\{a,b\}\in\binom{V_G}{2}:x_{ab}=x_{ba}=1\right\}$.
+            \State Compute $\displaystyle d_F(u)=\left|\left\{w\in N_G(u):\{u,w\}\notin F\right\}\right|$ for each $u\in V_G$.
+            \State Choose $v\in\arg\min_{u\in V_G}d_F(u)$ and set $V^-=V_G \setminus\{v\}$.
+            \State Construct $G^-=G[V^-]$ and inherit the fixing $\displaystyle F^-=\left\{\{a,b\}\in F:a,b\in V^-\right\}$.
+            \State Construct and solve $\mathcal{LP}(G^-)+F^-$.
+            \If{$\mathcal{LP}(G^-)+F^-$ is integral}
+                \State Construct $H^-$ from its integral solution.
+            \Else
+                \State \Return $(m,x)$
+            \EndIf
+            \State Construct a new copy of $\mathcal{LP}(G)$ and impose $x_{ab}=x_{ba}=1$ for every $\{a,b\}\in F$ and every $ab\in E_{H^-}$.
+            \State Solve the modified LP.
+            \If{the modified $LP$ is infeasible}
+                \State \Return $(m,x)$
+            \Else
+                \State \Return the modified $LP$ solution $(m,x)$
+            \EndIf
+        \end{algorithmic}
+        \end{minipage}
+    }
+\end{frame}
 
+\begin{frame}
+    \begin{table}[!htbp]
+        \centering
+        \resizebox{\textwidth}{!}{
+            \begin{tabular}{c|cc|cc}
+                \hline
+                $n$ & \multicolumn{2}{c|}{$H$ exists}
+                    & \multicolumn{2}{c}{$H$ does not exist} \\
+                    & \text{$LP$ integral solution}
+                    & \text{$LP$ fractional solution}
+                    & \text{$LP$ infeasible}
+                    & \text{$LP$ fractional solution} \\
+                \hline
+                3 & 3   & 0   & 1     & 0    \\
+                4 & 6   & 0   & 5     & 0    \\
+                5 & 11  & 0   & 21    & 2    \\
+                6 & 25  & 3   & 117   & 11   \\
+                7 & 62  & 15  & 852   & 115  \\
+                8 & 183 & 124 & 10271 & 1768 \\
+                \hline
+            \end{tabular}
+        }
+        \caption{Outcomes of the vertex deletion linear program using unicliqual vertex as the base for graphs of different orders of $n$.}
+        \label{tab::vertex_deletion_program_outcomes}
+    \end{table}
+
+    \begin{table}[!htbp]
+        \centering
+        \resizebox{\textwidth}{!}{
+            \begin{tabular}{c|cc|cc}
+                \hline
+                $n$ & \multicolumn{2}{c|}{$H$ exists}
+                    & \multicolumn{2}{c}{$H$ does not exist} \\
+                    & \text{$LP$ integral solution}
+                    & \text{$LP$ fractional solution}
+                    & \text{$LP$ infeasible}
+                    & \text{$LP$ fractional solution} \\
+                \hline
+                3 & 3   & 0   & 1     & 0    \\
+                4 & 6   & 0   & 5     & 0    \\
+                5 & 11  & 0   & 21    & 2    \\
+                6 & 25  & 3   & 117   & 11   \\
+                7 & 62  & 15  & 852   & 115  \\
+                8 & 194 & 113 & 10271 & 1768 \\
+                \hline
+            \end{tabular}
+        }
+        \caption{Outcomes of the recursive vertex deletion linear program using unicliqual vertex as the base for graphs of different orders of $n$.}
+        \label{tab::vertex_deletion_recursive_program_outcomes}
+    \end{table}
+\end{frame}
+
+\begin{frame}
+    The linear program only finds a single solution, while there may be many distinct, non-isomorphic solutions. Hence, although fixing a subgraph obtained from the $LP$ may be useful, the particular subgraph selected by the $LP$ may not correspond to the subgraph required to continue the reconstruction of a square root.
+
+    \begin{table}[!htbp]
+        \centering
+        \resizebox{\textwidth}{!}{
+            \begin{tabular}{c|cc|cc}
+                \hline
+                $n$ & \multicolumn{2}{c|}{$H$ exists}
+                    & \multicolumn{2}{c}{$H$ does not exist} \\
+                    & \text{$LP$ integral solution}
+                    & \text{$LP$ fractional solution}
+                    & \text{$LP$ infeasible}
+                    & \text{$LP$ fractional solution} \\
+                \hline
+                3 & 3   & 0   & 1     & 0    \\
+                4 & 6   & 0   & 5     & 0    \\
+                5 & 11  & 0   & 21    & 2    \\
+                6 & 26  & 2   & 117   & 11   \\
+                7 & 73  & 4   & 852   & 115  \\
+                8 & 274 & 33  & 10271 & 1768 \\
+                \hline
+            \end{tabular}
+        }
+        \caption{Outcomes of the recursive vertex deletion linear program using unicliqual vertex as the base and enumerating all possible $H^-$ roots for graphs of different orders of $n$.}
+        \label{tab::vertex_deletion_recursive_enumerate_subgraphs_program_outcomes}
+    \end{table}
 \end{frame}
 
 \begin{frame}{Symbolic Sets}
-
+    \begin{conjecture} \label{conjecture::two_edges_linear_maximization}
+        Let $G$ and $H$ be graphs such that $G = H^2$. Let $a,b \in V_G$ such that $ab \notin E_G$. For every feasible solution $x$ of $\max \mathcal{LP}(G)$ and every $v \in V_G$ with $v \neq a,b$ we have
+        \[
+        x_{av} + x_{vb} = 1 \text{ or }  x_{av} + x_{vb} = 0. 
+        \]
+    \end{conjecture}
+    
+    \begin{figure}[ht]
+        \centering
+        \resizebox{\textwidth}{!}{
+            \begin{minipage}{\textwidth}
+                \centering
+                \begin{subfigure}{0.20\textwidth}
+                    \centering
+                    \includegraphics[width=\linewidth]{images/130_6_root_1.png}
+                    \caption{The root graph $G_1$.}
+                    \label{fig::130_6_root_1}
+                \end{subfigure}
+                \hfill
+                \begin{subfigure}{0.19\textwidth}
+                    \centering
+                    \includegraphics[width=\linewidth]{images/130_6_root_2.png}
+                    \caption{The root graph $G_2$.}
+                    \label{fig::130_6_root_2}
+                \end{subfigure}
+                \hfill
+                \begin{subfigure}{0.11\textwidth}
+                    \centering
+                    \includegraphics[width=\linewidth]{images/130_6_root_3.png}
+                    \caption{The root graph $G_3$.}
+                    \label{fig::130_6_root_3}
+                \end{subfigure}
+                \hfill
+                \begin{subfigure}{0.21\textwidth}
+                    \centering
+                    \includegraphics[width=\linewidth]{images/130_6_square.png}
+                    \caption{The graph square $H = G_i^2$.}
+                    \label{fig::130_6_square}
+                \end{subfigure}
+                \caption{Three non-isomorphic square roots of the same six-vertex graph square.}
+                \label{fig::130_6}
+            \end{minipage}
+        }
+    \end{figure}
 \end{frame}
 
 \begin{frame}{Rounding}

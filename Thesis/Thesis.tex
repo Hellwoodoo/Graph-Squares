@@ -936,7 +936,7 @@ Using Lemma~\eqref{lemma::G_equal_to_H^2}, we construct an integer program to so
 \[
 X=\{x_{ij}\mid i,j\in V_G\},
 \]
-where $x_{ij}\in\{0,1\}$ denotes the corresponding entry of the adjacency matrix $A_H$. In a feasible solution, $x_{ij}=1$ if and only if $ij\in E_H$. The variables $y_{ikj}\in\{0,1\}$ represent the products $x_{ik}x_{kj}$ in $(A_H)^2_{ij}$, while $z_{ij}\in\mathbb{Z}_{\geq0}$ represents the argument of the indicator function.
+where $x_{ij}\in\{0,1\}$ denotes the corresponding entry of the adjacency matrix $A_H$. In a feasible solution, $x_{ij}=1$ if and only if $ij \in E_H$. The variables $y_{ikj}\in\{0,1\}$ represent the products $x_{ik}x_{kj}$ in $(A_H)^2_{ij}$, while $z_{ij}\in\mathbb{Z}_{\geq0}$ represents the argument of the indicator function.
 
 Given an input $G$ to \textbf{SQUARE}, our goal is to construct the following matrices, where $g_{ij}$ is the corresponding entry of the adjacency matrix of $G$.
 
@@ -1271,10 +1271,7 @@ The behaviour of the weights observed in Figure~\ref{fig::K6_example} motivates 
 Motivated by Proposition~\ref{prop::unique_symmetric_minimizer}, we conjecture that $\min\mathcal{LP}(G)$ always returns a symmetric optimal solution, assigning equal weights to edges whenever possible.
 
 \begin{conjecture}[Fractional Cliques in $\min \mathcal{LP}(G)$] \label{conjecture::fractional_cliques_min_LP}
-  Let $G$ be a graph with $n\geq 3$ vertices. For every edge
-  $uv\in E_G$, let $t_{uv}$ be the number of vertices in a smallest
-  maximal clique of $G$ containing $uv$. Then $\min\mathcal{LP}(G)$
-  returns the solution given by
+  Let $G$ be a graph with $n\geq 3$ vertices. For every edge $uv\in E_G$, let $t_{uv}$ be the number of vertices in a smallest maximal clique of $G$ containing $uv$. Then $\min\mathcal{LP}(G)$ returns the solution given by
   \[
   x_{uv}=\frac{1}{t_{uv}-1} \quad \text{for all } uv \in E_G.
   \]
@@ -1404,10 +1401,7 @@ to be the set of $K_3$s in $G$ that contain $s$. If $|T(s)| = 1$ where $T(s) = \
 If $\deg_G(u) = \deg_G(v)$, then either $u,v$ can be chosen since they are connected to a clique.
 
 \begin{proposition}[Single Triangle Decomposition Interchangeability] \label{prop::single_triangular_decomposition_equality}
-  Let $G$ be a graph containing a triangle on vertices $s,u,v$, such
-  that $\{s,u,v\}$ is the unique maximal clique containing $s$ and
-  $\deg_G(u)=\deg_G(v)=d\geq 2$. If $G$ admits a graph root, then
-  $G$ admits a tree root $T$ such that $su,uv\in E_T$. 
+  Let $G$ be a graph containing a triangle on vertices $s,u,v$, such that $\{s,u,v\}$ is the unique maximal clique containing $s$ and $\deg_G(u)=\deg_G(v)=d\geq 2$. If $G$ admits a graph root, then $G$ admits a tree root $T$ such that $su,uv\in E_T$. 
 \end{proposition}
 \begin{proof}
   Since $s$ lies in a single maximal clique in $G$, in any tree root $T$, the vertex $s$ must be a leaf, with exactly one of $u$ or $v$ being the internal vertex adjacent to the remainder of the graph. Assume without loss of generality that $u$ is this internal vertex. Since $v$ has no other connections in the maximal clique besides $s$ and $u$, any vertex adjacent to $v$ in $G$ other than $s$ must also be adjacent to $u$ in $G$. Hence
