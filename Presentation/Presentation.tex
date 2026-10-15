@@ -133,6 +133,27 @@ style=alphabetic]{biblatex}
 \end{columns}
 \end{frame}
 
+\begin{frame}{The Graph Square Problem}
+    \begin{problem}[SQUARE] \label{prob::square_problem}
+        \leavevmode
+
+        \textbf{Instance:} A finite, simple, undirected graph $G=(V,E)$.
+        \medskip
+
+        \textbf{Question:} Does there exist a finite, simple, undirected graph $H$ such that
+        \[
+        G = H^2?
+        \]
+    \end{problem}
+
+    Let the \textbf{graph root} $H = (V, E_H)$ be a finite, simple, undirected graph, where $V$ is the vertex set with $|V| = n$, and $E_H \subseteq \{\{u,v\} \mid u,v \in V, u \neq v\}$ is the edge set.  
+    The \textbf{square of a graph} $H$, denoted by $H^2 = (V, E_{H^2})$ is the graph on the same vertex set with edge set
+    \begin{equation} \label{eq::fund_def_square}
+      E_{H^2} = \{ uv \mid u \neq v, 1 \leq d_H(u,v) \leq 2 \}.
+    \end{equation}
+    When $G = H^2$ we say that $H$ is a \textbf{root} of $G$. 
+\end{frame}
+
 \begin{frame}
     \begin{figure}
         \centering
@@ -176,28 +197,6 @@ style=alphabetic]{biblatex}
         \label{fig:K5_example}
     \end{figure}
 \end{frame}
-
-\begin{frame}{The Graph Square Problem}
-    \begin{problem}[SQUARE] \label{prob::square_problem}
-        \leavevmode
-
-        \textbf{Instance:} A finite, simple, undirected graph $G=(V,E)$.
-        \medskip
-
-        \textbf{Question:} Does there exist a finite, simple, undirected graph $H$ such that
-        \[
-        G = H^2?
-        \]
-    \end{problem}
-
-    Let the \textbf{graph root} $H = (V, E_H)$ be a finite, simple, undirected graph, where $V$ is the vertex set with $|V| = n$, and $E_H \subseteq \{\{u,v\} \mid u,v \in V, u \neq v\}$ is the edge set.  
-    The \textbf{square of a graph} $H$, denoted by $H^2 = (V, E_{H^2})$ is the graph on the same vertex set with edge set
-    \begin{equation} \label{eq::fund_def_square}
-      E_{H^2} = \{ uv \mid u \neq v, 1 \leq d_H(u,v) \leq 2 \}.
-    \end{equation}
-    When $G = H^2$ we say that $H$ is a \textbf{root} of $G$. 
-\end{frame}
-
 
 \begin{frame}
     \begin{figure}
@@ -454,8 +453,8 @@ style=alphabetic]{biblatex}
         & \citeauthor{fleischner_1974_square} (1974): the square of a 2-connected graph has a Hamiltonian cycle
         \cite{fleischner_1974_square}. \\[4pt]
 
-        Interval squares
-        & Unrestricted
+        Unrestricted
+        & Interval squares
         & \citeauthor{lau_corneil_2004_chordal_root} (2004): polynomial-time construction of roots from interval squares
         \cite{lau_corneil_2004_chordal_root}. \\[4pt]
 
@@ -474,8 +473,8 @@ style=alphabetic]{biblatex}
         & \citeauthor{geller_1970_root} (1970): necessary and sufficient conditions for directed square-root existence
         \cite{geller_1970_root}. \\[4pt]
 
-        Graphs of prescribed girth
-        & Unrestricted
+        Unrestricted
+        & Graphs of prescribed girth
         & \citeauthor{farzad_2009_roots} (2009) and \citeauthor{farzad_karimi_2012_root} (2012): complexity dichotomy for square-root recognition
         \cite{farzad_2009_roots,farzad_karimi_2012_root}. \\[4pt]
 
@@ -904,7 +903,7 @@ style=alphabetic]{biblatex}
 \end{frame}
 
 \begin{frame}
-    The linear relaxation will never return an infeasible solution. 
+    The linear relaxation will never return an infeasible solution if $H$ exists. 
 
     \begin{proposition} \label{prop::linear_relaxation_feasibility}
         If $G$ has a square root $H$, then $\mathcal{LP}(G)$ is feasible. 
@@ -1026,7 +1025,7 @@ style=alphabetic]{biblatex}
 \end{frame}
 
 \begin{frame}
-    The single complete graph $K_3$ is selected as the unique optimal solution. 
+    The single complete graph $K_5$ is selected as the unique optimal solution. 
 
     \begin{figure}[ht]
         \centering
@@ -1037,25 +1036,25 @@ style=alphabetic]{biblatex}
                     \centering
                     \includegraphics[width=\linewidth]{images/K5.png}
                     \caption{$K_5$.}
-                    \label{fig::K3}
+                    \label{fig::K5}
                 \end{subfigure}
                 \hfill
                 \begin{subfigure}{0.31\textwidth}
                     \centering
                     \includegraphics[width=\linewidth]{images/K5_linear_program.png}
                     \caption{Linear program result for $K_5$.}
-                    \label{fig::K3_root_1}
+                    \label{fig::K5_root_1}
                 \end{subfigure}
                 \hfill
                 \begin{subfigure}{0.31\textwidth}
                     \centering
                     \includegraphics[width=\linewidth]{images/K5_max_linear_program.png}
                     \caption{Max linear program result for $K_5$.}
-                    \label{fig::K3_root_2}
+                    \label{fig::K5_root_2}
                 \end{subfigure}
             \end{minipage}
         }
-        \caption{The graph $K_3$ and two of its square roots.}
+        \caption{The graph $K_5$ and two of its square roots.}
         \label{fig::K3_example}
     \end{figure}
 \end{frame}
@@ -1250,8 +1249,6 @@ style=alphabetic]{biblatex}
 \end{frame}
 
 \begin{frame}
-    Whenever a root $H$ of $G$ exists, the addition of the constraint Equation~\eqref{eq::unicliqual_vertex_fix} preserves the feasibility of the linear program.
-
     \begin{proposition}[Validity of Unicliqual Vertex Fix] \label{prop::unicliqual_vertex_fix_feasibility}
         If a root $H$ of $G$ exists, then $\max\mathcal{UVLP}(G)$ is feasible.
     \end{proposition}
@@ -1280,6 +1277,10 @@ style=alphabetic]{biblatex}
         \caption{Outcomes of the unicliqual vertex linear program for graphs of different orders $n$.}
         \label{tab::unicliqual_vertex_linear_program_outcomes}
     \end{table}
+
+    \begin{theorem} \label{theorem::unicliqual_vertex_induction_proof}
+        Let $G$ and $T$ be graphs such that $G=T^2$ and $T$ is a tree. Then $\mathcal{UVLP}(G)$ returns an integral solution.
+    \end{theorem}
 \end{frame}
 
 \begin{frame}{Propagation of the Fixing}
