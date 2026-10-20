@@ -1489,7 +1489,7 @@ with all vertices in $N_G[s]\setminus\{u,v\}$ having the same closed neighbourho
 It remains to verify that whenever a root $H$ of $G$ exists, the addition of the constraint Equation~\eqref{eq::unicliqual_vertex_fix} preserves the feasibility of the linear program.
 
 \begin{proposition}[Validity of Unicliqual Vertex Fix] \label{prop::unicliqual_vertex_fix_feasibility}
-  If a root $H$ of $G$ exists, then $\max\mathcal{UVLP}(G)$ is feasible.
+  If a root $H$ of $G$ exists, then $\max \mathcal{UVLP}(G)$ is feasible.
 \end{proposition}
 \begin{proof}
   Suppose that a root $H$ of $G$ exists. By Proposition~\ref{prop::linear_relaxation_feasibility}, $\mathcal{LP}(G)$ is feasible. It remains to show that there exists a root whose adjacency matrix satisfies Equation~\eqref{eq::unicliqual_vertex_fix}.
@@ -1498,7 +1498,7 @@ It remains to verify that whenever a root $H$ of $G$ exists, the addition of the
   \[
   x_{su}=x_{us}=x_{uv}=x_{vu}=1.
   \]
-  Hence the adjacency matrix of $H'$ is a feasible solution of $\mathcal{IP}(G)$ that satisfies Equation~\eqref{eq::unicliqual_vertex_fix}. Since every feasible solution of $\mathcal{IP}(G)$ is feasible for $\mathcal{LP}(G)$, this solution is also feasible for $\max\mathcal{UVLP}(G)$. Therefore, $\max\mathcal{UVLP}(G)$ is feasible whenever a root $H$ of $G$ exists.
+  Hence the adjacency matrix of $H'$ is a feasible solution of $\mathcal{IP}(G)$ that satisfies Equation~\eqref{eq::unicliqual_vertex_fix}. Since every feasible solution of $\mathcal{IP}(G)$ is feasible for $\mathcal{LP}(G)$, this solution is also feasible for $\max \mathcal{UVLP}(G)$. Therefore, $\max \mathcal{UVLP}(G)$ is feasible whenever a root $H$ of $G$ exists.
 \end{proof}
 
 \begin{table}[!htbp]

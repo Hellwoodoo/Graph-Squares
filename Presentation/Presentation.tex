@@ -5,7 +5,7 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{tikz, subcaption}
-\usetikzlibrary{positioning,decorations.pathreplacing}
+\usetikzlibrary{positioning,decorations.pathreplacing,shapes.geometric}
 \usepackage{enumitem}
 \usepackage{geometry}
 \usepackage{algorithm}
@@ -83,12 +83,9 @@ style=alphabetic]{biblatex}
         \end{tikzpicture}
 
         \vspace{0.5cm}
-
         \[
-            (A^2)_{rc}
-            = \sum_{k=1}^{n} A_{rk}A_{kc}.
+        (A^2)_{rc}= \sum_{k=1}^{n} A_{rk}A_{kc}.
         \]
-
         \small
         Counts walks of length two from $r$ to $c$.
     \end{column}
@@ -121,16 +118,72 @@ style=alphabetic]{biblatex}
         \end{tikzpicture}
 
         \vspace{0.5cm}
-
         \[
-            (A^3)_{rc}
-            = \sum_{k=1}^{n} A_{rk}(A^2)_{kc}.
+        (A^3)_{rc} = \sum_{k=1}^{n} A_{rk}(A^2)_{kc}.
         \]
-
         \small
         Counts walks of length three from $r$ to $c$.
     \end{column}
 \end{columns}
+\end{frame}
+
+\begin{frame}
+    \centering
+
+    \textbf{Graph Root}
+
+    \vspace{0.2cm}
+    \begin{tikzpicture}[
+        vertex/.style={circle, draw, fill=white, inner sep=2.5pt},
+        every edge/.style={thick},
+        scale=0.65, transform shape
+    ]
+        \node[vertex] (s)  at (0,0) {$s$};
+        \node[vertex] (u)  at (2.2,0) {$u$};
+        \node[vertex] (v)  at (4.4,0) {$v$};
+        \node[vertex] (a1) at (6.5,1.4) {$a_1$};
+        \node[vertex] (a2) at (6.5,-1.4) {$a_2$};
+        \node[vertex] (b1) at (8.8,1.4) {$b_1$};
+        \node[vertex] (b2) at (8.8,-1.4) {$b_2$};
+
+        \draw[thick] (s)--(u)--(v);
+        \draw[thick] (v)--(a1);
+        \draw[thick] (v)--(a2);
+        \draw[thick] (a1)--(b1);
+        \draw[thick] (a2)--(b2);
+    \end{tikzpicture}
+
+    \vspace{0.3cm}
+
+    \textbf{Graph Square or Square of a Graph}
+
+    \vspace{0.2cm}
+    \begin{tikzpicture}[
+        vertex/.style={circle, draw, fill=white, inner sep=2.5pt},
+        every edge/.style={thick},
+        scale=0.65, transform shape
+    ]
+        \node[vertex] (s)  at (0,0) {$s$};
+        \node[vertex] (u)  at (2.2,0) {$u$};
+        \node[vertex] (v)  at (4.4,0) {$v$};
+        \node[vertex] (a1) at (6.5,1.4) {$a_1$};
+        \node[vertex] (a2) at (6.5,-1.4) {$a_2$};
+        \node[vertex] (b1) at (8.8,1.4) {$b_1$};
+        \node[vertex] (b2) at (8.8,-1.4) {$b_2$};
+
+        \draw[thick] (s)--(u)--(v);
+        \draw[thick] (v)--(a1);
+        \draw[thick] (v)--(a2);
+        \draw[thick] (u)--(a1);
+        \draw[thick] (u)--(a2);
+        \draw[thick] (a1)--(b1);
+        \draw[thick] (a2)--(b2);
+
+        \draw[thick] (s) to[bend left=15] (v);
+        \draw[thick] (a1)--(a2);
+        \draw[thick] (v)--(b1);
+        \draw[thick] (v)--(b2);
+    \end{tikzpicture}
 \end{frame}
 
 \begin{frame}{The Graph Square Problem}
@@ -560,6 +613,156 @@ style=alphabetic]{biblatex}
 \end{frame}
 
 \begin{frame}
+    \centering
+    Vertices ordered \(s,u,v,a_1,a_2,b_1,b_2\).
+    \scriptsize
+
+    \vspace{0.15cm}
+
+    \begin{tikzpicture}[
+        vertex/.style={circle, draw, fill=white, inner sep=2pt},
+        every edge/.style={thick},
+        scale=0.5, transform shape
+    ]
+        \node[vertex] (s)  at (0,0) {$s$};
+        \node[vertex] (u)  at (2.2,0) {$u$};
+        \node[vertex] (v)  at (4.4,0) {$v$};
+        \node[vertex] (a1) at (6.5,1.4) {$a_1$};
+        \node[vertex] (a2) at (6.5,-1.4) {$a_2$};
+        \node[vertex] (b1) at (8.8,1.4) {$b_1$};
+        \node[vertex] (b2) at (8.8,-1.4) {$b_2$};
+        \draw[thick] (s)--(u)--(v);
+        \draw[thick] (v)--(a1);
+        \draw[thick] (v)--(a2);
+        \draw[thick] (a1)--(b1);
+        \draw[thick] (a2)--(b2);
+    \end{tikzpicture}
+
+    \vspace{0.15cm}
+    \begin{minipage}[c]{0.45\textwidth}
+        \centering
+        \[
+        A_H=
+        \begin{pmatrix}
+        0&1&0&0&0&0&0\\
+        1&0&1&0&0&0&0\\
+        0&1&0&1&1&0&0\\
+        0&0&1&0&0&1&0\\
+        0&0&1&0&0&0&1\\
+        0&0&0&1&0&0&0\\
+        0&0&0&0&1&0&0
+        \end{pmatrix}
+        \]
+    \end{minipage}\hfill
+    \begin{minipage}[c]{0.45\textwidth}
+        \centering
+        \[
+        (A_H)^2=
+        \begin{pmatrix}
+        1&0&1&0&0&0&0\\
+        0&2&0&2&2&0&0\\
+        1&0&3&0&0&2&2\\
+        0&2&0&2&1&0&0\\
+        0&2&0&1&2&0&0\\
+        0&0&2&0&0&1&0\\
+        0&0&2&0&0&0&1
+        \end{pmatrix}
+        \]
+    \end{minipage}
+    \vspace{0.1cm}
+    \[
+    D_H=
+    \begin{pmatrix}
+    1&0&0&0&0&0&0\\
+    0&2&0&0&0&0&0\\
+    0&0&3&0&0&0&0\\
+    0&0&0&2&0&0&0\\
+    0&0&0&0&2&0&0\\
+    0&0&0&0&0&1&0\\
+    0&0&0&0&0&0&1
+    \end{pmatrix}
+    \]
+\end{frame}
+
+\begin{frame}
+    \centering
+    \vspace{0.1cm}
+    \scriptsize
+
+    \vspace{0.1cm}
+    \begin{tikzpicture}[
+        vertex/.style={circle, draw, fill=white, inner sep=2pt},
+        every edge/.style={thick},
+        scale=0.5, transform shape
+    ]
+        \node[vertex] (s)  at (0,0) {$s$};
+        \node[vertex] (u)  at (2.2,0) {$u$};
+        \node[vertex] (v)  at (4.4,0) {$v$};
+        \node[vertex] (a1) at (6.5,1.4) {$a_1$};
+        \node[vertex] (a2) at (6.5,-1.4) {$a_2$};
+        \node[vertex] (b1) at (8.8,1.4) {$b_1$};
+        \node[vertex] (b2) at (8.8,-1.4) {$b_2$};
+        \draw[thick] (s)--(u)--(v);
+        \draw[thick] (v)--(a1);
+        \draw[thick] (v)--(a2);
+        \draw[thick] (a1)--(b1);
+        \draw[thick] (a2)--(b2);
+        \draw[thick, dashed] (s) to[bend left=15] (v);
+        \draw[thick, dashed] (u)--(a1);
+        \draw[thick, dashed] (u)--(a2);
+        \draw[thick, dashed] (a1)--(a2);
+        \draw[thick, dashed] (v)--(b1);
+        \draw[thick, dashed] (v)--(b2);
+    \end{tikzpicture}
+
+    \vspace{0.15cm}
+    \begin{minipage}[c]{0.50\textwidth}
+        \centering
+        \[
+        A_H^2-D_H+A_H=
+        \begin{pmatrix}
+        0&1&1&0&0&0&0\\
+        1&0&1&2&2&0&0\\
+        1&1&0&1&1&1&1\\
+        0&2&1&0&1&1&0\\
+        0&2&1&1&0&0&1\\
+        0&0&1&1&0&0&0\\
+        0&0&1&0&1&0&0
+        \end{pmatrix}
+        \]
+    \end{minipage}\hfill
+    \begin{minipage}[c]{0.50\textwidth}
+        \centering
+        \[
+        \mathbbm 1_{\ge1}\!\big(A_H^2-D_H+A_H\big)=
+        \begin{pmatrix}
+        0&1&1&0&0&0&0\\
+        1&0&1&1&1&0&0\\
+        1&1&0&1&1&1&1\\
+        0&1&1&0&1&1&0\\
+        0&1&1&1&0&0&1\\
+        0&0&1&1&0&0&0\\
+        0&0&1&0&1&0&0
+        \end{pmatrix}
+        \]
+    \end{minipage}
+
+    \vspace{0.1cm}
+    \[
+    A_G=
+    \begin{pmatrix}
+    0&1&1&0&0&0&0\\
+    1&0&1&1&1&0&0\\
+    1&1&0&1&1&1&1\\
+    0&1&1&0&1&1&0\\
+    0&1&1&1&0&0&1\\
+    0&0&1&1&0&0&0\\
+    0&0&1&0&1&0&0
+    \end{pmatrix}
+    \]
+\end{frame}
+
+\begin{frame}
     \scriptsize
     \begin{enumerate}[label=\roman*), itemsep=2pt, leftmargin=*]
         \item $x_{ij}\in\{0,1\}$ denotes the $(i,j)$ entry of the adjacency matrix $A_H$.
@@ -690,7 +893,7 @@ style=alphabetic]{biblatex}
 \begin{frame}
     The integer program on the arbitrary graph $G$ using Equations~\eqref{eq::IP_x_variable}--\eqref{eq::IP_diagonal_x} together with the constant objective function Equation~\eqref{eq::integer_objective_function} is denoted as $\mathcal{IP}(G)$. 
 
-    The total number of simple graphs on $n=2,3,4,\dots$ unlabeled nodes is the sequence $2,4,11,34,156,1044,12346,\dots$ given by \href{https://oeis.org/A000088}{\texttt{A000088}}. The number of graphs which are squares is the sequence $2,3,6,11,28,77,307,\dots$ given by \href{https://oeis.org/A382181}{\texttt{A382181}}.
+    The total number of simple graphs on $n=2,3,4,\dots$ unlabeled nodes is the sequence $2,4,11,34,156,1044,12346,\dots$ given by the OEIS sequence \href{https://oeis.org/A000088}{\texttt{A000088}}. The number of graphs which are squares is the sequence $2,3,6,11,28,77,307,\dots$ given by \href{https://oeis.org/A382181}{\texttt{A382181}}.
 
     \begin{table}[!htbp]
         \centering
@@ -713,31 +916,25 @@ style=alphabetic]{biblatex}
     \end{table}
 \end{frame}
 
-\begin{frame}{Methodology}
-  \begin{itemize}
+\begin{frame}[fragile]{Methodology}
+  \scriptsize
+  \begin{itemize}[itemsep=1pt, topsep=1pt, leftmargin=*]
     \item Implemented in \textbf{SageMath}, with \textbf{Gurobi} as the optimization backend.
-    \item Uses the \textbf{barrier method}, an interior-point method based on predictor--corrector Newton iterations.
-    \item Graphs are considered up to isomorphism, but algorithms operate on labelled representatives generated by SageMath.
-    \item Vertex labels are retained throughout each computation.
-    \item Different labellings of the same graph may lead to different intermediate or selected optimization solutions.
+    \item Uses the \textbf{barrier method}, an interior-point method based on predictor-corrector Newton iterations.
     \item Results correspond to the labelled representatives produced by the specified generation procedure.
-    \item Code and test harness: \\ \href{https://github.com/Hellwoodoo/Graph-Squares}{\texttt{https://github.com/Hellwoodoo/Graph-Squares}}.
+    \item Code and test harness: \href{https://github.com/Hellwoodoo/Graph-Squares}{\texttt{https://github.com/Hellwoodoo/Graph-Squares}}.
   \end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]{Linear Program}
-    \begin{lstlisting}[
-        style=python,
-        basicstyle=\ttfamily\fontsize{4.5}{5}\selectfont,
-        breaklines=true,
-        aboveskip=0pt,
-        belowskip=0pt,
-        numbers=none,
-        columns=fullflexible,
-        keepspaces=true,
-        caption={Linear Program.},
-        label={lst::linear_program}
-        ]
+  \begin{lstlisting}[
+      style=python,
+      basicstyle=\ttfamily\fontsize{3.0}{3.5}\selectfont,
+      breaklines=true,
+      aboveskip=0pt,
+      belowskip=0pt,
+      numbers=none,
+      columns=fullflexible,
+      keepspaces=true,
+      frame=none
+      ]
     def linear_program(G):
         m = MixedIntegerLinearProgram(solver='Gurobi', maximization=False)
         m.solver_parameter("Method", 2)
@@ -778,47 +975,6 @@ style=alphabetic]{biblatex}
 \end{frame}
 
 \begin{frame}{Linear Relaxation}
-    \begin{alignat}{3}
-        & x_{ij} \in  \mathbb{R}_{\geq 0}, 
-        &&\qquad \forall i,j \in \{1, \dots, n\}, \label{eq::LP_x_variable} \\
-        & y_{ikj} \in \mathbb{R}_{\geq 0}, 
-        &&\qquad \forall i,k,j \in \{1, \dots, n\}, \label{eq::LP_y_variable} \\
-        & z_{ij} \in \mathbb{R}_{\geq 0}, 
-        &&\qquad \forall i,j \in \{1, \dots, n\} \label{eq::LP_z_variable}. 
-    \end{alignat} 
-
-    Such a linear program may have \emph{integral solutions} and \emph{fractional solutions} when the root exists and \emph{fractional solutions} and \emph{infeasible solutions} when the root does not exist. 
-
-    \begin{figure}
-        \centering
-        \resizebox{0.9\textwidth}{!}{
-            \begin{tikzpicture}[
-                level distance=0.9cm,
-                level 1/.style={sibling distance=6.5cm},
-                level 2/.style={sibling distance=3.25cm},
-                every node/.style={align=center}
-            ]
-                \node {$n=8$}
-                child { node {$H$ exists}
-                    child { node {$\underset{\raisebox{-0.6em}{47}}
-                        {\text{$LP$ integral solution}}$} }
-                    child { node {$\underset{\raisebox{-0.6em}{260}}
-                        {\text{$LP$ fractional solution}}$} }
-                }
-                child { node {$H$ does not exist}
-                    child { node {$\underset{\raisebox{-0.6em}{9380}}
-                        {\text{$LP$ infeasible}}$} }
-                    child { node {$\underset{\raisebox{-0.6em}{2659}}
-                        {\text{$LP$ fractional solution}}$} }
-                };
-            \end{tikzpicture}
-        }
-        \caption{$LP$ outcomes for $n=8$ vertices using $\mathcal{LP}(G)$.}
-        \label{fig::linear_program_diagram}
-    \end{figure}
-\end{frame}
-
-\begin{frame}
     \begin{figure}
         \centering
         \resizebox{0.68\textwidth}{!}{
@@ -873,7 +1029,49 @@ style=alphabetic]{biblatex}
         \end{tikzpicture}
         }
     \end{figure}
-    
+
+
+    \begin{alignat}{3}
+        & x_{ij} \in  \mathbb{R}_{\geq 0}, 
+        &&\qquad \forall i,j \in \{1, \dots, n\}, \label{eq::LP_x_variable} \\
+        & y_{ikj} \in \mathbb{R}_{\geq 0}, 
+        &&\qquad \forall i,k,j \in \{1, \dots, n\}, \label{eq::LP_y_variable} \\
+        & z_{ij} \in \mathbb{R}_{\geq 0}, 
+        &&\qquad \forall i,j \in \{1, \dots, n\} \label{eq::LP_z_variable}. 
+    \end{alignat} 
+
+    Such a linear program may have \emph{integral solutions} and \emph{fractional solutions} when the root exists and \emph{fractional solutions} and \emph{infeasible solutions} when the root does not exist. 
+\end{frame}
+
+\begin{frame}
+    \begin{figure}
+        \centering
+        \resizebox{0.9\textwidth}{!}{
+            \begin{tikzpicture}[
+                level distance=0.9cm,
+                level 1/.style={sibling distance=6.5cm},
+                level 2/.style={sibling distance=3.25cm},
+                every node/.style={align=center}
+            ]
+                \node {$n=8$}
+                child { node {$H$ exists}
+                    child { node {$\underset{\raisebox{-0.6em}{47}}
+                        {\text{$LP$ integral solution}}$} }
+                    child { node {$\underset{\raisebox{-0.6em}{260}}
+                        {\text{$LP$ fractional solution}}$} }
+                }
+                child { node {$H$ does not exist}
+                    child { node {$\underset{\raisebox{-0.6em}{9380}}
+                        {\text{$LP$ infeasible}}$} }
+                    child { node {$\underset{\raisebox{-0.6em}{2659}}
+                        {\text{$LP$ fractional solution}}$} }
+                };
+            \end{tikzpicture}
+        }
+        \caption{$LP$ outcomes for $n=8$ vertices using $\mathcal{LP}(G)$.}
+        \label{fig::linear_program_diagram}
+    \end{figure}
+
     The $LP$ integral solution sequence $2, 3, 6, 10, 17, 29, 51, \dots$ matches \href{https://oeis.org/A285665}{A285665}. However, it is unclear why this should be the case. 
 
     \begin{table}[!htbp]
@@ -915,113 +1113,57 @@ style=alphabetic]{biblatex}
 \end{frame}
 
 
-\begin{frame}{Min and Max Objective Function}
-    \begin{equation} \label{eq::min_obj_function}
-        \min \sum_{i=1}^{n} \sum_{j=1}^{n} x_{ij}.
-    \end{equation}
-
-    \begin{table}[!htbp]
-        \centering
-        \resizebox{\textwidth}{!}{
-            \begin{tabular}{c|cc|cc}
-            \hline
-            $n$ & \multicolumn{2}{c|}{$H$ exists}
-                & \multicolumn{2}{c}{$H$ does not exist} \\
-            & \text{$LP$ integral solution}
-            & \text{$LP$ fractional solution}
-            & \text{$LP$ infeasible}
-            & \text{$LP$ fractional solution} \\
-            \hline
-            3 & 2 & 1   & 1    & 0    \\
-            4 & 3 & 3   & 5    & 0    \\
-            5 & 3 & 8   & 20   & 3    \\
-            6 & 4 & 24  & 107  & 21   \\
-            7 & 5 & 72  & 767  & 200  \\
-            8 & 7 & 300 & 9380 & 2659 \\
-            \hline
-            \end{tabular}
-        }
-        \caption{$LP$ outcomes for different values of $n$ using the linear program with a minimisation objective function.}
-        \label{tab::min_objective_function_outcomes}
-    \end{table}
-\end{frame}
-
-\begin{frame}
-    \begin{figure}[ht]
-        \centering
-        \resizebox{\textwidth}{!}{
-            \begin{minipage}{1.15\textwidth}
-                \centering
-                \begin{subfigure}{0.24\textwidth}
-                    \centering
-                    \includegraphics[width=\linewidth]{images/K6.png}
-                    \caption{$K_6$.}
-                    \label{fig::K6_square}
-                \end{subfigure}
-                \hfill
-                \begin{subfigure}{0.24\textwidth}
-                    \centering
-                    \includegraphics[width=\linewidth]{images/K6_fractional.png}
-                    \caption{$\min \mathcal{LP}(G)$ of $K_6$.}
-                    \label{fig::K6_fractional_root}
-                \end{subfigure}
-                \hfill
-                \begin{subfigure}{0.24\textwidth}
-                    \centering
-                    \includegraphics[width=\linewidth]{images/min_fractional_clique_example_square.png}
-                    \caption{$K_6 \backslash \{13,25\}$.}
-                    \label{fig::min_fractional_clique_example_square}
-                \end{subfigure}
-                \hfill
-                \begin{subfigure}{0.24\textwidth}
-                    \centering
-                    \includegraphics[width=\linewidth]{images/min_fractional_clique_example_root.png}
-                    \caption{$\min \mathcal{LP}(G)$ of $K_6 \backslash \{13,25\}$.}
-                    \label{fig::min_fractional_clique_example_root}
-                \end{subfigure}
-            \end{minipage}
-        }
-        \caption{For $K_6$, the solution to $\min \mathcal{LP}(G)$ is completely fractional, with every edge having weight $\frac{1}{5}$. For $K_6 \backslash \{13,25\}$, the solution is completely fractional, with every edge having weight $\frac{1}{3}$.}
-        \label{fig::K6_example}
-    \end{figure}
-    \scriptsize
-    \begin{conjecture}[Fractional Cliques in $\min \mathcal{LP}(G)$] \label{conjecture::fractional_cliques_min_LP}
-        Let $G$ be a graph with $n\geq 3$ vertices. For every edge $uv\in E_G$, let $t_{uv}$ be the number of vertices in a smallest maximal clique of $G$ containing $uv$. Then $\min\mathcal{LP}(G)$ returns the solution given by
-        \[
-        x_{uv}=\frac{1}{t_{uv}-1} \quad \text{for all } uv \in E_G.
-        \]
-    \end{conjecture}
-\end{frame}
-
-\begin{frame}
-    \begin{equation} \label{eq::max_obj_function}
-        \max \sum_{i=1}^{n} \sum_{j=1}^{n} x_{ij}.
-    \end{equation}
-
-    \begin{table}[!htbp]
-        \centering
-        \resizebox{\textwidth}{!}{
-            \begin{tabular}{c|cc|cc}
-            \hline
-            $n$ & \multicolumn{2}{c|}{$H$ exists}
-                & \multicolumn{2}{c}{$H$ does not exist} \\
-            & \text{$LP$ integral solution}
-            & \text{$LP$ fractional solution}
-            & \text{$LP$ infeasible}
-            & \text{$LP$ fractional solution} \\
-            \hline
-            3 & 3  & 0   & 1    & 0    \\
-            4 & 6  & 0   & 5    & 0    \\
-            5 & 9  & 2   & 20   & 3    \\
-            6 & 18 & 10  & 107  & 21   \\
-            7 & 38 & 39  & 767  & 200  \\
-            8 & 94 & 213 & 9380 & 2659 \\
-            \hline
-            \end{tabular}
-        }
-        \caption{$LP$ outcomes for different values of $n$ using the linear program with a maximisation objective function.}
-        \label{tab::max_objective_function_outcomes}
-    \end{table}
+\begin{frame}{Min and Max Objective Functions}
+    \small
+    \[
+    \min \sum_{i=1}^{n}\sum_{j=1}^{n} x_{ij}
+    \]
+    \centering
+    \resizebox{0.95\textwidth}{!}{
+        \begin{tabular}{c|cc|cc}
+        \hline
+        $n$ & \multicolumn{2}{c|}{$H$ exists}
+            & \multicolumn{2}{c}{$H$ does not exist} \\
+        \cline{2-5}
+        & LP integral solution
+        & LP fractional solution
+        & LP infeasible
+        & LP fractional solution \\
+        \hline
+        3 & 2 & 1   & 1    & 0    \\
+        4 & 3 & 3   & 5    & 0    \\
+        5 & 3 & 8   & 20   & 3    \\
+        6 & 4 & 24  & 107  & 21   \\
+        7 & 5 & 72  & 767  & 200  \\
+        8 & 7 & 300 & 9380 & 2659 \\
+        \hline
+        \end{tabular}
+    }
+    \vspace{0.1cm}
+    \[
+    \max \sum_{i=1}^{n}\sum_{j=1}^{n} x_{ij}
+    \]
+    \centering
+    \resizebox{0.95\textwidth}{!}{
+        \begin{tabular}{c|cc|cc}
+        \hline
+        $n$ & \multicolumn{2}{c|}{$H$ exists}
+            & \multicolumn{2}{c}{$H$ does not exist} \\
+        \cline{2-5}
+        & LP integral solution
+        & LP fractional solution
+        & LP infeasible
+        & LP fractional solution \\
+        \hline
+        3 & 3  & 0   & 1    & 0    \\
+        4 & 6  & 0   & 5    & 0    \\
+        5 & 9  & 2   & 20   & 3    \\
+        6 & 18 & 10  & 107  & 21   \\
+        7 & 38 & 39  & 767  & 200  \\
+        8 & 94 & 213 & 9380 & 2659 \\
+        \hline
+        \end{tabular}
+    }
 \end{frame}
 
 \begin{frame}
@@ -1060,21 +1202,46 @@ style=alphabetic]{biblatex}
 \end{frame}
 
 \begin{frame}{Fundamental Properties}
+    \small
+
     \begin{lemma} \label{lemma::g_ab=0}
-        Let $G$ and $H$ be graphs such that $G = H^2$. Let $a,b \in V_G$ such that $ab \notin E_G$. For every feasible solution $x$ of $\mathcal{LP}(G)$ and every $v \in V_G$ with $v \neq a,b$ we have $x_{ab} = y_{avb} = 0$. 
+        Let $G$ and $H$ be graphs such that $G = H^2$. Let $a,b \in V_G$ such that $ab \notin E_G$. For every feasible solution $x$ of $\mathcal{LP}(G)$ and every $v \in V_G$ with $v \neq a,b$ we have $x_{ab} = y_{avb} = 0$.
     \end{lemma}
+
     \begin{lemma} \label{lemma::g_ab=0,two_edge_sum}
         Let $G$ and $H$ be graphs such that $G = H^2$. Let $a,b \in V_G$ such that $ab \notin E_G$. For every feasible solution $x$ of $\mathcal{LP}(G)$ and every $v \in V_G$ with $v \neq a,b$ we have
         \[
         x_{av} + x_{vb} \leq 1.
         \]
     \end{lemma}
+
     \begin{lemma} \label{lemma::g_ab=0,x_av=1}
         Let $G$ and $H$ be graphs such that $G = H^2$. Let $a,b,v \in V_G$ such that $ab \notin E_G$. If a feasible solution $x$ of $\mathcal{LP}(G)$ satisfies $x_{av}=1$, then $x_{vb}=0$.
     \end{lemma}
+
+    \vspace{0.3em}
+    \centering
+    \resizebox{0.40\textwidth}{!}{
+    \begin{tikzpicture}[
+        vertex/.style={circle, draw, fill=white, inner sep=2pt},
+        every edge/.style={thick}
+    ]
+        \node[vertex] (a) at (0,0)      {$a$};
+        \node[vertex] (v) at (3.0,1.5)  {$v$};
+        \node[vertex] (b) at (6.0,0)    {$b$};
+
+        \draw[green!50!black, very thick] (a)--node[above left] {$1$}(v);
+        \draw[red, very thick]            (v)--node[above right] {$0$}(b);
+        \draw[red, very thick, dashed]    (a)--node[below] {$ab\notin E_G$}(b);
+    \end{tikzpicture}
+    }
 \end{frame}
 
-\begin{frame}
+\begin{frame}{Strengthening the LP}
+    \textbf{Goal:} build a new LP $\max \mathcal{UVLP}(G)$ by adding constraints that let all tree roots be identified.
+
+    \vspace{0.5cm}
+
     \resizebox{0.96\textwidth}{!}{
         \begin{tikzpicture}[
             every node/.style={font=\scriptsize},
@@ -1133,7 +1300,7 @@ style=alphabetic]{biblatex}
         \end{tikzpicture}
     }
 
-    A suitable constraint eliminates fractional solutions while retaining all valid integer solutions, whereas an overly restrictive constraint also excludes valid integer solutions.
+    A suitable constraint eliminates fractional solutions while retaining all valid integer solutions, whereas an overly restrictive constraint also excludes valid integer solutions.     
 \end{frame}
 
 \begin{frame}{Identifying Square Characteristics of Tree Roots}
@@ -1143,27 +1310,31 @@ style=alphabetic]{biblatex}
         Let $H$ be a graph. A \textbf{sparse pendant} is a path $s-u-v$ in $H$ such that $s$ is a leaf and $u$ has degree $2$.
       \end{definition}
 
-      \vspace{0.5em}
+      \vspace{0.3em}
       \centering
       \begin{tikzpicture}[
-          vertex/.style={circle, draw, fill=white, minimum size=5mm, inner sep=0pt, font=\footnotesize},
+          vertex/.style={circle, draw, fill=white, minimum size=4.5mm, inner sep=0pt, font=\scriptsize},
           every edge/.style={thick},
-          scale=0.85,
+          scale=0.72,
           transform shape
         ]
-        \node[vertex] (s) at (0,0)   {$s$};
-        \node[vertex] (u) at (2,0)   {$u$};
-        \node[vertex] (v) at (4,0)   {$v$};
-        \node[vertex] (w1) at (5.4,0.8)  {$w_1$};
-        \node[vertex] (w2) at (5.4,-0.8) {$w_2$};
+        \node[vertex] (s)  at (0,0)    {$s$};
+        \node[vertex] (u)  at (2,0)    {$u$};
+        \node[vertex] (v)  at (4,0)    {$v$};
+        \node[vertex] (w1) at (5.7,0.9)  {$w_1$};
+        \node[vertex] (w2) at (5.7,0)    {$w_2$};
+        \node[vertex] (w3) at (5.7,-0.9) {$w_3$};
+        \draw[thick, dashed, rounded corners=16pt]
+             (5.0,-1.45) rectangle (6.4,1.45);
 
         \draw (s) -- (u);
         \draw (u) -- (v);
         \draw (v) -- (w1);
         \draw (v) -- (w2);
+        \draw (v) -- (w3);
 
-        \node[below=1mm of s, font=\scriptsize] {leaf};
-        \node[below=1mm of u, font=\scriptsize] {$\deg(u)=2$};
+        \node[below=1mm of s, font=\tiny] {leaf};
+        \node[below=1mm of u, font=\tiny] {$\deg(u)=2$};
       \end{tikzpicture}
     \end{column}
     \hfill
@@ -1172,29 +1343,34 @@ style=alphabetic]{biblatex}
         Let $H$ be a graph. A \textbf{pendant fork} is the induced subgraph of $H$ on four vertices $s_1,s_2,u,v$, where $s_1$ and $s_2$ are leaves adjacent to $u$, and every neighbour of $u$ other than $v$ is a leaf.
       \end{definition}
 
-      \vspace{0.5em}
+      \vspace{0.3em}
       \centering
       \begin{tikzpicture}[
-          vertex/.style={circle, draw, fill=white, minimum size=5mm, inner sep=0pt, font=\footnotesize},
+          vertex/.style={circle, draw, fill=white, minimum size=4.5mm, inner sep=0pt, font=\scriptsize},
           every edge/.style={thick},
-          scale=0.85,
+          scale=0.72,
           transform shape
         ]
-        \node[vertex] (s1) at (0,1)  {$s_1$};
-        \node[vertex] (s2) at (0,-1) {$s_2$};
-        \node[vertex] (u)  at (2,0)  {$u$};
-        \node[vertex] (v)  at (4,0)  {$v$};
-        \node[vertex] (w1) at (5.4,0.8)  {$w_1$};
-        \node[vertex] (w2) at (5.4,-0.8) {$w_2$};
+        \node[vertex] (s1) at (0,1)    {$s_1$};
+        \node[vertex] (s2) at (0,-1)   {$s_2$};
+        \node[vertex] (u)  at (2,0)    {$u$};
+        \node[vertex] (v)  at (4,0)    {$v$};
+        \node[vertex] (w1) at (5.7,0.9)  {$w_1$};
+        \node[vertex] (w2) at (5.7,0)    {$w_2$};
+        \node[vertex] (w3) at (5.7,-0.9) {$w_3$};
+
+        \draw[thick, dashed, rounded corners=16pt]
+             (5.0,-1.45) rectangle (6.4,1.45);
 
         \draw (s1) -- (u);
         \draw (s2) -- (u);
         \draw (u)  -- (v);
         \draw (v)  -- (w1);
         \draw (v)  -- (w2);
+        \draw (v)  -- (w3);
 
-        \node[left=1mm of s1, font=\scriptsize] {leaf};
-        \node[left=1mm of s2, font=\scriptsize] {leaf};
+        \node[left=1mm of s1, font=\tiny] {leaf};
+        \node[left=1mm of s2, font=\tiny] {leaf};
       \end{tikzpicture}
     \end{column}
   \end{columns}
@@ -1223,47 +1399,39 @@ style=alphabetic]{biblatex}
 \end{frame}
 
 \begin{frame}{Leaf Fixing Linear Program}
-    If $s$ is a leaf, $u$ is its corresponding stem, and there exists $v\in N_G[u]\setminus\{u\}$ such that
-    \[
-        N_G[s]\subset N_G[u]\subseteq N_G[v],
-    \]
-    with all vertices in $N_G[s]\setminus\{u,v\}$ having the same closed neighbourhood as $s$, then the corresponding root edges can be fixed by imposing
+    \small
+    Using Lemma~\eqref{lemma::tree_pendant_pendant_fork} we can identify $s$ to be a leaf, $u$ its corresponding stem and vertex $v$ to give the fix
     \begin{equation} \label{eq::unicliqual_vertex_fix}
         x_{su}=x_{us}=x_{uv}=x_{vu}=1.
     \end{equation}
 
-    \begin{itemize}
-        \item \textbf{Sparse pendant:} $s$ belongs to a unique $K_3$ in $G$.
-        \item \textbf{Pendant fork:} An induced $K_4=\{s_1,s_2,u,v\}$,
-        where $s_1,s_2$ are leaves of $u$, satisfies
-        \[
-            N_G(s_1)\setminus K_4=N_G(s_2)\setminus K_4
-            \subset N_G(u)\setminus K_4
-            \subseteq N_G(v)\setminus K_4.
-        \]
-    \end{itemize}
+    The construction of the linear program on the arbitrary graph $G$ using $\max \mathcal{LP}(G)$ with the addition of Equation~\eqref{unicliqual_vertex_fix} is denoted as $\max \mathcal{LP}(G)$. 
 
     \begin{lemma} \label{lemma::unicliqual_vertex_fix}
         Let $G$ and $T$ be graphs such that $G = T^2$ and $T$ is a tree. $\max\mathcal{UVLP}(G)$ always fixes a sparse pendant or pendant fork subgraph of $T$.
     \end{lemma}
-\end{frame}
 
-\begin{frame}
     \begin{proposition}[Validity of Unicliqual Vertex Fix] \label{prop::unicliqual_vertex_fix_feasibility}
         If a root $H$ of $G$ exists, then $\max\mathcal{UVLP}(G)$ is feasible.
     \end{proposition}
-
-    \begin{table}[!htbp]
+    
+    \small
+    \vspace{0.2em}
+    \centering
+    \begin{minipage}[t]{0.49\textwidth}
         \centering
-        \resizebox{\textwidth}{!}{
+        \scriptsize
+        \textbf{$\max \mathcal{LP}$}
+        \vspace{0.1cm}
+        \resizebox{\linewidth}{!}{
             \begin{tabular}{c|cc|cc}
             \hline
             $n$ & \multicolumn{2}{c|}{$H$ exists}
                 & \multicolumn{2}{c}{$H$ does not exist} \\
-            & \text{$LP$ integral solution}
-            & \text{$LP$ fractional solution}
-            & \text{$LP$ infeasible}
-            & \text{$LP$ fractional solution} \\
+            & \text{integral}
+            & \text{fractional}
+            & \text{infeasible}
+            & \text{fractional} \\
             \hline
             3 & 3   & 0   & 1     & 0    \\
             4 & 6   & 0   & 5     & 0    \\
@@ -1274,26 +1442,71 @@ style=alphabetic]{biblatex}
             \hline
             \end{tabular}
         }
-        \caption{Outcomes of the unicliqual vertex linear program for graphs of different orders $n$.}
-        \label{tab::unicliqual_vertex_linear_program_outcomes}
-    \end{table}
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.49\textwidth}
+        \centering
+        \scriptsize
+        \textbf{$\max\mathcal{UVLP}$}
+        \vspace{0.1cm}
+        \resizebox{\linewidth}{!}{
+            \begin{tabular}{c|cc|cc}
+            \hline
+            $n$ & \multicolumn{2}{c|}{$H$ exists}
+                & \multicolumn{2}{c}{$H$ does not exist} \\
+            & \text{integral}
+            & \text{fractional}
+            & \text{infeasible}
+            & \text{fractional} \\
+            \hline
+            3 & 3  & 0   & 1    & 0    \\
+            4 & 6  & 0   & 5    & 0    \\
+            5 & 9  & 2   & 20   & 3    \\
+            6 & 18 & 10  & 107  & 21   \\
+            7 & 38 & 39  & 767  & 200  \\
+            8 & 94 & 213 & 9380 & 2659 \\
+            \hline
+            \end{tabular}
+        }
+    \end{minipage}
 
+    \vspace{0.2em}
     \begin{theorem} \label{theorem::unicliqual_vertex_induction_proof}
         Let $G$ and $T$ be graphs such that $G=T^2$ and $T$ is a tree. Then $\mathcal{UVLP}(G)$ returns an integral solution.
     \end{theorem}
 \end{frame}
 
 \begin{frame}{Propagation of the Fixing}
-    \begin{lemma}[$0$ Path Propagation] \label{lemma::0_path_propagation}
+    \scriptsize
+    \begin{lemma}[$0$-Path Propagation] \label{lemma::0_path_propagation}
         Let $G$ and $H$ be graphs such that $G = H^2$. Let $a,i,j,b \in V_G$ such that $a,i,j,b$ form a shortest induced path in $H$ between $a$ and $b$. For every feasible solution $x$ of $\mathcal{LP}(G)$,
         \[
         x_{ai}=1 \implies x_{ib}=0, \quad x_{ia}=1 \implies x_{bi}=0, \quad x_{jb}=1 \implies x_{aj}=0, \quad x_{bj}=1 \implies x_{ja}=0.
         \]
     \end{lemma}
 
+    \vspace{-0.3em}
+    \centering
+    \resizebox{0.50\textwidth}{!}{
+    \begin{tikzpicture}[
+        vertex/.style={circle, draw, fill=white, inner sep=2pt},
+        every edge/.style={thick}
+    ]
+        \node[vertex] (a) at (0,0)   {$a$};
+        \node[vertex] (i) at (2,0)   {$i$};
+        \node[vertex] (j) at (4,0)   {$j$};
+        \node[vertex] (b) at (6,0)   {$b$};
+
+        \draw[green!50!black, very thick] (a)--node[above] {$1$}(i);
+        \draw                             (i)--(j);
+        \draw[green!50!black, very thick] (j)--node[above] {$1$}(b);
+
+        \draw[red, very thick, dashed] (i) to[bend right=25] node[below] {$0$}(b);
+        \draw[red, very thick, dashed] (a) to[bend left=25]  node[above] {$0$}(j);
+    \end{tikzpicture}
+    }
+    \vspace{0.4em}
     \begin{lemma}[$1$-Path Propagation] \label{lemma::1_path_propagation}
-        Let $G$ be a graph and let $x$ be a feasible solution of $\mathcal{LP}(G)$. Suppose that $u-v-a_1$ form a shortest induced path in $H$ between $u$ and $a$ and that $x_{uv}=1$. Let $A=\{a_1,\ldots,a_r\}$ and $B=\{b_1,\ldots,b_s\}$ be such that every vertex $k \in V_G\setminus\{u,v\}$ satisfies
-        $k \in A\cup B$, and suppose that 
+        Let $G$ be a graph and let $x$ be a feasible solution of $\mathcal{LP}(G)$. Suppose that $u-v-a_1$ form a shortest induced path in $H$ between $u$ and $a_1$ and that $x_{uv}=1$. Let $A=\{a_1,\ldots,a_r\}$ and $B=\{b_1,\ldots,b_s\}$ be such that every vertex $k \in V_G\setminus\{u,v\}$ satisfies $k \in A\cup B$, and suppose that
         \[
         x_{um}=0 \text{ for every } m \in A, \quad g_{un}=0 \text{ for every } n \in B,
         \]
@@ -1305,196 +1518,76 @@ style=alphabetic]{biblatex}
 \end{frame}
 
 \begin{frame}
-\centering
-
-\vspace{-0.15cm}
-
-\resizebox{0.94\textwidth}{!}{%
-\begin{tikzpicture}[
-    vertex/.style={circle, draw, fill=white, inner sep=2.5pt},
-    every edge/.style={thick}
-]
-    \node[vertex] (s)  at (0,0) {$s$};
-    \node[vertex] (u)  at (2.2,0) {$u$};
-    \node[vertex] (v)  at (4.4,0) {$v$};
-    \node[vertex] (a1) at (6.5,1.4) {$a_1$};
-    \node[vertex] (a2) at (6.5,-1.4) {$a_2$};
-    \node[vertex] (b1) at (8.8,1.4) {$b_1$};
-    \node[vertex] (b2) at (8.8,-1.4) {$b_2$};
-
-    \draw[blue, very thick] (s)--(u)--(v);
-    \draw[red, very thick] (u)--node[above left] {$0$}(a1);
-    \draw[red, very thick] (u)--node[below left] {$0$}(a2);
-    \draw[green!50!black, very thick] (v)--node[above] {$1$}(a1);
-    \draw[green!50!black, very thick] (v)--node[below] {$1$}(a2);
-
-    \draw (s) to[bend left=15] (v);
-    \draw (a1)--(a2);
-    \draw (a1)--(b1);
-    \draw (a2)--(b2);
-    \draw (v)--(b1);
-    \draw (v)--(b2);
-\end{tikzpicture}%
-}
-
-\vspace{0.3cm}
-
-\begin{minipage}{0.48\textwidth}
-\centering
-\resizebox{\linewidth}{!}{%
-\begin{tikzpicture}[
-    vertex/.style={circle, draw, fill=white, inner sep=2.5pt},
-    every edge/.style={thick}
-]
-    \node[vertex] (u)  at (0,0) {$u$};
-    \node[vertex] (v)  at (2,0) {$v$};
-    \node[vertex] (a1) at (4,1.2) {$a_1$};
-    \node[vertex] (b1) at (6,1.2) {$b_1$};
-
-    \draw[blue, very thick] (u)--(v)--(a1);
-    \draw (u)--(a1);
-    \draw (a1)--(b1);
-    \draw (v)--(b1);
-\end{tikzpicture}%
-}
-\end{minipage}
-\hfill
-\begin{minipage}{0.48\textwidth}
-\centering
-\resizebox{\linewidth}{!}{%
-\begin{tikzpicture}[
-    vertex/.style={circle, draw, fill=white, inner sep=2.5pt},
-    every edge/.style={thick}
-]
-    \node[vertex] (u)  at (0,0) {$u$};
-    \node[vertex] (v)  at (2,0) {$v$};
-    \node[vertex] (a2) at (4,-1.2) {$a_2$};
-    \node[vertex] (b2) at (6,-1.2) {$b_2$};
-
-    \draw[blue, very thick] (u)--(v)--(a2);
-    \draw (u)--(a2);
-    \draw (a2)--(b2);
-    \draw (v)--(b2);
-\end{tikzpicture}%
-}
-\end{minipage}
-
-\end{frame}
-
-
-\begin{frame}{Vertex Deletion}
-    \scriptsize
     \centering
-    \resizebox{\textwidth}{!}{
-        \begin{minipage}{\textwidth}
-        \begin{algorithmic}[1]
-            \State \textbf{Input:} A graph $G$
-            \State \textbf{Output:} A $LP$ model $(m,x)$
-            \State Construct and solve $\mathcal{LP}(G)$.
-            \If{$\mathcal{LP}(G)$ is integral}
-                \State \Return $(m,x)$
-            \EndIf
-            \State Set $\displaystyle F=\left\{\{a,b\}\in\binom{V_G}{2}:x_{ab}=x_{ba}=1\right\}$.
-            \State Compute $\displaystyle d_F(u)=\left|\left\{w\in N_G(u):\{u,w\}\notin F\right\}\right|$ for each $u\in V_G$.
-            \State Choose $v\in\arg\min_{u\in V_G}d_F(u)$ and set $V^-=V_G \setminus\{v\}$.
-            \State Construct $G^-=G[V^-]$ and inherit the fixing $\displaystyle F^-=\left\{\{a,b\}\in F:a,b\in V^-\right\}$.
-            \State Construct and solve $\mathcal{LP}(G^-)+F^-$.
-            \If{$\mathcal{LP}(G^-)+F^-$ is integral}
-                \State Construct $H^-$ from its integral solution.
-            \Else
-                \State \Return $(m,x)$
-            \EndIf
-            \State Construct a new copy of $\mathcal{LP}(G)$ and impose $x_{ab}=x_{ba}=1$ for every $\{a,b\}\in F$ and every $ab\in E_{H^-}$.
-            \State Solve the modified LP.
-            \If{the modified $LP$ is infeasible}
-                \State \Return $(m,x)$
-            \Else
-                \State \Return the modified $LP$ solution $(m,x)$
-            \EndIf
-        \end{algorithmic}
-        \end{minipage}
+    \vspace{-0.15cm}
+    \resizebox{0.94\textwidth}{!}{
+    \begin{tikzpicture}[
+        vertex/.style={circle, draw, fill=white, inner sep=2.5pt},
+        every edge/.style={thick}
+    ]
+        \node[vertex] (s)  at (0,0) {$s$};
+        \node[vertex] (u)  at (2.2,0) {$u$};
+        \node[vertex] (v)  at (4.4,0) {$v$};
+        \node[vertex] (a1) at (6.5,1.4) {$a_1$};
+        \node[vertex] (a2) at (6.5,-1.4) {$a_2$};
+        \node[vertex] (b1) at (8.8,1.4) {$b_1$};
+        \node[vertex] (b2) at (8.8,-1.4) {$b_2$};
+
+        \draw[blue, very thick] (s)--(u)--(v);
+        \draw[red, very thick] (u)--node[above left] {$0$}(a1);
+        \draw[red, very thick] (u)--node[below left] {$0$}(a2);
+        \draw[green!50!black, very thick] (v)--node[above] {$1$}(a1);
+        \draw[green!50!black, very thick] (v)--node[below] {$1$}(a2);
+
+        \draw (s) to[bend left=15] (v);
+        \draw (a1)--(a2);
+        \draw (a1)--(b1);
+        \draw (a2)--(b2);
+        \draw (v)--(b1);
+        \draw (v)--(b2);
+    \end{tikzpicture}
     }
-\end{frame}
-
-\begin{frame}
-    \begin{table}[!htbp]
+    \vspace{0.3cm}
+    \begin{minipage}{0.48\textwidth}
         \centering
-        \resizebox{\textwidth}{!}{
-            \begin{tabular}{c|cc|cc}
-                \hline
-                $n$ & \multicolumn{2}{c|}{$H$ exists}
-                    & \multicolumn{2}{c}{$H$ does not exist} \\
-                    & \text{$LP$ integral solution}
-                    & \text{$LP$ fractional solution}
-                    & \text{$LP$ infeasible}
-                    & \text{$LP$ fractional solution} \\
-                \hline
-                3 & 3   & 0   & 1     & 0    \\
-                4 & 6   & 0   & 5     & 0    \\
-                5 & 11  & 0   & 21    & 2    \\
-                6 & 25  & 3   & 117   & 11   \\
-                7 & 62  & 15  & 852   & 115  \\
-                8 & 183 & 124 & 10271 & 1768 \\
-                \hline
-            \end{tabular}
-        }
-        \caption{Outcomes of the vertex deletion linear program using unicliqual vertex as the base for graphs of different orders of $n$.}
-        \label{tab::vertex_deletion_program_outcomes}
-    \end{table}
+        \resizebox{\linewidth}{!}{
+        \begin{tikzpicture}[
+            vertex/.style={circle, draw, fill=white, inner sep=2.5pt},
+            every edge/.style={thick}
+        ]
+            \node[vertex] (u)  at (0,0) {$u$};
+            \node[vertex] (v)  at (2,0) {$v$};
+            \node[vertex] (a1) at (4,1.2) {$a_1$};
+            \node[vertex] (b1) at (6,1.2) {$b_1$};
 
-    \begin{table}[!htbp]
+            \draw[blue, very thick] (u)--(v)--(a1);
+            \draw (u)--(a1);
+            \draw (a1)--(b1);
+            \draw (v)--(b1);
+        \end{tikzpicture}
+        }
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.48\textwidth}
         \centering
-        \resizebox{\textwidth}{!}{
-            \begin{tabular}{c|cc|cc}
-                \hline
-                $n$ & \multicolumn{2}{c|}{$H$ exists}
-                    & \multicolumn{2}{c}{$H$ does not exist} \\
-                    & \text{$LP$ integral solution}
-                    & \text{$LP$ fractional solution}
-                    & \text{$LP$ infeasible}
-                    & \text{$LP$ fractional solution} \\
-                \hline
-                3 & 3   & 0   & 1     & 0    \\
-                4 & 6   & 0   & 5     & 0    \\
-                5 & 11  & 0   & 21    & 2    \\
-                6 & 25  & 3   & 117   & 11   \\
-                7 & 62  & 15  & 852   & 115  \\
-                8 & 194 & 113 & 10271 & 1768 \\
-                \hline
-            \end{tabular}
-        }
-        \caption{Outcomes of the recursive vertex deletion linear program using unicliqual vertex as the base for graphs of different orders of $n$.}
-        \label{tab::vertex_deletion_recursive_program_outcomes}
-    \end{table}
-\end{frame}
+        \resizebox{\linewidth}{!}{
+        \begin{tikzpicture}[
+            vertex/.style={circle, draw, fill=white, inner sep=2.5pt},
+            every edge/.style={thick}
+        ]
+            \node[vertex] (u)  at (0,0) {$u$};
+            \node[vertex] (v)  at (2,0) {$v$};
+            \node[vertex] (a2) at (4,-1.2) {$a_2$};
+            \node[vertex] (b2) at (6,-1.2) {$b_2$};
 
-\begin{frame}
-    The linear program only finds a single solution, while there may be many distinct, non-isomorphic solutions. Hence, although fixing a subgraph obtained from the $LP$ may be useful, the particular subgraph selected by the $LP$ may not correspond to the subgraph required to continue the reconstruction of a square root.
-
-    \begin{table}[!htbp]
-        \centering
-        \resizebox{\textwidth}{!}{
-            \begin{tabular}{c|cc|cc}
-                \hline
-                $n$ & \multicolumn{2}{c|}{$H$ exists}
-                    & \multicolumn{2}{c}{$H$ does not exist} \\
-                    & \text{$LP$ integral solution}
-                    & \text{$LP$ fractional solution}
-                    & \text{$LP$ infeasible}
-                    & \text{$LP$ fractional solution} \\
-                \hline
-                3 & 3   & 0   & 1     & 0    \\
-                4 & 6   & 0   & 5     & 0    \\
-                5 & 11  & 0   & 21    & 2    \\
-                6 & 26  & 2   & 117   & 11   \\
-                7 & 73  & 4   & 852   & 115  \\
-                8 & 274 & 33  & 10271 & 1768 \\
-                \hline
-            \end{tabular}
+            \draw[blue, very thick] (u)--(v)--(a2);
+            \draw (u)--(a2);
+            \draw (a2)--(b2);
+            \draw (v)--(b2);
+        \end{tikzpicture}
         }
-        \caption{Outcomes of the recursive vertex deletion linear program using unicliqual vertex as the base and enumerating all possible $H^-$ roots for graphs of different orders of $n$.}
-        \label{tab::vertex_deletion_recursive_enumerate_subgraphs_program_outcomes}
-    \end{table}
+    \end{minipage}
+
 \end{frame}
 
 \begin{frame}{Symbolic Sets}
@@ -1502,22 +1595,19 @@ style=alphabetic]{biblatex}
     \begin{conjecture} \label{conjecture::two_edges_linear_maximization}
         Let $G$ and $H$ be graphs such that $G = H^2$. Let $a,b \in V_G$ such that $ab \notin E_G$. For every feasible solution $x$ of $\max \mathcal{LP}(G)$ and every $v \in V_G$ with $v \neq a,b$ we have
         \[
-        x_{av} + x_{vb} = 1 \text{ or }  x_{av} + x_{vb} = 0. 
+        x_{av} + x_{vb} = 1 \text{ or }  x_{av} + x_{vb} = 0.
         \]
     \end{conjecture}
+
     \begin{definition}[Consistent Set] \label{def::consistent_set}
-        Let $E'\subseteq E_G$ be a maximal subset with $|E'|\geq 3$ such that, for every $e\in E'$, there exists $f \in E'$ such that $e$ and $f$ satisfy the $=1$ relationship. We call $E'$ a \textbf{consistent set} if there exists a partition
-        \[
-        E'=A\cup B,\quad A\cap B=\varnothing,
-        \]
-        into nonempty sets $A$ and $B$ such that, for all $e,e'\in A$, the edges $e$ and $e'$ do not form a $P_3$ in $G$, and for all $f,f'\in B$, the edges $f$ and $f'$ do not form a $P_3$ in $G$.
+        Take a maximal set $E'\subseteq E_G$ of at least three edges in which every edge is
+        linked to another edge of $E'$ by the $=1$ relationship. We call $E'$
+        \textbf{consistent} if its edges can be split into two nonempty groups $A$ and $B$
+        so that no two edges within $A$ form a $P_3$ in $G$, and the same holds within $B$.
     \end{definition}
+
     \begin{definition}[Inconsistent Set] \label{def::inconsistent_set}
-        Let $E'\subseteq E_G$ be a maximal subset with $|E'|\geq 3$ such that, for every $e\in E'$, there exists $f\in E'$ such that $e$ and $f$ satisfy the $=1$ relationship. We call $E'$ an \textbf{inconsistent set} if there is no partition
-        \[
-        E'=A\cup B,\quad A\cap B=\varnothing,
-        \]
-        into nonempty sets $A$ and $B$ such that, for all $e,e'\in A$, the edges $e$ and $e'$ do not form a $P_3$ in $G$, and, for all $f,f'\in B$, the edges $f$ and $f'$ do not form a $P_3$ in $G$.
+        Let $E'$ be as above. We call $E'$ \textbf{inconsistent} if no such split exists. That is, if we divide its edges into two nonempty groups $A$ and $B$, at least one of the groups contains two edges forming a $P_3$ in $G$.
     \end{definition}
 \end{frame}
 
@@ -1586,29 +1676,57 @@ style=alphabetic]{biblatex}
 \end{frame}
 
 \begin{frame}
-  \begin{table}[!htbp]
     \centering
-    \resizebox{\textwidth}{!}{
-    \begin{tabular}{c|cc|cc}
-    \hline
-    $n$ & \multicolumn{2}{c|}{$H$ exists} & \multicolumn{2}{c}{$H$ does not exist} \\
-    & \shortstack{\text{$LP$ integral}\\\text{solution}}
-    & \shortstack{\text{$LP$ fractional}\\\text{solution}}
-    & \shortstack{\text{$LP$}\\\text{infeasible}}
-    & \shortstack{\text{$LP$ fractional}\\\text{solution}} \\
-    \hline
-    3 & 3   & 0   & 1     & 0    \\
-    4 & 6   & 0   & 5     & 0    \\
-    5 & 10  & 1   & 20    & 3    \\
-    6 & 26  & 2   & 107   & 21   \\
-    7 & 67  & 10  & 767   & 200  \\
-    8 & 240 & 67  & 9380 & 2659 \\
-    \hline
-    \end{tabular}
+    \textbf{$\max \mathcal{LP}$}
+    \vspace{0.05em}
+
+    \resizebox{0.75\textwidth}{!}{
+        \begin{tabular}{c|cc|cc}
+        \hline
+        $n$ & \multicolumn{2}{c|}{$H$ exists}
+            & \multicolumn{2}{c}{$H$ does not exist} \\
+        & \text{integral}
+        & \text{fractional}
+        & \text{infeasible}
+        & \text{fractional} \\
+        \hline
+        3 & 3   & 0   & 1     & 0    \\
+        4 & 6   & 0   & 5     & 0    \\
+        5 & 10  & 1   & 21    & 2    \\
+        6 & 22  & 6   & 117   & 11   \\
+        7 & 51  & 26  & 852   & 115  \\
+        8 & 148 & 159 & 10271 & 1768 \\
+        \hline
+        \end{tabular}
     }
-    \caption{Outcomes of the greedy iterative edge enforcement linear program using the max linear program as the base for graphs of different orders of $n$.}
-    \label{tab::max_edge_enforcement_program_outcomes}
-  \end{table}
+
+    \vspace{0.35em}
+    \textbf{Edge enforcement (base: $\max\mathcal{LP}$)}
+    \vspace{0.05em}
+
+    \resizebox{0.75\textwidth}{!}{
+        \begin{tabular}{c|cc|cc}
+        \hline
+        $n$ & \multicolumn{2}{c|}{$H$ exists}
+            & \multicolumn{2}{c}{$H$ does not exist} \\
+        & \text{integral}
+        & \text{fractional}
+        & \text{infeasible}
+        & \text{fractional} \\
+        \hline
+        3 & 3   & 0   & 1     & 0    \\
+        4 & 6   & 0   & 5     & 0    \\
+        5 & 10  & 1   & 20    & 3    \\
+        6 & 26  & 2   & 107   & 21   \\
+        7 & 67  & 10  & 767   & 200  \\
+        8 & 240 & 67  & 9380  & 2659 \\
+        \hline
+        \end{tabular}
+    }
+
+    \vspace{0.3em}
+    \scriptsize
+    Outcomes of the greedy iterative edge enforcement linear program using the max linear program as the base for graphs of different orders of $n$ as compared to the original max linear program.
 \end{frame}
 
 \begin{frame}{Rounding}
