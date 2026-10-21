@@ -1006,7 +1006,7 @@ g_{nn}
 \mathbbm{1}_{\geq 1}\big(\sum_{k=1}^n x_{nk}x_{kn} - (D_H)_{nn} + x_{nn} \big)
 \end{bmatrix}.
 \end{equation}
-The matrix $D_H$ is diagonal can be represented as $\displaystyle (D_H)_{ii} = \sum_{k} x_{ik}$ where $(D_H)_{ij} = 0$ for $i \neq j$. The variable $z_{ij}$ represent the terms inside the indicator function such that
+The matrix $D_H$ is diagonal and can be represented as $\displaystyle (D_H)_{ii} = \sum_{k} x_{ik}$ where $(D_H)_{ij} = 0$ for $i \neq j$. The variable $z_{ij}$ represent the terms inside the indicator function such that
 \[
 g_{ij} = 1 \text{ if and only if } z_{ij} \geq 1 \text{ and } g_{ij} = 0 \text{ if and only if } z_{ij} = 0.
 \]  
@@ -1348,7 +1348,7 @@ We now establish several fundamental properties of feasible solutions to $\mathc
 
 \section{Leaf Fixing} \label{sec::leaf_fixing}
 
-In this section, we show that every tree contains one of two structural configurations that can be identified from its square $G$. These configurations allow us to identify a leaf, or a group of leaves, and thereby recover a path $s-u-v$ in $H$, where $s$ is a leaf. Once such a path is identified, we can fix the corresponding edge variables and use the resulting constraints to propagate the assignments through the $LP$.
+In this section, we show that every tree contains one of two structural configurations that can be identified from its square $G$. These configurations allow us to identify a leaf, or a group of leaves, and thereby recover a path $s-u-v$ in $H$, where $s$ is a leaf. Once such a path is identified, we can fix the corresponding edge variables and use the resulting constraints to propagate the assignments through the $\mathcal{LP}$.
 
 \begin{definition}[Sparse Pendant] \label{def::sparse_pendant}
   Let $H$ be a graph. A \textbf{sparse pendant} is a path $s-u-v$ in $H$ such that $s$ is a leaf and $u$ has degree $2$.
